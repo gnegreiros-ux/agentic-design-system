@@ -2127,6 +2127,18 @@ const broken = styles.filter(s => s.lineHeight.unit === 'PIXELS' && s.lineHeight
 ❌ Never assume a style is fine because it "looks right" on short, single-line text
 ```
 
+**Amendment (2026-07-27, building `doc/page-frame`):** the same bug hits a raw `TEXT` node's
+`lineHeight` bound directly to a Variable via `setBoundVariable('lineHeight', var)` — not just
+published Text Styles. Figma always resolves a Variable-bound `lineHeight` as `PIXELS`, even
+when the variable stores a unitless multiplier (`primitive/lineHeight/display` = `1`, a correct
+primitive value) — there is no way to bind a percent-semantics lineHeight to a Variable. Hit on
+`semantic/marketing/typography/display/line-height`, never exercised before (no prior text node
+had used it), so invisible to every earlier audit. Fix: never bind `lineHeight` to a Variable on
+an ad-hoc text node for a unitless-multiplier token — set a plain, unbound
+`{unit:"PERCENT", value:100}` instead, same as the Text Style fix above.
+`scripts/figma/audit-figma-file.js`'s `findBrokenLineHeights()` now scans both Text Styles and
+any `TEXT` node with a Variable-bound `lineHeight`, not just Text Styles.
+
 ### 26.2 A decorative background must be a HUG parent of its content, never an independent sibling
 
 Pattern to avoid: `section-content-bg` (a fixed- or manually-resized decorative frame) sitting

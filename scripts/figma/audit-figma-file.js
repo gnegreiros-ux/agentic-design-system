@@ -20,8 +20,10 @@
  *   2. Unbound layout properties (padding/itemSpacing/cornerRadius) inside
  *      COMPONENT / COMPONENT_SET subtrees — these must always resolve to a
  *      component/semantic token, never a raw number (tokens-system.md).
- *   3. Text Style lineHeight unit sanity (§26.1 — PIXELS with a tiny value
- *      is the broken-copy-of-a-unitless-multiplier bug, not a real setting).
+ *   3. Text Style AND raw-node lineHeight unit sanity (§26.1 — PIXELS with a tiny
+ *      value is the broken-copy-of-a-unitless-multiplier bug, not a real setting;
+ *      extended 2026-07-27 to also scan any TEXT node with a Variable-bound
+ *      lineHeight, not just published Text Styles — see the function for why).
  *   4. clipsContent cascading over any node carrying a DROP_SHADOW effect or
  *      an OUTSIDE-aligned stroke, up to the nearest ComponentSet/page.
  *   5. findOverflows — any non-decorative child whose bounds exceed its
@@ -134,12 +136,30 @@ function findUnboundComponentProps(page) {
   return found;
 }
 
-// ── 3. Text Style lineHeight sanity ───────────────────────────────────────
-async function findBrokenLineHeights() {
+// ── 3. Text Style AND raw-node lineHeight sanity ──────────────────────────
+// Extended 2026-07-27 (ADR-090 follow-up): the original check only scanned published
+// Text Styles. It missed `semantic/marketing/typography/display/line-height` — a
+// Variable-bound lineHeight on an ad-hoc TEXT node (doc/page-frame's title, built the
+// same day) — because Figma always resolves a Variable-bound lineHeight as PIXELS, even
+// when the variable stores a unitless multiplier (1.0). That token had never been
+// exercised before, so no prior audit ever saw it. Any text node with a lineHeight bound
+// to a Variable is equally at risk, not just Text Styles — scan both.
+async function findBrokenLineHeights(page) {
   const styles = await figma.getLocalTextStylesAsync();
-  return styles
+  const brokenStyles = styles
     .filter((s) => s.lineHeight.unit === 'PIXELS' && s.lineHeight.value < 10)
-    .map((s) => ({ styleId: s.id, styleName: s.name, lineHeight: s.lineHeight }));
+    .map((s) => ({ kind: 'textStyle', styleId: s.id, styleName: s.name, lineHeight: s.lineHeight }));
+
+  const brokenNodes = [];
+  if (page) {
+    const textNodes = page.findAll((n) => n.type === 'TEXT' && n.boundVariables && n.boundVariables.lineHeight);
+    for (const n of textNodes) {
+      if (n.lineHeight && n.lineHeight.unit === 'PIXELS' && n.lineHeight.value < 10) {
+        brokenNodes.push({ kind: 'boundNode', nodeId: n.id, nodeName: n.name, lineHeight: n.lineHeight });
+      }
+    }
+  }
+  return [...brokenStyles, ...brokenNodes];
 }
 
 // ── 4. clipsContent cascading over effects/outside-strokes ───────────────
@@ -273,7 +293,7 @@ async function auditPage(page) {
     pageName: page.name,
     orphanedVariables: await findOrphanedVariables(page, knownGoodCollectionIds),
     unboundComponentProps: findUnboundComponentProps(page),
-    brokenLineHeights: await findBrokenLineHeights(),
+    brokenLineHeights: await findBrokenLineHeights(page),
     clippedEffects: findClippedEffects(page),
     overflows: findOverflows(rootWrapper),
     staleNameReferences: findStaleNameReferences(page),

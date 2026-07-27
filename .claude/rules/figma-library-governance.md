@@ -67,7 +67,10 @@ paths:
 > Before any `.remove()`, check `node.findAll()`/`node.children`: a "decorative" node
 > can contain a master component as a direct child (the exact cause of the Button incident).
 
-### B. Staging page "🟡 Proposal — pending approval"
+### B. Staging page "Proposal — pending approval"
+
+> Page name carries no emoji (`.claude/rules/no-emoji-icons.md`) — if a visual marker is wanted
+> next to it in the page list, use a real Lucide icon instance, never an emoji character.
 
 ```
 ✅ Every significant creation or redesign is written FIRST on the staging page
