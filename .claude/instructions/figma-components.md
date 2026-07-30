@@ -2392,7 +2392,7 @@ function findMissingWrapper(page) {
 
 // Secondary/symptom check — kept as a fallback signal, NOT a substitute for findMissingWrapper()
 function findWidthMismatches(page) {
-  const candidates = page.children.filter(c => c.visible !== false && !c.name.startsWith('_') && 'width' in c);
+  const candidates = page.children.filter(c => c.visible !== false && !c.name.startsWith('_') && c.x < 1600 && 'width' in c);
   if (candidates.length < 2) return [];
   const counts = new Map();
   for (const c of candidates) counts.set(c.width, (counts.get(c.width) || 0) + 1);
@@ -2401,6 +2401,11 @@ function findWidthMismatches(page) {
     .map(c => ({ nodeId: c.id, nodeName: c.name, width: c.width, expectedWidth: mainWidth }));
 }
 ```
+
+> **`x < 1600` exclusion added 2026-07-30 (same-day fix):** without it, this check
+> false-positives on every page's off-canvas master ComponentSet/`Composant principal`
+> reference frame (per §16) — those are legitimately narrower than the page-wrapper and sit
+> off-canvas by convention, not a containment bug. Match `findMissingWrapper()`'s exclusion.
 
 Both are part of `scripts/figma/audit-figma-file.js` (`findMissingWrapper` + `findWidthMismatches`,
 wired into `auditPage()` as `missingWrapper` + `widthMismatches`). `findMissingWrapper` is the

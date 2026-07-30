@@ -340,7 +340,7 @@ function findMissingWrapper(page) {
 // incident's first fix attempt missed the real "no wrapper at all" defect.
 function findWidthMismatches(page) {
   const candidates = page.children.filter(
-    (c) => c.visible !== false && !c.name.startsWith('_') && 'width' in c
+    (c) => c.visible !== false && !c.name.startsWith('_') && c.x < 1600 && 'width' in c
   );
   if (candidates.length < 2) return [];
 
