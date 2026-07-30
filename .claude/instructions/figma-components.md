@@ -2311,8 +2311,8 @@ Two distinct failure modes, both covered by `scripts/figma/audit-figma-file.js`:
 ### 26.10 Consolidated pre-"done" checklist for any Figma page work
 
 Run `scripts/figma/audit-figma-file.js` (paste into `use_figma`, one page per call, fan out in
-parallel per the figma-use skill's multi-page rule) — it codifies checks 26.1–26.8 into one
-script instead of five hand-copied snippets. A clean page returns every result array empty:
+parallel per the figma-use skill's multi-page rule) — it codifies checks 26.1–26.11 into one
+script instead of scattered hand-copied snippets. A clean page returns every result array empty:
 
 ```
 ✅ orphanedVariables — §26.7 — empty
@@ -2326,6 +2326,9 @@ script instead of five hand-copied snippets. A clean page returns every result a
    visually, not automatic bugs — the check flags any clipsContent ancestor even when the effect
    has enough room and never actually gets cut)
 ✅ overflows — §21.A / §25 — empty (or only the known decorative _deco/Ellipse header bleed)
+✅ widthMismatches — §26.11 — empty (blocking: a top-level page child whose width doesn't
+   match the page's dominant top-level width — a node left at an old, narrower width after
+   being reparented, exposing the canvas gray on the sides)
 ✅ Decorative background nesting (§26.2) — appendChild, don't co-position — not yet automated,
    check by hand: does a "…-content" frame sit as a CHILD of its "…-content-bg", or merely
    beside it at a coincidentally-matching size?
@@ -2334,6 +2337,51 @@ script instead of five hand-copied snippets. A clean page returns every result a
 ✅ Screenshot at scale ≥ 2 (small crop) AND the REST `get_screenshot` tool if in doubt about a
    `node.screenshot()` result — cheap cross-check against a second rendering pipeline
 ```
+
+### 26.11 A reparented/moved node must ALWAYS match the main container's width — never a bare, mismatched-width top-level sibling
+
+> **Rule adopted 2026-07-30.** Trigger: consolidating two Icon pages into one, a `note`
+> caption frame was reparented from a nested 1280px content wrapper (itself inset inside a
+> 1440px `section-content-bg`) straight to the page's top level via `page.appendChild(node)`.
+> The frame kept its OLD 1280px width and `x=0` instead of being resized to the page's
+> established 1440px main-container width. Every other top-level section on the page is
+> 1440px wide — the orphaned 1280px frame left an 80px gap of the `#535353` canvas gray
+> (§13) visible on both sides, exactly where the missing 160px should have been covered by
+> its old (now-discarded) parent wrapper. `findOverflows()` cannot catch this class of bug:
+> it only flags a child EXCEEDING its parent's bounds, never a child narrower than its
+> siblings' established width.
+
+```
+✅ ALWAYS resize a reparented/newly-created top-level page node to match the width of the
+   page's OTHER top-level sections (1440px on this site, per §25) — never assume the node's
+   previous width (inherited from whatever nested wrapper it used to live in) is still correct
+✅ When removing a wrapper that used to provide a full-bleed background (§26.2), either move
+   its child's own frame to full width itself, or wrap it in a fresh full-width frame with the
+   same background fill — the background must never simply disappear
+✅ After any reparenting operation, run findWidthMismatches() (below) BEFORE screenshotting —
+   it flags any top-level child whose width doesn't match the page's dominant (most common)
+   top-level width
+❌ Never call page.appendChild(node) and only reposition x/y — width must be checked and
+   corrected every time, not just position
+❌ Never trust findOverflows() alone to catch a "content escaped its container" bug — it only
+   catches OVERFLOW (too wide), not UNDERFLOW (too narrow), and this incident was underflow
+```
+
+```javascript
+// Audit sweep — run on every page after any reparenting/restructuring work
+function findWidthMismatches(page) {
+  const candidates = page.children.filter(c => c.visible !== false && !c.name.startsWith('_') && 'width' in c);
+  if (candidates.length < 2) return [];
+  const counts = new Map();
+  for (const c of candidates) counts.set(c.width, (counts.get(c.width) || 0) + 1);
+  const mainWidth = [...counts.entries()].sort((a, b) => b[1] - a[1])[0][0];
+  return candidates.filter(c => Math.abs(c.width - mainWidth) > 0.5)
+    .map(c => ({ nodeId: c.id, nodeName: c.name, width: c.width, expectedWidth: mainWidth }));
+}
+```
+
+Now part of `scripts/figma/audit-figma-file.js` (`findWidthMismatches`, wired into `auditPage()`
+as `widthMismatches`).
 
 ---
 
@@ -2358,4 +2406,5 @@ script instead of five hand-copied snippets. A clean page returns every result a
 | Content spills onto the plain page background instead of staying on its "card"/section background | Background is a sibling frame at a manually-matched size, not a real parent — drifts the moment content grows | `appendChild` content into the background, set the background to auto-layout HUG — see §26.2 |
 | A row of sample bars/badges doesn't align to a common starting X across rows | The preceding text/description column is `FILL`/`layoutGrow=1`, pushing the bar to the row's right edge | Give that column a `FIXED` width sized to the longest row's content — see §26.3 |
 | `node.height` / `.absoluteBoundingBox` reads a nonsensical tiny value (e.g. `1`) right after a mutation | Stale auto-layout geometry cache in the Plugin API, not a real layout state | Read `.absoluteRenderBounds` instead, or re-fetch the node in a fresh `use_figma` call — see §26.4 |
+| A reparented top-level node is narrower than every other section, canvas gray (§13) visible on its sides | Node kept its old width from a nested wrapper instead of being resized to the page's main-container width (1440px) after `page.appendChild()` | Always resize a reparented node to match sibling width; run `findWidthMismatches()` — see §26.11 |
 | Text is technically visible but fails contrast / was clearly hand-picked | `fills[0].boundVariables` is empty — a hardcoded color, not a token | Bind to the matching semantic token and compute WCAG contrast — see §26.5 |

@@ -36,6 +36,16 @@
  *      pattern) gets renamed as part of the 2026-07 redesign.
  *   7. Broken internal hyperlinks (§26.9) — any text hyperlink of type NODE
  *      whose target node no longer exists (deleted or the ID changed).
+ *   8. findWidthMismatches (§26.11) — any top-level page child whose width
+ *      doesn't match the page's established main-container width (the mode
+ *      across all top-level siblings). Catches a node left at its OLD,
+ *      narrower width after being reparented/moved to the page's top level —
+ *      the inverse of findOverflows (too NARROW, not too wide), which
+ *      findOverflows cannot detect since a narrower child never "exceeds"
+ *      its parent's bounds. 2026-07-30 incident: a `note` frame moved from a
+ *      nested 1280px content wrapper to the bare page top level kept its old
+ *      1280px width instead of the page's 1440px container width, exposing
+ *      the #535353 canvas gray on both sides (§13).
  *
  * How to run:
  *   - One page per `use_figma` call (page-switch-once rule). Call
@@ -45,8 +55,9 @@
  *     loop pages inside a single script.
  *   - A clean page returns { orphanedVariables: [], unboundComponentProps: [],
  *     brokenLineHeights: [], clippedEffects: [], overflows: [],
- *     staleNameReferences: [], brokenLinks: [] } — every array empty.
- *     Anything else is a regression to fix before calling the page "done".
+ *     staleNameReferences: [], brokenLinks: [], widthMismatches: [] } — every
+ *     array empty. Anything else is a regression to fix before calling the
+ *     page "done".
  *
  * Example invocation (inside a use_figma script):
  *   const page = await figma.getNodeByIdAsync('35:8');
@@ -282,6 +293,29 @@ async function findBrokenLinks(page) {
   return found;
 }
 
+// ── 8. Top-level width mismatches — content orphaned from the main container ─
+// Never let a top-level page child sit at a width narrower (or wider) than the
+// page's established main-container width. This is the under-width counterpart
+// to findOverflows(): a child that is TOO NARROW never "exceeds" its parent's
+// bounds, so findOverflows can't see it — but it still leaves the #535353
+// canvas gray (§13) visible on the sides, exactly like an overflow does.
+// Excludes `_trash`/`_`-prefixed decor (never live content) — every real
+// section on this site is a full-width band per §25.
+function findWidthMismatches(page) {
+  const candidates = page.children.filter(
+    (c) => c.visible !== false && !c.name.startsWith('_') && 'width' in c
+  );
+  if (candidates.length < 2) return [];
+
+  const counts = new Map();
+  for (const c of candidates) counts.set(c.width, (counts.get(c.width) || 0) + 1);
+  const mainWidth = [...counts.entries()].sort((a, b) => b[1] - a[1])[0][0];
+
+  return candidates
+    .filter((c) => Math.abs(c.width - mainWidth) > 0.5)
+    .map((c) => ({ nodeId: c.id, nodeName: c.name, width: c.width, expectedWidth: mainWidth }));
+}
+
 // ── Orchestrator ───────────────────────────────────────────────────────────
 async function auditPage(page) {
   const collections = await figma.variables.getLocalVariableCollectionsAsync();
@@ -298,5 +332,6 @@ async function auditPage(page) {
     overflows: findOverflows(rootWrapper),
     staleNameReferences: findStaleNameReferences(page),
     brokenLinks: await findBrokenLinks(page),
+    widthMismatches: findWidthMismatches(page),
   };
 }
