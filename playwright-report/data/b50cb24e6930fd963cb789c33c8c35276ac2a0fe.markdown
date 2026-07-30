@@ -1,0 +1,317 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: visual/documentation.spec.js >> Documentation — visual regressions >> page documentation — dark
+- Location: tests/visual/documentation.spec.js:5:5
+
+# Error details
+
+```
+Error: expect(page).toHaveScreenshot(expected) failed
+
+  Expected an image 1280px by 1938px, received 1280px by 1826px. 173799 pixels (ratio 0.08 of all image pixels) are different.
+
+  Snapshot: documentation-dark.png
+
+Call log:
+  - Expect "toHaveScreenshot(documentation-dark.png)" with timeout 5000ms
+    - verifying given screenshot expectation
+  - taking page screenshot
+    - disabled all CSS animations
+  - waiting for fonts to load...
+  - fonts loaded
+  - Expected an image 1280px by 1938px, received 1280px by 1826px. 173799 pixels (ratio 0.08 of all image pixels) are different.
+  - waiting 100ms before taking screenshot
+  - taking page screenshot
+    - disabled all CSS animations
+  - waiting for fonts to load...
+  - fonts loaded
+  - captured a stable screenshot
+  - Expected an image 1280px by 1938px, received 1280px by 1826px. 173799 pixels (ratio 0.08 of all image pixels) are different.
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=e3]:
+    - link "Agentica — Accueil" [ref=e4] [cursor=pointer]:
+      - /url: index.html
+      - img "Agentica" [ref=e5]
+    - navigation "Navigation principale" [ref=e6]:
+      - link "Home" [ref=e7] [cursor=pointer]:
+        - /url: index.html
+      - link "Why" [ref=e8] [cursor=pointer]:
+        - /url: pourquoi.html
+      - link "Architecture" [ref=e9] [cursor=pointer]:
+        - /url: architecture.html
+      - link "Quality" [ref=e10] [cursor=pointer]:
+        - /url: qualite.html
+      - link "AI" [ref=e11] [cursor=pointer]:
+        - /url: ia.html
+      - generic [ref=e12]:
+        - link "Documentation" [ref=e13] [cursor=pointer]:
+          - /url: documentation.html
+        - generic:
+          - generic:
+            - heading "Understand" [level=2]
+            - link "Introduction":
+              - /url: pourquoi.html
+            - link "Foundations":
+              - /url: foundations/index.html
+            - link "Human control":
+              - /url: ia.html
+            - link "Single source of truth":
+              - /url: architecture.html
+          - generic:
+            - heading "Reference" [level=2]
+            - link "Foundations":
+              - /url: foundations/index.html
+            - link "Components":
+              - /url: components/index.html
+            - link "Tokens":
+              - /url: tokens/index.html
+            - link "Decisions":
+              - /url: decisions/index.html
+            - link "Agents":
+              - /url: agents/index.html
+            - link "Pipelines":
+              - /url: pipelines/index.html
+            - link "Continuity":
+              - /url: continuite.html
+          - generic:
+            - heading "Explore" [level=2]
+            - link "Storybook":
+              - /url: https://main--6a1c1e665ec5fe8fc0540983.chromatic.com/
+            - link "GitHub":
+              - /url: https://github.com/gnegreiros-ux/agentica-design-system
+            - link "Audit":
+              - /url: audit.html
+      - link "Get started" [ref=e14] [cursor=pointer]:
+        - /url: get-started.html
+    - generic "Liens rapides" [ref=e15]:
+      - button "Basculer thème sombre / Switch to dark theme" [ref=e16] [cursor=pointer]:
+        - img [ref=e17]
+      - group "Language" [ref=e19]:
+        - button "FR" [ref=e20] [cursor=pointer]
+        - button "EN" [ref=e21] [cursor=pointer]
+      - link "Storybook — Catalogue interactif des composants" [ref=e22] [cursor=pointer]:
+        - /url: https://main--6a1c1e665ec5fe8fc0540983.chromatic.com/
+        - img [ref=e23]
+      - link "GitHub — Code source du projet" [ref=e25] [cursor=pointer]:
+        - /url: https://github.com/gnegreiros-ux/agentica-design-system
+        - img [ref=e26]
+  - generic [ref=e29]:
+    - navigation "Secondary navigation / Navigation secondaire" [ref=e30]:
+      - generic [ref=e31]:
+        - generic [ref=e32]: Agentica
+        - link "Why" [ref=e33] [cursor=pointer]:
+          - /url: pourquoi.html
+        - link "Architecture" [ref=e34] [cursor=pointer]:
+          - /url: architecture.html
+        - link "Quality" [ref=e35] [cursor=pointer]:
+          - /url: qualite.html
+        - link "AI" [ref=e36] [cursor=pointer]:
+          - /url: ia.html
+      - generic [ref=e37]:
+        - generic [ref=e38]: Documentation
+        - link "Documentation" [ref=e39] [cursor=pointer]:
+          - /url: documentation.html
+        - link "Foundations" [ref=e40] [cursor=pointer]:
+          - /url: foundations/index.html
+        - link "Components" [ref=e41] [cursor=pointer]:
+          - /url: components/index.html
+        - link "Tokens" [ref=e42] [cursor=pointer]:
+          - /url: tokens/index.html
+        - link "Decisions" [ref=e43] [cursor=pointer]:
+          - /url: decisions/index.html
+        - link "Agents" [ref=e44] [cursor=pointer]:
+          - /url: agents/index.html
+        - link "Continuity" [ref=e45] [cursor=pointer]:
+          - /url: continuite.html
+    - main [ref=e46]:
+      - generic [ref=e49]:
+        - paragraph [ref=e50]: Documentation
+        - heading "Explore Agentica" [level=1] [ref=e51]
+        - paragraph [ref=e52]: Everything you need to understand, build with and contribute to the agentic design system.
+      - generic [ref=e55]:
+        - generic [ref=e56]:
+          - img [ref=e58]
+          - heading "Understand" [level=2] [ref=e60]
+          - paragraph [ref=e61]: The conceptual foundations of the system.
+          - list [ref=e62]:
+            - listitem [ref=e63]:
+              - link "Why Agentica" [ref=e64] [cursor=pointer]:
+                - /url: pourquoi.html
+            - listitem [ref=e65]:
+              - link "Foundations" [ref=e66] [cursor=pointer]:
+                - /url: foundations/index.html
+            - listitem [ref=e67]:
+              - link "Human control" [ref=e68] [cursor=pointer]:
+                - /url: ia.html
+            - listitem [ref=e69]:
+              - link "Single source of truth" [ref=e70] [cursor=pointer]:
+                - /url: architecture.html
+        - generic [ref=e71]:
+          - img [ref=e73]
+          - heading "Build" [level=2] [ref=e77]
+          - paragraph [ref=e78]: Practical guides to get started and contribute.
+          - list [ref=e79]:
+            - listitem [ref=e80]:
+              - link "Get started" [ref=e81] [cursor=pointer]:
+                - /url: get-started.html
+            - listitem [ref=e82]:
+              - link "Foundation guides" [ref=e83] [cursor=pointer]:
+                - /url: foundations/index.html
+            - listitem [ref=e84]:
+              - link "Component examples" [ref=e85] [cursor=pointer]:
+                - /url: components/index.html
+            - listitem [ref=e86]:
+              - link "Continuity without AI agents" [ref=e87] [cursor=pointer]:
+                - /url: continuite.html
+            - listitem [ref=e88]:
+              - link "Changelog" [ref=e89] [cursor=pointer]:
+                - /url: changelog.html
+        - generic [ref=e90]:
+          - img [ref=e92]
+          - heading "Reference" [level=2] [ref=e95]
+          - paragraph [ref=e96]: Complete system reference.
+          - list [ref=e97]:
+            - listitem [ref=e98]:
+              - link "Foundations" [ref=e99] [cursor=pointer]:
+                - /url: foundations/index.html
+            - listitem [ref=e100]:
+              - link "Components" [ref=e101] [cursor=pointer]:
+                - /url: components/index.html
+            - listitem [ref=e102]:
+              - link "Tokens" [ref=e103] [cursor=pointer]:
+                - /url: tokens/index.html
+            - listitem [ref=e104]:
+              - link "Decisions (ADRs)" [ref=e105] [cursor=pointer]:
+                - /url: decisions/index.html
+            - listitem [ref=e106]:
+              - link "AI Agents" [ref=e107] [cursor=pointer]:
+                - /url: agents/index.html
+            - listitem [ref=e108]:
+              - link "Pipelines" [ref=e109] [cursor=pointer]:
+                - /url: pipelines/index.html
+        - generic [ref=e110]:
+          - img [ref=e112]
+          - heading "Explore" [level=2] [ref=e115]
+          - paragraph [ref=e116]: System tools and resources.
+          - list [ref=e117]:
+            - listitem [ref=e118]:
+              - link "Storybook" [ref=e119] [cursor=pointer]:
+                - /url: https://main--6a1c1e665ec5fe8fc0540983.chromatic.com/
+            - listitem [ref=e120]:
+              - link "GitHub" [ref=e121] [cursor=pointer]:
+                - /url: https://github.com/gnegreiros-ux/agentica-design-system
+            - listitem [ref=e122]:
+              - link "Audit" [ref=e123] [cursor=pointer]:
+                - /url: audit.html
+  - contentinfo [ref=e124]:
+    - generic [ref=e125]:
+      - generic [ref=e126]:
+        - link "Agentica — Accueil" [ref=e127] [cursor=pointer]:
+          - /url: index.html
+          - img "Agentica" [ref=e128]
+        - link "Guilherme Negreiros" [ref=e129] [cursor=pointer]:
+          - /url: https://www.linkedin.com/in/gnegreiros/
+          - img [ref=e130]
+          - text: Guilherme Negreiros
+      - generic [ref=e134]:
+        - generic [ref=e135]: Navigation
+        - link "Home" [ref=e136] [cursor=pointer]:
+          - /url: index.html
+        - link "Why" [ref=e137] [cursor=pointer]:
+          - /url: pourquoi.html
+        - link "Architecture" [ref=e138] [cursor=pointer]:
+          - /url: architecture.html
+        - link "Quality" [ref=e139] [cursor=pointer]:
+          - /url: qualite.html
+        - link "AI" [ref=e140] [cursor=pointer]:
+          - /url: ia.html
+      - generic [ref=e141]:
+        - generic [ref=e142]: Documentation
+        - link "Understand" [ref=e143] [cursor=pointer]:
+          - /url: pourquoi.html
+        - link "Get started" [ref=e144] [cursor=pointer]:
+          - /url: get-started.html
+        - link "Foundations" [ref=e145] [cursor=pointer]:
+          - /url: foundations/index.html
+        - link "Components" [ref=e146] [cursor=pointer]:
+          - /url: components/index.html
+        - link "Tokens" [ref=e147] [cursor=pointer]:
+          - /url: tokens/index.html
+        - link "Decisions" [ref=e148] [cursor=pointer]:
+          - /url: decisions/index.html
+        - link "Continuity" [ref=e149] [cursor=pointer]:
+          - /url: continuite.html
+        - link "Changelog" [ref=e150] [cursor=pointer]:
+          - /url: changelog.html
+      - generic [ref=e151]:
+        - generic [ref=e152]: Explorer
+        - link "Storybook" [ref=e153] [cursor=pointer]:
+          - /url: https://main--6a1c1e665ec5fe8fc0540983.chromatic.com/
+        - link "GitHub" [ref=e154] [cursor=pointer]:
+          - /url: https://github.com/gnegreiros-ux/agentica-design-system
+        - link "Audit" [ref=e155] [cursor=pointer]:
+          - /url: audit.html
+        - link "AI Brief" [ref=e156] [cursor=pointer]:
+          - /url: ai-brief.html
+    - generic [ref=e157]:
+      - generic [ref=e158]: © 2026 Guilherme Negreiros
+      - generic [ref=e159]: Built with Claude Code.
+  - button "Retour en haut" [ref=e160] [cursor=pointer]:
+    - img [ref=e161]
+    - generic [ref=e163]: Top
+  - status [ref=e164]
+```
+
+# Test source
+
+```ts
+  1  | import { test, expect } from '@playwright/test';
+  2  | 
+  3  | test.describe('Documentation — visual regressions', () => {
+  4  |   for (const theme of ['light', 'dark']) {
+  5  |     test(`page documentation — ${theme}`, async ({ page }) => {
+  6  |       await page.goto('/documentation.html');
+  7  |       await page.waitForLoadState('networkidle');
+  8  |       await page.evaluate((t) => document.documentElement.setAttribute('data-theme', t), theme);
+> 9  |       await expect(page).toHaveScreenshot(`documentation-${theme}.png`, { fullPage: true });
+     |                          ^ Error: expect(page).toHaveScreenshot(expected) failed
+  10 |     });
+  11 | 
+  12 |     test(`foundations/color — ${theme}`, async ({ page }) => {
+  13 |       await page.goto('/foundations/color.html');
+  14 |       await page.waitForLoadState('networkidle');
+  15 |       await page.evaluate((t) => document.documentElement.setAttribute('data-theme', t), theme);
+  16 |       await expect(page).toHaveScreenshot(`foundations-color-${theme}.png`, { fullPage: true });
+  17 |     });
+  18 | 
+  19 |     test(`foundations/typography — ${theme}`, async ({ page }) => {
+  20 |       await page.goto('/foundations/typography.html');
+  21 |       await page.waitForLoadState('networkidle');
+  22 |       await page.evaluate((t) => document.documentElement.setAttribute('data-theme', t), theme);
+  23 |       await expect(page).toHaveScreenshot(`foundations-typography-${theme}.png`, { fullPage: true });
+  24 |     });
+  25 | 
+  26 |     test(`foundations/spacing — ${theme}`, async ({ page }) => {
+  27 |       await page.goto('/foundations/spacing.html');
+  28 |       await page.waitForLoadState('networkidle');
+  29 |       await page.evaluate((t) => document.documentElement.setAttribute('data-theme', t), theme);
+  30 |       await expect(page).toHaveScreenshot(`foundations-spacing-${theme}.png`, { fullPage: true });
+  31 |     });
+  32 |   }
+  33 | });
+  34 | 
+```

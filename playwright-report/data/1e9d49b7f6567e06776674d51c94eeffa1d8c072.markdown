@@ -1,0 +1,693 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: functional/language.spec.js >> Language — English rendering has no French leftovers >> decisions/adr-083.html — clean in English mode
+- Location: tests/functional/language.spec.js:63:5
+
+# Error details
+
+```
+Error: French content visible in decisions/adr-083.html with data-lang=en:
+  line 172: "é" in "GitHub Projects agtc-image ticket (P2, Composants) moves to Terminé (the board's Status field is Fre"
+
+expect(received).toEqual(expected) // deep equality
+
+- Expected  - 1
++ Received  + 3
+
+- Array []
++ Array [
++   "  line 172: \"é\" in \"GitHub Projects agtc-image ticket (P2, Composants) moves to Terminé (the board's Status field is Fre\"",
++ ]
+```
+
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=e3]:
+    - link "Agentica — Accueil" [ref=e4] [cursor=pointer]:
+      - /url: ../index.html
+      - img [ref=e5]
+    - navigation "Navigation principale" [ref=e6]:
+      - link "Home" [ref=e7] [cursor=pointer]:
+        - /url: ../index.html
+      - link "Why" [ref=e8] [cursor=pointer]:
+        - /url: ../pourquoi.html
+      - link "Architecture" [ref=e9] [cursor=pointer]:
+        - /url: ../architecture.html
+      - link "Quality" [ref=e10] [cursor=pointer]:
+        - /url: ../qualite.html
+      - link "AI" [ref=e11] [cursor=pointer]:
+        - /url: ../ia.html
+      - generic [ref=e12]:
+        - link "Documentation" [ref=e13] [cursor=pointer]:
+          - /url: ../documentation.html
+        - generic:
+          - generic:
+            - heading "Understand" [level=2]
+            - link "Introduction":
+              - /url: ../pourquoi.html
+            - link "Foundations":
+              - /url: ../foundations/index.html
+            - link "Human control":
+              - /url: ../ia.html
+            - link "Single source of truth":
+              - /url: ../architecture.html
+          - generic:
+            - heading "Reference" [level=2]
+            - link "Foundations":
+              - /url: ../foundations/index.html
+            - link "Components":
+              - /url: ../components/index.html
+            - link "Tokens":
+              - /url: ../tokens/index.html
+            - link "Decisions":
+              - /url: ../decisions/index.html
+            - link "Agents":
+              - /url: ../agents/index.html
+            - link "Pipelines":
+              - /url: ../pipelines/index.html
+            - link "Continuity":
+              - /url: ../continuite.html
+          - generic:
+            - heading "Explore" [level=2]
+            - link "Storybook":
+              - /url: https://main--6a1c1e665ec5fe8fc0540983.chromatic.com/
+            - link "GitHub":
+              - /url: https://github.com/gnegreiros-ux/agentica-design-system
+            - link "Audit":
+              - /url: ../audit.html
+      - link "Get started" [ref=e14] [cursor=pointer]:
+        - /url: ../get-started.html
+    - generic "Liens rapides" [ref=e15]:
+      - button "Basculer thème sombre / Switch to dark theme" [ref=e16] [cursor=pointer]:
+        - img [ref=e17]
+      - group "Language" [ref=e20]:
+        - button "FR" [ref=e21] [cursor=pointer]
+        - button "EN" [ref=e22] [cursor=pointer]
+      - link "Storybook — Catalogue interactif des composants" [ref=e23] [cursor=pointer]:
+        - /url: https://main--6a1c1e665ec5fe8fc0540983.chromatic.com/
+        - img [ref=e24]
+      - link "GitHub — Code source du projet" [ref=e26] [cursor=pointer]:
+        - /url: https://github.com/gnegreiros-ux/agentica-design-system
+        - img [ref=e27]
+  - generic [ref=e30]:
+    - navigation "Secondary navigation / Navigation secondaire" [ref=e31]:
+      - generic [ref=e32]:
+        - generic [ref=e33]: Decisions
+        - link "ADR index" [ref=e34] [cursor=pointer]:
+          - /url: index.html
+        - link "ADR-001" [ref=e35] [cursor=pointer]:
+          - /url: adr-001.html
+        - link "ADR-002" [ref=e36] [cursor=pointer]:
+          - /url: adr-002.html
+        - link "ADR-003" [ref=e37] [cursor=pointer]:
+          - /url: adr-003.html
+        - link "ADR-004" [ref=e38] [cursor=pointer]:
+          - /url: adr-004.html
+        - link "ADR-005" [ref=e39] [cursor=pointer]:
+          - /url: adr-005.html
+        - link "ADR-006" [ref=e40] [cursor=pointer]:
+          - /url: adr-006.html
+        - link "ADR-007" [ref=e41] [cursor=pointer]:
+          - /url: adr-007.html
+        - link "ADR-008" [ref=e42] [cursor=pointer]:
+          - /url: adr-008.html
+        - link "ADR-009" [ref=e43] [cursor=pointer]:
+          - /url: adr-009.html
+        - link "ADR-010" [ref=e44] [cursor=pointer]:
+          - /url: adr-010.html
+        - link "ADR-011" [ref=e45] [cursor=pointer]:
+          - /url: adr-011.html
+        - link "ADR-012" [ref=e46] [cursor=pointer]:
+          - /url: adr-012.html
+        - link "ADR-013" [ref=e47] [cursor=pointer]:
+          - /url: adr-013.html
+        - link "ADR-014" [ref=e48] [cursor=pointer]:
+          - /url: adr-014.html
+        - link "ADR-015" [ref=e49] [cursor=pointer]:
+          - /url: adr-015.html
+        - link "ADR-016" [ref=e50] [cursor=pointer]:
+          - /url: adr-016.html
+        - link "ADR-017" [ref=e51] [cursor=pointer]:
+          - /url: adr-017.html
+        - link "ADR-018" [ref=e52] [cursor=pointer]:
+          - /url: adr-018.html
+        - link "ADR-019" [ref=e53] [cursor=pointer]:
+          - /url: adr-019.html
+        - link "ADR-020" [ref=e54] [cursor=pointer]:
+          - /url: adr-020.html
+        - link "ADR-021" [ref=e55] [cursor=pointer]:
+          - /url: adr-021.html
+        - link "ADR-022" [ref=e56] [cursor=pointer]:
+          - /url: adr-022.html
+        - link "ADR-023" [ref=e57] [cursor=pointer]:
+          - /url: adr-023.html
+        - link "ADR-024" [ref=e58] [cursor=pointer]:
+          - /url: adr-024.html
+        - link "ADR-025" [ref=e59] [cursor=pointer]:
+          - /url: adr-025.html
+        - link "ADR-026" [ref=e60] [cursor=pointer]:
+          - /url: adr-026.html
+        - link "ADR-027" [ref=e61] [cursor=pointer]:
+          - /url: adr-027.html
+        - link "ADR-028" [ref=e62] [cursor=pointer]:
+          - /url: adr-028.html
+        - link "ADR-029" [ref=e63] [cursor=pointer]:
+          - /url: adr-029.html
+        - link "ADR-030" [ref=e64] [cursor=pointer]:
+          - /url: adr-030.html
+        - link "ADR-031" [ref=e65] [cursor=pointer]:
+          - /url: adr-031.html
+        - link "ADR-032" [ref=e66] [cursor=pointer]:
+          - /url: adr-032.html
+        - link "ADR-033" [ref=e67] [cursor=pointer]:
+          - /url: adr-033.html
+        - link "ADR-034" [ref=e68] [cursor=pointer]:
+          - /url: adr-034.html
+        - link "ADR-035" [ref=e69] [cursor=pointer]:
+          - /url: adr-035.html
+        - link "ADR-036" [ref=e70] [cursor=pointer]:
+          - /url: adr-036.html
+        - link "ADR-037" [ref=e71] [cursor=pointer]:
+          - /url: adr-037.html
+        - link "ADR-038" [ref=e72] [cursor=pointer]:
+          - /url: adr-038.html
+        - link "ADR-039" [ref=e73] [cursor=pointer]:
+          - /url: adr-039.html
+        - link "ADR-040" [ref=e74] [cursor=pointer]:
+          - /url: adr-040.html
+        - link "ADR-041" [ref=e75] [cursor=pointer]:
+          - /url: adr-041.html
+        - link "ADR-042" [ref=e76] [cursor=pointer]:
+          - /url: adr-042.html
+        - link "ADR-043" [ref=e77] [cursor=pointer]:
+          - /url: adr-043.html
+        - link "ADR-044" [ref=e78] [cursor=pointer]:
+          - /url: adr-044.html
+        - link "ADR-045" [ref=e79] [cursor=pointer]:
+          - /url: adr-045.html
+        - link "ADR-046" [ref=e80] [cursor=pointer]:
+          - /url: adr-046.html
+        - link "ADR-047" [ref=e81] [cursor=pointer]:
+          - /url: adr-047.html
+        - link "ADR-048" [ref=e82] [cursor=pointer]:
+          - /url: adr-048.html
+        - link "ADR-049" [ref=e83] [cursor=pointer]:
+          - /url: adr-049.html
+        - link "ADR-050" [ref=e84] [cursor=pointer]:
+          - /url: adr-050.html
+        - link "ADR-051" [ref=e85] [cursor=pointer]:
+          - /url: adr-051.html
+        - link "ADR-052" [ref=e86] [cursor=pointer]:
+          - /url: adr-052.html
+        - link "ADR-053" [ref=e87] [cursor=pointer]:
+          - /url: adr-053.html
+        - link "ADR-054" [ref=e88] [cursor=pointer]:
+          - /url: adr-054.html
+        - link "ADR-055" [ref=e89] [cursor=pointer]:
+          - /url: adr-055.html
+        - link "ADR-056" [ref=e90] [cursor=pointer]:
+          - /url: adr-056.html
+        - link "ADR-057" [ref=e91] [cursor=pointer]:
+          - /url: adr-057.html
+        - link "ADR-058" [ref=e92] [cursor=pointer]:
+          - /url: adr-058.html
+        - link "ADR-059" [ref=e93] [cursor=pointer]:
+          - /url: adr-059.html
+        - link "ADR-060" [ref=e94] [cursor=pointer]:
+          - /url: adr-060.html
+        - link "ADR-061" [ref=e95] [cursor=pointer]:
+          - /url: adr-061.html
+        - link "ADR-062" [ref=e96] [cursor=pointer]:
+          - /url: adr-062.html
+        - link "ADR-063" [ref=e97] [cursor=pointer]:
+          - /url: adr-063.html
+        - link "ADR-064" [ref=e98] [cursor=pointer]:
+          - /url: adr-064.html
+        - link "ADR-065" [ref=e99] [cursor=pointer]:
+          - /url: adr-065.html
+        - link "ADR-066" [ref=e100] [cursor=pointer]:
+          - /url: adr-066.html
+        - link "ADR-067" [ref=e101] [cursor=pointer]:
+          - /url: adr-067.html
+        - link "ADR-068" [ref=e102] [cursor=pointer]:
+          - /url: adr-068.html
+        - link "ADR-069" [ref=e103] [cursor=pointer]:
+          - /url: adr-069.html
+        - link "ADR-070" [ref=e104] [cursor=pointer]:
+          - /url: adr-070.html
+        - link "ADR-071" [ref=e105] [cursor=pointer]:
+          - /url: adr-071.html
+        - link "ADR-072" [ref=e106] [cursor=pointer]:
+          - /url: adr-072.html
+        - link "ADR-073" [ref=e107] [cursor=pointer]:
+          - /url: adr-073.html
+        - link "ADR-074" [ref=e108] [cursor=pointer]:
+          - /url: adr-074.html
+        - link "ADR-075" [ref=e109] [cursor=pointer]:
+          - /url: adr-075.html
+        - link "ADR-076" [ref=e110] [cursor=pointer]:
+          - /url: adr-076.html
+        - link "ADR-077" [ref=e111] [cursor=pointer]:
+          - /url: adr-077.html
+        - link "ADR-078" [ref=e112] [cursor=pointer]:
+          - /url: adr-078.html
+        - link "ADR-079" [ref=e113] [cursor=pointer]:
+          - /url: adr-079.html
+        - link "ADR-080" [ref=e114] [cursor=pointer]:
+          - /url: adr-080.html
+        - link "ADR-081" [ref=e115] [cursor=pointer]:
+          - /url: adr-081.html
+        - link "ADR-082" [ref=e116] [cursor=pointer]:
+          - /url: adr-082.html
+        - link "ADR-083" [ref=e117] [cursor=pointer]:
+          - /url: adr-083.html
+        - link "ADR-084" [ref=e118] [cursor=pointer]:
+          - /url: adr-084.html
+        - link "ADR-085" [ref=e119] [cursor=pointer]:
+          - /url: adr-085.html
+        - link "ADR-086" [ref=e120] [cursor=pointer]:
+          - /url: adr-086.html
+        - link "ADR-087" [ref=e121] [cursor=pointer]:
+          - /url: adr-087.html
+        - link "ADR-088" [ref=e122] [cursor=pointer]:
+          - /url: adr-088.html
+        - link "ADR-089" [ref=e123] [cursor=pointer]:
+          - /url: adr-089.html
+        - link "ADR-090" [ref=e124] [cursor=pointer]:
+          - /url: adr-090.html
+    - main [ref=e125]:
+      - generic [ref=e126]:
+        - generic [ref=e127]:
+          - code [ref=e128]: ADR-083
+          - status [ref=e130]:
+            - generic [ref=e131]: Active
+          - generic [ref=e132]: contract
+        - 'heading "`agtc-image` implementation" [level=1] [ref=e133]'
+        - generic [ref=e134]:
+          - generic [ref=e135]:
+            - term [ref=e136]: Date
+            - definition [ref=e137]: 2026-07-21
+          - generic [ref=e138]:
+            - term [ref=e139]: Decision makers
+            - definition [ref=e140]: Guilherme Negreiros — Design System Lead
+      - heading "Reference UX patterns applied" [level=2] [ref=e141]
+      - blockquote [ref=e142]:
+        - paragraph [ref=e143]:
+          - text: Reviewed 2026-07-21 via the
+          - code [ref=e144]: ux-pattern-review
+          - text: "workflow (ADR-036), before any code was written. Decision:"
+          - strong [ref=e145]: all suggested patterns approved
+          - text: "; skeleton/placeholder explicitly requested for v1 rather than deferred. Details and links:"
+          - code [ref=e146]: guidelines/components/image.md
+          - text: § UX Patterns Reference.
+      - table [ref=e148]:
+        - rowgroup [ref=e149]:
+          - row "Pattern Source" [ref=e150]:
+            - columnheader "Pattern" [ref=e151]
+            - columnheader "Source" [ref=e152]
+        - rowgroup [ref=e153]:
+          - row "Decorative vs meaningful image distinction (alt=\"\" + aria-hidden) WCAG 1.1.1 / NN/g — mirrors the pattern already approved on agtc-icon" [ref=e154]:
+            - cell "Decorative vs meaningful image distinction (alt=\"\" + aria-hidden)" [ref=e155]:
+              - text: Decorative vs meaningful image distinction (
+              - code [ref=e156]: alt=""
+              - text: +
+              - code [ref=e157]: aria-hidden
+              - text: )
+            - cell "WCAG 1.1.1 / NN/g — mirrors the pattern already approved on agtc-icon" [ref=e158]:
+              - text: WCAG 1.1.1 / NN/g — mirrors the pattern already approved on
+              - code [ref=e159]: agtc-icon
+          - row "Skeleton screen while loading, opt-in NN/g — Skeleton Screens 101" [ref=e160]:
+            - cell "Skeleton screen while loading, opt-in" [ref=e161]
+            - cell "NN/g — Skeleton Screens 101" [ref=e162]
+          - row "Graceful fallback on load failure (icon + visible alt) General error-handling principle — no dedicated image-specific pattern found in the 5 reference sources" [ref=e163]:
+            - cell "Graceful fallback on load failure (icon + visible alt)" [ref=e164]
+            - cell "General error-handling principle — no dedicated image-specific pattern found in the 5 reference sources" [ref=e165]
+          - row "object-fit configurable (cover/contain/fill) Design system decision, not a reference-source pattern" [ref=e166]:
+            - cell "object-fit configurable (cover/contain/fill)" [ref=e167]:
+              - code [ref=e168]: object-fit
+              - text: configurable (
+              - code [ref=e169]: cover
+              - text: /
+              - code [ref=e170]: contain
+              - text: /
+              - code [ref=e171]: fill
+              - text: )
+            - cell "Design system decision, not a reference-source pattern" [ref=e172]
+      - separator [ref=e173]
+      - heading "Context" [level=2] [ref=e174]
+      - paragraph [ref=e175]:
+        - text: "The backlog carried a P2 ticket: build"
+        - code [ref=e176]: agtc-image
+        - text: — a component wrapping
+        - code [ref=e177]: <img>
+        - text: with lazy loading, explicit
+        - code [ref=e178]: width
+        - text: /
+        - code [ref=e179]: height
+        - text: to prevent layout shift (CLS),
+        - code [ref=e180]: fetchpriority
+        - text: ", and WebP support. No prior component in this system addressed raster images specifically ("
+        - code [ref=e181]: agtc-icon
+        - text: covers SVG icons; the
+        - code [ref=e182]: illus-lazy
+        - text: pattern in
+        - code [ref=e183]: .claude/rules/performance.md
+        - text: covers large inline SVG illustrations — neither fits a photo or a raster asset loaded via
+        - code [ref=e184]: <img src>
+        - text: ).
+      - paragraph [ref=e185]: "Two questions guided the decisions:"
+      - paragraph [ref=e186]:
+        - text: "1."
+        - strong [ref=e187]: Loading feedback
+        - text: — should the component show anything while the image loads, or just reserve space via
+        - code [ref=e188]: width
+        - text: /
+        - code [ref=e189]: height
+        - text: and let the browser paint when ready? 2.
+        - strong [ref=e190]: WebP delivery
+        - text: — should the component generate/convert WebP itself, or expect both formats to already exist?
+      - separator [ref=e191]
+      - heading "Decision" [level=2] [ref=e192]
+      - paragraph [ref=e193]:
+        - text: "1."
+        - strong [ref=e194]:
+          - text: Skeleton is opt-in (
+          - code [ref=e195]: skeleton
+          - text: prop), included in v1.
+        - text: A pulse-animated placeholder (tokenized background, disabled under
+        - code [ref=e196]: prefers-reduced-motion
+        - text: ) can be requested per-instance. Default is off — reserving aspect-ratio via
+        - code [ref=e197]: width
+        - text: /
+        - code [ref=e198]: height
+        - text: already prevents CLS on its own; a skeleton is genuinely useful only for heavy/hero images where the load itself is perceptible, and forcing it on every small inline image (avatar, thumbnail) would add unnecessary visual noise. 2.
+        - strong [ref=e199]:
+          - text: WebP via
+          - code [ref=e200]: <picture>
+          - text: + consumer-supplied fallback, no conversion.
+        - code [ref=e201]: src-webp
+        - text: renders a
+        - code [ref=e202]: <picture>
+        - text: with a WebP
+        - code [ref=e203]: <source>
+        - text: and
+        - code [ref=e204]: src
+        - text: as the fallback format; both files must already exist. This repository does no build-time image processing (
+        - code [ref=e205]: .claude/rules/illustrations-source.md
+        - text: —
+        - code [ref=e206]: Brand/illustrations/
+        - text: PNGs are hand-authored, not generated), so automatic conversion would be a new, unscoped capability rather than a component concern. 3.
+        - strong [ref=e207]:
+          - code [ref=e208]: width
+          - text: /
+          - code [ref=e209]: height
+          - text: are required, not optional.
+        - text: Missing either logs a console warning — the same escalation pattern used elsewhere in this system (
+        - code [ref=e210]: agtc-badge
+        - text: icon-only without
+        - code [ref=e211]: label
+        - text: ","
+        - code [ref=e212]: agtc-icon
+        - text: unknown name) — because a missing
+        - code [ref=e213]: width
+        - text: /
+        - code [ref=e214]: height
+        - text: defeats the component's core anti-CLS purpose rather than being a cosmetic gap. 4.
+        - strong [ref=e215]: Failed loads render a fallback (icon + visible alt), never a broken-image hole.
+        - text: "Consistent with WCAG 1.1.1: the alt text remains available to sighted users too, not just assistive technology. 5."
+        - strong [ref=e216]:
+          - code [ref=e217]: priority
+          - text: bundles
+          - code [ref=e218]: loading="eager"
+          - text: +
+          - code [ref=e219]: fetchpriority="high"
+        - text: rather than two separate props — in practice they're always set together for the single LCP image on a page (
+        - code [ref=e220]: .claude/rules/performance.md
+        - text: Standard 3), so splitting them would only invite an inconsistent combination.
+      - separator [ref=e221]
+      - heading "Rejected alternatives" [level=2] [ref=e222]
+      - table [ref=e224]:
+        - rowgroup [ref=e225]:
+          - row "Alternative Reason for rejection" [ref=e226]:
+            - columnheader "Alternative" [ref=e227]
+            - columnheader "Reason for rejection" [ref=e228]
+        - rowgroup [ref=e229]:
+          - row "Skeleton always on by default Unnecessary visual overhead for small inline images; width/height already solves CLS without it" [ref=e230]:
+            - cell "Skeleton always on by default" [ref=e231]
+            - cell "Unnecessary visual overhead for small inline images; width/height already solves CLS without it" [ref=e232]:
+              - text: Unnecessary visual overhead for small inline images;
+              - code [ref=e233]: width
+              - text: /
+              - code [ref=e234]: height
+              - text: already solves CLS without it
+          - row "Automatic WebP conversion at build/runtime No image-processing pipeline exists in this repo today (illustrations-source.md); out of scope for a single component" [ref=e235]:
+            - cell "Automatic WebP conversion at build/runtime" [ref=e236]
+            - cell "No image-processing pipeline exists in this repo today (illustrations-source.md); out of scope for a single component" [ref=e237]:
+              - text: No image-processing pipeline exists in this repo today (
+              - code [ref=e238]: illustrations-source.md
+              - text: ); out of scope for a single component
+          - row "width/height optional, silently falling back to intrinsic size Silently reintroduces the exact CLS problem this component exists to prevent" [ref=e239]:
+            - cell "width/height optional, silently falling back to intrinsic size" [ref=e240]:
+              - code [ref=e241]: width
+              - text: /
+              - code [ref=e242]: height
+              - text: optional, silently falling back to intrinsic size
+            - cell "Silently reintroduces the exact CLS problem this component exists to prevent" [ref=e243]
+          - row "Separate loading and fetchpriority props The two are only ever meaningfully combined for the LCP image; a single priority prop prevents an inconsistent combination" [ref=e244]:
+            - cell "Separate loading and fetchpriority props" [ref=e245]:
+              - text: Separate
+              - code [ref=e246]: loading
+              - text: and
+              - code [ref=e247]: fetchpriority
+              - text: props
+            - cell "The two are only ever meaningfully combined for the LCP image; a single priority prop prevents an inconsistent combination" [ref=e248]:
+              - text: The two are only ever meaningfully combined for the LCP image; a single
+              - code [ref=e249]: priority
+              - text: prop prevents an inconsistent combination
+      - separator [ref=e250]
+      - heading "Consequences" [level=2] [ref=e251]
+      - list [ref=e252]:
+        - listitem [ref=e253]:
+          - code [ref=e254]: tokens/component.json
+          - text: gains an
+          - code [ref=e255]: image
+          - text: "group:"
+          - code [ref=e256]: skeleton.background
+          - text: ","
+      - paragraph [ref=e257]:
+        - code [ref=e258]: skeleton.background-pulse
+        - text: ","
+        - code [ref=e259]: fallback.background
+        - text: ","
+        - code [ref=e260]: fallback.icon
+        - text: ","
+        - code [ref=e261]: fallback.text
+        - text: — all aliasing existing semantic tokens, no new primitives.
+      - list [ref=e262]:
+        - listitem [ref=e263]:
+          - code [ref=e264]: components/agtc-image.js
+          - text: +
+          - code [ref=e265]: agtc-image.stories.js
+          - text: created; registered in
+      - paragraph [ref=e266]:
+        - code [ref=e267]: components/index.js
+        - text: .
+      - list [ref=e268]:
+        - listitem [ref=e269]:
+          - code [ref=e270]: guidelines/components/image.md
+          - text: — full contract, including the UX Patterns
+      - paragraph [ref=e271]: Reference table above.
+      - list [ref=e272]:
+        - listitem [ref=e273]:
+          - text: "Site:"
+          - code [ref=e274]: agtc-image
+          - text: gets a documentation page (
+          - code [ref=e275]: site/dist/components/image.html
+          - text: ),
+      - paragraph [ref=e276]:
+        - text: added to
+        - code [ref=e277]: COMPONENT_PAGES
+        - text: and the components index catalog.
+      - list [ref=e278]:
+        - listitem [ref=e279]:
+          - text: GitHub Projects
+          - code [ref=e280]: agtc-image
+          - text: "ticket (P2, Composants) moves to Terminé (the board's Status field is French: Backlog/En cours/Terminé/etc.)."
+        - listitem [ref=e281]:
+          - text: "Not in scope for this ADR: migrating existing"
+          - code [ref=e282]: <img>
+          - text: usage on the site itself to
+      - paragraph [ref=e283]:
+        - code [ref=e284]: <agtc-image>
+        - text: — that's a separate dogfooding decision, not required by the backlog ticket, which asked for the component to exist, not for a sitewide migration.
+      - generic [ref=e285]:
+        - link "← ADR-082" [ref=e286] [cursor=pointer]:
+          - /url: adr-082.html
+        - link "ADR-084 →" [ref=e287] [cursor=pointer]:
+          - /url: adr-084.html
+    - navigation "Table of contents / Table des matières" [ref=e288]:
+      - generic [ref=e289]: On this page
+      - link "Reference UX patterns applied" [ref=e290] [cursor=pointer]:
+        - /url: "#reference-ux-patterns-applied"
+      - link "Context" [ref=e291] [cursor=pointer]:
+        - /url: "#context"
+      - link "Decision" [ref=e292] [cursor=pointer]:
+        - /url: "#decision"
+      - link "Rejected alternatives" [ref=e293] [cursor=pointer]:
+        - /url: "#rejected-alternatives"
+      - link "Consequences" [ref=e294] [cursor=pointer]:
+        - /url: "#consequences"
+  - contentinfo [ref=e295]:
+    - generic [ref=e296]:
+      - generic [ref=e297]:
+        - link "Agentica — Accueil" [ref=e298] [cursor=pointer]:
+          - /url: ../index.html
+          - img [ref=e299]
+        - link "Guilherme Negreiros" [ref=e300] [cursor=pointer]:
+          - /url: https://www.linkedin.com/in/gnegreiros/
+          - img [ref=e301]
+          - text: Guilherme Negreiros
+      - generic [ref=e305]:
+        - generic [ref=e306]: Navigation
+        - link "Home" [ref=e307] [cursor=pointer]:
+          - /url: ../index.html
+        - link "Why" [ref=e308] [cursor=pointer]:
+          - /url: ../pourquoi.html
+        - link "Architecture" [ref=e309] [cursor=pointer]:
+          - /url: ../architecture.html
+        - link "Quality" [ref=e310] [cursor=pointer]:
+          - /url: ../qualite.html
+        - link "AI" [ref=e311] [cursor=pointer]:
+          - /url: ../ia.html
+      - generic [ref=e312]:
+        - generic [ref=e313]: Documentation
+        - link "Understand" [ref=e314] [cursor=pointer]:
+          - /url: ../pourquoi.html
+        - link "Get started" [ref=e315] [cursor=pointer]:
+          - /url: ../get-started.html
+        - link "Foundations" [ref=e316] [cursor=pointer]:
+          - /url: ../foundations/index.html
+        - link "Components" [ref=e317] [cursor=pointer]:
+          - /url: ../components/index.html
+        - link "Tokens" [ref=e318] [cursor=pointer]:
+          - /url: ../tokens/index.html
+        - link "Decisions" [ref=e319] [cursor=pointer]:
+          - /url: ../decisions/index.html
+        - link "Continuity" [ref=e320] [cursor=pointer]:
+          - /url: ../continuite.html
+        - link "Changelog" [ref=e321] [cursor=pointer]:
+          - /url: ../changelog.html
+      - generic [ref=e322]:
+        - generic [ref=e323]: Explorer
+        - link "Storybook" [ref=e324] [cursor=pointer]:
+          - /url: https://main--6a1c1e665ec5fe8fc0540983.chromatic.com/
+        - link "GitHub" [ref=e325] [cursor=pointer]:
+          - /url: https://github.com/gnegreiros-ux/agentica-design-system
+        - link "Audit" [ref=e326] [cursor=pointer]:
+          - /url: ../audit.html
+        - link "AI Brief" [ref=e327] [cursor=pointer]:
+          - /url: ../ai-brief.html
+    - generic [ref=e328]:
+      - generic [ref=e329]: © 2026 Guilherme Negreiros
+      - generic [ref=e330]: Built with Claude Code.
+  - button "Retour en haut" [ref=e331] [cursor=pointer]:
+    - img [ref=e332]
+    - generic [ref=e334]: Top
+  - status [ref=e335]
+```
+
+# Test source
+
+```ts
+  1  | import { test, expect } from '@playwright/test';
+  2  | import fs from 'fs';
+  3  | import path from 'path';
+  4  | import { fileURLToPath } from 'url';
+  5  | 
+  6  | // English-only content policy (ADR-070/071/075). scripts/audit-language.js catches
+  7  | // French text left untranslated in source files, but it cannot catch a different bug
+  8  | // class: a page that IS correctly bilingual by design, where one data cell (a table
+  9  | // row, a nav link) is hardcoded as a single string instead of a lang-fr/lang-en pair
+  10 | // — so it never toggles and stays visibly French even with data-lang="en". That bug
+  11 | // is only visible by actually rendering the page (see the `ia.html` nav link and the
+  12 | // get-started.html Framework Integration table, both fixed 2026-07-18 this way — a
+  13 | // text-content scan alone would never have flagged them, since French prose is
+  14 | // expected to exist somewhere on those pages).
+  15 | //
+  16 | // This spec renders every generated page with data-lang="en" and reads the VISIBLE
+  17 | // text only (innerText, not textContent — innerText excludes anything hidden by the
+  18 | // site's `html[data-lang="en"] .lang-fr{display:none}` CSS rule, textContent would not).
+  19 | 
+  20 | const __dirname = path.dirname(fileURLToPath(import.meta.url));
+  21 | const DIST = path.resolve(__dirname, '../../site/dist');
+  22 | 
+  23 | // Same curated word list as scripts/audit-language.js — kept in sync by hand, see
+  24 | // that file's comment for why these specific words (no plausible English collision).
+  25 | const STOPWORD_RE = /\b(?:être|où|équipe|système|chemin|aucun|aucune|jamais|doivent|également|vérifier|toujours|avec|dans|sont|cette|ces)\b/;
+  26 | const ACCENT_RE = /[àâäéèêëïîôöùûüçÀÂÄÉÈÊËÏÎÔÖÙÛÜÇœŒ]/;
+  27 | 
+  28 | function listPages(dir, base = '') {
+  29 |   const pages = [];
+  30 |   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+  31 |     const rel = base ? `${base}/${entry.name}` : entry.name;
+  32 |     if (entry.isDirectory()) {
+  33 |       pages.push(...listPages(path.join(dir, entry.name), rel));
+  34 |     } else if (entry.name.endsWith('.html')) {
+  35 |       pages.push(rel);
+  36 |     }
+  37 |   }
+  38 |   return pages;
+  39 | }
+  40 | 
+  41 | const pages = fs.existsSync(DIST) ? listPages(DIST) : [];
+  42 | 
+  43 | // Content that IS French by design and correctly renders regardless of data-lang:
+  44 | // a verbatim historical quote, a literal field-label/filename being documented, a
+  45 | // bilingual inline code comment, a font glyph specimen. Narrow on purpose (page +
+  46 | // distinguishing substring) so a real regression on the same page still gets caught.
+  47 | // An HTML-comment marker (the source-file `lang-audit-ignore` convention used by
+  48 | // scripts/audit-language.js) doesn't work here — comments never reach innerText.
+  49 | const KNOWN_EXCEPTIONS = {
+  50 |   'agents/index.html': ['Interdit —'], // naming-rule code example: bilingual comment in one line, by design
+  51 |   'changelog.html': ['Domaine'], // quoting the literal GitHub Projects custom field name
+  52 |   'decisions/adr-030.html': ['Densité'], // historical bug quote (the bug this ADR fixed)
+  53 |   'decisions/adr-055.html': ['Copié', 'critères'], // quoting the site's bilingual UI strings
+  54 |   'decisions/adr-071.html': ['Décideurs', 'Mon intention', 'francophones', 'seulement en anglais'], // literal field-label quote + verbatim human quote
+  55 |   'decisions/adr-075.html': ['notre-demarche', 'synthèse', 'Synthèse'], // documenting the pre-rename French filenames (ADR-075)
+  56 |   'foundations/typography.html': ['Æ Ç É'], // Atkinson Hyperlegible glyph specimen — intentional
+  57 | };
+  58 | 
+  59 | test.describe('Language — English rendering has no French leftovers', () => {
+  60 |   test.skip(pages.length === 0, 'site/dist not built — run node site/build.js first');
+  61 | 
+  62 |   for (const pagePath of pages) {
+  63 |     test(`${pagePath} — clean in English mode`, async ({ page }) => {
+  64 |       await page.goto(`/${pagePath}?lang=en`);
+  65 |       await page.waitForLoadState('networkidle');
+  66 | 
+  67 |       const visibleText = await page.evaluate(() => document.body.innerText);
+  68 |       const exceptions = KNOWN_EXCEPTIONS[pagePath] || [];
+  69 |       const hits = [];
+  70 |       visibleText.split('\n').forEach((line, idx) => {
+  71 |         if (exceptions.some(ex => line.includes(ex))) return;
+  72 |         const match = line.match(ACCENT_RE) || line.match(STOPWORD_RE);
+  73 |         if (match) hits.push(`  line ${idx + 1}: "${match[0]}" in "${line.trim().slice(0, 100)}"`);
+  74 |       });
+  75 | 
+> 76 |       expect(hits, `French content visible in ${pagePath} with data-lang=en:\n${hits.join('\n')}`).toEqual([]);
+     |                                                                                                    ^ Error: French content visible in decisions/adr-083.html with data-lang=en:
+  77 |     });
+  78 |   }
+  79 | });
+  80 | 
+```

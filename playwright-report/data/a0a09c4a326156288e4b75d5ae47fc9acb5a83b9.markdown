@@ -1,0 +1,425 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: visual/documentation.spec.js >> Documentation — visual regressions >> foundations/spacing — dark
+- Location: tests/visual/documentation.spec.js:26:5
+
+# Error details
+
+```
+Error: expect(page).toHaveScreenshot(expected) failed
+
+  Expected an image 1280px by 3433px, received 1280px by 3279px. 283235 pixels (ratio 0.07 of all image pixels) are different.
+
+  Snapshot: foundations-spacing-dark.png
+
+Call log:
+  - Expect "toHaveScreenshot(foundations-spacing-dark.png)" with timeout 5000ms
+    - verifying given screenshot expectation
+  - taking page screenshot
+    - disabled all CSS animations
+  - waiting for fonts to load...
+  - fonts loaded
+  - Expected an image 1280px by 3433px, received 1280px by 3279px. 283235 pixels (ratio 0.07 of all image pixels) are different.
+  - waiting 100ms before taking screenshot
+  - taking page screenshot
+    - disabled all CSS animations
+  - waiting for fonts to load...
+  - fonts loaded
+  - captured a stable screenshot
+  - Expected an image 1280px by 3433px, received 1280px by 3279px. 283235 pixels (ratio 0.07 of all image pixels) are different.
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=e3]:
+    - link "Agentica — Accueil" [ref=e4] [cursor=pointer]:
+      - /url: ../index.html
+      - img "Agentica" [ref=e5]
+    - navigation "Navigation principale" [ref=e6]:
+      - link "Home" [ref=e7] [cursor=pointer]:
+        - /url: ../index.html
+      - link "Why" [ref=e8] [cursor=pointer]:
+        - /url: ../pourquoi.html
+      - link "Architecture" [ref=e9] [cursor=pointer]:
+        - /url: ../architecture.html
+      - link "Quality" [ref=e10] [cursor=pointer]:
+        - /url: ../qualite.html
+      - link "AI" [ref=e11] [cursor=pointer]:
+        - /url: ../ia.html
+      - generic [ref=e12]:
+        - link "Documentation" [ref=e13] [cursor=pointer]:
+          - /url: ../documentation.html
+        - generic:
+          - generic:
+            - heading "Understand" [level=2]
+            - link "Introduction":
+              - /url: ../pourquoi.html
+            - link "Foundations":
+              - /url: ../foundations/index.html
+            - link "Human control":
+              - /url: ../ia.html
+            - link "Single source of truth":
+              - /url: ../architecture.html
+          - generic:
+            - heading "Reference" [level=2]
+            - link "Foundations":
+              - /url: ../foundations/index.html
+            - link "Components":
+              - /url: ../components/index.html
+            - link "Tokens":
+              - /url: ../tokens/index.html
+            - link "Decisions":
+              - /url: ../decisions/index.html
+            - link "Agents":
+              - /url: ../agents/index.html
+            - link "Pipelines":
+              - /url: ../pipelines/index.html
+            - link "Continuity":
+              - /url: ../continuite.html
+          - generic:
+            - heading "Explore" [level=2]
+            - link "Storybook":
+              - /url: https://main--6a1c1e665ec5fe8fc0540983.chromatic.com/
+            - link "GitHub":
+              - /url: https://github.com/gnegreiros-ux/agentica-design-system
+            - link "Audit":
+              - /url: ../audit.html
+      - link "Get started" [ref=e14] [cursor=pointer]:
+        - /url: ../get-started.html
+    - generic "Liens rapides" [ref=e15]:
+      - button "Basculer thème sombre / Switch to dark theme" [ref=e16] [cursor=pointer]:
+        - img [ref=e17]
+      - group "Language" [ref=e19]:
+        - button "FR" [ref=e20] [cursor=pointer]
+        - button "EN" [ref=e21] [cursor=pointer]
+      - link "Storybook — Catalogue interactif des composants" [ref=e22] [cursor=pointer]:
+        - /url: https://main--6a1c1e665ec5fe8fc0540983.chromatic.com/
+        - img [ref=e23]
+      - link "GitHub — Code source du projet" [ref=e25] [cursor=pointer]:
+        - /url: https://github.com/gnegreiros-ux/agentica-design-system
+        - img [ref=e26]
+  - generic [ref=e29]:
+    - navigation "Secondary navigation / Navigation secondaire" [ref=e30]:
+      - generic [ref=e31]:
+        - generic [ref=e32]: Foundations
+        - link "Overview" [ref=e33] [cursor=pointer]:
+          - /url: ../foundations/index.html
+        - link "Color" [ref=e34] [cursor=pointer]:
+          - /url: ../foundations/color.html
+        - link "Spacing" [ref=e35] [cursor=pointer]:
+          - /url: ../foundations/spacing.html
+        - link "Typography" [ref=e36] [cursor=pointer]:
+          - /url: ../foundations/typography.html
+        - link "Icons" [ref=e37] [cursor=pointer]:
+          - /url: ../foundations/icons.html
+        - link "Contexts" [ref=e38] [cursor=pointer]:
+          - /url: ../foundations/contextes.html
+    - main [ref=e39]:
+      - heading "Spacing" [level=1] [ref=e40]
+      - paragraph [ref=e41]:
+        - generic [ref=e42]:
+          - text: Every dimension is a multiple of
+          - strong [ref=e43]: 4px
+          - text: . The scale has 10 steps (4px → 64px). No hardcoded values — always via a semantic token.
+      - heading "4px grid — primitive scale" [level=2] [ref=e44]
+      - paragraph [ref=e45]:
+        - generic [ref=e46]:
+          - text: "Base unit:"
+          - code [ref=e47]: 4px
+          - text: . Any value outside this scale is a drift.
+      - generic [ref=e49]:
+        - generic [ref=e50]:
+          - code [ref=e52]: space.1
+          - img "4px" [ref=e53]
+          - strong [ref=e54]: 4px
+          - generic [ref=e55]: Micro
+        - generic [ref=e56]:
+          - code [ref=e58]: space.2
+          - img "8px" [ref=e59]
+          - strong [ref=e60]: 8px
+          - generic [ref=e61]: Petit
+        - generic [ref=e62]:
+          - code [ref=e64]: space.3
+          - img "12px" [ref=e65]
+          - strong [ref=e66]: 12px
+        - generic [ref=e67]:
+          - code [ref=e69]: space.4
+          - img "16px" [ref=e70]
+          - strong [ref=e71]: 16px
+          - generic [ref=e72]: Standard
+        - generic [ref=e73]:
+          - code [ref=e75]: space.5
+          - img "20px" [ref=e76]
+          - strong [ref=e77]: 20px
+        - generic [ref=e78]:
+          - code [ref=e80]: space.6
+          - img "24px" [ref=e81]
+          - strong [ref=e82]: 24px
+        - generic [ref=e83]:
+          - code [ref=e85]: space.8
+          - img "32px" [ref=e86]
+          - strong [ref=e87]: 32px
+          - generic [ref=e88]: Grand
+        - generic [ref=e89]:
+          - code [ref=e91]: space.10
+          - img "40px" [ref=e92]
+          - strong [ref=e93]: 40px
+        - generic [ref=e94]:
+          - code [ref=e96]: space.12
+          - img "48px" [ref=e97]
+          - strong [ref=e98]: 48px
+          - generic [ref=e99]: Macro
+        - generic [ref=e100]:
+          - code [ref=e102]: space.16
+          - img "64px" [ref=e103]
+          - strong [ref=e104]: 64px
+          - generic [ref=e105]: Macro XL
+      - heading "Semantic tokens" [level=2] [ref=e106]
+      - paragraph [ref=e107]: Components exclusively use these tokens — never primitives directly.
+      - table [ref=e109]:
+        - rowgroup [ref=e115]:
+          - row "Token CSS Reference Value Intent" [ref=e116]:
+            - columnheader "Token CSS" [ref=e117]
+            - columnheader "Reference" [ref=e118]
+            - columnheader "Value" [ref=e119]
+            - columnheader "Intent" [ref=e120]
+        - rowgroup [ref=e121]:
+          - row "--agtc-semantic-space-control-padding-x semantic.space.control.padding-x 16px Horizontal padding for interactive controls" [ref=e122]:
+            - cell "--agtc-semantic-space-control-padding-x" [ref=e123]:
+              - code [ref=e124]: "--agtc-semantic-space-control-padding-x"
+            - cell "semantic.space.control.padding-x" [ref=e125]:
+              - code [ref=e126]: semantic.space.control.padding-x
+            - cell "16px" [ref=e127]
+            - cell "Horizontal padding for interactive controls" [ref=e128]
+          - row "--agtc-semantic-space-control-padding-y semantic.space.control.padding-y 8px Vertical padding for interactive controls" [ref=e129]:
+            - cell "--agtc-semantic-space-control-padding-y" [ref=e130]:
+              - code [ref=e131]: "--agtc-semantic-space-control-padding-y"
+            - cell "semantic.space.control.padding-y" [ref=e132]:
+              - code [ref=e133]: semantic.space.control.padding-y
+            - cell "8px" [ref=e134]
+            - cell "Vertical padding for interactive controls" [ref=e135]
+          - row "--agtc-semantic-space-control-gap semantic.space.control.gap 8px Internal gap (icon + label inside a control)" [ref=e136]:
+            - cell "--agtc-semantic-space-control-gap" [ref=e137]:
+              - code [ref=e138]: "--agtc-semantic-space-control-gap"
+            - cell "semantic.space.control.gap" [ref=e139]:
+              - code [ref=e140]: semantic.space.control.gap
+            - cell "8px" [ref=e141]
+            - cell "Internal gap (icon + label inside a control)" [ref=e142]
+          - row "--agtc-semantic-space-layout-section semantic.space.layout.section 32px Spacing between page sections" [ref=e143]:
+            - cell "--agtc-semantic-space-layout-section" [ref=e144]:
+              - code [ref=e145]: "--agtc-semantic-space-layout-section"
+            - cell "semantic.space.layout.section" [ref=e146]:
+              - code [ref=e147]: semantic.space.layout.section
+            - cell "32px" [ref=e148]
+            - cell "Spacing between page sections" [ref=e149]
+          - row "--agtc-semantic-space-layout-component semantic.space.layout.component 20px Spacing between components" [ref=e150]:
+            - cell "--agtc-semantic-space-layout-component" [ref=e151]:
+              - code [ref=e152]: "--agtc-semantic-space-layout-component"
+            - cell "semantic.space.layout.component" [ref=e153]:
+              - code [ref=e154]: semantic.space.layout.component
+            - cell "20px" [ref=e155]
+            - cell "Spacing between components" [ref=e156]
+          - row "--agtc-semantic-radius-control semantic.radius.control 6px Radius for interactive controls" [ref=e157]:
+            - cell "--agtc-semantic-radius-control" [ref=e158]:
+              - code [ref=e159]: "--agtc-semantic-radius-control"
+            - cell "semantic.radius.control" [ref=e160]:
+              - code [ref=e161]: semantic.radius.control
+            - cell "6px" [ref=e162]
+            - cell "Radius for interactive controls" [ref=e163]
+          - row "--agtc-semantic-radius-card semantic.radius.card 10px Radius for containers (cards, panels)" [ref=e164]:
+            - cell "--agtc-semantic-radius-card" [ref=e165]:
+              - code [ref=e166]: "--agtc-semantic-radius-card"
+            - cell "semantic.radius.card" [ref=e167]:
+              - code [ref=e168]: semantic.radius.card
+            - cell "10px" [ref=e169]
+            - cell "Radius for containers (cards, panels)" [ref=e170]
+      - heading "Density — math tokens" [level=2] [ref=e171]
+      - paragraph [ref=e172]:
+        - generic [ref=e173]:
+          - text: Three modes computed via
+          - strong [ref=e174]: math tokens
+          - text: (Sam's Math Equations, Tokens Studio).
+          - code [ref=e175]: floor()
+          - text: /
+          - code [ref=e176]: ceil()
+          - text: rounding guarantees 4px alignment regardless of the factor. See
+          - link "ADR-025" [ref=e177] [cursor=pointer]:
+            - /url: ../decisions/index.html
+          - text: .
+      - generic [ref=e178]:
+        - generic [ref=e179]:
+          - generic [ref=e180]:
+            - generic [ref=e181]: compact — ×0.75
+            - generic [ref=e182]: Dashboards, tables, pro tools
+            - generic [ref=e185]: floor(16 × 0.75 / 4) × 4 = 12px
+          - generic [ref=e186]:
+            - generic [ref=e187]: normal — ×1.0
+            - generic [ref=e188]: Forms, settings, everyday SaaS
+            - generic [ref=e191]: 16px ( direct primitive value)
+          - generic [ref=e192]:
+            - generic [ref=e193]: comfortable — ×1.25
+            - generic [ref=e194]: Marketing, onboarding, reading
+            - generic [ref=e197]: ceil(16 × 1.25 / 4) × 4 = 20px
+        - blockquote [ref=e198]:
+          - paragraph [ref=e199]:
+            - generic [ref=e200]:
+              - code [ref=e201]: floor(value × factor / 4) × 4
+              - text: — compact uses floor(), comfortable uses ceil(). See ADR-020 + ADR-025.
+      - heading "Absolute rules" [level=2] [ref=e202]
+      - list [ref=e203]:
+        - listitem [ref=e204]:
+          - img [ref=e206]
+          - code [ref=e210]: "padding: 16px"
+          - text: — use
+          - code [ref=e211]: var(--agtc-semantic-space-control-padding-x)
+        - listitem [ref=e212]:
+          - img [ref=e214]
+          - code [ref=e218]: "margin: 32px"
+          - text: — use
+          - code [ref=e219]: var(--agtc-semantic-space-layout-section)
+        - listitem [ref=e220]:
+          - img [ref=e222]
+          - code [ref=e226]: var(--agtc-primitive-space-4)
+          - text: in a component — use the semantic token instead
+        - listitem [ref=e227]:
+          - img [ref=e229]
+          - text: "Off-grid value:"
+          - code [ref=e233]: 14px
+          - text: ","
+          - code [ref=e234]: 18px
+          - text: ","
+          - code [ref=e235]: 22px
+          - text: — choose the closest step
+        - listitem [ref=e236]:
+          - img [ref=e238]
+          - text: Always via CSS Custom Properties referencing a semantic token
+        - listitem [ref=e241]:
+          - img [ref=e243]
+          - text: If no semantic token matches, create one (PR required)
+      - generic [ref=e246]:
+        - img [ref=e248]
+        - generic [ref=e251]:
+          - strong [ref=e252]: Contribute to this project
+          - paragraph [ref=e253]: This system welcomes contributions — tokens, components, architectural decisions, accessibility fixes, or documentation. Every improvement counts.
+        - link "View on GitHub" [ref=e254] [cursor=pointer]:
+          - /url: https://github.com/gnegreiros-ux/agentica-design-system
+          - generic [ref=e255]: View on GitHub
+    - navigation "Table of contents / Table des matières" [ref=e256]:
+      - generic [ref=e257]: On this page
+      - link "4px grid — primitive scale" [ref=e258] [cursor=pointer]:
+        - /url: "#grille-4px-echelle-primitive"
+      - link "Semantic tokens" [ref=e259] [cursor=pointer]:
+        - /url: "#tokens-semantiques"
+      - link "Density — math tokens" [ref=e260] [cursor=pointer]:
+        - /url: "#densite-math-tokens"
+      - link "Absolute rules" [ref=e261] [cursor=pointer]:
+        - /url: "#regles-absolues"
+  - contentinfo [ref=e262]:
+    - generic [ref=e263]:
+      - generic [ref=e264]:
+        - link "Agentica — Accueil" [ref=e265] [cursor=pointer]:
+          - /url: ../index.html
+          - img "Agentica" [ref=e266]
+        - link "Guilherme Negreiros" [ref=e267] [cursor=pointer]:
+          - /url: https://www.linkedin.com/in/gnegreiros/
+          - img [ref=e268]
+          - text: Guilherme Negreiros
+      - generic [ref=e272]:
+        - generic [ref=e273]: Navigation
+        - link "Home" [ref=e274] [cursor=pointer]:
+          - /url: ../index.html
+        - link "Why" [ref=e275] [cursor=pointer]:
+          - /url: ../pourquoi.html
+        - link "Architecture" [ref=e276] [cursor=pointer]:
+          - /url: ../architecture.html
+        - link "Quality" [ref=e277] [cursor=pointer]:
+          - /url: ../qualite.html
+        - link "AI" [ref=e278] [cursor=pointer]:
+          - /url: ../ia.html
+      - generic [ref=e279]:
+        - generic [ref=e280]: Documentation
+        - link "Understand" [ref=e281] [cursor=pointer]:
+          - /url: ../pourquoi.html
+        - link "Get started" [ref=e282] [cursor=pointer]:
+          - /url: ../get-started.html
+        - link "Foundations" [ref=e283] [cursor=pointer]:
+          - /url: ../foundations/index.html
+        - link "Components" [ref=e284] [cursor=pointer]:
+          - /url: ../components/index.html
+        - link "Tokens" [ref=e285] [cursor=pointer]:
+          - /url: ../tokens/index.html
+        - link "Decisions" [ref=e286] [cursor=pointer]:
+          - /url: ../decisions/index.html
+        - link "Continuity" [ref=e287] [cursor=pointer]:
+          - /url: ../continuite.html
+        - link "Changelog" [ref=e288] [cursor=pointer]:
+          - /url: ../changelog.html
+      - generic [ref=e289]:
+        - generic [ref=e290]: Explorer
+        - link "Storybook" [ref=e291] [cursor=pointer]:
+          - /url: https://main--6a1c1e665ec5fe8fc0540983.chromatic.com/
+        - link "GitHub" [ref=e292] [cursor=pointer]:
+          - /url: https://github.com/gnegreiros-ux/agentica-design-system
+        - link "Audit" [ref=e293] [cursor=pointer]:
+          - /url: ../audit.html
+        - link "AI Brief" [ref=e294] [cursor=pointer]:
+          - /url: ../ai-brief.html
+    - generic [ref=e295]:
+      - generic [ref=e296]: © 2026 Guilherme Negreiros
+      - generic [ref=e297]: Built with Claude Code.
+  - button "Retour en haut" [ref=e298] [cursor=pointer]:
+    - img [ref=e299]
+    - generic [ref=e301]: Top
+  - status [ref=e302]
+```
+
+# Test source
+
+```ts
+  1  | import { test, expect } from '@playwright/test';
+  2  | 
+  3  | test.describe('Documentation — visual regressions', () => {
+  4  |   for (const theme of ['light', 'dark']) {
+  5  |     test(`page documentation — ${theme}`, async ({ page }) => {
+  6  |       await page.goto('/documentation.html');
+  7  |       await page.waitForLoadState('networkidle');
+  8  |       await page.evaluate((t) => document.documentElement.setAttribute('data-theme', t), theme);
+  9  |       await expect(page).toHaveScreenshot(`documentation-${theme}.png`, { fullPage: true });
+  10 |     });
+  11 | 
+  12 |     test(`foundations/color — ${theme}`, async ({ page }) => {
+  13 |       await page.goto('/foundations/color.html');
+  14 |       await page.waitForLoadState('networkidle');
+  15 |       await page.evaluate((t) => document.documentElement.setAttribute('data-theme', t), theme);
+  16 |       await expect(page).toHaveScreenshot(`foundations-color-${theme}.png`, { fullPage: true });
+  17 |     });
+  18 | 
+  19 |     test(`foundations/typography — ${theme}`, async ({ page }) => {
+  20 |       await page.goto('/foundations/typography.html');
+  21 |       await page.waitForLoadState('networkidle');
+  22 |       await page.evaluate((t) => document.documentElement.setAttribute('data-theme', t), theme);
+  23 |       await expect(page).toHaveScreenshot(`foundations-typography-${theme}.png`, { fullPage: true });
+  24 |     });
+  25 | 
+  26 |     test(`foundations/spacing — ${theme}`, async ({ page }) => {
+  27 |       await page.goto('/foundations/spacing.html');
+  28 |       await page.waitForLoadState('networkidle');
+  29 |       await page.evaluate((t) => document.documentElement.setAttribute('data-theme', t), theme);
+> 30 |       await expect(page).toHaveScreenshot(`foundations-spacing-${theme}.png`, { fullPage: true });
+     |                          ^ Error: expect(page).toHaveScreenshot(expected) failed
+  31 |     });
+  32 |   }
+  33 | });
+  34 | 
+```

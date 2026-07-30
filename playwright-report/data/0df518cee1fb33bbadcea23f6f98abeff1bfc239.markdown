@@ -1,0 +1,538 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: visual/components/all-components.spec.js >> banner — visual regressions >> page banner — dark
+- Location: tests/visual/components/all-components.spec.js:13:7
+
+# Error details
+
+```
+Error: expect(page).toHaveScreenshot(expected) failed
+
+  Expected an image 1314px by 4675px, received 1314px by 4673px. 58091 pixels (ratio 0.01 of all image pixels) are different.
+
+  Snapshot: banner-dark.png
+
+Call log:
+  - Expect "toHaveScreenshot(banner-dark.png)" with timeout 5000ms
+    - verifying given screenshot expectation
+  - taking page screenshot
+    - disabled all CSS animations
+  - waiting for fonts to load...
+  - fonts loaded
+  - Expected an image 1314px by 4675px, received 1314px by 4673px. 58091 pixels (ratio 0.01 of all image pixels) are different.
+  - waiting 100ms before taking screenshot
+  - taking page screenshot
+    - disabled all CSS animations
+  - waiting for fonts to load...
+  - fonts loaded
+  - captured a stable screenshot
+  - Expected an image 1314px by 4675px, received 1314px by 4673px. 58091 pixels (ratio 0.01 of all image pixels) are different.
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=e3]:
+    - link "Agentica — Accueil" [ref=e4] [cursor=pointer]:
+      - /url: ../index.html
+      - img "Agentica" [ref=e5]
+    - navigation "Navigation principale" [ref=e6]:
+      - link "Home" [ref=e7] [cursor=pointer]:
+        - /url: ../index.html
+      - link "Why" [ref=e8] [cursor=pointer]:
+        - /url: ../pourquoi.html
+      - link "Architecture" [ref=e9] [cursor=pointer]:
+        - /url: ../architecture.html
+      - link "Quality" [ref=e10] [cursor=pointer]:
+        - /url: ../qualite.html
+      - link "AI" [ref=e11] [cursor=pointer]:
+        - /url: ../ia.html
+      - generic [ref=e12]:
+        - link "Documentation" [ref=e13] [cursor=pointer]:
+          - /url: ../documentation.html
+        - generic:
+          - generic:
+            - heading "Understand" [level=2]
+            - link "Introduction":
+              - /url: ../pourquoi.html
+            - link "Foundations":
+              - /url: ../foundations/index.html
+            - link "Human control":
+              - /url: ../ia.html
+            - link "Single source of truth":
+              - /url: ../architecture.html
+          - generic:
+            - heading "Reference" [level=2]
+            - link "Foundations":
+              - /url: ../foundations/index.html
+            - link "Components":
+              - /url: ../components/index.html
+            - link "Tokens":
+              - /url: ../tokens/index.html
+            - link "Decisions":
+              - /url: ../decisions/index.html
+            - link "Agents":
+              - /url: ../agents/index.html
+            - link "Pipelines":
+              - /url: ../pipelines/index.html
+            - link "Continuity":
+              - /url: ../continuite.html
+          - generic:
+            - heading "Explore" [level=2]
+            - link "Storybook":
+              - /url: https://main--6a1c1e665ec5fe8fc0540983.chromatic.com/
+            - link "GitHub":
+              - /url: https://github.com/gnegreiros-ux/agentica-design-system
+            - link "Audit":
+              - /url: ../audit.html
+      - link "Get started" [ref=e14] [cursor=pointer]:
+        - /url: ../get-started.html
+    - generic "Liens rapides" [ref=e15]:
+      - button "Basculer thème sombre / Switch to dark theme" [ref=e16] [cursor=pointer]:
+        - img [ref=e17]
+      - group "Language" [ref=e19]:
+        - button "FR" [ref=e20] [cursor=pointer]
+        - button "EN" [ref=e21] [cursor=pointer]
+      - link "Storybook — Catalogue interactif des composants" [ref=e22] [cursor=pointer]:
+        - /url: https://main--6a1c1e665ec5fe8fc0540983.chromatic.com/
+        - img [ref=e23]
+      - link "GitHub — Code source du projet" [ref=e25] [cursor=pointer]:
+        - /url: https://github.com/gnegreiros-ux/agentica-design-system
+        - img [ref=e26]
+  - generic [ref=e29]:
+    - navigation "Secondary navigation / Navigation secondaire" [ref=e30]:
+      - generic [ref=e31]:
+        - generic [ref=e32]: Components
+        - link "Overview" [ref=e33] [cursor=pointer]:
+          - /url: ../components/index.html
+        - link "Button" [ref=e34] [cursor=pointer]:
+          - /url: ../components/button.html
+        - link "Icon" [ref=e35] [cursor=pointer]:
+          - /url: ../components/icon.html
+        - link "Input" [ref=e36] [cursor=pointer]:
+          - /url: ../components/input.html
+        - link "Badge" [ref=e37] [cursor=pointer]:
+          - /url: ../components/badge.html
+        - link "Image" [ref=e38] [cursor=pointer]:
+          - /url: ../components/image.html
+        - link "Card" [ref=e39] [cursor=pointer]:
+          - /url: ../components/card.html
+        - link "Checkbox" [ref=e40] [cursor=pointer]:
+          - /url: ../components/checkbox.html
+        - link "Radio" [ref=e41] [cursor=pointer]:
+          - /url: ../components/radio.html
+        - link "Toggle" [ref=e42] [cursor=pointer]:
+          - /url: ../components/toggle.html
+        - link "Table" [ref=e43] [cursor=pointer]:
+          - /url: ../components/table.html
+        - link "Code Block" [ref=e44] [cursor=pointer]:
+          - /url: ../components/code-block.html
+        - link "Banner" [ref=e45] [cursor=pointer]:
+          - /url: ../components/banner.html
+        - link "Link" [ref=e46] [cursor=pointer]:
+          - /url: ../components/link.html
+        - link "Segmented" [ref=e47] [cursor=pointer]:
+          - /url: ../components/segmented.html
+        - link "Tabs" [ref=e48] [cursor=pointer]:
+          - /url: ../components/tabs.html
+    - main [ref=e49]:
+      - heading "Banner" [level=1] [ref=e50]
+      - paragraph [ref=e51]: "Inline contextual message (callout / alert) in the page flow: info, success, warning, error. 6 variants aligned with badge. Static by default — opt-in live region for dynamic messages."
+      - heading "Variants" [level=2] [ref=e52]
+      - generic [ref=e53]:
+        - generic [ref=e55]:
+          - generic [ref=e56]: "Information:"
+          - img [ref=e59]
+          - generic [ref=e62]:
+            - generic:
+              - strong [ref=e63]: Neutral
+              - generic [ref=e64]: Neutral informational message.
+        - generic [ref=e66]:
+          - generic [ref=e67]: "Information:"
+          - img [ref=e70]
+          - generic [ref=e74]:
+            - generic:
+              - strong [ref=e75]: Agentica
+              - generic [ref=e76]: Brand highlight or contribution.
+        - generic [ref=e78]:
+          - generic [ref=e79]: "Information:"
+          - img [ref=e82]
+          - generic [ref=e85]:
+            - generic:
+              - strong [ref=e86]: Information
+              - generic [ref=e87]: This component is read-only.
+        - generic [ref=e89]:
+          - generic [ref=e90]: "Success:"
+          - img [ref=e93]
+          - generic [ref=e97]:
+            - generic:
+              - strong [ref=e98]: Saved
+              - generic [ref=e99]: Your changes have been saved.
+        - generic [ref=e101]:
+          - generic [ref=e102]: "Warning:"
+          - img [ref=e105]
+          - generic [ref=e108]:
+            - generic:
+              - strong [ref=e109]: Warning
+              - generic [ref=e110]: This action will affect 3 linked files.
+        - generic [ref=e112]:
+          - generic [ref=e113]: "Error:"
+          - img [ref=e116]
+          - generic [ref=e119]:
+            - generic:
+              - strong [ref=e120]: Error
+              - generic [ref=e121]: Could not reach the server.
+      - heading "Absolute rules" [level=2] [ref=e122]
+      - list [ref=e123]:
+        - listitem [ref=e124]:
+          - img [ref=e126]
+          - text: Severity never by color alone — icon + severity text for AT
+        - listitem [ref=e129]:
+          - img [ref=e131]
+          - generic [ref=e134]:
+            - text: "Static banner:"
+            - strong [ref=e135]: "no"
+            - text: "live region; dynamic:"
+            - code [ref=e136]: live="polite|assertive"
+        - listitem [ref=e137]:
+          - img [ref=e139]
+          - generic [ref=e142]:
+            - text: Close button = real
+            - code [ref=e143]: <button>
+            - text: ","
+            - code [ref=e144]: aria-label
+            - text: ", visible focus"
+        - listitem [ref=e145]:
+          - img [ref=e147]
+          - text: Never for a floating notification (use a toast)
+        - listitem [ref=e151]:
+          - img [ref=e153]
+          - text: Never auto-dismiss an error
+      - heading "Component tokens" [level=2] [ref=e157]
+      - table [ref=e159]:
+        - rowgroup [ref=e164]:
+          - row "Token CSS Reference Value" [ref=e165]:
+            - columnheader "Token CSS" [ref=e166]
+            - columnheader "Reference" [ref=e167]
+            - columnheader "Value" [ref=e168]
+        - rowgroup [ref=e169]:
+          - 'row "--agtc-component-banner-info-accent semantic.color.feedback.info #0d74ce" [ref=e170]':
+            - cell "--agtc-component-banner-info-accent" [ref=e171]:
+              - code [ref=e172]: "--agtc-component-banner-info-accent"
+            - cell "semantic.color.feedback.info" [ref=e173]:
+              - code [ref=e174]: semantic.color.feedback.info
+            - cell "#0d74ce" [ref=e175]
+          - 'row "--agtc-component-banner-success-accent semantic.color.feedback.success #18794e" [ref=e176]':
+            - cell "--agtc-component-banner-success-accent" [ref=e177]:
+              - code [ref=e178]: "--agtc-component-banner-success-accent"
+            - cell "semantic.color.feedback.success" [ref=e179]:
+              - code [ref=e180]: semantic.color.feedback.success
+            - cell "#18794e" [ref=e181]
+          - row "--agtc-component-banner-warning-accent primitive.color.orange.11 —" [ref=e182]:
+            - cell "--agtc-component-banner-warning-accent" [ref=e183]:
+              - code [ref=e184]: "--agtc-component-banner-warning-accent"
+            - cell "primitive.color.orange.11" [ref=e185]:
+              - code [ref=e186]: primitive.color.orange.11
+            - cell "—" [ref=e187]
+          - 'row "--agtc-component-banner-danger-accent semantic.color.feedback.danger #ce2c31" [ref=e188]':
+            - cell "--agtc-component-banner-danger-accent" [ref=e189]:
+              - code [ref=e190]: "--agtc-component-banner-danger-accent"
+            - cell "semantic.color.feedback.danger" [ref=e191]:
+              - code [ref=e192]: semantic.color.feedback.danger
+            - cell "#ce2c31" [ref=e193]
+          - 'row "--agtc-component-banner-brand-accent semantic.color.brand.primary #12a594" [ref=e194]':
+            - cell "--agtc-component-banner-brand-accent" [ref=e195]:
+              - code [ref=e196]: "--agtc-component-banner-brand-accent"
+            - cell "semantic.color.brand.primary" [ref=e197]:
+              - code [ref=e198]: semantic.color.brand.primary
+            - cell "#12a594" [ref=e199]
+          - 'row "--agtc-component-banner-heading-text semantic.color.text.primary #202020" [ref=e200]':
+            - cell "--agtc-component-banner-heading-text" [ref=e201]:
+              - code [ref=e202]: "--agtc-component-banner-heading-text"
+            - cell "semantic.color.text.primary" [ref=e203]:
+              - code [ref=e204]: semantic.color.text.primary
+            - cell "#202020" [ref=e205]
+          - 'row "--agtc-component-banner-body-text semantic.color.text.secondary #646464" [ref=e206]':
+            - cell "--agtc-component-banner-body-text" [ref=e207]:
+              - code [ref=e208]: "--agtc-component-banner-body-text"
+            - cell "semantic.color.text.secondary" [ref=e209]:
+              - code [ref=e210]: semantic.color.text.secondary
+            - cell "#646464" [ref=e211]
+          - row "--agtc-component-banner-radius semantic.radius.card 10px" [ref=e212]:
+            - cell "--agtc-component-banner-radius" [ref=e213]:
+              - code [ref=e214]: "--agtc-component-banner-radius"
+            - cell "semantic.radius.card" [ref=e215]:
+              - code [ref=e216]: semantic.radius.card
+            - cell "10px" [ref=e217]
+          - row "--agtc-component-banner-padding-x primitive.space.5 20px" [ref=e218]:
+            - cell "--agtc-component-banner-padding-x" [ref=e219]:
+              - code [ref=e220]: "--agtc-component-banner-padding-x"
+            - cell "primitive.space.5" [ref=e221]:
+              - code [ref=e222]: primitive.space.5
+            - cell "20px" [ref=e223]
+      - heading "Accessibility" [level=2] [ref=e224]
+      - list [ref=e225]:
+        - listitem [ref=e226]: "Hidden severity prefix (\"Error: \") — the icon is decorative"
+        - listitem [ref=e227]:
+          - generic [ref=e228]:
+            - text: "Static: no live"
+            - code [ref=e229]: role
+            - text: "; dynamic:"
+            - code [ref=e230]: role="status"
+            - text: or
+            - code [ref=e231]: role="alert"
+        - listitem [ref=e232]: The banner never captures focus
+        - listitem [ref=e233]: Text contrast ≥ 4.5:1 on subtle background
+      - heading "Implementation" [level=2] [ref=e234]
+      - generic [ref=e235]:
+        - code [ref=e236]: <agtc-banner variant="warning" heading="Warning"> This action will affect 3 linked files. </agtc-banner> <!-- With actions + dismissible --> <agtc-banner variant="brand" heading="Contribute" dismissible> This system welcomes contributions. <span slot="actions"><a href="…"> View on GitHub →</a></span> </agtc-banner> <!-- Dynamic notification (inserted by JS) --> <agtc-banner variant="danger" live="assertive" heading="Error">…</agtc-banner>
+        - generic [ref=e237]: html
+        - button "Copy code (html)" [ref=e238] [cursor=pointer]: Copy
+      - heading "DOs and DON'Ts" [level=2] [ref=e239]
+      - generic [ref=e240]:
+        - generic [ref=e241]:
+          - heading "Do" [level=3] [ref=e242]:
+            - img [ref=e243]
+            - text: Do
+          - list [ref=e246]:
+            - listitem [ref=e247]: Choose variant by severity (success/warning/danger)
+            - listitem [ref=e248]: Keep errors persistent (no auto-dismiss)
+            - listitem [ref=e249]:
+              - generic [ref=e250]:
+                - text: Set
+                - code [ref=e251]: live
+                - text: only on dynamically inserted messages
+        - generic [ref=e252]:
+          - heading "Don't" [level=3] [ref=e253]:
+            - img [ref=e254]
+            - text: Don't
+          - list [ref=e258]:
+            - listitem [ref=e259]:
+              - generic [ref=e260]:
+                - code [ref=e261]: role="alert"
+                - text: on a static page banner
+            - listitem [ref=e262]: A banner for what should be a toast or modal
+            - listitem [ref=e263]: Severity by color alone
+      - heading "UX Patterns Reference" [level=2] [ref=e264]
+      - blockquote [ref=e265]:
+        - paragraph [ref=e266]:
+          - text: Patterns approved via the
+          - code [ref=e267]: ux-pattern-review
+          - text: "workflow (ADR-036/042). Decision:"
+          - strong [ref=e268]: N1–N9 all approved
+          - text: .
+      - table [ref=e270]:
+        - rowgroup [ref=e271]:
+          - row "Pattern Source Applied Justification" [ref=e272]:
+            - columnheader "Pattern" [ref=e273]
+            - columnheader "Source" [ref=e274]
+            - columnheader "Applied" [ref=e275]
+            - columnheader "Justification" [ref=e276]
+        - rowgroup [ref=e277]:
+          - row "Semantic variants (6) NN/g ✅ Aligned with agtc-badge" [ref=e278]:
+            - cell "Semantic variants (6)" [ref=e279]
+            - cell "NN/g" [ref=e280]:
+              - link "NN/g" [ref=e281] [cursor=pointer]:
+                - /url: https://www.nngroup.com/articles/indicators-validations-notifications/
+            - cell "✅" [ref=e282]
+            - cell "Aligned with agtc-badge" [ref=e283]:
+              - text: Aligned with
+              - code [ref=e284]: agtc-badge
+          - row "Meaning never conveyed by color alone (icon + AT text) NN/g ✅ Hidden severity prefix" [ref=e285]:
+            - cell "Meaning never conveyed by color alone (icon + AT text)" [ref=e286]
+            - cell "NN/g" [ref=e287]:
+              - link "NN/g" [ref=e288] [cursor=pointer]:
+                - /url: https://www.nngroup.com/articles/indicators-validations-notifications/
+            - cell "✅" [ref=e289]
+            - cell "Hidden severity prefix" [ref=e290]
+          - row "Icon per variant NN/g ✅ Overridable, no-icon possible" [ref=e291]:
+            - cell "Icon per variant" [ref=e292]
+            - cell "NN/g" [ref=e293]:
+              - link "NN/g" [ref=e294] [cursor=pointer]:
+                - /url: https://www.nngroup.com/articles/indicators-validations-notifications/
+            - cell "✅" [ref=e295]
+            - cell "Overridable, no-icon possible" [ref=e296]:
+              - text: Overridable,
+              - code [ref=e297]: no-icon
+              - text: possible
+          - row "Static by default (no live region) MDN — status role ✅ live=\"off\" by default" [ref=e298]:
+            - cell "Static by default (no live region)" [ref=e299]
+            - cell "MDN — status role" [ref=e300]:
+              - link "MDN — status role" [ref=e301] [cursor=pointer]:
+                - /url: https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/status_role
+            - cell "✅" [ref=e302]
+            - cell "live=\"off\" by default" [ref=e303]:
+              - code [ref=e304]: live="off"
+              - text: by default
+          - row "Assertive role=\"alert\" used sparingly A11Y Collective ✅ Via live=\"assertive\"" [ref=e305]:
+            - cell "Assertive role=\"alert\" used sparingly" [ref=e306]:
+              - text: Assertive
+              - code [ref=e307]: role="alert"
+              - text: used sparingly
+            - cell "A11Y Collective" [ref=e308]:
+              - link "A11Y Collective" [ref=e309] [cursor=pointer]:
+                - /url: https://www.a11y-collective.com/blog/aria-alert/
+            - cell "✅" [ref=e310]
+            - cell "Via live=\"assertive\"" [ref=e311]:
+              - text: Via
+              - code [ref=e312]: live="assertive"
+          - row "Accessible close button, no focus trap MDN — alert role ✅ dismissible + dismiss event" [ref=e313]:
+            - cell "Accessible close button, no focus trap" [ref=e314]
+            - cell "MDN — alert role" [ref=e315]:
+              - link "MDN — alert role" [ref=e316] [cursor=pointer]:
+                - /url: https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/alert_role
+            - cell "✅" [ref=e317]
+            - cell "dismissible + dismiss event" [ref=e318]:
+              - code [ref=e319]: dismissible
+              - text: +
+              - code [ref=e320]: dismiss
+              - text: event
+          - row "Heading + body + action zone NN/g ✅ heading + slot + slot=\"actions\"" [ref=e321]:
+            - cell "Heading + body + action zone" [ref=e322]
+            - cell "NN/g" [ref=e323]:
+              - link "NN/g" [ref=e324] [cursor=pointer]:
+                - /url: https://www.nngroup.com/articles/indicators-validations-notifications/
+            - cell "✅" [ref=e325]
+            - cell "heading + slot + slot=\"actions\"" [ref=e326]:
+              - code [ref=e327]: heading
+              - text: + slot +
+              - code [ref=e328]: slot="actions"
+          - row "Left accent border + subtle background Dashboard ✅ Reuses the contribution-banner style" [ref=e329]:
+            - cell "Left accent border + subtle background" [ref=e330]
+            - cell "Dashboard" [ref=e331]:
+              - link "Dashboard" [ref=e332] [cursor=pointer]:
+                - /url: https://dashboarddesignpatterns.github.io/patterns.html
+            - cell "✅" [ref=e333]
+            - cell "Reuses the contribution-banner style" [ref=e334]:
+              - text: Reuses the
+              - code [ref=e335]: contribution-banner
+              - text: style
+          - row "No auto-dismiss for critical messages NN/g ✅ Documented guidance (persistent danger/warning)" [ref=e336]:
+            - cell "No auto-dismiss for critical messages" [ref=e337]
+            - cell "NN/g" [ref=e338]:
+              - link "NN/g" [ref=e339] [cursor=pointer]:
+                - /url: https://www.nngroup.com/articles/indicators-validations-notifications/
+            - cell "✅" [ref=e340]
+            - cell "Documented guidance (persistent danger/warning)" [ref=e341]
+      - generic [ref=e342]:
+        - img [ref=e344]
+        - generic [ref=e347]:
+          - strong [ref=e348]: Contribute to this project
+          - paragraph [ref=e349]: This system welcomes contributions — tokens, components, architectural decisions, accessibility fixes, or documentation. Every improvement counts.
+        - link "View on GitHub" [ref=e350] [cursor=pointer]:
+          - /url: https://github.com/gnegreiros-ux/agentica-design-system
+          - generic [ref=e351]: View on GitHub
+    - navigation "Table of contents / Table des matières" [ref=e352]:
+      - generic [ref=e353]: On this page
+      - link "Variants" [ref=e354] [cursor=pointer]:
+        - /url: "#variantes"
+      - link "Absolute rules" [ref=e355] [cursor=pointer]:
+        - /url: "#regles-absolues"
+      - link "Component tokens" [ref=e356] [cursor=pointer]:
+        - /url: "#tokens-de-composant"
+      - link "Accessibility" [ref=e357] [cursor=pointer]:
+        - /url: "#accessibilite"
+      - link "Implementation" [ref=e358] [cursor=pointer]:
+        - /url: "#implementation"
+      - link "DOs and DON'Ts" [ref=e359] [cursor=pointer]:
+        - /url: "#dos-et-don-ts"
+      - link "UX Patterns Reference" [ref=e360] [cursor=pointer]:
+        - /url: "#ux-patterns-reference"
+  - contentinfo [ref=e361]:
+    - generic [ref=e362]:
+      - generic [ref=e363]:
+        - link "Agentica — Accueil" [ref=e364] [cursor=pointer]:
+          - /url: ../index.html
+          - img "Agentica" [ref=e365]
+        - link "Guilherme Negreiros" [ref=e366] [cursor=pointer]:
+          - /url: https://www.linkedin.com/in/gnegreiros/
+          - img [ref=e367]
+          - text: Guilherme Negreiros
+      - generic [ref=e371]:
+        - generic [ref=e372]: Navigation
+        - link "Home" [ref=e373] [cursor=pointer]:
+          - /url: ../index.html
+        - link "Why" [ref=e374] [cursor=pointer]:
+          - /url: ../pourquoi.html
+        - link "Architecture" [ref=e375] [cursor=pointer]:
+          - /url: ../architecture.html
+        - link "Quality" [ref=e376] [cursor=pointer]:
+          - /url: ../qualite.html
+        - link "AI" [ref=e377] [cursor=pointer]:
+          - /url: ../ia.html
+      - generic [ref=e378]:
+        - generic [ref=e379]: Documentation
+        - link "Understand" [ref=e380] [cursor=pointer]:
+          - /url: ../pourquoi.html
+        - link "Get started" [ref=e381] [cursor=pointer]:
+          - /url: ../get-started.html
+        - link "Foundations" [ref=e382] [cursor=pointer]:
+          - /url: ../foundations/index.html
+        - link "Components" [ref=e383] [cursor=pointer]:
+          - /url: ../components/index.html
+        - link "Tokens" [ref=e384] [cursor=pointer]:
+          - /url: ../tokens/index.html
+        - link "Decisions" [ref=e385] [cursor=pointer]:
+          - /url: ../decisions/index.html
+        - link "Continuity" [ref=e386] [cursor=pointer]:
+          - /url: ../continuite.html
+        - link "Changelog" [ref=e387] [cursor=pointer]:
+          - /url: ../changelog.html
+      - generic [ref=e388]:
+        - generic [ref=e389]: Explorer
+        - link "Storybook" [ref=e390] [cursor=pointer]:
+          - /url: https://main--6a1c1e665ec5fe8fc0540983.chromatic.com/
+        - link "GitHub" [ref=e391] [cursor=pointer]:
+          - /url: https://github.com/gnegreiros-ux/agentica-design-system
+        - link "Audit" [ref=e392] [cursor=pointer]:
+          - /url: ../audit.html
+        - link "AI Brief" [ref=e393] [cursor=pointer]:
+          - /url: ../ai-brief.html
+    - generic [ref=e394]:
+      - generic [ref=e395]: © 2026 Guilherme Negreiros
+      - generic [ref=e396]: Built with Claude Code.
+  - button "Retour en haut" [ref=e397] [cursor=pointer]:
+    - img [ref=e398]
+    - generic [ref=e400]: Top
+  - status [ref=e401]
+```
+
+# Test source
+
+```ts
+  1  | import { test, expect } from '@playwright/test';
+  2  | 
+  3  | // Visual regressions for every component page (except button.html, already covered)
+  4  | const PAGES = [
+  5  |   'badge', 'banner', 'card', 'checkbox', 'code-block',
+  6  |   'icon', 'input', 'link', 'radio', 'segmented',
+  7  |   'table', 'tabs', 'toggle',
+  8  | ];
+  9  | 
+  10 | for (const name of PAGES) {
+  11 |   test.describe(`${name} — visual regressions`, () => {
+  12 |     for (const theme of ['light', 'dark']) {
+  13 |       test(`page ${name} — ${theme}`, async ({ page }) => {
+  14 |         await page.goto(`/components/${name}.html`);
+  15 |         await page.waitForLoadState('networkidle');
+  16 |         await page.evaluate((t) =>
+  17 |           document.documentElement.setAttribute('data-theme', t), theme
+  18 |         );
+> 19 |         await expect(page).toHaveScreenshot(`${name}-${theme}.png`, { fullPage: true });
+     |                            ^ Error: expect(page).toHaveScreenshot(expected) failed
+  20 |       });
+  21 |     }
+  22 |   });
+  23 | }
+  24 | 
+```

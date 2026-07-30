@@ -1,0 +1,693 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: functional/language.spec.js >> Language — English rendering has no French leftovers >> decisions/adr-089.html — clean in English mode
+- Location: tests/functional/language.spec.js:63:5
+
+# Error details
+
+```
+Error: French content visible in decisions/adr-089.html with data-lang=en:
+  line 172: "é" in "GitHub Projects "Dette audit-tokens.js" ticket (P2, Gouvernance) moves to its board's done status (t"
+
+expect(received).toEqual(expected) // deep equality
+
+- Expected  - 1
++ Received  + 3
+
+- Array []
++ Array [
++   "  line 172: \"é\" in \"GitHub Projects \"Dette audit-tokens.js\" ticket (P2, Gouvernance) moves to its board's done status (t\"",
++ ]
+```
+
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=e3]:
+    - link "Agentica — Accueil" [ref=e4] [cursor=pointer]:
+      - /url: ../index.html
+      - img [ref=e5]
+    - navigation "Navigation principale" [ref=e6]:
+      - link "Home" [ref=e7] [cursor=pointer]:
+        - /url: ../index.html
+      - link "Why" [ref=e8] [cursor=pointer]:
+        - /url: ../pourquoi.html
+      - link "Architecture" [ref=e9] [cursor=pointer]:
+        - /url: ../architecture.html
+      - link "Quality" [ref=e10] [cursor=pointer]:
+        - /url: ../qualite.html
+      - link "AI" [ref=e11] [cursor=pointer]:
+        - /url: ../ia.html
+      - generic [ref=e12]:
+        - link "Documentation" [ref=e13] [cursor=pointer]:
+          - /url: ../documentation.html
+        - generic:
+          - generic:
+            - heading "Understand" [level=2]
+            - link "Introduction":
+              - /url: ../pourquoi.html
+            - link "Foundations":
+              - /url: ../foundations/index.html
+            - link "Human control":
+              - /url: ../ia.html
+            - link "Single source of truth":
+              - /url: ../architecture.html
+          - generic:
+            - heading "Reference" [level=2]
+            - link "Foundations":
+              - /url: ../foundations/index.html
+            - link "Components":
+              - /url: ../components/index.html
+            - link "Tokens":
+              - /url: ../tokens/index.html
+            - link "Decisions":
+              - /url: ../decisions/index.html
+            - link "Agents":
+              - /url: ../agents/index.html
+            - link "Pipelines":
+              - /url: ../pipelines/index.html
+            - link "Continuity":
+              - /url: ../continuite.html
+          - generic:
+            - heading "Explore" [level=2]
+            - link "Storybook":
+              - /url: https://main--6a1c1e665ec5fe8fc0540983.chromatic.com/
+            - link "GitHub":
+              - /url: https://github.com/gnegreiros-ux/agentica-design-system
+            - link "Audit":
+              - /url: ../audit.html
+      - link "Get started" [ref=e14] [cursor=pointer]:
+        - /url: ../get-started.html
+    - generic "Liens rapides" [ref=e15]:
+      - button "Basculer thème sombre / Switch to dark theme" [ref=e16] [cursor=pointer]:
+        - img [ref=e17]
+      - group "Language" [ref=e20]:
+        - button "FR" [ref=e21] [cursor=pointer]
+        - button "EN" [ref=e22] [cursor=pointer]
+      - link "Storybook — Catalogue interactif des composants" [ref=e23] [cursor=pointer]:
+        - /url: https://main--6a1c1e665ec5fe8fc0540983.chromatic.com/
+        - img [ref=e24]
+      - link "GitHub — Code source du projet" [ref=e26] [cursor=pointer]:
+        - /url: https://github.com/gnegreiros-ux/agentica-design-system
+        - img [ref=e27]
+  - generic [ref=e30]:
+    - navigation "Secondary navigation / Navigation secondaire" [ref=e31]:
+      - generic [ref=e32]:
+        - generic [ref=e33]: Decisions
+        - link "ADR index" [ref=e34] [cursor=pointer]:
+          - /url: index.html
+        - link "ADR-001" [ref=e35] [cursor=pointer]:
+          - /url: adr-001.html
+        - link "ADR-002" [ref=e36] [cursor=pointer]:
+          - /url: adr-002.html
+        - link "ADR-003" [ref=e37] [cursor=pointer]:
+          - /url: adr-003.html
+        - link "ADR-004" [ref=e38] [cursor=pointer]:
+          - /url: adr-004.html
+        - link "ADR-005" [ref=e39] [cursor=pointer]:
+          - /url: adr-005.html
+        - link "ADR-006" [ref=e40] [cursor=pointer]:
+          - /url: adr-006.html
+        - link "ADR-007" [ref=e41] [cursor=pointer]:
+          - /url: adr-007.html
+        - link "ADR-008" [ref=e42] [cursor=pointer]:
+          - /url: adr-008.html
+        - link "ADR-009" [ref=e43] [cursor=pointer]:
+          - /url: adr-009.html
+        - link "ADR-010" [ref=e44] [cursor=pointer]:
+          - /url: adr-010.html
+        - link "ADR-011" [ref=e45] [cursor=pointer]:
+          - /url: adr-011.html
+        - link "ADR-012" [ref=e46] [cursor=pointer]:
+          - /url: adr-012.html
+        - link "ADR-013" [ref=e47] [cursor=pointer]:
+          - /url: adr-013.html
+        - link "ADR-014" [ref=e48] [cursor=pointer]:
+          - /url: adr-014.html
+        - link "ADR-015" [ref=e49] [cursor=pointer]:
+          - /url: adr-015.html
+        - link "ADR-016" [ref=e50] [cursor=pointer]:
+          - /url: adr-016.html
+        - link "ADR-017" [ref=e51] [cursor=pointer]:
+          - /url: adr-017.html
+        - link "ADR-018" [ref=e52] [cursor=pointer]:
+          - /url: adr-018.html
+        - link "ADR-019" [ref=e53] [cursor=pointer]:
+          - /url: adr-019.html
+        - link "ADR-020" [ref=e54] [cursor=pointer]:
+          - /url: adr-020.html
+        - link "ADR-021" [ref=e55] [cursor=pointer]:
+          - /url: adr-021.html
+        - link "ADR-022" [ref=e56] [cursor=pointer]:
+          - /url: adr-022.html
+        - link "ADR-023" [ref=e57] [cursor=pointer]:
+          - /url: adr-023.html
+        - link "ADR-024" [ref=e58] [cursor=pointer]:
+          - /url: adr-024.html
+        - link "ADR-025" [ref=e59] [cursor=pointer]:
+          - /url: adr-025.html
+        - link "ADR-026" [ref=e60] [cursor=pointer]:
+          - /url: adr-026.html
+        - link "ADR-027" [ref=e61] [cursor=pointer]:
+          - /url: adr-027.html
+        - link "ADR-028" [ref=e62] [cursor=pointer]:
+          - /url: adr-028.html
+        - link "ADR-029" [ref=e63] [cursor=pointer]:
+          - /url: adr-029.html
+        - link "ADR-030" [ref=e64] [cursor=pointer]:
+          - /url: adr-030.html
+        - link "ADR-031" [ref=e65] [cursor=pointer]:
+          - /url: adr-031.html
+        - link "ADR-032" [ref=e66] [cursor=pointer]:
+          - /url: adr-032.html
+        - link "ADR-033" [ref=e67] [cursor=pointer]:
+          - /url: adr-033.html
+        - link "ADR-034" [ref=e68] [cursor=pointer]:
+          - /url: adr-034.html
+        - link "ADR-035" [ref=e69] [cursor=pointer]:
+          - /url: adr-035.html
+        - link "ADR-036" [ref=e70] [cursor=pointer]:
+          - /url: adr-036.html
+        - link "ADR-037" [ref=e71] [cursor=pointer]:
+          - /url: adr-037.html
+        - link "ADR-038" [ref=e72] [cursor=pointer]:
+          - /url: adr-038.html
+        - link "ADR-039" [ref=e73] [cursor=pointer]:
+          - /url: adr-039.html
+        - link "ADR-040" [ref=e74] [cursor=pointer]:
+          - /url: adr-040.html
+        - link "ADR-041" [ref=e75] [cursor=pointer]:
+          - /url: adr-041.html
+        - link "ADR-042" [ref=e76] [cursor=pointer]:
+          - /url: adr-042.html
+        - link "ADR-043" [ref=e77] [cursor=pointer]:
+          - /url: adr-043.html
+        - link "ADR-044" [ref=e78] [cursor=pointer]:
+          - /url: adr-044.html
+        - link "ADR-045" [ref=e79] [cursor=pointer]:
+          - /url: adr-045.html
+        - link "ADR-046" [ref=e80] [cursor=pointer]:
+          - /url: adr-046.html
+        - link "ADR-047" [ref=e81] [cursor=pointer]:
+          - /url: adr-047.html
+        - link "ADR-048" [ref=e82] [cursor=pointer]:
+          - /url: adr-048.html
+        - link "ADR-049" [ref=e83] [cursor=pointer]:
+          - /url: adr-049.html
+        - link "ADR-050" [ref=e84] [cursor=pointer]:
+          - /url: adr-050.html
+        - link "ADR-051" [ref=e85] [cursor=pointer]:
+          - /url: adr-051.html
+        - link "ADR-052" [ref=e86] [cursor=pointer]:
+          - /url: adr-052.html
+        - link "ADR-053" [ref=e87] [cursor=pointer]:
+          - /url: adr-053.html
+        - link "ADR-054" [ref=e88] [cursor=pointer]:
+          - /url: adr-054.html
+        - link "ADR-055" [ref=e89] [cursor=pointer]:
+          - /url: adr-055.html
+        - link "ADR-056" [ref=e90] [cursor=pointer]:
+          - /url: adr-056.html
+        - link "ADR-057" [ref=e91] [cursor=pointer]:
+          - /url: adr-057.html
+        - link "ADR-058" [ref=e92] [cursor=pointer]:
+          - /url: adr-058.html
+        - link "ADR-059" [ref=e93] [cursor=pointer]:
+          - /url: adr-059.html
+        - link "ADR-060" [ref=e94] [cursor=pointer]:
+          - /url: adr-060.html
+        - link "ADR-061" [ref=e95] [cursor=pointer]:
+          - /url: adr-061.html
+        - link "ADR-062" [ref=e96] [cursor=pointer]:
+          - /url: adr-062.html
+        - link "ADR-063" [ref=e97] [cursor=pointer]:
+          - /url: adr-063.html
+        - link "ADR-064" [ref=e98] [cursor=pointer]:
+          - /url: adr-064.html
+        - link "ADR-065" [ref=e99] [cursor=pointer]:
+          - /url: adr-065.html
+        - link "ADR-066" [ref=e100] [cursor=pointer]:
+          - /url: adr-066.html
+        - link "ADR-067" [ref=e101] [cursor=pointer]:
+          - /url: adr-067.html
+        - link "ADR-068" [ref=e102] [cursor=pointer]:
+          - /url: adr-068.html
+        - link "ADR-069" [ref=e103] [cursor=pointer]:
+          - /url: adr-069.html
+        - link "ADR-070" [ref=e104] [cursor=pointer]:
+          - /url: adr-070.html
+        - link "ADR-071" [ref=e105] [cursor=pointer]:
+          - /url: adr-071.html
+        - link "ADR-072" [ref=e106] [cursor=pointer]:
+          - /url: adr-072.html
+        - link "ADR-073" [ref=e107] [cursor=pointer]:
+          - /url: adr-073.html
+        - link "ADR-074" [ref=e108] [cursor=pointer]:
+          - /url: adr-074.html
+        - link "ADR-075" [ref=e109] [cursor=pointer]:
+          - /url: adr-075.html
+        - link "ADR-076" [ref=e110] [cursor=pointer]:
+          - /url: adr-076.html
+        - link "ADR-077" [ref=e111] [cursor=pointer]:
+          - /url: adr-077.html
+        - link "ADR-078" [ref=e112] [cursor=pointer]:
+          - /url: adr-078.html
+        - link "ADR-079" [ref=e113] [cursor=pointer]:
+          - /url: adr-079.html
+        - link "ADR-080" [ref=e114] [cursor=pointer]:
+          - /url: adr-080.html
+        - link "ADR-081" [ref=e115] [cursor=pointer]:
+          - /url: adr-081.html
+        - link "ADR-082" [ref=e116] [cursor=pointer]:
+          - /url: adr-082.html
+        - link "ADR-083" [ref=e117] [cursor=pointer]:
+          - /url: adr-083.html
+        - link "ADR-084" [ref=e118] [cursor=pointer]:
+          - /url: adr-084.html
+        - link "ADR-085" [ref=e119] [cursor=pointer]:
+          - /url: adr-085.html
+        - link "ADR-086" [ref=e120] [cursor=pointer]:
+          - /url: adr-086.html
+        - link "ADR-087" [ref=e121] [cursor=pointer]:
+          - /url: adr-087.html
+        - link "ADR-088" [ref=e122] [cursor=pointer]:
+          - /url: adr-088.html
+        - link "ADR-089" [ref=e123] [cursor=pointer]:
+          - /url: adr-089.html
+        - link "ADR-090" [ref=e124] [cursor=pointer]:
+          - /url: adr-090.html
+    - main [ref=e125]:
+      - generic [ref=e126]:
+        - generic [ref=e127]:
+          - code [ref=e128]: ADR-089
+          - status [ref=e130]:
+            - generic [ref=e131]: Active
+          - generic [ref=e132]: contract
+        - 'heading "`audit-tokens.js` debt reaches zero critical; real Radix dark primitives added" [level=1] [ref=e133]'
+        - generic [ref=e134]:
+          - generic [ref=e135]:
+            - term [ref=e136]: Date
+            - definition [ref=e137]: 2026-07-22
+          - generic [ref=e138]:
+            - term [ref=e139]: Decision makers
+            - definition [ref=e140]: Guilherme Negreiros — Design System Lead
+      - heading "Context" [level=2] [ref=e141]
+      - paragraph [ref=e142]:
+        - text: ADR-085 took
+        - code [ref=e143]: audit-tokens.js
+        - text: "'s reported debt from ~2508 to 247 violations by excluding generated/historical/plugin paths and adding an"
+        - code [ref=e144]: audit-ignore
+        - text: "escape hatch. The remaining 247 fell into two buckets, both addressed here:"
+      - paragraph [ref=e145]:
+        - text: "1."
+        - strong [ref=e146]:
+          - code [ref=e147]: site/build.js
+          - text: "'s"
+          - code [ref=e148]: "[data-theme=\"dark\"]"
+          - text: block — 39 of the remaining hex-color violations
+        - text: ", hand-typed literal hex duplicating"
+        - code [ref=e149]: tokens/semantic.dark.json
+        - text: (an already-existing, separately-built Style Dictionary source —
+        - code [ref=e150]: style-dictionary/build.cjs
+        - text: "\"BUILD 2: dark mode overrides\" — that site/build.js never actually consumed). Comparing against the real"
+        - code [ref=e151]: "@radix-ui/colors"
+        - text: package (installed as a dev dependency to check) showed this project's palette is
+        - strong [ref=e152]: not stock Radix
+        - text: ":"
+        - code [ref=e153]: teal.11
+        - text: was deliberately adjusted for WCAG contrast (ADR-048, ADR-050), and the dark values in
+        - code [ref=e154]: semantic.dark.json
+        - text: (
+        - code [ref=e155]: "action.primary: #34d3bb"
+        - text: ) don't match stock Radix dark-teal either — they're already a second, independently-calibrated adjustment, not arbitrary hardcoding. 2. **~208 remaining hex/px violations scattered across
+        - code [ref=e156]: site/build.js
+        - text: ","
+        - code [ref=e157]: components/*.js
+        - text: ","
+        - code [ref=e158]: .stories.js
+        - text: ", and a couple of"
+        - code [ref=e159]: guidelines/*.md
+        - text: "/test files** — genuine per-line triage, roughly three shapes: (a) real component drift fixable by mapping to an existing token, (b) reference/example content showing a resolved value on purpose (token tables,"
+        - code [ref=e160]: ❌
+        - text: anti-pattern examples, a pedagogical "AI Brief" explaining the token hierarchy itself), (c) a handful of mathematically-related or hand-tuned values (concentric nested radii, a hairline grid-divider
+        - code [ref=e161]: 1px
+        - text: ", a documented"
+        - code [ref=e162]: 52px
+        - text: layout constant from
+        - code [ref=e163]: .claude/rules/layout-pattern.md
+        - text: ) that aren't drift at all.
+      - heading "Decision" [level=2] [ref=e164]
+      - paragraph [ref=e165]:
+        - strong [ref=e166]:
+          - text: "1."
+          - code [ref=e167]: tokens/primitives.dark.json
+          - text: created
+        - text: — stock
+        - code [ref=e168]: "@radix-ui/colors"
+        - text: v3.0.0 dark values for the 9 Radix scales actually referenced in
+        - code [ref=e169]: semantic.json
+        - text: (gray, mauve, slate, blue, crimson, green, orange, red, teal), namespaced under
+        - code [ref=e170]: primitive.color-dark.*
+        - text: (not
+        - code [ref=e171]: color.*
+        - text: ) specifically to avoid a silent token-path collision if ever added to the same Style Dictionary source list as
+        - code [ref=e172]: primitives.json
+        - text: .
+        - strong [ref=e173]: Not yet wired into any build target
+        - text: — it's a ready, accurate reference for future token additions, deliberately not forced onto the existing, already-calibrated
+        - code [ref=e174]: semantic.dark.json
+        - text: values (custom brand scales
+        - code [ref=e175]: accent
+        - text: /
+        - code [ref=e176]: secondary
+        - text: have no Radix equivalent by definition and stay hand-tuned regardless).
+      - paragraph [ref=e177]:
+        - strong [ref=e178]:
+          - text: "2."
+          - code [ref=e179]: tokens/semantic.dark.json
+          - text: completed
+        - text: ", not replaced: added the 3 entries it was missing relative to"
+        - code [ref=e180]: site/build.js
+        - text: "'s hand-duplicated block —"
+        - code [ref=e181]: brand.accent
+        - text: ","
+        - code [ref=e182]: brand.tertiary
+        - text: ","
+        - code [ref=e183]: border.strong
+        - text: — matching the exact values already live in production (
+        - code [ref=e184]: "#ff8aa1"
+        - text: ","
+        - code [ref=e185]: "#6b7280"
+        - text: ","
+        - code [ref=e186]: "#363c48"
+        - text: ).
+      - paragraph [ref=e187]:
+        - strong [ref=e188]:
+          - text: "3."
+          - code [ref=e189]: site/build.js
+          - text: now generates its dark-mode block from
+          - code [ref=e190]: SEM_DARK
+        - text: (
+        - code [ref=e191]: flattenTokens(semanticDarkData.semantic, primitives)
+        - text: ), the same mechanism already used for the light
+        - code [ref=e192]: :root
+        - text: block from
+        - code [ref=e193]: SEM
+        - text: "— eliminating the 39-line hand-typed duplicate. Verified byte-for-byte identical output (Playwright: computed"
+        - code [ref=e194]: getPropertyValue
+        - text: for
+        - code [ref=e195]: action-primary
+        - text: ","
+        - code [ref=e196]: brand-tertiary
+        - text: ","
+        - code [ref=e197]: brand-accent
+        - text: ","
+        - code [ref=e198]: border-strong
+        - text: ","
+        - code [ref=e199]: text-primary
+        - text: compared before/after in both themes).
+      - paragraph [ref=e200]:
+        - strong [ref=e201]:
+          - text: 4. A second, entirely separate
+          - code [ref=e202]: "[data-theme=\"dark\"]"
+          - text: block removed as dead code
+        - text: (
+        - code [ref=e203]: site/build.js
+        - text: ", originally commented as keeping the main brand color consistent with the components) — it set"
+        - code [ref=e204]: action-primary
+        - text: /
+        - code [ref=e205]: button-primary-background
+        - text: /etc. to raw
+        - code [ref=e206]: var(--agtc-primitive-color-teal-9)
+        - text: (
+        - code [ref=e207]: "#12a594"
+        - text: ), but
+        - code [ref=e208]: :root[data-theme="dark"]
+        - text: "(higher specificity: pseudo-class + attribute vs. attribute alone) already wins unconditionally. This block never actually applied — confirmed by the live computed value already being"
+        - code [ref=e209]: "#34d3bb"
+        - text: ", not"
+        - code [ref=e210]: "#12a594"
+        - text: ", before this change touched it."
+      - paragraph [ref=e211]:
+        - strong [ref=e212]: 5. Remaining ~208 violations resolved individually
+        - text: ", following the precedent set for components in ADR-085 §remaining-triage (not re-litigated here in full):"
+      - list [ref=e213]:
+        - listitem [ref=e214]: Real drift → mapped to the nearest existing semantic/primitive token (spacing snapped to
+      - paragraph [ref=e215]:
+        - text: the 4px-grid component/control/layout scale; radius snapped to
+        - code [ref=e216]: control-tight
+        - text: (2px)/
+        - code [ref=e217]: control
+        - text: (6px)/
+        - code [ref=e218]: card
+        - text: (10px)/
+        - code [ref=e219]: pill
+        - text: ; typography snapped to the Minor Third scale).
+      - list [ref=e220]:
+        - listitem [ref=e221]:
+          - text: Reference/example content →
+          - code [ref=e222]: audit-ignore
+          - text: (JS/HTML comments are valid and hidden/harmless
+      - paragraph [ref=e223]:
+        - text: in the code samples and prose contexts they sit in) or, for one specific function (
+        - code [ref=e224]: aiBriefContent()
+        - text: ", a markdown brief explaining the token hierarchy to AI readers, table rows included — where a trailing comment would visibly break a markdown table row) — a new brace-depth-scoped exemption in"
+        - code [ref=e225]: audit-tokens.js
+        - text: (
+        - code [ref=e226]: PEDAGOGICAL_FUNCTIONS
+        - text: ), rather than peppering individual lines.
+      - list [ref=e227]:
+        - listitem [ref=e228]:
+          - text: Mathematically-related values (
+          - code [ref=e229]: .docs-panel
+          - text: 18px outer / 17px inner = 18 minus its 1px
+      - paragraph [ref=e230]:
+        - text: border, concentric by design) and the one documented layout constant (
+        - code [ref=e231]: .content
+        - text: "'s"
+        - code [ref=e232]: 52px 64px
+        - text: ", cited verbatim in"
+        - code [ref=e233]: .claude/rules/layout-pattern.md
+        - text: ) →
+        - code [ref=e234]: audit-ignore
+        - text: with a comment pointing at the reason, not force-fit onto an unrelated token.
+      - heading "Rejected alternatives" [level=2] [ref=e235]
+      - table [ref=e237]:
+        - rowgroup [ref=e238]:
+          - row "Alternative Reason for rejection" [ref=e239]:
+            - columnheader "Alternative" [ref=e240]
+            - columnheader "Reason for rejection" [ref=e241]
+        - rowgroup [ref=e242]:
+          - row "Source a full Radix dark PRIMITIVE scale and force every dark semantic token to alias it Would risk silently reverting the deliberate WCAG-contrast adjustments already made (ADR-048, ADR-050) — stock Radix dark-teal doesn't match the live, already-correct value" [ref=e243]:
+            - cell "Source a full Radix dark PRIMITIVE scale and force every dark semantic token to alias it" [ref=e244]
+            - cell "Would risk silently reverting the deliberate WCAG-contrast adjustments already made (ADR-048, ADR-050) — stock Radix dark-teal doesn't match the live, already-correct value" [ref=e245]
+          - row "Leave site/build.js's dark block as its own hand-maintained copy The actual \"debt\" was the duplication itself, not the values (which were already correct) — tokens/semantic.dark.json already existed as the real source, just unconsumed" [ref=e246]:
+            - cell "Leave site/build.js's dark block as its own hand-maintained copy" [ref=e247]:
+              - text: Leave
+              - code [ref=e248]: site/build.js
+              - text: "'s dark block as its own hand-maintained copy"
+            - cell "The actual \"debt\" was the duplication itself, not the values (which were already correct) — tokens/semantic.dark.json already existed as the real source, just unconsumed" [ref=e249]:
+              - text: The actual "debt" was the duplication itself, not the values (which were already correct) —
+              - code [ref=e250]: tokens/semantic.dark.json
+              - text: already existed as the real source, just unconsumed
+          - row "Force marketing-page one-off values (16px hero-panel radius, mathematically-derived nested radii) onto the nearest unrelated token Would visibly change deliberate design choices for the sake of a clean audit number — audit-ignore with a documented reason is the honest option ADR-085 already established this escape hatch for" [ref=e251]:
+            - cell "Force marketing-page one-off values (16px hero-panel radius, mathematically-derived nested radii) onto the nearest unrelated token" [ref=e252]
+            - cell "Would visibly change deliberate design choices for the sake of a clean audit number — audit-ignore with a documented reason is the honest option ADR-085 already established this escape hatch for" [ref=e253]:
+              - text: Would visibly change deliberate design choices for the sake of a clean audit number —
+              - code [ref=e254]: audit-ignore
+              - text: with a documented reason is the honest option ADR-085 already established this escape hatch for
+      - heading "Consequences" [level=2] [ref=e255]
+      - list [ref=e256]:
+        - listitem [ref=e257]:
+          - code [ref=e258]: node scripts/audit-tokens.js --ci
+          - text: ": 247 →"
+          - strong [ref=e259]: 0 critical, 1 warning
+          - text: "(`Orphaned:"
+      - paragraph [ref=e260]:
+        - text: button.ghost.border
+        - code [ref=e261]: — a pre-existing, unrelated finding from the audit's *first* check category (#1, orphaned tokens), not the hardcoded-value check this whole triage targeted; left as-is,
+        - text: component.json
+        - code [ref=e262]: changes require Principal Designer approval per
+        - text: "tokens-system.md` and this is out of scope here)."
+      - list [ref=e263]:
+        - listitem [ref=e264]:
+          - code [ref=e265]: "@radix-ui/colors"
+          - text: added as a dev dependency (
+          - code [ref=e266]: package.json
+          - text: ) — build-time reference only,
+      - paragraph [ref=e267]: not shipped.
+      - list [ref=e268]:
+        - listitem [ref=e269]: "GitHub Projects \"Dette audit-tokens.js\" ticket (P2, Gouvernance) moves to its board's done status (the board's Status field is French: Backlog/En cours/Terminé/etc.)."
+        - listitem [ref=e270]: "Verified in-browser (Playwright, light + dark, multiple pages: home, typography foundations"
+      - paragraph [ref=e271]:
+        - text: specimen, changelog, docs mega-menu) — 0 console errors, all spot-checked values render correctly,
+        - code [ref=e272]: validateCssVars()
+        - text: reports 0 phantom variables throughout.
+      - generic [ref=e273]:
+        - link "← ADR-088" [ref=e274] [cursor=pointer]:
+          - /url: adr-088.html
+        - link "ADR-090 →" [ref=e275] [cursor=pointer]:
+          - /url: adr-090.html
+    - navigation "Table of contents / Table des matières" [ref=e276]:
+      - generic [ref=e277]: On this page
+      - link "Context" [ref=e278] [cursor=pointer]:
+        - /url: "#context"
+      - link "Decision" [ref=e279] [cursor=pointer]:
+        - /url: "#decision"
+      - link "Rejected alternatives" [ref=e280] [cursor=pointer]:
+        - /url: "#rejected-alternatives"
+      - link "Consequences" [ref=e281] [cursor=pointer]:
+        - /url: "#consequences"
+  - contentinfo [ref=e282]:
+    - generic [ref=e283]:
+      - generic [ref=e284]:
+        - link "Agentica — Accueil" [ref=e285] [cursor=pointer]:
+          - /url: ../index.html
+          - img [ref=e286]
+        - link "Guilherme Negreiros" [ref=e287] [cursor=pointer]:
+          - /url: https://www.linkedin.com/in/gnegreiros/
+          - img [ref=e288]
+          - text: Guilherme Negreiros
+      - generic [ref=e292]:
+        - generic [ref=e293]: Navigation
+        - link "Home" [ref=e294] [cursor=pointer]:
+          - /url: ../index.html
+        - link "Why" [ref=e295] [cursor=pointer]:
+          - /url: ../pourquoi.html
+        - link "Architecture" [ref=e296] [cursor=pointer]:
+          - /url: ../architecture.html
+        - link "Quality" [ref=e297] [cursor=pointer]:
+          - /url: ../qualite.html
+        - link "AI" [ref=e298] [cursor=pointer]:
+          - /url: ../ia.html
+      - generic [ref=e299]:
+        - generic [ref=e300]: Documentation
+        - link "Understand" [ref=e301] [cursor=pointer]:
+          - /url: ../pourquoi.html
+        - link "Get started" [ref=e302] [cursor=pointer]:
+          - /url: ../get-started.html
+        - link "Foundations" [ref=e303] [cursor=pointer]:
+          - /url: ../foundations/index.html
+        - link "Components" [ref=e304] [cursor=pointer]:
+          - /url: ../components/index.html
+        - link "Tokens" [ref=e305] [cursor=pointer]:
+          - /url: ../tokens/index.html
+        - link "Decisions" [ref=e306] [cursor=pointer]:
+          - /url: ../decisions/index.html
+        - link "Continuity" [ref=e307] [cursor=pointer]:
+          - /url: ../continuite.html
+        - link "Changelog" [ref=e308] [cursor=pointer]:
+          - /url: ../changelog.html
+      - generic [ref=e309]:
+        - generic [ref=e310]: Explorer
+        - link "Storybook" [ref=e311] [cursor=pointer]:
+          - /url: https://main--6a1c1e665ec5fe8fc0540983.chromatic.com/
+        - link "GitHub" [ref=e312] [cursor=pointer]:
+          - /url: https://github.com/gnegreiros-ux/agentica-design-system
+        - link "Audit" [ref=e313] [cursor=pointer]:
+          - /url: ../audit.html
+        - link "AI Brief" [ref=e314] [cursor=pointer]:
+          - /url: ../ai-brief.html
+    - generic [ref=e315]:
+      - generic [ref=e316]: © 2026 Guilherme Negreiros
+      - generic [ref=e317]: Built with Claude Code.
+  - button "Retour en haut" [ref=e318] [cursor=pointer]:
+    - img [ref=e319]
+    - generic [ref=e321]: Top
+  - status [ref=e322]
+```
+
+# Test source
+
+```ts
+  1  | import { test, expect } from '@playwright/test';
+  2  | import fs from 'fs';
+  3  | import path from 'path';
+  4  | import { fileURLToPath } from 'url';
+  5  | 
+  6  | // English-only content policy (ADR-070/071/075). scripts/audit-language.js catches
+  7  | // French text left untranslated in source files, but it cannot catch a different bug
+  8  | // class: a page that IS correctly bilingual by design, where one data cell (a table
+  9  | // row, a nav link) is hardcoded as a single string instead of a lang-fr/lang-en pair
+  10 | // — so it never toggles and stays visibly French even with data-lang="en". That bug
+  11 | // is only visible by actually rendering the page (see the `ia.html` nav link and the
+  12 | // get-started.html Framework Integration table, both fixed 2026-07-18 this way — a
+  13 | // text-content scan alone would never have flagged them, since French prose is
+  14 | // expected to exist somewhere on those pages).
+  15 | //
+  16 | // This spec renders every generated page with data-lang="en" and reads the VISIBLE
+  17 | // text only (innerText, not textContent — innerText excludes anything hidden by the
+  18 | // site's `html[data-lang="en"] .lang-fr{display:none}` CSS rule, textContent would not).
+  19 | 
+  20 | const __dirname = path.dirname(fileURLToPath(import.meta.url));
+  21 | const DIST = path.resolve(__dirname, '../../site/dist');
+  22 | 
+  23 | // Same curated word list as scripts/audit-language.js — kept in sync by hand, see
+  24 | // that file's comment for why these specific words (no plausible English collision).
+  25 | const STOPWORD_RE = /\b(?:être|où|équipe|système|chemin|aucun|aucune|jamais|doivent|également|vérifier|toujours|avec|dans|sont|cette|ces)\b/;
+  26 | const ACCENT_RE = /[àâäéèêëïîôöùûüçÀÂÄÉÈÊËÏÎÔÖÙÛÜÇœŒ]/;
+  27 | 
+  28 | function listPages(dir, base = '') {
+  29 |   const pages = [];
+  30 |   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+  31 |     const rel = base ? `${base}/${entry.name}` : entry.name;
+  32 |     if (entry.isDirectory()) {
+  33 |       pages.push(...listPages(path.join(dir, entry.name), rel));
+  34 |     } else if (entry.name.endsWith('.html')) {
+  35 |       pages.push(rel);
+  36 |     }
+  37 |   }
+  38 |   return pages;
+  39 | }
+  40 | 
+  41 | const pages = fs.existsSync(DIST) ? listPages(DIST) : [];
+  42 | 
+  43 | // Content that IS French by design and correctly renders regardless of data-lang:
+  44 | // a verbatim historical quote, a literal field-label/filename being documented, a
+  45 | // bilingual inline code comment, a font glyph specimen. Narrow on purpose (page +
+  46 | // distinguishing substring) so a real regression on the same page still gets caught.
+  47 | // An HTML-comment marker (the source-file `lang-audit-ignore` convention used by
+  48 | // scripts/audit-language.js) doesn't work here — comments never reach innerText.
+  49 | const KNOWN_EXCEPTIONS = {
+  50 |   'agents/index.html': ['Interdit —'], // naming-rule code example: bilingual comment in one line, by design
+  51 |   'changelog.html': ['Domaine'], // quoting the literal GitHub Projects custom field name
+  52 |   'decisions/adr-030.html': ['Densité'], // historical bug quote (the bug this ADR fixed)
+  53 |   'decisions/adr-055.html': ['Copié', 'critères'], // quoting the site's bilingual UI strings
+  54 |   'decisions/adr-071.html': ['Décideurs', 'Mon intention', 'francophones', 'seulement en anglais'], // literal field-label quote + verbatim human quote
+  55 |   'decisions/adr-075.html': ['notre-demarche', 'synthèse', 'Synthèse'], // documenting the pre-rename French filenames (ADR-075)
+  56 |   'foundations/typography.html': ['Æ Ç É'], // Atkinson Hyperlegible glyph specimen — intentional
+  57 | };
+  58 | 
+  59 | test.describe('Language — English rendering has no French leftovers', () => {
+  60 |   test.skip(pages.length === 0, 'site/dist not built — run node site/build.js first');
+  61 | 
+  62 |   for (const pagePath of pages) {
+  63 |     test(`${pagePath} — clean in English mode`, async ({ page }) => {
+  64 |       await page.goto(`/${pagePath}?lang=en`);
+  65 |       await page.waitForLoadState('networkidle');
+  66 | 
+  67 |       const visibleText = await page.evaluate(() => document.body.innerText);
+  68 |       const exceptions = KNOWN_EXCEPTIONS[pagePath] || [];
+  69 |       const hits = [];
+  70 |       visibleText.split('\n').forEach((line, idx) => {
+  71 |         if (exceptions.some(ex => line.includes(ex))) return;
+  72 |         const match = line.match(ACCENT_RE) || line.match(STOPWORD_RE);
+  73 |         if (match) hits.push(`  line ${idx + 1}: "${match[0]}" in "${line.trim().slice(0, 100)}"`);
+  74 |       });
+  75 | 
+> 76 |       expect(hits, `French content visible in ${pagePath} with data-lang=en:\n${hits.join('\n')}`).toEqual([]);
+     |                                                                                                    ^ Error: French content visible in decisions/adr-089.html with data-lang=en:
+  77 |     });
+  78 |   }
+  79 | });
+  80 | 
+```

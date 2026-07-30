@@ -1,0 +1,620 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: visual/components/all-components.spec.js >> input — visual regressions >> page input — dark
+- Location: tests/visual/components/all-components.spec.js:13:7
+
+# Error details
+
+```
+Error: expect(page).toHaveScreenshot(expected) failed
+
+  Expected an image 1280px by 5668px, received 1280px by 5582px. 245461 pixels (ratio 0.04 of all image pixels) are different.
+
+  Snapshot: input-dark.png
+
+Call log:
+  - Expect "toHaveScreenshot(input-dark.png)" with timeout 5000ms
+    - verifying given screenshot expectation
+  - taking page screenshot
+    - disabled all CSS animations
+  - waiting for fonts to load...
+  - fonts loaded
+  - Expected an image 1280px by 5668px, received 1280px by 5582px. 245461 pixels (ratio 0.04 of all image pixels) are different.
+  - waiting 100ms before taking screenshot
+  - taking page screenshot
+    - disabled all CSS animations
+  - waiting for fonts to load...
+  - fonts loaded
+  - captured a stable screenshot
+  - Expected an image 1280px by 5668px, received 1280px by 5582px. 245461 pixels (ratio 0.04 of all image pixels) are different.
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=e3]:
+    - link "Agentica — Accueil" [ref=e4] [cursor=pointer]:
+      - /url: ../index.html
+      - img "Agentica" [ref=e5]
+    - navigation "Navigation principale" [ref=e6]:
+      - link "Home" [ref=e7] [cursor=pointer]:
+        - /url: ../index.html
+      - link "Why" [ref=e8] [cursor=pointer]:
+        - /url: ../pourquoi.html
+      - link "Architecture" [ref=e9] [cursor=pointer]:
+        - /url: ../architecture.html
+      - link "Quality" [ref=e10] [cursor=pointer]:
+        - /url: ../qualite.html
+      - link "AI" [ref=e11] [cursor=pointer]:
+        - /url: ../ia.html
+      - generic [ref=e12]:
+        - link "Documentation" [ref=e13] [cursor=pointer]:
+          - /url: ../documentation.html
+        - generic:
+          - generic:
+            - heading "Understand" [level=2]
+            - link "Introduction":
+              - /url: ../pourquoi.html
+            - link "Foundations":
+              - /url: ../foundations/index.html
+            - link "Human control":
+              - /url: ../ia.html
+            - link "Single source of truth":
+              - /url: ../architecture.html
+          - generic:
+            - heading "Reference" [level=2]
+            - link "Foundations":
+              - /url: ../foundations/index.html
+            - link "Components":
+              - /url: ../components/index.html
+            - link "Tokens":
+              - /url: ../tokens/index.html
+            - link "Decisions":
+              - /url: ../decisions/index.html
+            - link "Agents":
+              - /url: ../agents/index.html
+            - link "Pipelines":
+              - /url: ../pipelines/index.html
+            - link "Continuity":
+              - /url: ../continuite.html
+          - generic:
+            - heading "Explore" [level=2]
+            - link "Storybook":
+              - /url: https://main--6a1c1e665ec5fe8fc0540983.chromatic.com/
+            - link "GitHub":
+              - /url: https://github.com/gnegreiros-ux/agentica-design-system
+            - link "Audit":
+              - /url: ../audit.html
+      - link "Get started" [ref=e14] [cursor=pointer]:
+        - /url: ../get-started.html
+    - generic "Liens rapides" [ref=e15]:
+      - button "Basculer thème sombre / Switch to dark theme" [ref=e16] [cursor=pointer]:
+        - img [ref=e17]
+      - group "Language" [ref=e19]:
+        - button "FR" [ref=e20] [cursor=pointer]
+        - button "EN" [ref=e21] [cursor=pointer]
+      - link "Storybook — Catalogue interactif des composants" [ref=e22] [cursor=pointer]:
+        - /url: https://main--6a1c1e665ec5fe8fc0540983.chromatic.com/
+        - img [ref=e23]
+      - link "GitHub — Code source du projet" [ref=e25] [cursor=pointer]:
+        - /url: https://github.com/gnegreiros-ux/agentica-design-system
+        - img [ref=e26]
+  - generic [ref=e29]:
+    - navigation "Secondary navigation / Navigation secondaire" [ref=e30]:
+      - generic [ref=e31]:
+        - generic [ref=e32]: Components
+        - link "Overview" [ref=e33] [cursor=pointer]:
+          - /url: ../components/index.html
+        - link "Button" [ref=e34] [cursor=pointer]:
+          - /url: ../components/button.html
+        - link "Icon" [ref=e35] [cursor=pointer]:
+          - /url: ../components/icon.html
+        - link "Input" [ref=e36] [cursor=pointer]:
+          - /url: ../components/input.html
+        - link "Badge" [ref=e37] [cursor=pointer]:
+          - /url: ../components/badge.html
+        - link "Image" [ref=e38] [cursor=pointer]:
+          - /url: ../components/image.html
+        - link "Card" [ref=e39] [cursor=pointer]:
+          - /url: ../components/card.html
+        - link "Checkbox" [ref=e40] [cursor=pointer]:
+          - /url: ../components/checkbox.html
+        - link "Radio" [ref=e41] [cursor=pointer]:
+          - /url: ../components/radio.html
+        - link "Toggle" [ref=e42] [cursor=pointer]:
+          - /url: ../components/toggle.html
+        - link "Table" [ref=e43] [cursor=pointer]:
+          - /url: ../components/table.html
+        - link "Code Block" [ref=e44] [cursor=pointer]:
+          - /url: ../components/code-block.html
+        - link "Banner" [ref=e45] [cursor=pointer]:
+          - /url: ../components/banner.html
+        - link "Link" [ref=e46] [cursor=pointer]:
+          - /url: ../components/link.html
+        - link "Segmented" [ref=e47] [cursor=pointer]:
+          - /url: ../components/segmented.html
+        - link "Tabs" [ref=e48] [cursor=pointer]:
+          - /url: ../components/tabs.html
+    - main [ref=e49]:
+      - heading "Input" [level=1] [ref=e50]
+      - paragraph [ref=e51]: Data entry with required label, 7 types, hybrid icons, and accessible error handling. The label is non-negotiable — an input without a label is inaccessible (WCAG 1.3.1).
+      - heading "States" [level=2] [ref=e52]
+      - generic [ref=e53]:
+        - generic [ref=e54]:
+          - generic [ref=e55]: Default
+          - generic [ref=e57]:
+            - generic [ref=e58]: Full name
+            - textbox "Full name" [ref=e59]:
+              - /placeholder: Jean Dupont
+            - generic [ref=e60]: As it appears on your official document.
+        - generic [ref=e61]:
+          - generic [ref=e62]: Error
+          - generic [ref=e64]:
+            - generic [ref=e65]: Email address
+            - textbox "Email address" [ref=e66]: jean@
+            - alert [ref=e67]: Invalid email format.
+        - generic [ref=e68]:
+          - generic [ref=e69]: Disabled
+          - generic [ref=e71]:
+            - generic [ref=e72]: Access code
+            - textbox "Access code" [disabled] [ref=e73]: ••••••
+      - heading "Absolute rules" [level=2] [ref=e74]
+      - list [ref=e75]:
+        - listitem [ref=e76]:
+          - img [ref=e78]
+          - generic [ref=e81]:
+            - text: Always provide
+            - code [ref=e82]: label="…"
+            - text: — never placeholder alone (WCAG 1.3.1)
+        - listitem [ref=e83]:
+          - img [ref=e85]
+          - generic [ref=e88]:
+            - text: Use
+            - code [ref=e89]: invalid
+            - text: +
+            - code [ref=e90]: error-message
+            - text: together — the error must be explained
+        - listitem [ref=e91]:
+          - img [ref=e93]
+          - generic [ref=e96]:
+            - text: Visible focus is on the
+            - code [ref=e97]: .control
+            - text: wrapper — keyboard and pointer covered
+        - listitem [ref=e98]:
+          - img [ref=e100]
+          - text: Never an input without label — console warning + WCAG 1.3.1 violation
+        - listitem [ref=e104]:
+          - img [ref=e106]
+          - text: Never hardcoded values or spacing
+      - heading "Component tokens" [level=2] [ref=e110]
+      - table [ref=e112]:
+        - rowgroup [ref=e117]:
+          - row "Token CSS Semantic reference Resolved value" [ref=e118]:
+            - columnheader "Token CSS" [ref=e119]
+            - columnheader "Semantic reference" [ref=e120]
+            - columnheader "Resolved value" [ref=e121]
+        - rowgroup [ref=e122]:
+          - 'row "--agtc-component-input-default-background semantic.color.background.surface #ffffff" [ref=e123]':
+            - cell "--agtc-component-input-default-background" [ref=e124]:
+              - code [ref=e125]: "--agtc-component-input-default-background"
+            - cell "semantic.color.background.surface" [ref=e126]:
+              - code [ref=e127]: semantic.color.background.surface
+            - cell "#ffffff" [ref=e128]
+          - 'row "--agtc-component-input-default-border semantic.color.border.default #e8e8e8" [ref=e129]':
+            - cell "--agtc-component-input-default-border" [ref=e130]:
+              - code [ref=e131]: "--agtc-component-input-default-border"
+            - cell "semantic.color.border.default" [ref=e132]:
+              - code [ref=e133]: semantic.color.border.default
+            - cell "#e8e8e8" [ref=e134]
+          - 'row "--agtc-component-input-default-border-focus semantic.color.border.focus #007a68" [ref=e135]':
+            - cell "--agtc-component-input-default-border-focus" [ref=e136]:
+              - code [ref=e137]: "--agtc-component-input-default-border-focus"
+            - cell "semantic.color.border.focus" [ref=e138]:
+              - code [ref=e139]: semantic.color.border.focus
+            - cell "#007a68" [ref=e140]
+          - 'row "--agtc-component-input-default-border-error semantic.color.border.danger #ce2c31" [ref=e141]':
+            - cell "--agtc-component-input-default-border-error" [ref=e142]:
+              - code [ref=e143]: "--agtc-component-input-default-border-error"
+            - cell "semantic.color.border.danger" [ref=e144]:
+              - code [ref=e145]: semantic.color.border.danger
+            - cell "#ce2c31" [ref=e146]
+          - 'row "--agtc-component-input-default-text semantic.color.text.primary #202020" [ref=e147]':
+            - cell "--agtc-component-input-default-text" [ref=e148]:
+              - code [ref=e149]: "--agtc-component-input-default-text"
+            - cell "semantic.color.text.primary" [ref=e150]:
+              - code [ref=e151]: semantic.color.text.primary
+            - cell "#202020" [ref=e152]
+          - 'row "--agtc-component-input-default-placeholder semantic.color.text.secondary #646464" [ref=e153]':
+            - cell "--agtc-component-input-default-placeholder" [ref=e154]:
+              - code [ref=e155]: "--agtc-component-input-default-placeholder"
+            - cell "semantic.color.text.secondary" [ref=e156]:
+              - code [ref=e157]: semantic.color.text.secondary
+            - cell "#646464" [ref=e158]
+          - row "--agtc-component-input-default-radius semantic.radius.control 6px" [ref=e159]:
+            - cell "--agtc-component-input-default-radius" [ref=e160]:
+              - code [ref=e161]: "--agtc-component-input-default-radius"
+            - cell "semantic.radius.control" [ref=e162]:
+              - code [ref=e163]: semantic.radius.control
+            - cell "6px" [ref=e164]
+          - row "--agtc-component-input-default-padding-x semantic.space.control.padding-x 16px" [ref=e165]:
+            - cell "--agtc-component-input-default-padding-x" [ref=e166]:
+              - code [ref=e167]: "--agtc-component-input-default-padding-x"
+            - cell "semantic.space.control.padding-x" [ref=e168]:
+              - code [ref=e169]: semantic.space.control.padding-x
+            - cell "16px" [ref=e170]
+          - row "--agtc-component-input-default-padding-y semantic.space.control.padding-y 8px" [ref=e171]:
+            - cell "--agtc-component-input-default-padding-y" [ref=e172]:
+              - code [ref=e173]: "--agtc-component-input-default-padding-y"
+            - cell "semantic.space.control.padding-y" [ref=e174]:
+              - code [ref=e175]: semantic.space.control.padding-y
+            - cell "8px" [ref=e176]
+      - heading "Supported types" [level=2] [ref=e177]
+      - table [ref=e179]:
+        - rowgroup [ref=e180]:
+          - row "Type Usage Note" [ref=e181]:
+            - columnheader "Type" [ref=e182]
+            - columnheader "Usage" [ref=e183]
+            - columnheader "Note" [ref=e184]
+        - rowgroup [ref=e185]:
+          - row "text Free text Default" [ref=e186]:
+            - cell "text" [ref=e187]:
+              - code [ref=e188]: text
+            - cell "Free text" [ref=e189]
+            - cell "Default" [ref=e190]
+          - row "email Email address Native validation" [ref=e191]:
+            - cell "email" [ref=e192]:
+              - code [ref=e193]: email
+            - cell "Email address" [ref=e194]
+            - cell "Native validation" [ref=e195]
+          - row "password Password Built-in show/hide toggle" [ref=e196]:
+            - cell "password" [ref=e197]:
+              - code [ref=e198]: password
+            - cell "Password" [ref=e199]
+            - cell "Built-in show/hide toggle" [ref=e200]
+          - row "number Numeric value Spinners removed" [ref=e201]:
+            - cell "number" [ref=e202]:
+              - code [ref=e203]: number
+            - cell "Numeric value" [ref=e204]
+            - cell "Spinners removed" [ref=e205]
+          - row "search Search —" [ref=e206]:
+            - cell "search" [ref=e207]:
+              - code [ref=e208]: search
+            - cell "Search" [ref=e209]
+            - cell "—" [ref=e210]
+          - row "tel Phone —" [ref=e211]:
+            - cell "tel" [ref=e212]:
+              - code [ref=e213]: tel
+            - cell "Phone" [ref=e214]
+            - cell "—" [ref=e215]
+          - row "url URL Native validation" [ref=e216]:
+            - cell "url" [ref=e217]:
+              - code [ref=e218]: url
+            - cell "URL" [ref=e219]
+            - cell "Native validation" [ref=e220]
+      - heading "Accessibility" [level=2] [ref=e221]
+      - list [ref=e222]:
+        - listitem [ref=e223]:
+          - generic [ref=e224]:
+            - code [ref=e225]: label
+            - text: linked via
+            - code [ref=e226]: for
+            - text: /
+            - code [ref=e227]: id
+            - text: — never
+            - code [ref=e228]: aria-label
+            - text: alone on input
+        - listitem [ref=e229]:
+          - generic [ref=e230]:
+            - code [ref=e231]: aria-invalid="true"
+            - text: +
+            - code [ref=e232]: role="alert"
+            - text: on error-message
+        - listitem [ref=e233]:
+          - generic [ref=e234]:
+            - code [ref=e235]: aria-describedby
+            - text: links helper-text and error-message to the input
+        - listitem [ref=e236]:
+          - generic [ref=e237]:
+            - code [ref=e238]: password
+            - text: "type: toggle"
+            - code [ref=e239]: aria-label
+            - text: changes dynamically
+        - listitem [ref=e240]:
+          - generic [ref=e241]:
+            - text: "Required field:"
+            - code [ref=e242]: aria-required="true"
+            - text: + visual
+            - code [ref=e243]: "*"
+            - text: marker
+      - heading "Implementation" [level=2] [ref=e244]
+      - generic [ref=e245]:
+        - code [ref=e246]: <!-- Basique --> <agtc-input label=" Full name" name="fullname"></agtc-input> <!-- Avec aide et erreur --> <agtc-input label=" Email address" type="email" helper-text=" Used for notifications" invalid error-message=" Invalid format" ></agtc-input> <!-- Password with built-in toggle --> <agtc-input label=" Password" type="password" required></agtc-input> <!-- With icon --> <agtc-input label=" Search" type="search" icon="search"></agtc-input>
+        - generic [ref=e247]: html
+        - button "Copy code (html)" [ref=e248] [cursor=pointer]: Copy
+      - heading "DOs and DON'Ts" [level=2] [ref=e249]
+      - generic [ref=e250]:
+        - generic [ref=e251]:
+          - heading "Do" [level=3] [ref=e252]:
+            - img [ref=e253]
+            - text: Do
+          - list [ref=e256]:
+            - listitem [ref=e257]:
+              - generic [ref=e258]:
+                - text: Always provide
+                - code [ref=e259]: label
+                - text: with descriptive text
+            - listitem [ref=e260]:
+              - generic [ref=e261]:
+                - text: Use
+                - code [ref=e262]: helper-text
+                - text: for format constraints
+            - listitem [ref=e263]:
+              - generic [ref=e264]:
+                - text: Pair
+                - code [ref=e265]: invalid
+                - text: +
+                - code [ref=e266]: error-message
+                - text: — never one without the other
+            - listitem [ref=e267]:
+              - generic [ref=e268]:
+                - text: Use
+                - code [ref=e269]: required
+                - text: for mandatory fields
+        - generic [ref=e270]:
+          - heading "Don't" [level=3] [ref=e271]:
+            - img [ref=e272]
+            - text: Don't
+          - list [ref=e276]:
+            - listitem [ref=e277]:
+              - generic [ref=e278]:
+                - text: Input without
+                - code [ref=e279]: label
+                - text: — inaccessible
+            - listitem [ref=e280]: Placeholder as sole label — disappears on input
+            - listitem [ref=e281]:
+              - generic [ref=e282]:
+                - code [ref=e283]: invalid
+                - text: without
+                - code [ref=e284]: error-message
+                - text: — error without explanation
+            - listitem [ref=e285]: Inline styles on the field
+      - heading "UX Patterns Reference" [level=2] [ref=e286]
+      - blockquote [ref=e287]:
+        - paragraph [ref=e288]:
+          - text: Patterns approved by the Design System Lead via the
+          - code [ref=e289]: ux-pattern-review
+          - text: workflow (see
+          - code [ref=e290]: .claude/rules/ux-patterns-sources.md
+          - text: "and ADR-036). Decision:"
+          - strong [ref=e291]: all approved
+          - text: .
+      - table [ref=e293]:
+        - rowgroup [ref=e294]:
+          - row "Pattern Source Applied Justification" [ref=e295]:
+            - columnheader "Pattern" [ref=e296]
+            - columnheader "Source" [ref=e297]
+            - columnheader "Applied" [ref=e298]
+            - columnheader "Justification" [ref=e299]
+        - rowgroup [ref=e300]:
+          - row "Visible label always present (never placeholder alone) NN/g ✅ WCAG 1.3.1 — label required" [ref=e301]:
+            - cell "Visible label always present (never placeholder alone)" [ref=e302]
+            - cell "NN/g" [ref=e303]:
+              - link "NN/g" [ref=e304] [cursor=pointer]:
+                - /url: https://www.nngroup.com/articles/design-pattern-guidelines/
+            - cell "✅" [ref=e305]
+            - cell "WCAG 1.3.1 — label required" [ref=e306]:
+              - text: WCAG 1.3.1 —
+              - code [ref=e307]: label
+              - text: required
+          - row "Validation on blur (onBlur) by default NN/g — Forms · IxDF ✅ Don't flag an error during the initial keystrokes" [ref=e308]:
+            - cell "Validation on blur (onBlur) by default" [ref=e309]:
+              - strong [ref=e310]:
+                - text: Validation on blur (
+                - code [ref=e311]: onBlur
+                - text: )
+              - text: by default
+            - cell "NN/g — Forms · IxDF" [ref=e312]:
+              - link "NN/g — Forms" [ref=e313] [cursor=pointer]:
+                - /url: https://www.nngroup.com/articles/design-pattern-guidelines/
+              - text: ·
+              - link "IxDF" [ref=e314] [cursor=pointer]:
+                - /url: https://ixdf.org/literature/topics/ui-design-patterns
+            - cell "✅" [ref=e315]
+            - cell "Don't flag an error during the initial keystrokes" [ref=e316]
+          - row "Re-validation on keystroke once a field is in error NN/g — How to Report Errors in Forms ✅ Reward the correction immediately" [ref=e317]:
+            - cell "Re-validation on keystroke once a field is in error" [ref=e318]:
+              - strong [ref=e319]: Re-validation on keystroke once a field is in error
+            - cell "NN/g — How to Report Errors in Forms" [ref=e320]:
+              - link "NN/g — How to Report Errors in Forms" [ref=e321] [cursor=pointer]:
+                - /url: https://www.nngroup.com/articles/design-pattern-guidelines/
+            - cell "✅" [ref=e322]
+            - cell "Reward the correction immediately" [ref=e323]
+          - row "Inline error under the field + role=\"alert\" NN/g — Error-Message Guidelines ✅ Localized error, announced to AT" [ref=e324]:
+            - cell "Inline error under the field + role=\"alert\"" [ref=e325]:
+              - text: Inline error under the field +
+              - code [ref=e326]: role="alert"
+            - cell "NN/g — Error-Message Guidelines" [ref=e327]:
+              - link "NN/g — Error-Message Guidelines" [ref=e328] [cursor=pointer]:
+                - /url: https://www.nngroup.com/articles/design-pattern-guidelines/
+            - cell "✅" [ref=e329]
+            - cell "Localized error, announced to AT" [ref=e330]
+          - row "Constructive error message (states what to fix) NN/g — Error-Message Guidelines ✅ error-message writing rule" [ref=e331]:
+            - cell "Constructive error message (states what to fix)" [ref=e332]
+            - cell "NN/g — Error-Message Guidelines" [ref=e333]:
+              - link "NN/g — Error-Message Guidelines" [ref=e334] [cursor=pointer]:
+                - /url: https://www.nngroup.com/articles/design-pattern-guidelines/
+            - cell "✅" [ref=e335]
+            - cell "error-message writing rule" [ref=e336]:
+              - code [ref=e337]: error-message
+              - text: writing rule
+          - row "Persistent help text, distinct from the error, aria-describedby NN/g ✅ helper-text linked via aria-describedby" [ref=e338]:
+            - cell "Persistent help text, distinct from the error, aria-describedby" [ref=e339]:
+              - text: Persistent help text, distinct from the error,
+              - code [ref=e340]: aria-describedby
+            - cell "NN/g" [ref=e341]:
+              - link "NN/g" [ref=e342] [cursor=pointer]:
+                - /url: https://www.nngroup.com/articles/design-pattern-guidelines/
+            - cell "✅" [ref=e343]
+            - cell "helper-text linked via aria-describedby" [ref=e344]:
+              - code [ref=e345]: helper-text
+              - text: linked via
+              - code [ref=e346]: aria-describedby
+          - row "Required marker * + aria-required NN/g — Forms ✅ Required field flagged visually and to AT" [ref=e347]:
+            - cell "Required marker * + aria-required" [ref=e348]:
+              - text: Required marker
+              - code [ref=e349]: "*"
+              - text: +
+              - code [ref=e350]: aria-required
+            - cell "NN/g — Forms" [ref=e351]:
+              - link "NN/g — Forms" [ref=e352] [cursor=pointer]:
+                - /url: https://www.nngroup.com/articles/design-pattern-guidelines/
+            - cell "✅" [ref=e353]
+            - cell "Required field flagged visually and to AT" [ref=e354]
+          - 'row "Forgiving format (tolerate spaces/formats: tel, number) IxDF — forgiving formats ✅ Reduces input errors" [ref=e355]':
+            - 'cell "Forgiving format (tolerate spaces/formats: tel, number)" [ref=e356]':
+              - text: "Forgiving format (tolerate spaces/formats:"
+              - code [ref=e357]: tel
+              - text: ","
+              - code [ref=e358]: number
+              - text: )
+            - cell "IxDF — forgiving formats" [ref=e359]:
+              - link "IxDF — forgiving formats" [ref=e360] [cursor=pointer]:
+                - /url: https://ixdf.org/literature/topics/ui-design-patterns
+            - cell "✅" [ref=e361]
+            - cell "Reduces input errors" [ref=e362]
+          - row "Avoid hostile patterns (no aggressive blocking, no clearing an errored field) NN/g — Hostile Patterns in Error Messages ✅ Anti-dark-pattern" [ref=e363]:
+            - cell "Avoid hostile patterns (no aggressive blocking, no clearing an errored field)" [ref=e364]
+            - cell "NN/g — Hostile Patterns in Error Messages" [ref=e365]:
+              - link "NN/g — Hostile Patterns in Error Messages" [ref=e366] [cursor=pointer]:
+                - /url: https://www.nngroup.com/articles/design-pattern-guidelines/
+            - cell "✅" [ref=e367]
+            - cell "Anti-dark-pattern" [ref=e368]
+      - paragraph [ref=e369]:
+        - strong [ref=e370]: "Validation contract (synthesis of patterns 2 + 3):"
+        - text: validate on
+        - code [ref=e371]: onBlur
+        - text: ", then re-validate on every keystroke while the field is in an error state. Never validate on the first keystroke."
+      - generic [ref=e372]:
+        - img [ref=e374]
+        - generic [ref=e377]:
+          - strong [ref=e378]: Contribute to this project
+          - paragraph [ref=e379]: This system welcomes contributions — tokens, components, architectural decisions, accessibility fixes, or documentation. Every improvement counts.
+        - link "View on GitHub" [ref=e380] [cursor=pointer]:
+          - /url: https://github.com/gnegreiros-ux/agentica-design-system
+          - generic [ref=e381]: View on GitHub
+    - navigation "Table of contents / Table des matières" [ref=e382]:
+      - generic [ref=e383]: On this page
+      - link "States" [ref=e384] [cursor=pointer]:
+        - /url: "#etats"
+      - link "Absolute rules" [ref=e385] [cursor=pointer]:
+        - /url: "#regles-absolues"
+      - link "Component tokens" [ref=e386] [cursor=pointer]:
+        - /url: "#tokens-de-composant"
+      - link "Supported types" [ref=e387] [cursor=pointer]:
+        - /url: "#types-supportes"
+      - link "Accessibility" [ref=e388] [cursor=pointer]:
+        - /url: "#accessibilite"
+      - link "Implementation" [ref=e389] [cursor=pointer]:
+        - /url: "#implementation"
+      - link "DOs and DON'Ts" [ref=e390] [cursor=pointer]:
+        - /url: "#dos-et-don-ts"
+      - link "UX Patterns Reference" [ref=e391] [cursor=pointer]:
+        - /url: "#ux-patterns-reference"
+  - contentinfo [ref=e392]:
+    - generic [ref=e393]:
+      - generic [ref=e394]:
+        - link "Agentica — Accueil" [ref=e395] [cursor=pointer]:
+          - /url: ../index.html
+          - img "Agentica" [ref=e396]
+        - link "Guilherme Negreiros" [ref=e397] [cursor=pointer]:
+          - /url: https://www.linkedin.com/in/gnegreiros/
+          - img [ref=e398]
+          - text: Guilherme Negreiros
+      - generic [ref=e402]:
+        - generic [ref=e403]: Navigation
+        - link "Home" [ref=e404] [cursor=pointer]:
+          - /url: ../index.html
+        - link "Why" [ref=e405] [cursor=pointer]:
+          - /url: ../pourquoi.html
+        - link "Architecture" [ref=e406] [cursor=pointer]:
+          - /url: ../architecture.html
+        - link "Quality" [ref=e407] [cursor=pointer]:
+          - /url: ../qualite.html
+        - link "AI" [ref=e408] [cursor=pointer]:
+          - /url: ../ia.html
+      - generic [ref=e409]:
+        - generic [ref=e410]: Documentation
+        - link "Understand" [ref=e411] [cursor=pointer]:
+          - /url: ../pourquoi.html
+        - link "Get started" [ref=e412] [cursor=pointer]:
+          - /url: ../get-started.html
+        - link "Foundations" [ref=e413] [cursor=pointer]:
+          - /url: ../foundations/index.html
+        - link "Components" [ref=e414] [cursor=pointer]:
+          - /url: ../components/index.html
+        - link "Tokens" [ref=e415] [cursor=pointer]:
+          - /url: ../tokens/index.html
+        - link "Decisions" [ref=e416] [cursor=pointer]:
+          - /url: ../decisions/index.html
+        - link "Continuity" [ref=e417] [cursor=pointer]:
+          - /url: ../continuite.html
+        - link "Changelog" [ref=e418] [cursor=pointer]:
+          - /url: ../changelog.html
+      - generic [ref=e419]:
+        - generic [ref=e420]: Explorer
+        - link "Storybook" [ref=e421] [cursor=pointer]:
+          - /url: https://main--6a1c1e665ec5fe8fc0540983.chromatic.com/
+        - link "GitHub" [ref=e422] [cursor=pointer]:
+          - /url: https://github.com/gnegreiros-ux/agentica-design-system
+        - link "Audit" [ref=e423] [cursor=pointer]:
+          - /url: ../audit.html
+        - link "AI Brief" [ref=e424] [cursor=pointer]:
+          - /url: ../ai-brief.html
+    - generic [ref=e425]:
+      - generic [ref=e426]: © 2026 Guilherme Negreiros
+      - generic [ref=e427]: Built with Claude Code.
+  - button "Retour en haut" [ref=e428] [cursor=pointer]:
+    - img [ref=e429]
+    - generic [ref=e431]: Top
+  - status [ref=e432]
+```
+
+# Test source
+
+```ts
+  1  | import { test, expect } from '@playwright/test';
+  2  | 
+  3  | // Visual regressions for every component page (except button.html, already covered)
+  4  | const PAGES = [
+  5  |   'badge', 'banner', 'card', 'checkbox', 'code-block',
+  6  |   'icon', 'input', 'link', 'radio', 'segmented',
+  7  |   'table', 'tabs', 'toggle',
+  8  | ];
+  9  | 
+  10 | for (const name of PAGES) {
+  11 |   test.describe(`${name} — visual regressions`, () => {
+  12 |     for (const theme of ['light', 'dark']) {
+  13 |       test(`page ${name} — ${theme}`, async ({ page }) => {
+  14 |         await page.goto(`/components/${name}.html`);
+  15 |         await page.waitForLoadState('networkidle');
+  16 |         await page.evaluate((t) =>
+  17 |           document.documentElement.setAttribute('data-theme', t), theme
+  18 |         );
+> 19 |         await expect(page).toHaveScreenshot(`${name}-${theme}.png`, { fullPage: true });
+     |                            ^ Error: expect(page).toHaveScreenshot(expected) failed
+  20 |       });
+  21 |     }
+  22 |   });
+  23 | }
+  24 | 
+```

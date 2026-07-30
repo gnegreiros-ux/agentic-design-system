@@ -1,0 +1,535 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: visual/components/all-components.spec.js >> card — visual regressions >> page card — light
+- Location: tests/visual/components/all-components.spec.js:13:7
+
+# Error details
+
+```
+Error: expect(page).toHaveScreenshot(expected) failed
+
+  Expected an image 1280px by 5468px, received 1280px by 5378px. 237452 pixels (ratio 0.04 of all image pixels) are different.
+
+  Snapshot: card-light.png
+
+Call log:
+  - Expect "toHaveScreenshot(card-light.png)" with timeout 5000ms
+    - verifying given screenshot expectation
+  - taking page screenshot
+    - disabled all CSS animations
+  - waiting for fonts to load...
+  - fonts loaded
+  - Expected an image 1280px by 5468px, received 1280px by 5378px. 237452 pixels (ratio 0.04 of all image pixels) are different.
+  - waiting 100ms before taking screenshot
+  - taking page screenshot
+    - disabled all CSS animations
+  - waiting for fonts to load...
+  - fonts loaded
+  - captured a stable screenshot
+  - Expected an image 1280px by 5468px, received 1280px by 5378px. 237452 pixels (ratio 0.04 of all image pixels) are different.
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=e3]:
+    - link "Agentica — Accueil" [ref=e4] [cursor=pointer]:
+      - /url: ../index.html
+      - img [ref=e5]
+    - navigation "Navigation principale" [ref=e6]:
+      - link "Home" [ref=e7] [cursor=pointer]:
+        - /url: ../index.html
+      - link "Why" [ref=e8] [cursor=pointer]:
+        - /url: ../pourquoi.html
+      - link "Architecture" [ref=e9] [cursor=pointer]:
+        - /url: ../architecture.html
+      - link "Quality" [ref=e10] [cursor=pointer]:
+        - /url: ../qualite.html
+      - link "AI" [ref=e11] [cursor=pointer]:
+        - /url: ../ia.html
+      - generic [ref=e12]:
+        - link "Documentation" [ref=e13] [cursor=pointer]:
+          - /url: ../documentation.html
+        - generic:
+          - generic:
+            - heading "Understand" [level=2]
+            - link "Introduction":
+              - /url: ../pourquoi.html
+            - link "Foundations":
+              - /url: ../foundations/index.html
+            - link "Human control":
+              - /url: ../ia.html
+            - link "Single source of truth":
+              - /url: ../architecture.html
+          - generic:
+            - heading "Reference" [level=2]
+            - link "Foundations":
+              - /url: ../foundations/index.html
+            - link "Components":
+              - /url: ../components/index.html
+            - link "Tokens":
+              - /url: ../tokens/index.html
+            - link "Decisions":
+              - /url: ../decisions/index.html
+            - link "Agents":
+              - /url: ../agents/index.html
+            - link "Pipelines":
+              - /url: ../pipelines/index.html
+            - link "Continuity":
+              - /url: ../continuite.html
+          - generic:
+            - heading "Explore" [level=2]
+            - link "Storybook":
+              - /url: https://main--6a1c1e665ec5fe8fc0540983.chromatic.com/
+            - link "GitHub":
+              - /url: https://github.com/gnegreiros-ux/agentica-design-system
+            - link "Audit":
+              - /url: ../audit.html
+      - link "Get started" [ref=e14] [cursor=pointer]:
+        - /url: ../get-started.html
+    - generic "Liens rapides" [ref=e15]:
+      - button "Basculer thème sombre / Switch to dark theme" [ref=e16] [cursor=pointer]:
+        - img [ref=e17]
+      - group "Language" [ref=e20]:
+        - button "FR" [ref=e21] [cursor=pointer]
+        - button "EN" [ref=e22] [cursor=pointer]
+      - link "Storybook — Catalogue interactif des composants" [ref=e23] [cursor=pointer]:
+        - /url: https://main--6a1c1e665ec5fe8fc0540983.chromatic.com/
+        - img [ref=e24]
+      - link "GitHub — Code source du projet" [ref=e26] [cursor=pointer]:
+        - /url: https://github.com/gnegreiros-ux/agentica-design-system
+        - img [ref=e27]
+  - generic [ref=e30]:
+    - navigation "Secondary navigation / Navigation secondaire" [ref=e31]:
+      - generic [ref=e32]:
+        - generic [ref=e33]: Components
+        - link "Overview" [ref=e34] [cursor=pointer]:
+          - /url: ../components/index.html
+        - link "Button" [ref=e35] [cursor=pointer]:
+          - /url: ../components/button.html
+        - link "Icon" [ref=e36] [cursor=pointer]:
+          - /url: ../components/icon.html
+        - link "Input" [ref=e37] [cursor=pointer]:
+          - /url: ../components/input.html
+        - link "Badge" [ref=e38] [cursor=pointer]:
+          - /url: ../components/badge.html
+        - link "Image" [ref=e39] [cursor=pointer]:
+          - /url: ../components/image.html
+        - link "Card" [ref=e40] [cursor=pointer]:
+          - /url: ../components/card.html
+        - link "Checkbox" [ref=e41] [cursor=pointer]:
+          - /url: ../components/checkbox.html
+        - link "Radio" [ref=e42] [cursor=pointer]:
+          - /url: ../components/radio.html
+        - link "Toggle" [ref=e43] [cursor=pointer]:
+          - /url: ../components/toggle.html
+        - link "Table" [ref=e44] [cursor=pointer]:
+          - /url: ../components/table.html
+        - link "Code Block" [ref=e45] [cursor=pointer]:
+          - /url: ../components/code-block.html
+        - link "Banner" [ref=e46] [cursor=pointer]:
+          - /url: ../components/banner.html
+        - link "Link" [ref=e47] [cursor=pointer]:
+          - /url: ../components/link.html
+        - link "Segmented" [ref=e48] [cursor=pointer]:
+          - /url: ../components/segmented.html
+        - link "Tabs" [ref=e49] [cursor=pointer]:
+          - /url: ../components/tabs.html
+    - main [ref=e50]:
+      - heading "Card" [level=1] [ref=e51]
+      - paragraph [ref=e52]: Visual container for grouping related information. 3 variants, 4 paddings, header/body/footer slots with automatic separators. Non-interactive by default.
+      - heading "Variants" [level=2] [ref=e53]
+      - generic [ref=e55]:
+        - generic [ref=e56]: Three variants
+        - generic [ref=e57]:
+          - generic [ref=e58]:
+            - strong [ref=e59]: default
+            - generic [ref=e60]: Thin border, general use.
+          - generic [ref=e61]:
+            - strong [ref=e62]: elevated
+            - generic [ref=e63]: Drop shadow, highlighted.
+          - generic [ref=e64]:
+            - strong [ref=e65]: flat
+            - generic [ref=e66]: Subtle background, secondary sections.
+      - heading "Slots" [level=2] [ref=e67]
+      - table [ref=e69]:
+        - rowgroup [ref=e70]:
+          - row "Slot Behavior" [ref=e71]:
+            - columnheader "Slot" [ref=e72]
+            - columnheader "Behavior" [ref=e73]
+        - rowgroup [ref=e74]:
+          - row "header Automatic bottom separator if content present" [ref=e75]:
+            - cell "header" [ref=e76]:
+              - code [ref=e77]: header
+            - cell "Automatic bottom separator if content present" [ref=e78]
+          - row "(default) Card body" [ref=e79]:
+            - cell "(default)" [ref=e80]
+            - cell "Card body" [ref=e81]
+          - row "footer Automatic top separator if content present" [ref=e82]:
+            - cell "footer" [ref=e83]:
+              - code [ref=e84]: footer
+            - cell "Automatic top separator if content present" [ref=e85]
+      - heading "Padding" [level=2] [ref=e86]
+      - table [ref=e88]:
+        - rowgroup [ref=e89]:
+          - row "Value Token Usage" [ref=e90]:
+            - columnheader "Value" [ref=e91]
+            - columnheader "Token" [ref=e92]
+            - columnheader "Usage" [ref=e93]
+        - rowgroup [ref=e94]:
+          - row "none 0px Full-bleed media, lists without padding" [ref=e95]:
+            - cell "none" [ref=e96]:
+              - code [ref=e97]: none
+            - cell "0px" [ref=e98]:
+              - code [ref=e99]: 0px
+            - cell "Full-bleed media, lists without padding" [ref=e100]
+          - row "sm primitive.space.3 Constrained spaces" [ref=e101]:
+            - cell "sm" [ref=e102]:
+              - code [ref=e103]: sm
+            - cell "primitive.space.3" [ref=e104]:
+              - code [ref=e105]: primitive.space.3
+            - cell "Constrained spaces" [ref=e106]
+          - row "md semantic.space.layout.component Default — general use" [ref=e107]:
+            - cell "md" [ref=e108]:
+              - code [ref=e109]: md
+            - cell "semantic.space.layout.component" [ref=e110]:
+              - code [ref=e111]: semantic.space.layout.component
+            - cell "Default — general use" [ref=e112]
+          - row "lg primitive.space.6 Spacious content, forms" [ref=e113]:
+            - cell "lg" [ref=e114]:
+              - code [ref=e115]: lg
+            - cell "primitive.space.6" [ref=e116]:
+              - code [ref=e117]: primitive.space.6
+            - cell "Spacious content, forms" [ref=e118]
+      - heading "Component tokens" [level=2] [ref=e119]
+      - table [ref=e121]:
+        - rowgroup [ref=e126]:
+          - row "Token CSS Reference Value" [ref=e127]:
+            - columnheader "Token CSS" [ref=e128]
+            - columnheader "Reference" [ref=e129]
+            - columnheader "Value" [ref=e130]
+        - rowgroup [ref=e131]:
+          - 'row "--agtc-component-card-default-background semantic.color.background.surface #ffffff" [ref=e132]':
+            - cell "--agtc-component-card-default-background" [ref=e133]:
+              - code [ref=e134]: "--agtc-component-card-default-background"
+            - cell "semantic.color.background.surface" [ref=e135]:
+              - code [ref=e136]: semantic.color.background.surface
+            - cell "#ffffff" [ref=e137]
+          - 'row "--agtc-component-card-default-border semantic.color.border.default #e8e8e8" [ref=e138]':
+            - cell "--agtc-component-card-default-border" [ref=e139]:
+              - code [ref=e140]: "--agtc-component-card-default-border"
+            - cell "semantic.color.border.default" [ref=e141]:
+              - code [ref=e142]: semantic.color.border.default
+            - cell "#e8e8e8" [ref=e143]
+          - row "--agtc-component-card-default-radius semantic.radius.card 10px" [ref=e144]:
+            - cell "--agtc-component-card-default-radius" [ref=e145]:
+              - code [ref=e146]: "--agtc-component-card-default-radius"
+            - cell "semantic.radius.card" [ref=e147]:
+              - code [ref=e148]: semantic.radius.card
+            - cell "10px" [ref=e149]
+          - row "--agtc-component-card-default-padding semantic.space.layout.component 20px" [ref=e150]:
+            - cell "--agtc-component-card-default-padding" [ref=e151]:
+              - code [ref=e152]: "--agtc-component-card-default-padding"
+            - cell "semantic.space.layout.component" [ref=e153]:
+              - code [ref=e154]: semantic.space.layout.component
+            - cell "20px" [ref=e155]
+          - row "--agtc-component-card-elevated-shadow semantic.shadow.card 0 1px 3px rgba(0,0,0,0.10), 0 1px 2px rgba(0,0,0,0.06)" [ref=e156]:
+            - cell "--agtc-component-card-elevated-shadow" [ref=e157]:
+              - code [ref=e158]: "--agtc-component-card-elevated-shadow"
+            - cell "semantic.shadow.card" [ref=e159]:
+              - code [ref=e160]: semantic.shadow.card
+            - cell "0 1px 3px rgba(0,0,0,0.10), 0 1px 2px rgba(0,0,0,0.06)" [ref=e161]
+          - 'row "--agtc-component-card-flat-background semantic.color.background.subtle #f0f0f0" [ref=e162]':
+            - cell "--agtc-component-card-flat-background" [ref=e163]:
+              - code [ref=e164]: "--agtc-component-card-flat-background"
+            - cell "semantic.color.background.subtle" [ref=e165]:
+              - code [ref=e166]: semantic.color.background.subtle
+            - cell "#f0f0f0" [ref=e167]
+          - row "--agtc-component-card-padding-none — 0px" [ref=e168]:
+            - cell "--agtc-component-card-padding-none" [ref=e169]:
+              - code [ref=e170]: "--agtc-component-card-padding-none"
+            - cell "—" [ref=e171]:
+              - code [ref=e172]: —
+            - cell "0px" [ref=e173]
+          - row "--agtc-component-card-padding-sm primitive.space.3 —" [ref=e174]:
+            - cell "--agtc-component-card-padding-sm" [ref=e175]:
+              - code [ref=e176]: "--agtc-component-card-padding-sm"
+            - cell "primitive.space.3" [ref=e177]:
+              - code [ref=e178]: primitive.space.3
+            - cell "—" [ref=e179]
+          - row "--agtc-component-card-padding-lg primitive.space.6 —" [ref=e180]:
+            - cell "--agtc-component-card-padding-lg" [ref=e181]:
+              - code [ref=e182]: "--agtc-component-card-padding-lg"
+            - cell "primitive.space.6" [ref=e183]:
+              - code [ref=e184]: primitive.space.6
+            - cell "—" [ref=e185]
+      - heading "Accessibility" [level=2] [ref=e186]
+      - list [ref=e187]:
+        - listitem [ref=e188]:
+          - generic [ref=e189]:
+            - text: Non-interactive by default — neutral semantics (
+            - code [ref=e190]: <div>
+            - text: )
+        - listitem [ref=e191]:
+          - generic [ref=e192]:
+            - text: "Clickable card: wrap in an"
+            - code [ref=e193]: <a>
+            - text: with accessible text
+        - listitem [ref=e194]:
+          - generic [ref=e195]:
+            - code [ref=e196]: "overflow: hidden"
+            - text: — content never overflows the border radius
+      - heading "Implementation" [level=2] [ref=e197]
+      - generic [ref=e198]:
+        - code [ref=e199]: <!-- Default --> <agtc-card> <p> Card content.</p> </agtc-card> <!-- Elevated with header and footer --> <agtc-card variant="elevated" padding="lg"> <span slot="header"> Title</span> <p> Main content.</p> <div slot="footer"> <agtc-button variant="primary"> Confirm</agtc-button> </div> </agtc-card> <!-- Flat --> <agtc-card variant="flat"> <p> Secondary section.</p> </agtc-card> <!-- Carte cliquable --> <agtc-card variant="elevated"> <a href="/detail" style="display:block;text-decoration:none"> <h3> Title</h3> </a> </agtc-card>
+        - generic [ref=e200]: html
+        - button "Copy code (html)" [ref=e201] [cursor=pointer]: Copy
+      - heading "DOs and DON'Ts" [level=2] [ref=e202]
+      - generic [ref=e203]:
+        - generic [ref=e204]:
+          - heading "Do" [level=3] [ref=e205]:
+            - img [ref=e206]
+            - text: Do
+          - list [ref=e209]:
+            - listitem [ref=e210]:
+              - generic [ref=e211]:
+                - text: Use
+                - code [ref=e212]: padding="none"
+                - text: for full-bleed media
+            - listitem [ref=e213]:
+              - generic [ref=e214]:
+                - text: Wrap in
+                - code [ref=e215]: <a>
+                - text: for a clickable card
+            - listitem [ref=e216]:
+              - generic [ref=e217]:
+                - text: Use
+                - code [ref=e218]: slot="footer"
+                - text: for actions
+        - generic [ref=e219]:
+          - heading "Don't" [level=3] [ref=e220]:
+            - img [ref=e221]
+            - text: Don't
+          - list [ref=e225]:
+            - listitem [ref=e226]:
+              - generic [ref=e227]:
+                - text: Clickable card without
+                - code [ref=e228]: <a>
+                - text: — inaccessible
+            - listitem [ref=e229]:
+              - generic [ref=e230]:
+                - text: Hardcoded background or padding — use
+                - code [ref=e231]: variant
+                - text: and
+                - code [ref=e232]: padding
+                - text: attributes
+            - listitem [ref=e233]:
+              - generic [ref=e234]:
+                - text: Invented variant outside
+                - code [ref=e235]: component.json
+      - heading "UX Patterns Reference" [level=2] [ref=e236]
+      - blockquote [ref=e237]:
+        - paragraph [ref=e238]:
+          - text: Patterns approved via the
+          - code [ref=e239]: ux-pattern-review
+          - text: "workflow (ADR-036). Decision:"
+          - strong [ref=e240]: C1, C3, C4 approved + C2 revised
+          - text: .
+      - table [ref=e242]:
+        - rowgroup [ref=e243]:
+          - row "Pattern Source Applied Justification" [ref=e244]:
+            - columnheader "Pattern" [ref=e245]
+            - columnheader "Source" [ref=e246]
+            - columnheader "Applied" [ref=e247]
+            - columnheader "Justification" [ref=e248]
+        - rowgroup [ref=e249]:
+          - row "Clear visual grouping (clustering) of related content Dashboard — grouped layout ✅ Component intent" [ref=e250]:
+            - cell "Clear visual grouping (clustering) of related content" [ref=e251]
+            - cell "Dashboard — grouped layout" [ref=e252]:
+              - link "Dashboard — grouped layout" [ref=e253] [cursor=pointer]:
+                - /url: https://dashboarddesignpatterns.github.io/patterns.html
+            - cell "✅" [ref=e254]
+            - cell "Component intent" [ref=e255]
+          - row "Clickable card — revised rule Smashing — clickable cards · NN/g ✅ (revised) See contract below" [ref=e256]:
+            - cell "Clickable card — revised rule" [ref=e257]:
+              - strong [ref=e258]: Clickable card — revised rule
+            - cell "Smashing — clickable cards · NN/g" [ref=e259]:
+              - link "Smashing — clickable cards" [ref=e260] [cursor=pointer]:
+                - /url: https://www.smashingmagazine.com/category/design-patterns/
+              - text: ·
+              - link "NN/g" [ref=e261] [cursor=pointer]:
+                - /url: https://www.nngroup.com/articles/design-pattern-guidelines/
+            - cell "✅ (revised)" [ref=e262]
+            - cell "See contract below" [ref=e263]
+          - row "Hierarchy via elevation/shadow, not color alone Dashboard — composition ✅ elevated variant" [ref=e264]:
+            - cell "Hierarchy via elevation/shadow, not color alone" [ref=e265]
+            - cell "Dashboard — composition" [ref=e266]:
+              - link "Dashboard — composition" [ref=e267] [cursor=pointer]:
+                - /url: https://dashboarddesignpatterns.github.io/patterns.html
+            - cell "✅" [ref=e268]
+            - cell "elevated variant" [ref=e269]:
+              - code [ref=e270]: elevated
+              - text: variant
+          - 'row "Detail-on-demand: the card summarizes, detail opens elsewhere Dashboard — screenspace ✅ Usage guideline: avoid the card becoming a \"container for all detail\"" [ref=e271]':
+            - 'cell "Detail-on-demand: the card summarizes, detail opens elsewhere" [ref=e272]'
+            - cell "Dashboard — screenspace" [ref=e273]:
+              - link "Dashboard — screenspace" [ref=e274] [cursor=pointer]:
+                - /url: https://dashboarddesignpatterns.github.io/patterns.html
+            - cell "✅" [ref=e275]
+            - 'cell "Usage guideline: avoid the card becoming a \"container for all detail\"" [ref=e276]'
+      - heading "Clickability contract (revised C2)" [level=3] [ref=e277]
+      - list [ref=e278]:
+        - listitem [ref=e279]:
+          - strong [ref=e280]: Card with a single destination
+          - text: → the link covers the
+          - strong [ref=e281]: entire surface
+          - text: (encompassing
+      - paragraph [ref=e282]: click target, visible focus on the card).
+      - list [ref=e283]:
+        - listitem [ref=e284]:
+          - strong [ref=e285]: Card with distinct actions
+          - text: (≥ 2 buttons/links) → the card
+          - strong [ref=e286]: is not
+          - text: "a global link:"
+      - paragraph [ref=e287]:
+        - text: "- either a"
+        - strong [ref=e288]: primary link
+        - text: (the title) extended over the card via an
+        - code [ref=e289]: ::after
+        - text: overlay, with secondary buttons placed above it (
+        - code [ref=e290]: "position: relative; z-index"
+        - text: ) to remain clickable; - or a
+        - strong [ref=e291]: non-interactive container
+        - text: where each action has its own
+        - code [ref=e292]: <button>
+        - text: /
+        - code [ref=e293]: <a>
+        - text: .
+      - list [ref=e294]:
+        - listitem [ref=e295]:
+          - strong [ref=e296]: Never nest an interactive element
+          - text: inside another one.
+      - generic [ref=e297]:
+        - img [ref=e299]
+        - generic [ref=e302]:
+          - strong [ref=e303]: Contribute to this project
+          - paragraph [ref=e304]: This system welcomes contributions — tokens, components, architectural decisions, accessibility fixes, or documentation. Every improvement counts.
+        - link "View on GitHub" [ref=e305] [cursor=pointer]:
+          - /url: https://github.com/gnegreiros-ux/agentica-design-system
+          - generic [ref=e306]: View on GitHub
+    - navigation "Table of contents / Table des matières" [ref=e307]:
+      - generic [ref=e308]: On this page
+      - link "Variants" [ref=e309] [cursor=pointer]:
+        - /url: "#variantes"
+      - link "Slots" [ref=e310] [cursor=pointer]:
+        - /url: "#slots"
+      - link "Padding" [ref=e311] [cursor=pointer]:
+        - /url: "#padding"
+      - link "Component tokens" [ref=e312] [cursor=pointer]:
+        - /url: "#tokens-de-composant"
+      - link "Accessibility" [ref=e313] [cursor=pointer]:
+        - /url: "#accessibilite"
+      - link "Implementation" [ref=e314] [cursor=pointer]:
+        - /url: "#implementation"
+      - link "DOs and DON'Ts" [ref=e315] [cursor=pointer]:
+        - /url: "#dos-et-don-ts"
+      - link "UX Patterns Reference" [ref=e316] [cursor=pointer]:
+        - /url: "#ux-patterns-reference"
+  - contentinfo [ref=e317]:
+    - generic [ref=e318]:
+      - generic [ref=e319]:
+        - link "Agentica — Accueil" [ref=e320] [cursor=pointer]:
+          - /url: ../index.html
+          - img [ref=e321]
+        - link "Guilherme Negreiros" [ref=e322] [cursor=pointer]:
+          - /url: https://www.linkedin.com/in/gnegreiros/
+          - img [ref=e323]
+          - text: Guilherme Negreiros
+      - generic [ref=e327]:
+        - generic [ref=e328]: Navigation
+        - link "Home" [ref=e329] [cursor=pointer]:
+          - /url: ../index.html
+        - link "Why" [ref=e330] [cursor=pointer]:
+          - /url: ../pourquoi.html
+        - link "Architecture" [ref=e331] [cursor=pointer]:
+          - /url: ../architecture.html
+        - link "Quality" [ref=e332] [cursor=pointer]:
+          - /url: ../qualite.html
+        - link "AI" [ref=e333] [cursor=pointer]:
+          - /url: ../ia.html
+      - generic [ref=e334]:
+        - generic [ref=e335]: Documentation
+        - link "Understand" [ref=e336] [cursor=pointer]:
+          - /url: ../pourquoi.html
+        - link "Get started" [ref=e337] [cursor=pointer]:
+          - /url: ../get-started.html
+        - link "Foundations" [ref=e338] [cursor=pointer]:
+          - /url: ../foundations/index.html
+        - link "Components" [ref=e339] [cursor=pointer]:
+          - /url: ../components/index.html
+        - link "Tokens" [ref=e340] [cursor=pointer]:
+          - /url: ../tokens/index.html
+        - link "Decisions" [ref=e341] [cursor=pointer]:
+          - /url: ../decisions/index.html
+        - link "Continuity" [ref=e342] [cursor=pointer]:
+          - /url: ../continuite.html
+        - link "Changelog" [ref=e343] [cursor=pointer]:
+          - /url: ../changelog.html
+      - generic [ref=e344]:
+        - generic [ref=e345]: Explorer
+        - link "Storybook" [ref=e346] [cursor=pointer]:
+          - /url: https://main--6a1c1e665ec5fe8fc0540983.chromatic.com/
+        - link "GitHub" [ref=e347] [cursor=pointer]:
+          - /url: https://github.com/gnegreiros-ux/agentica-design-system
+        - link "Audit" [ref=e348] [cursor=pointer]:
+          - /url: ../audit.html
+        - link "AI Brief" [ref=e349] [cursor=pointer]:
+          - /url: ../ai-brief.html
+    - generic [ref=e350]:
+      - generic [ref=e351]: © 2026 Guilherme Negreiros
+      - generic [ref=e352]: Built with Claude Code.
+  - button "Retour en haut" [ref=e353] [cursor=pointer]:
+    - img [ref=e354]
+    - generic [ref=e356]: Top
+  - status [ref=e357]
+```
+
+# Test source
+
+```ts
+  1  | import { test, expect } from '@playwright/test';
+  2  | 
+  3  | // Visual regressions for every component page (except button.html, already covered)
+  4  | const PAGES = [
+  5  |   'badge', 'banner', 'card', 'checkbox', 'code-block',
+  6  |   'icon', 'input', 'link', 'radio', 'segmented',
+  7  |   'table', 'tabs', 'toggle',
+  8  | ];
+  9  | 
+  10 | for (const name of PAGES) {
+  11 |   test.describe(`${name} — visual regressions`, () => {
+  12 |     for (const theme of ['light', 'dark']) {
+  13 |       test(`page ${name} — ${theme}`, async ({ page }) => {
+  14 |         await page.goto(`/components/${name}.html`);
+  15 |         await page.waitForLoadState('networkidle');
+  16 |         await page.evaluate((t) =>
+  17 |           document.documentElement.setAttribute('data-theme', t), theme
+  18 |         );
+> 19 |         await expect(page).toHaveScreenshot(`${name}-${theme}.png`, { fullPage: true });
+     |                            ^ Error: expect(page).toHaveScreenshot(expected) failed
+  20 |       });
+  21 |     }
+  22 |   });
+  23 | }
+  24 | 
+```

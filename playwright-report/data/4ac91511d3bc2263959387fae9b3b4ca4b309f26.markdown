@@ -1,0 +1,583 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: functional/language.spec.js >> Language — English rendering has no French leftovers >> decisions/adr-087.html — clean in English mode
+- Location: tests/functional/language.spec.js:63:5
+
+# Error details
+
+```
+Error: French content visible in decisions/adr-087.html with data-lang=en:
+  line 156: "é" in "GitHub Projects: the linked ticket moved to Terminé."
+
+expect(received).toEqual(expected) // deep equality
+
+- Expected  - 1
++ Received  + 3
+
+- Array []
++ Array [
++   "  line 156: \"é\" in \"GitHub Projects: the linked ticket moved to Terminé.\"",
++ ]
+```
+
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=e3]:
+    - link "Agentica — Accueil" [ref=e4] [cursor=pointer]:
+      - /url: ../index.html
+      - img [ref=e5]
+    - navigation "Navigation principale" [ref=e6]:
+      - link "Home" [ref=e7] [cursor=pointer]:
+        - /url: ../index.html
+      - link "Why" [ref=e8] [cursor=pointer]:
+        - /url: ../pourquoi.html
+      - link "Architecture" [ref=e9] [cursor=pointer]:
+        - /url: ../architecture.html
+      - link "Quality" [ref=e10] [cursor=pointer]:
+        - /url: ../qualite.html
+      - link "AI" [ref=e11] [cursor=pointer]:
+        - /url: ../ia.html
+      - generic [ref=e12]:
+        - link "Documentation" [ref=e13] [cursor=pointer]:
+          - /url: ../documentation.html
+        - generic:
+          - generic:
+            - heading "Understand" [level=2]
+            - link "Introduction":
+              - /url: ../pourquoi.html
+            - link "Foundations":
+              - /url: ../foundations/index.html
+            - link "Human control":
+              - /url: ../ia.html
+            - link "Single source of truth":
+              - /url: ../architecture.html
+          - generic:
+            - heading "Reference" [level=2]
+            - link "Foundations":
+              - /url: ../foundations/index.html
+            - link "Components":
+              - /url: ../components/index.html
+            - link "Tokens":
+              - /url: ../tokens/index.html
+            - link "Decisions":
+              - /url: ../decisions/index.html
+            - link "Agents":
+              - /url: ../agents/index.html
+            - link "Pipelines":
+              - /url: ../pipelines/index.html
+            - link "Continuity":
+              - /url: ../continuite.html
+          - generic:
+            - heading "Explore" [level=2]
+            - link "Storybook":
+              - /url: https://main--6a1c1e665ec5fe8fc0540983.chromatic.com/
+            - link "GitHub":
+              - /url: https://github.com/gnegreiros-ux/agentica-design-system
+            - link "Audit":
+              - /url: ../audit.html
+      - link "Get started" [ref=e14] [cursor=pointer]:
+        - /url: ../get-started.html
+    - generic "Liens rapides" [ref=e15]:
+      - button "Basculer thème sombre / Switch to dark theme" [ref=e16] [cursor=pointer]:
+        - img [ref=e17]
+      - group "Language" [ref=e20]:
+        - button "FR" [ref=e21] [cursor=pointer]
+        - button "EN" [ref=e22] [cursor=pointer]
+      - link "Storybook — Catalogue interactif des composants" [ref=e23] [cursor=pointer]:
+        - /url: https://main--6a1c1e665ec5fe8fc0540983.chromatic.com/
+        - img [ref=e24]
+      - link "GitHub — Code source du projet" [ref=e26] [cursor=pointer]:
+        - /url: https://github.com/gnegreiros-ux/agentica-design-system
+        - img [ref=e27]
+  - generic [ref=e30]:
+    - navigation "Secondary navigation / Navigation secondaire" [ref=e31]:
+      - generic [ref=e32]:
+        - generic [ref=e33]: Decisions
+        - link "ADR index" [ref=e34] [cursor=pointer]:
+          - /url: index.html
+        - link "ADR-001" [ref=e35] [cursor=pointer]:
+          - /url: adr-001.html
+        - link "ADR-002" [ref=e36] [cursor=pointer]:
+          - /url: adr-002.html
+        - link "ADR-003" [ref=e37] [cursor=pointer]:
+          - /url: adr-003.html
+        - link "ADR-004" [ref=e38] [cursor=pointer]:
+          - /url: adr-004.html
+        - link "ADR-005" [ref=e39] [cursor=pointer]:
+          - /url: adr-005.html
+        - link "ADR-006" [ref=e40] [cursor=pointer]:
+          - /url: adr-006.html
+        - link "ADR-007" [ref=e41] [cursor=pointer]:
+          - /url: adr-007.html
+        - link "ADR-008" [ref=e42] [cursor=pointer]:
+          - /url: adr-008.html
+        - link "ADR-009" [ref=e43] [cursor=pointer]:
+          - /url: adr-009.html
+        - link "ADR-010" [ref=e44] [cursor=pointer]:
+          - /url: adr-010.html
+        - link "ADR-011" [ref=e45] [cursor=pointer]:
+          - /url: adr-011.html
+        - link "ADR-012" [ref=e46] [cursor=pointer]:
+          - /url: adr-012.html
+        - link "ADR-013" [ref=e47] [cursor=pointer]:
+          - /url: adr-013.html
+        - link "ADR-014" [ref=e48] [cursor=pointer]:
+          - /url: adr-014.html
+        - link "ADR-015" [ref=e49] [cursor=pointer]:
+          - /url: adr-015.html
+        - link "ADR-016" [ref=e50] [cursor=pointer]:
+          - /url: adr-016.html
+        - link "ADR-017" [ref=e51] [cursor=pointer]:
+          - /url: adr-017.html
+        - link "ADR-018" [ref=e52] [cursor=pointer]:
+          - /url: adr-018.html
+        - link "ADR-019" [ref=e53] [cursor=pointer]:
+          - /url: adr-019.html
+        - link "ADR-020" [ref=e54] [cursor=pointer]:
+          - /url: adr-020.html
+        - link "ADR-021" [ref=e55] [cursor=pointer]:
+          - /url: adr-021.html
+        - link "ADR-022" [ref=e56] [cursor=pointer]:
+          - /url: adr-022.html
+        - link "ADR-023" [ref=e57] [cursor=pointer]:
+          - /url: adr-023.html
+        - link "ADR-024" [ref=e58] [cursor=pointer]:
+          - /url: adr-024.html
+        - link "ADR-025" [ref=e59] [cursor=pointer]:
+          - /url: adr-025.html
+        - link "ADR-026" [ref=e60] [cursor=pointer]:
+          - /url: adr-026.html
+        - link "ADR-027" [ref=e61] [cursor=pointer]:
+          - /url: adr-027.html
+        - link "ADR-028" [ref=e62] [cursor=pointer]:
+          - /url: adr-028.html
+        - link "ADR-029" [ref=e63] [cursor=pointer]:
+          - /url: adr-029.html
+        - link "ADR-030" [ref=e64] [cursor=pointer]:
+          - /url: adr-030.html
+        - link "ADR-031" [ref=e65] [cursor=pointer]:
+          - /url: adr-031.html
+        - link "ADR-032" [ref=e66] [cursor=pointer]:
+          - /url: adr-032.html
+        - link "ADR-033" [ref=e67] [cursor=pointer]:
+          - /url: adr-033.html
+        - link "ADR-034" [ref=e68] [cursor=pointer]:
+          - /url: adr-034.html
+        - link "ADR-035" [ref=e69] [cursor=pointer]:
+          - /url: adr-035.html
+        - link "ADR-036" [ref=e70] [cursor=pointer]:
+          - /url: adr-036.html
+        - link "ADR-037" [ref=e71] [cursor=pointer]:
+          - /url: adr-037.html
+        - link "ADR-038" [ref=e72] [cursor=pointer]:
+          - /url: adr-038.html
+        - link "ADR-039" [ref=e73] [cursor=pointer]:
+          - /url: adr-039.html
+        - link "ADR-040" [ref=e74] [cursor=pointer]:
+          - /url: adr-040.html
+        - link "ADR-041" [ref=e75] [cursor=pointer]:
+          - /url: adr-041.html
+        - link "ADR-042" [ref=e76] [cursor=pointer]:
+          - /url: adr-042.html
+        - link "ADR-043" [ref=e77] [cursor=pointer]:
+          - /url: adr-043.html
+        - link "ADR-044" [ref=e78] [cursor=pointer]:
+          - /url: adr-044.html
+        - link "ADR-045" [ref=e79] [cursor=pointer]:
+          - /url: adr-045.html
+        - link "ADR-046" [ref=e80] [cursor=pointer]:
+          - /url: adr-046.html
+        - link "ADR-047" [ref=e81] [cursor=pointer]:
+          - /url: adr-047.html
+        - link "ADR-048" [ref=e82] [cursor=pointer]:
+          - /url: adr-048.html
+        - link "ADR-049" [ref=e83] [cursor=pointer]:
+          - /url: adr-049.html
+        - link "ADR-050" [ref=e84] [cursor=pointer]:
+          - /url: adr-050.html
+        - link "ADR-051" [ref=e85] [cursor=pointer]:
+          - /url: adr-051.html
+        - link "ADR-052" [ref=e86] [cursor=pointer]:
+          - /url: adr-052.html
+        - link "ADR-053" [ref=e87] [cursor=pointer]:
+          - /url: adr-053.html
+        - link "ADR-054" [ref=e88] [cursor=pointer]:
+          - /url: adr-054.html
+        - link "ADR-055" [ref=e89] [cursor=pointer]:
+          - /url: adr-055.html
+        - link "ADR-056" [ref=e90] [cursor=pointer]:
+          - /url: adr-056.html
+        - link "ADR-057" [ref=e91] [cursor=pointer]:
+          - /url: adr-057.html
+        - link "ADR-058" [ref=e92] [cursor=pointer]:
+          - /url: adr-058.html
+        - link "ADR-059" [ref=e93] [cursor=pointer]:
+          - /url: adr-059.html
+        - link "ADR-060" [ref=e94] [cursor=pointer]:
+          - /url: adr-060.html
+        - link "ADR-061" [ref=e95] [cursor=pointer]:
+          - /url: adr-061.html
+        - link "ADR-062" [ref=e96] [cursor=pointer]:
+          - /url: adr-062.html
+        - link "ADR-063" [ref=e97] [cursor=pointer]:
+          - /url: adr-063.html
+        - link "ADR-064" [ref=e98] [cursor=pointer]:
+          - /url: adr-064.html
+        - link "ADR-065" [ref=e99] [cursor=pointer]:
+          - /url: adr-065.html
+        - link "ADR-066" [ref=e100] [cursor=pointer]:
+          - /url: adr-066.html
+        - link "ADR-067" [ref=e101] [cursor=pointer]:
+          - /url: adr-067.html
+        - link "ADR-068" [ref=e102] [cursor=pointer]:
+          - /url: adr-068.html
+        - link "ADR-069" [ref=e103] [cursor=pointer]:
+          - /url: adr-069.html
+        - link "ADR-070" [ref=e104] [cursor=pointer]:
+          - /url: adr-070.html
+        - link "ADR-071" [ref=e105] [cursor=pointer]:
+          - /url: adr-071.html
+        - link "ADR-072" [ref=e106] [cursor=pointer]:
+          - /url: adr-072.html
+        - link "ADR-073" [ref=e107] [cursor=pointer]:
+          - /url: adr-073.html
+        - link "ADR-074" [ref=e108] [cursor=pointer]:
+          - /url: adr-074.html
+        - link "ADR-075" [ref=e109] [cursor=pointer]:
+          - /url: adr-075.html
+        - link "ADR-076" [ref=e110] [cursor=pointer]:
+          - /url: adr-076.html
+        - link "ADR-077" [ref=e111] [cursor=pointer]:
+          - /url: adr-077.html
+        - link "ADR-078" [ref=e112] [cursor=pointer]:
+          - /url: adr-078.html
+        - link "ADR-079" [ref=e113] [cursor=pointer]:
+          - /url: adr-079.html
+        - link "ADR-080" [ref=e114] [cursor=pointer]:
+          - /url: adr-080.html
+        - link "ADR-081" [ref=e115] [cursor=pointer]:
+          - /url: adr-081.html
+        - link "ADR-082" [ref=e116] [cursor=pointer]:
+          - /url: adr-082.html
+        - link "ADR-083" [ref=e117] [cursor=pointer]:
+          - /url: adr-083.html
+        - link "ADR-084" [ref=e118] [cursor=pointer]:
+          - /url: adr-084.html
+        - link "ADR-085" [ref=e119] [cursor=pointer]:
+          - /url: adr-085.html
+        - link "ADR-086" [ref=e120] [cursor=pointer]:
+          - /url: adr-086.html
+        - link "ADR-087" [ref=e121] [cursor=pointer]:
+          - /url: adr-087.html
+        - link "ADR-088" [ref=e122] [cursor=pointer]:
+          - /url: adr-088.html
+        - link "ADR-089" [ref=e123] [cursor=pointer]:
+          - /url: adr-089.html
+        - link "ADR-090" [ref=e124] [cursor=pointer]:
+          - /url: adr-090.html
+    - main [ref=e125]:
+      - generic [ref=e126]:
+        - generic [ref=e127]:
+          - code [ref=e128]: ADR-087
+          - status [ref=e130]:
+            - generic [ref=e131]: Active
+          - generic [ref=e132]: contract
+        - 'heading "`agtc-top-nav` confirmed as \"mix\" architecture, dead mobile-menu code removed" [level=1] [ref=e133]'
+        - generic [ref=e134]:
+          - generic [ref=e135]:
+            - term [ref=e136]: Date
+            - definition [ref=e137]: 2026-07-22
+          - generic [ref=e138]:
+            - term [ref=e139]: Decision makers
+            - definition [ref=e140]: Guilherme Negreiros — Design System Lead
+      - heading "Context" [level=2] [ref=e141]
+      - paragraph [ref=e142]:
+        - code [ref=e143]: npm run smoke
+        - text: "had one failing check:"
+        - code [ref=e144]: "\"agtc-top-nav — nav display flex (desktop)\""
+        - text: ", looking for a real"
+        - code [ref=e145]: <agtc-top-nav>
+        - text: custom element on
+        - code [ref=e146]: index.html
+        - text: and querying
+        - code [ref=e147]: nav
+        - text: "inside its shadow DOM. Investigation found the check itself was wrong, not the site:"
+        - code [ref=e148]: index.html
+        - text: "'s navigation has always been hand-written markup ("
+        - code [ref=e149]: .site-nav
+        - text: ) styled through the component's tokens — the same "mix" pattern already established and documented for
+        - code [ref=e150]: agtc-table
+        - text: (ADR-040),
+        - code [ref=e151]: agtc-code-block
+        - text: (ADR-041), and
+        - code [ref=e152]: agtc-banner
+        - text: (ADR-042).
+        - code [ref=e153]: <agtc-top-nav>
+        - text: itself exists and is used elsewhere (component demo page), but was never mounted on the live site nav.
+      - paragraph [ref=e154]:
+        - text: "A related discovery made while fixing this:"
+        - code [ref=e155]: site/build.js
+        - text: "'s embedded"
+        - code [ref=e156]: site.js
+        - text: had a fully dead code block —
+      - generic [ref=e157]:
+        - code [ref=e158]: "const menuToggle = document.querySelector('.menu-toggle'); const topNav = document.querySelector('agtc-top-nav'); if (menuToggle && topNav) { /* … */ }"
+        - generic [ref=e159]: js
+        - button "Copy code (js)" [ref=e160] [cursor=pointer]: Copy
+      - paragraph [ref=e161]:
+        - text: Neither selector ever matches anything in the generated HTML (the real mobile-menu button is
+        - code [ref=e162]: <button class="menu-btn" data-menu-toggle>
+        - text: ", not"
+        - code [ref=e163]: .menu-toggle
+        - text: ), so this
+        - code [ref=e164]: if
+        - text: never ran. The site's actual mobile menu has worked all along through a separate, already-correct mechanism (
+        - code [ref=e165]: "[data-menu-toggle]"
+        - text: /
+        - code [ref=e166]: "[data-main-nav]"
+        - text: ", labeled \"Menu mobile V2\" in a comment — a name that no longer means anything now that the only other version was dead code, not a real V1)."
+      - heading "Decision" [level=2] [ref=e167]
+      - paragraph [ref=e168]:
+        - text: "1."
+        - strong [ref=e169]:
+          - code [ref=e170]: agtc-top-nav
+          - text: is confirmed "mix" architecture
+        - text: "for the site's main nav, consistent with ADR-040/041/042: the component exists and is documented in"
+        - code [ref=e171]: guidelines/components/top-nav.md
+        - text: /
+        - code [ref=e172]: .claude/rules/no-visited-nav.md
+        - text: for consumers who mount it directly, but the live site keeps its hand-written
+        - code [ref=e173]: .site-nav
+        - text: markup, tokenized the same way. No component code changes. 2.
+        - strong [ref=e174]:
+          - code [ref=e175]: scripts/smoke-test.js
+          - text: "'s top-nav check now targets"
+          - code [ref=e176]: .site-nav
+          - text: directly
+        - text: (light DOM,
+        - code [ref=e177]: "display: flex"
+        - text: ) instead of a shadow-DOM selector on an element that was never mounted. The script gained light-DOM support (
+        - code [ref=e178]: "shadowSelector: null"
+        - text: skips the shadow-root traversal and the custom-element-upgrade wait) so this pattern is reusable for any future light-DOM-only check. 3.
+        - strong [ref=e179]:
+          - text: The dead
+          - code [ref=e180]: agtc-top-nav
+          - text: /
+          - code [ref=e181]: .menu-toggle
+          - text: mobile-menu block removed
+        - text: from
+        - code [ref=e182]: site/build.js
+        - text: . The real mobile menu (
+        - code [ref=e183]: "[data-menu-toggle]"
+        - text: /
+        - code [ref=e184]: "[data-main-nav]"
+        - text: ) is unaffected — it was already the only one that ever ran. Its comment renamed from "Menu mobile V2" to "Mobile menu" now that there is no other version to distinguish it from.
+      - heading "Rejected alternatives" [level=2] [ref=e185]
+      - table [ref=e187]:
+        - rowgroup [ref=e188]:
+          - row "Alternative Reason for rejection" [ref=e189]:
+            - columnheader "Alternative" [ref=e190]
+            - columnheader "Reason for rejection" [ref=e191]
+        - rowgroup [ref=e192]:
+          - row "Mount the real <agtc-top-nav> on index.html (full dogfooding) Real risk on the site's highest-traffic, marketing-mode page for a check that exists to catch regressions, not to drive architecture; would need re-verifying the mobile menu, lang-switch, :visited handling, and Playwright snapshots all still match once the shadow DOM replaces hand-written markup — a separate, larger piece of work than fixing a wrong test" [ref=e193]:
+            - cell "Mount the real <agtc-top-nav> on index.html (full dogfooding)" [ref=e194]:
+              - text: Mount the real
+              - code [ref=e195]: <agtc-top-nav>
+              - text: "on"
+              - code [ref=e196]: index.html
+              - text: (full dogfooding)
+            - cell "Real risk on the site's highest-traffic, marketing-mode page for a check that exists to catch regressions, not to drive architecture; would need re-verifying the mobile menu, lang-switch, :visited handling, and Playwright snapshots all still match once the shadow DOM replaces hand-written markup — a separate, larger piece of work than fixing a wrong test" [ref=e197]:
+              - text: Real risk on the site's highest-traffic, marketing-mode page for a check that exists to catch regressions, not to drive architecture; would need re-verifying the mobile menu, lang-switch,
+              - code [ref=e198]: :visited
+              - text: handling, and Playwright snapshots all still match once the shadow DOM replaces hand-written markup — a separate, larger piece of work than fixing a wrong test
+          - row "Leave the smoke-test check failing / delete it outright It was catching a real (if misdiagnosed) drift risk — the site's nav display property regressing silently; better to point it at the actual markup than remove coverage" [ref=e199]:
+            - cell "Leave the smoke-test check failing / delete it outright" [ref=e200]
+            - cell "It was catching a real (if misdiagnosed) drift risk — the site's nav display property regressing silently; better to point it at the actual markup than remove coverage" [ref=e201]
+      - heading "Consequences" [level=2] [ref=e202]
+      - list [ref=e203]:
+        - listitem [ref=e204]:
+          - code [ref=e205]: npm run smoke
+          - text: ": 7/7 checks pass again."
+        - listitem [ref=e206]:
+          - text: No visual or functional change to the live site —
+          - code [ref=e207]: .site-nav
+          - text: markup and the working mobile
+      - paragraph [ref=e208]: menu are untouched; only dead code was removed.
+      - list [ref=e209]:
+        - listitem [ref=e210]: "GitHub Projects: the linked ticket moved to Terminé."
+        - listitem [ref=e211]:
+          - text: Any future decision to actually mount
+          - code [ref=e212]: <agtc-top-nav>
+          - text: on the site (full dogfooding, per
+      - paragraph [ref=e213]:
+        - code [ref=e214]: project_site_as_lab
+        - text: /dogfooding backlog category C) supersedes this ADR's point 1 and would need to update the smoke-test check back to a shadow-DOM one at that time.
+      - generic [ref=e215]:
+        - link "← ADR-086" [ref=e216] [cursor=pointer]:
+          - /url: adr-086.html
+        - link "ADR-088 →" [ref=e217] [cursor=pointer]:
+          - /url: adr-088.html
+    - navigation "Table of contents / Table des matières" [ref=e218]:
+      - generic [ref=e219]: On this page
+      - link "Context" [ref=e220] [cursor=pointer]:
+        - /url: "#context"
+      - link "Decision" [ref=e221] [cursor=pointer]:
+        - /url: "#decision"
+      - link "Rejected alternatives" [ref=e222] [cursor=pointer]:
+        - /url: "#rejected-alternatives"
+      - link "Consequences" [ref=e223] [cursor=pointer]:
+        - /url: "#consequences"
+  - contentinfo [ref=e224]:
+    - generic [ref=e225]:
+      - generic [ref=e226]:
+        - link "Agentica — Accueil" [ref=e227] [cursor=pointer]:
+          - /url: ../index.html
+          - img [ref=e228]
+        - link "Guilherme Negreiros" [ref=e229] [cursor=pointer]:
+          - /url: https://www.linkedin.com/in/gnegreiros/
+          - img [ref=e230]
+          - text: Guilherme Negreiros
+      - generic [ref=e234]:
+        - generic [ref=e235]: Navigation
+        - link "Home" [ref=e236] [cursor=pointer]:
+          - /url: ../index.html
+        - link "Why" [ref=e237] [cursor=pointer]:
+          - /url: ../pourquoi.html
+        - link "Architecture" [ref=e238] [cursor=pointer]:
+          - /url: ../architecture.html
+        - link "Quality" [ref=e239] [cursor=pointer]:
+          - /url: ../qualite.html
+        - link "AI" [ref=e240] [cursor=pointer]:
+          - /url: ../ia.html
+      - generic [ref=e241]:
+        - generic [ref=e242]: Documentation
+        - link "Understand" [ref=e243] [cursor=pointer]:
+          - /url: ../pourquoi.html
+        - link "Get started" [ref=e244] [cursor=pointer]:
+          - /url: ../get-started.html
+        - link "Foundations" [ref=e245] [cursor=pointer]:
+          - /url: ../foundations/index.html
+        - link "Components" [ref=e246] [cursor=pointer]:
+          - /url: ../components/index.html
+        - link "Tokens" [ref=e247] [cursor=pointer]:
+          - /url: ../tokens/index.html
+        - link "Decisions" [ref=e248] [cursor=pointer]:
+          - /url: ../decisions/index.html
+        - link "Continuity" [ref=e249] [cursor=pointer]:
+          - /url: ../continuite.html
+        - link "Changelog" [ref=e250] [cursor=pointer]:
+          - /url: ../changelog.html
+      - generic [ref=e251]:
+        - generic [ref=e252]: Explorer
+        - link "Storybook" [ref=e253] [cursor=pointer]:
+          - /url: https://main--6a1c1e665ec5fe8fc0540983.chromatic.com/
+        - link "GitHub" [ref=e254] [cursor=pointer]:
+          - /url: https://github.com/gnegreiros-ux/agentica-design-system
+        - link "Audit" [ref=e255] [cursor=pointer]:
+          - /url: ../audit.html
+        - link "AI Brief" [ref=e256] [cursor=pointer]:
+          - /url: ../ai-brief.html
+    - generic [ref=e257]:
+      - generic [ref=e258]: © 2026 Guilherme Negreiros
+      - generic [ref=e259]: Built with Claude Code.
+  - button "Retour en haut" [ref=e260] [cursor=pointer]:
+    - img [ref=e261]
+    - generic [ref=e263]: Top
+  - status [ref=e264]
+```
+
+# Test source
+
+```ts
+  1  | import { test, expect } from '@playwright/test';
+  2  | import fs from 'fs';
+  3  | import path from 'path';
+  4  | import { fileURLToPath } from 'url';
+  5  | 
+  6  | // English-only content policy (ADR-070/071/075). scripts/audit-language.js catches
+  7  | // French text left untranslated in source files, but it cannot catch a different bug
+  8  | // class: a page that IS correctly bilingual by design, where one data cell (a table
+  9  | // row, a nav link) is hardcoded as a single string instead of a lang-fr/lang-en pair
+  10 | // — so it never toggles and stays visibly French even with data-lang="en". That bug
+  11 | // is only visible by actually rendering the page (see the `ia.html` nav link and the
+  12 | // get-started.html Framework Integration table, both fixed 2026-07-18 this way — a
+  13 | // text-content scan alone would never have flagged them, since French prose is
+  14 | // expected to exist somewhere on those pages).
+  15 | //
+  16 | // This spec renders every generated page with data-lang="en" and reads the VISIBLE
+  17 | // text only (innerText, not textContent — innerText excludes anything hidden by the
+  18 | // site's `html[data-lang="en"] .lang-fr{display:none}` CSS rule, textContent would not).
+  19 | 
+  20 | const __dirname = path.dirname(fileURLToPath(import.meta.url));
+  21 | const DIST = path.resolve(__dirname, '../../site/dist');
+  22 | 
+  23 | // Same curated word list as scripts/audit-language.js — kept in sync by hand, see
+  24 | // that file's comment for why these specific words (no plausible English collision).
+  25 | const STOPWORD_RE = /\b(?:être|où|équipe|système|chemin|aucun|aucune|jamais|doivent|également|vérifier|toujours|avec|dans|sont|cette|ces)\b/;
+  26 | const ACCENT_RE = /[àâäéèêëïîôöùûüçÀÂÄÉÈÊËÏÎÔÖÙÛÜÇœŒ]/;
+  27 | 
+  28 | function listPages(dir, base = '') {
+  29 |   const pages = [];
+  30 |   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+  31 |     const rel = base ? `${base}/${entry.name}` : entry.name;
+  32 |     if (entry.isDirectory()) {
+  33 |       pages.push(...listPages(path.join(dir, entry.name), rel));
+  34 |     } else if (entry.name.endsWith('.html')) {
+  35 |       pages.push(rel);
+  36 |     }
+  37 |   }
+  38 |   return pages;
+  39 | }
+  40 | 
+  41 | const pages = fs.existsSync(DIST) ? listPages(DIST) : [];
+  42 | 
+  43 | // Content that IS French by design and correctly renders regardless of data-lang:
+  44 | // a verbatim historical quote, a literal field-label/filename being documented, a
+  45 | // bilingual inline code comment, a font glyph specimen. Narrow on purpose (page +
+  46 | // distinguishing substring) so a real regression on the same page still gets caught.
+  47 | // An HTML-comment marker (the source-file `lang-audit-ignore` convention used by
+  48 | // scripts/audit-language.js) doesn't work here — comments never reach innerText.
+  49 | const KNOWN_EXCEPTIONS = {
+  50 |   'agents/index.html': ['Interdit —'], // naming-rule code example: bilingual comment in one line, by design
+  51 |   'changelog.html': ['Domaine'], // quoting the literal GitHub Projects custom field name
+  52 |   'decisions/adr-030.html': ['Densité'], // historical bug quote (the bug this ADR fixed)
+  53 |   'decisions/adr-055.html': ['Copié', 'critères'], // quoting the site's bilingual UI strings
+  54 |   'decisions/adr-071.html': ['Décideurs', 'Mon intention', 'francophones', 'seulement en anglais'], // literal field-label quote + verbatim human quote
+  55 |   'decisions/adr-075.html': ['notre-demarche', 'synthèse', 'Synthèse'], // documenting the pre-rename French filenames (ADR-075)
+  56 |   'foundations/typography.html': ['Æ Ç É'], // Atkinson Hyperlegible glyph specimen — intentional
+  57 | };
+  58 | 
+  59 | test.describe('Language — English rendering has no French leftovers', () => {
+  60 |   test.skip(pages.length === 0, 'site/dist not built — run node site/build.js first');
+  61 | 
+  62 |   for (const pagePath of pages) {
+  63 |     test(`${pagePath} — clean in English mode`, async ({ page }) => {
+  64 |       await page.goto(`/${pagePath}?lang=en`);
+  65 |       await page.waitForLoadState('networkidle');
+  66 | 
+  67 |       const visibleText = await page.evaluate(() => document.body.innerText);
+  68 |       const exceptions = KNOWN_EXCEPTIONS[pagePath] || [];
+  69 |       const hits = [];
+  70 |       visibleText.split('\n').forEach((line, idx) => {
+  71 |         if (exceptions.some(ex => line.includes(ex))) return;
+  72 |         const match = line.match(ACCENT_RE) || line.match(STOPWORD_RE);
+  73 |         if (match) hits.push(`  line ${idx + 1}: "${match[0]}" in "${line.trim().slice(0, 100)}"`);
+  74 |       });
+  75 | 
+> 76 |       expect(hits, `French content visible in ${pagePath} with data-lang=en:\n${hits.join('\n')}`).toEqual([]);
+     |                                                                                                    ^ Error: French content visible in decisions/adr-087.html with data-lang=en:
+  77 |     });
+  78 |   }
+  79 | });
+  80 | 
+```

@@ -1,0 +1,514 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: visual/components/all-components.spec.js >> code-block — visual regressions >> page code-block — dark
+- Location: tests/visual/components/all-components.spec.js:13:7
+
+# Error details
+
+```
+Error: expect(page).toHaveScreenshot(expected) failed
+
+  27509 pixels (ratio 0.01 of all image pixels) are different.
+
+  Snapshot: code-block-dark.png
+
+Call log:
+  - Expect "toHaveScreenshot(code-block-dark.png)" with timeout 5000ms
+    - verifying given screenshot expectation
+  - taking page screenshot
+    - disabled all CSS animations
+  - waiting for fonts to load...
+  - fonts loaded
+  - 27509 pixels (ratio 0.01 of all image pixels) are different.
+  - waiting 100ms before taking screenshot
+  - taking page screenshot
+    - disabled all CSS animations
+  - waiting for fonts to load...
+  - fonts loaded
+  - captured a stable screenshot
+  - 27509 pixels (ratio 0.01 of all image pixels) are different.
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=e3]:
+    - link "Agentica — Accueil" [ref=e4] [cursor=pointer]:
+      - /url: ../index.html
+      - img "Agentica" [ref=e5]
+    - navigation "Navigation principale" [ref=e6]:
+      - link "Home" [ref=e7] [cursor=pointer]:
+        - /url: ../index.html
+      - link "Why" [ref=e8] [cursor=pointer]:
+        - /url: ../pourquoi.html
+      - link "Architecture" [ref=e9] [cursor=pointer]:
+        - /url: ../architecture.html
+      - link "Quality" [ref=e10] [cursor=pointer]:
+        - /url: ../qualite.html
+      - link "AI" [ref=e11] [cursor=pointer]:
+        - /url: ../ia.html
+      - generic [ref=e12]:
+        - link "Documentation" [ref=e13] [cursor=pointer]:
+          - /url: ../documentation.html
+        - generic:
+          - generic:
+            - heading "Understand" [level=2]
+            - link "Introduction":
+              - /url: ../pourquoi.html
+            - link "Foundations":
+              - /url: ../foundations/index.html
+            - link "Human control":
+              - /url: ../ia.html
+            - link "Single source of truth":
+              - /url: ../architecture.html
+          - generic:
+            - heading "Reference" [level=2]
+            - link "Foundations":
+              - /url: ../foundations/index.html
+            - link "Components":
+              - /url: ../components/index.html
+            - link "Tokens":
+              - /url: ../tokens/index.html
+            - link "Decisions":
+              - /url: ../decisions/index.html
+            - link "Agents":
+              - /url: ../agents/index.html
+            - link "Pipelines":
+              - /url: ../pipelines/index.html
+            - link "Continuity":
+              - /url: ../continuite.html
+          - generic:
+            - heading "Explore" [level=2]
+            - link "Storybook":
+              - /url: https://main--6a1c1e665ec5fe8fc0540983.chromatic.com/
+            - link "GitHub":
+              - /url: https://github.com/gnegreiros-ux/agentica-design-system
+            - link "Audit":
+              - /url: ../audit.html
+      - link "Get started" [ref=e14] [cursor=pointer]:
+        - /url: ../get-started.html
+    - generic "Liens rapides" [ref=e15]:
+      - button "Basculer thème sombre / Switch to dark theme" [ref=e16] [cursor=pointer]:
+        - img [ref=e17]
+      - group "Language" [ref=e19]:
+        - button "FR" [ref=e20] [cursor=pointer]
+        - button "EN" [ref=e21] [cursor=pointer]
+      - link "Storybook — Catalogue interactif des composants" [ref=e22] [cursor=pointer]:
+        - /url: https://main--6a1c1e665ec5fe8fc0540983.chromatic.com/
+        - img [ref=e23]
+      - link "GitHub — Code source du projet" [ref=e25] [cursor=pointer]:
+        - /url: https://github.com/gnegreiros-ux/agentica-design-system
+        - img [ref=e26]
+  - generic [ref=e29]:
+    - navigation "Secondary navigation / Navigation secondaire" [ref=e30]:
+      - generic [ref=e31]:
+        - generic [ref=e32]: Components
+        - link "Overview" [ref=e33] [cursor=pointer]:
+          - /url: ../components/index.html
+        - link "Button" [ref=e34] [cursor=pointer]:
+          - /url: ../components/button.html
+        - link "Icon" [ref=e35] [cursor=pointer]:
+          - /url: ../components/icon.html
+        - link "Input" [ref=e36] [cursor=pointer]:
+          - /url: ../components/input.html
+        - link "Badge" [ref=e37] [cursor=pointer]:
+          - /url: ../components/badge.html
+        - link "Image" [ref=e38] [cursor=pointer]:
+          - /url: ../components/image.html
+        - link "Card" [ref=e39] [cursor=pointer]:
+          - /url: ../components/card.html
+        - link "Checkbox" [ref=e40] [cursor=pointer]:
+          - /url: ../components/checkbox.html
+        - link "Radio" [ref=e41] [cursor=pointer]:
+          - /url: ../components/radio.html
+        - link "Toggle" [ref=e42] [cursor=pointer]:
+          - /url: ../components/toggle.html
+        - link "Table" [ref=e43] [cursor=pointer]:
+          - /url: ../components/table.html
+        - link "Code Block" [ref=e44] [cursor=pointer]:
+          - /url: ../components/code-block.html
+        - link "Banner" [ref=e45] [cursor=pointer]:
+          - /url: ../components/banner.html
+        - link "Link" [ref=e46] [cursor=pointer]:
+          - /url: ../components/link.html
+        - link "Segmented" [ref=e47] [cursor=pointer]:
+          - /url: ../components/segmented.html
+        - link "Tabs" [ref=e48] [cursor=pointer]:
+          - /url: ../components/tabs.html
+    - main [ref=e49]:
+      - heading "Code Block" [level=1] [ref=e50]
+      - paragraph [ref=e51]: Read-only, copyable code block with a language indicator on a tokenized dark surface. Accessible copy button (announced to screen readers). Present on nearly every page of the system.
+      - heading "Preview" [level=2] [ref=e52]
+      - paragraph [ref=e53]:
+        - generic [ref=e54]:
+          - text: The block below is a real
+          - code [ref=e55]: pre.code-block
+          - text: — language label top-left, accessible "Copy" button top-right.
+      - generic [ref=e56]:
+        - code [ref=e57]: <agtc-code-block language="html" filename="example.html"> <code><agtc-badge variant="success">Approved</agtc-badge></code> </agtc-code-block>
+        - generic [ref=e58]: html
+        - button "Copy code (html)" [ref=e59] [cursor=pointer]: Copy
+      - heading "Absolute rules" [level=2] [ref=e60]
+      - list [ref=e61]:
+        - listitem [ref=e62]:
+          - img [ref=e64]
+          - generic [ref=e67]:
+            - text: Real semantic
+            - code [ref=e68]: <pre><code>
+            - text: — never
+            - code [ref=e69]: <div>
+            - text: s
+        - listitem [ref=e70]:
+          - img [ref=e72]
+          - generic [ref=e75]:
+            - text: Copy button = real
+            - code [ref=e76]: <button>
+            - text: ","
+            - code [ref=e77]: aria-label
+            - text: ", visible focus, success announced ("
+            - code [ref=e78]: aria-live
+            - text: )
+        - listitem [ref=e79]:
+          - img [ref=e81]
+          - text: "Long lines: horizontal scroll — never wrap that breaks the code"
+        - listitem [ref=e84]:
+          - img [ref=e86]
+          - text: Never hardcoded color/font
+      - heading "Component tokens" [level=2] [ref=e90]
+      - table [ref=e92]:
+        - rowgroup [ref=e97]:
+          - row "Token CSS Reference Value" [ref=e98]:
+            - columnheader "Token CSS" [ref=e99]
+            - columnheader "Reference" [ref=e100]
+            - columnheader "Value" [ref=e101]
+        - rowgroup [ref=e102]:
+          - 'row "--agtc-component-code-block-default-background primitive.color.gray.12 #202020" [ref=e103]':
+            - cell "--agtc-component-code-block-default-background" [ref=e104]:
+              - code [ref=e105]: "--agtc-component-code-block-default-background"
+            - cell "primitive.color.gray.12" [ref=e106]:
+              - code [ref=e107]: primitive.color.gray.12
+            - cell "#202020" [ref=e108]
+          - 'row "--agtc-component-code-block-default-text primitive.color.gray.4 #e8e8e8" [ref=e109]':
+            - cell "--agtc-component-code-block-default-text" [ref=e110]:
+              - code [ref=e111]: "--agtc-component-code-block-default-text"
+            - cell "primitive.color.gray.4" [ref=e112]:
+              - code [ref=e113]: primitive.color.gray.4
+            - cell "#e8e8e8" [ref=e114]
+          - 'row "--agtc-component-code-block-default-meta-text primitive.color.gray.8 #bbbbbb" [ref=e115]':
+            - cell "--agtc-component-code-block-default-meta-text" [ref=e116]:
+              - code [ref=e117]: "--agtc-component-code-block-default-meta-text"
+            - cell "primitive.color.gray.8" [ref=e118]:
+              - code [ref=e119]: primitive.color.gray.8
+            - cell "#bbbbbb" [ref=e120]
+          - 'row "--agtc-component-code-block-default-copy-background primitive.color.gray.11 #646464" [ref=e121]':
+            - cell "--agtc-component-code-block-default-copy-background" [ref=e122]:
+              - code [ref=e123]: "--agtc-component-code-block-default-copy-background"
+            - cell "primitive.color.gray.11" [ref=e124]:
+              - code [ref=e125]: primitive.color.gray.11
+            - cell "#646464" [ref=e126]
+          - 'row "--agtc-component-code-block-default-copy-text primitive.color.gray.1 #fcfcfc" [ref=e127]':
+            - cell "--agtc-component-code-block-default-copy-text" [ref=e128]:
+              - code [ref=e129]: "--agtc-component-code-block-default-copy-text"
+            - cell "primitive.color.gray.1" [ref=e130]:
+              - code [ref=e131]: primitive.color.gray.1
+            - cell "#fcfcfc" [ref=e132]
+          - 'row "--agtc-component-code-block-default-border-focus semantic.color.border.focus #007a68" [ref=e133]':
+            - cell "--agtc-component-code-block-default-border-focus" [ref=e134]:
+              - code [ref=e135]: "--agtc-component-code-block-default-border-focus"
+            - cell "semantic.color.border.focus" [ref=e136]:
+              - code [ref=e137]: semantic.color.border.focus
+            - cell "#007a68" [ref=e138]
+          - row "--agtc-component-code-block-default-font-size semantic.typography.label.size 0.875rem" [ref=e139]:
+            - cell "--agtc-component-code-block-default-font-size" [ref=e140]:
+              - code [ref=e141]: "--agtc-component-code-block-default-font-size"
+            - cell "semantic.typography.label.size" [ref=e142]:
+              - code [ref=e143]: semantic.typography.label.size
+            - cell "0.875rem" [ref=e144]
+          - row "--agtc-component-code-block-default-padding-x primitive.space.5 20px" [ref=e145]:
+            - cell "--agtc-component-code-block-default-padding-x" [ref=e146]:
+              - code [ref=e147]: "--agtc-component-code-block-default-padding-x"
+            - cell "primitive.space.5" [ref=e148]:
+              - code [ref=e149]: primitive.space.5
+            - cell "20px" [ref=e150]
+          - row "--agtc-component-code-block-default-padding-y primitive.space.4 16px" [ref=e151]:
+            - cell "--agtc-component-code-block-default-padding-y" [ref=e152]:
+              - code [ref=e153]: "--agtc-component-code-block-default-padding-y"
+            - cell "primitive.space.4" [ref=e154]:
+              - code [ref=e155]: primitive.space.4
+            - cell "16px" [ref=e156]
+      - heading "Accessibility" [level=2] [ref=e157]
+      - list [ref=e158]:
+        - listitem [ref=e159]:
+          - generic [ref=e160]:
+            - text: Semantic
+            - code [ref=e161]: <pre><code>
+            - text: ", code stays selectable"
+        - listitem [ref=e162]:
+          - generic [ref=e163]:
+            - text: Copy button keyboard-reachable,
+            - code [ref=e164]: aria-label
+            - text: (language included),
+            - code [ref=e165]: :focus-visible
+        - listitem [ref=e166]:
+          - generic [ref=e167]:
+            - text: Copy announced to AT via
+            - code [ref=e168]: role="status"
+            - text: +
+            - code [ref=e169]: aria-live="polite"
+        - listitem [ref=e170]: Contrast gray.4 on gray.12 ≥ 13:1; button and language ≥ 4.5:1
+      - heading "Implementation" [level=2] [ref=e171]
+      - generic [ref=e172]:
+        - code [ref=e173]: "<!-- Slotted component --> <agtc-code-block language=\"javascript\" filename=\"agtc-badge.js\"> <code>import { LitElement } from 'lit';</code> </agtc-code-block> <!-- Class on static HTML (site) --> <pre class=\"code-block\"><code class=\"lang-html\">&lt;agtc-badge&gt;Approved&lt;/agtc-badge&gt;</code></pre>"
+        - generic [ref=e174]: html
+        - button "Copy code (html)" [ref=e175] [cursor=pointer]: Copy
+      - heading "DOs and DON'Ts" [level=2] [ref=e176]
+      - generic [ref=e177]:
+        - generic [ref=e178]:
+          - heading "Do" [level=3] [ref=e179]:
+            - img [ref=e180]
+            - text: Do
+          - list [ref=e183]:
+            - listitem [ref=e184]:
+              - generic [ref=e185]:
+                - text: Indicate the language (
+                - code [ref=e186]: language
+                - text: or
+                - code [ref=e187]: class="lang-…"
+                - text: )
+            - listitem [ref=e188]: Let long lines scroll horizontally
+            - listitem [ref=e189]: Keep code escaped and selectable
+        - generic [ref=e190]:
+          - heading "Don't" [level=3] [ref=e191]:
+            - img [ref=e192]
+            - text: Don't
+          - list [ref=e196]:
+            - listitem [ref=e197]:
+              - generic [ref=e198]:
+                - text: A copy button without
+                - code [ref=e199]: aria-label
+                - text: or announced feedback
+            - listitem [ref=e200]: Expecting syntax highlighting — deferred v1 (door open)
+            - listitem [ref=e201]:
+              - generic [ref=e202]:
+                - code [ref=e203]: <div>
+                - text: s styled as code
+      - heading "UX Patterns Reference" [level=2] [ref=e204]
+      - blockquote [ref=e205]:
+        - paragraph [ref=e206]:
+          - text: Patterns approved via the
+          - code [ref=e207]: ux-pattern-review
+          - text: "workflow (ADR-036/041). Decision:"
+          - strong [ref=e208]: CD1–CD9 all approved
+          - text: .
+      - table [ref=e210]:
+        - rowgroup [ref=e211]:
+          - row "Pattern Source Applied Justification" [ref=e212]:
+            - columnheader "Pattern" [ref=e213]
+            - columnheader "Source" [ref=e214]
+            - columnheader "Applied" [ref=e215]
+            - columnheader "Justification" [ref=e216]
+        - rowgroup [ref=e217]:
+          - row "Semantic <pre><code> + language class DEV — copy code button ✅ Slot for the code" [ref=e218]:
+            - cell "Semantic <pre><code> + language class" [ref=e219]:
+              - text: Semantic
+              - code [ref=e220]: <pre><code>
+              - text: + language class
+            - cell "DEV — copy code button" [ref=e221]:
+              - link "DEV — copy code button" [ref=e222] [cursor=pointer]:
+                - /url: https://dev.to/whitep4nth3r/how-to-build-a-copy-code-snippet-button-and-why-it-matters-3en8
+            - cell "✅" [ref=e223]
+            - cell "Slot for the code" [ref=e224]
+          - row "Copy button + text feedback roboleary ✅ Copy → Copied!" [ref=e225]:
+            - cell "Copy button + text feedback" [ref=e226]
+            - cell "roboleary" [ref=e227]:
+              - link "roboleary" [ref=e228] [cursor=pointer]:
+                - /url: https://www.roboleary.net/2022/01/13/copy-code-to-clipboard-blog
+            - cell "✅" [ref=e229]
+            - cell "Copy → Copied!" [ref=e230]:
+              - code [ref=e231]: Copy
+              - text: →
+              - code [ref=e232]: Copied!
+          - row "Accessible copy button (aria-label, focus-visible) Sara Soueidan ✅ Fixes the site's previous unlabeled, French-only button" [ref=e233]:
+            - cell "Accessible copy button (aria-label, focus-visible)" [ref=e234]
+            - cell "Sara Soueidan" [ref=e235]:
+              - link "Sara Soueidan" [ref=e236] [cursor=pointer]:
+                - /url: https://www.sarasoueidan.com/blog/accessible-notifications-with-aria-live-regions-part-1/
+            - cell "✅" [ref=e237]
+            - cell "Fixes the site's previous unlabeled, French-only button" [ref=e238]
+          - row "Success announced to AT (role=\"status\" / aria-live) Sara Soueidan ✅ Polite live region" [ref=e239]:
+            - cell "Success announced to AT (role=\"status\" / aria-live)" [ref=e240]:
+              - text: Success announced to AT (
+              - code [ref=e241]: role="status"
+              - text: /
+              - code [ref=e242]: aria-live
+              - text: )
+            - cell "Sara Soueidan" [ref=e243]:
+              - link "Sara Soueidan" [ref=e244] [cursor=pointer]:
+                - /url: https://www.sarasoueidan.com/blog/accessible-notifications-with-aria-live-regions-part-1/
+            - cell "✅" [ref=e245]
+            - cell "Polite live region" [ref=e246]
+          - row "Language indicator DEV ✅ language attribute" [ref=e247]:
+            - cell "Language indicator" [ref=e248]
+            - cell "DEV" [ref=e249]:
+              - link "DEV" [ref=e250] [cursor=pointer]:
+                - /url: https://dev.to/whitep4nth3r/how-to-build-a-copy-code-snippet-button-and-why-it-matters-3en8
+            - cell "✅" [ref=e251]
+            - cell "language attribute" [ref=e252]:
+              - code [ref=e253]: language
+              - text: attribute
+          - row "Horizontal scroll for long lines NN/g ✅ overflow-x:auto" [ref=e254]:
+            - cell "Horizontal scroll for long lines" [ref=e255]
+            - cell "NN/g" [ref=e256]:
+              - link "NN/g" [ref=e257] [cursor=pointer]:
+                - /url: https://www.nngroup.com/articles/design-pattern-guidelines/
+            - cell "✅" [ref=e258]
+            - cell "overflow-x:auto" [ref=e259]:
+              - code [ref=e260]: overflow-x:auto
+          - 'row "Syntax highlighting (WCAG contrast) NN/g ✅ (deferred) Out of v1 scope: high-contrast plain text with no dependency; API ready for future highlighting" [ref=e261]':
+            - cell "Syntax highlighting (WCAG contrast)" [ref=e262]
+            - cell "NN/g" [ref=e263]:
+              - link "NN/g" [ref=e264] [cursor=pointer]:
+                - /url: https://www.nngroup.com/articles/design-pattern-guidelines/
+            - cell "✅ (deferred)" [ref=e265]
+            - 'cell "Out of v1 scope: high-contrast plain text with no dependency; API ready for future highlighting" [ref=e266]':
+              - strong [ref=e267]: Out of v1 scope
+              - text: ": high-contrast plain text with no dependency; API ready for future highlighting"
+          - row "Header (file name / title) DEV ✅ Optional filename attribute" [ref=e268]:
+            - cell "Header (file name / title)" [ref=e269]
+            - cell "DEV" [ref=e270]:
+              - link "DEV" [ref=e271] [cursor=pointer]:
+                - /url: https://dev.to/whitep4nth3r/how-to-build-a-copy-code-snippet-button-and-why-it-matters-3en8
+            - cell "✅" [ref=e272]
+            - cell "Optional filename attribute" [ref=e273]:
+              - text: Optional
+              - code [ref=e274]: filename
+              - text: attribute
+          - row "Line numbers NN/g ❌ Out of v1 scope — visual noise; may be added later if needed" [ref=e275]:
+            - cell "Line numbers" [ref=e276]
+            - cell "NN/g" [ref=e277]:
+              - link "NN/g" [ref=e278] [cursor=pointer]:
+                - /url: https://www.nngroup.com/articles/design-pattern-guidelines/
+            - cell "❌" [ref=e279]
+            - cell "Out of v1 scope — visual noise; may be added later if needed" [ref=e280]
+      - generic [ref=e281]:
+        - img [ref=e283]
+        - generic [ref=e286]:
+          - strong [ref=e287]: Contribute to this project
+          - paragraph [ref=e288]: This system welcomes contributions — tokens, components, architectural decisions, accessibility fixes, or documentation. Every improvement counts.
+        - link "View on GitHub" [ref=e289] [cursor=pointer]:
+          - /url: https://github.com/gnegreiros-ux/agentica-design-system
+          - generic [ref=e290]: View on GitHub
+    - navigation "Table of contents / Table des matières" [ref=e291]:
+      - generic [ref=e292]: On this page
+      - link "Preview" [ref=e293] [cursor=pointer]:
+        - /url: "#aper-u"
+      - link "Absolute rules" [ref=e294] [cursor=pointer]:
+        - /url: "#regles-absolues"
+      - link "Component tokens" [ref=e295] [cursor=pointer]:
+        - /url: "#tokens-de-composant"
+      - link "Accessibility" [ref=e296] [cursor=pointer]:
+        - /url: "#accessibilite"
+      - link "Implementation" [ref=e297] [cursor=pointer]:
+        - /url: "#implementation"
+      - link "DOs and DON'Ts" [ref=e298] [cursor=pointer]:
+        - /url: "#dos-et-don-ts"
+      - link "UX Patterns Reference" [ref=e299] [cursor=pointer]:
+        - /url: "#ux-patterns-reference"
+  - contentinfo [ref=e300]:
+    - generic [ref=e301]:
+      - generic [ref=e302]:
+        - link "Agentica — Accueil" [ref=e303] [cursor=pointer]:
+          - /url: ../index.html
+          - img "Agentica" [ref=e304]
+        - link "Guilherme Negreiros" [ref=e305] [cursor=pointer]:
+          - /url: https://www.linkedin.com/in/gnegreiros/
+          - img [ref=e306]
+          - text: Guilherme Negreiros
+      - generic [ref=e310]:
+        - generic [ref=e311]: Navigation
+        - link "Home" [ref=e312] [cursor=pointer]:
+          - /url: ../index.html
+        - link "Why" [ref=e313] [cursor=pointer]:
+          - /url: ../pourquoi.html
+        - link "Architecture" [ref=e314] [cursor=pointer]:
+          - /url: ../architecture.html
+        - link "Quality" [ref=e315] [cursor=pointer]:
+          - /url: ../qualite.html
+        - link "AI" [ref=e316] [cursor=pointer]:
+          - /url: ../ia.html
+      - generic [ref=e317]:
+        - generic [ref=e318]: Documentation
+        - link "Understand" [ref=e319] [cursor=pointer]:
+          - /url: ../pourquoi.html
+        - link "Get started" [ref=e320] [cursor=pointer]:
+          - /url: ../get-started.html
+        - link "Foundations" [ref=e321] [cursor=pointer]:
+          - /url: ../foundations/index.html
+        - link "Components" [ref=e322] [cursor=pointer]:
+          - /url: ../components/index.html
+        - link "Tokens" [ref=e323] [cursor=pointer]:
+          - /url: ../tokens/index.html
+        - link "Decisions" [ref=e324] [cursor=pointer]:
+          - /url: ../decisions/index.html
+        - link "Continuity" [ref=e325] [cursor=pointer]:
+          - /url: ../continuite.html
+        - link "Changelog" [ref=e326] [cursor=pointer]:
+          - /url: ../changelog.html
+      - generic [ref=e327]:
+        - generic [ref=e328]: Explorer
+        - link "Storybook" [ref=e329] [cursor=pointer]:
+          - /url: https://main--6a1c1e665ec5fe8fc0540983.chromatic.com/
+        - link "GitHub" [ref=e330] [cursor=pointer]:
+          - /url: https://github.com/gnegreiros-ux/agentica-design-system
+        - link "Audit" [ref=e331] [cursor=pointer]:
+          - /url: ../audit.html
+        - link "AI Brief" [ref=e332] [cursor=pointer]:
+          - /url: ../ai-brief.html
+    - generic [ref=e333]:
+      - generic [ref=e334]: © 2026 Guilherme Negreiros
+      - generic [ref=e335]: Built with Claude Code.
+  - button "Retour en haut" [ref=e336] [cursor=pointer]:
+    - img [ref=e337]
+    - generic [ref=e339]: Top
+  - status [ref=e340]
+```
+
+# Test source
+
+```ts
+  1  | import { test, expect } from '@playwright/test';
+  2  | 
+  3  | // Visual regressions for every component page (except button.html, already covered)
+  4  | const PAGES = [
+  5  |   'badge', 'banner', 'card', 'checkbox', 'code-block',
+  6  |   'icon', 'input', 'link', 'radio', 'segmented',
+  7  |   'table', 'tabs', 'toggle',
+  8  | ];
+  9  | 
+  10 | for (const name of PAGES) {
+  11 |   test.describe(`${name} — visual regressions`, () => {
+  12 |     for (const theme of ['light', 'dark']) {
+  13 |       test(`page ${name} — ${theme}`, async ({ page }) => {
+  14 |         await page.goto(`/components/${name}.html`);
+  15 |         await page.waitForLoadState('networkidle');
+  16 |         await page.evaluate((t) =>
+  17 |           document.documentElement.setAttribute('data-theme', t), theme
+  18 |         );
+> 19 |         await expect(page).toHaveScreenshot(`${name}-${theme}.png`, { fullPage: true });
+     |                            ^ Error: expect(page).toHaveScreenshot(expected) failed
+  20 |       });
+  21 |     }
+  22 |   });
+  23 | }
+  24 | 
+```

@@ -1,0 +1,457 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: visual/components/all-components.spec.js >> radio — visual regressions >> page radio — dark
+- Location: tests/visual/components/all-components.spec.js:13:7
+
+# Error details
+
+```
+Error: expect(page).toHaveScreenshot(expected) failed
+
+  Expected an image 1280px by 3856px, received 1280px by 3770px. 196674 pixels (ratio 0.04 of all image pixels) are different.
+
+  Snapshot: radio-dark.png
+
+Call log:
+  - Expect "toHaveScreenshot(radio-dark.png)" with timeout 5000ms
+    - verifying given screenshot expectation
+  - taking page screenshot
+    - disabled all CSS animations
+  - waiting for fonts to load...
+  - fonts loaded
+  - Expected an image 1280px by 3856px, received 1280px by 3770px. 196674 pixels (ratio 0.04 of all image pixels) are different.
+  - waiting 100ms before taking screenshot
+  - taking page screenshot
+    - disabled all CSS animations
+  - waiting for fonts to load...
+  - fonts loaded
+  - captured a stable screenshot
+  - Expected an image 1280px by 3856px, received 1280px by 3770px. 196674 pixels (ratio 0.04 of all image pixels) are different.
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=e3]:
+    - link "Agentica — Accueil" [ref=e4] [cursor=pointer]:
+      - /url: ../index.html
+      - img "Agentica" [ref=e5]
+    - navigation "Navigation principale" [ref=e6]:
+      - link "Home" [ref=e7] [cursor=pointer]:
+        - /url: ../index.html
+      - link "Why" [ref=e8] [cursor=pointer]:
+        - /url: ../pourquoi.html
+      - link "Architecture" [ref=e9] [cursor=pointer]:
+        - /url: ../architecture.html
+      - link "Quality" [ref=e10] [cursor=pointer]:
+        - /url: ../qualite.html
+      - link "AI" [ref=e11] [cursor=pointer]:
+        - /url: ../ia.html
+      - generic [ref=e12]:
+        - link "Documentation" [ref=e13] [cursor=pointer]:
+          - /url: ../documentation.html
+        - generic:
+          - generic:
+            - heading "Understand" [level=2]
+            - link "Introduction":
+              - /url: ../pourquoi.html
+            - link "Foundations":
+              - /url: ../foundations/index.html
+            - link "Human control":
+              - /url: ../ia.html
+            - link "Single source of truth":
+              - /url: ../architecture.html
+          - generic:
+            - heading "Reference" [level=2]
+            - link "Foundations":
+              - /url: ../foundations/index.html
+            - link "Components":
+              - /url: ../components/index.html
+            - link "Tokens":
+              - /url: ../tokens/index.html
+            - link "Decisions":
+              - /url: ../decisions/index.html
+            - link "Agents":
+              - /url: ../agents/index.html
+            - link "Pipelines":
+              - /url: ../pipelines/index.html
+            - link "Continuity":
+              - /url: ../continuite.html
+          - generic:
+            - heading "Explore" [level=2]
+            - link "Storybook":
+              - /url: https://main--6a1c1e665ec5fe8fc0540983.chromatic.com/
+            - link "GitHub":
+              - /url: https://github.com/gnegreiros-ux/agentica-design-system
+            - link "Audit":
+              - /url: ../audit.html
+      - link "Get started" [ref=e14] [cursor=pointer]:
+        - /url: ../get-started.html
+    - generic "Liens rapides" [ref=e15]:
+      - button "Basculer thème sombre / Switch to dark theme" [ref=e16] [cursor=pointer]:
+        - img [ref=e17]
+      - group "Language" [ref=e19]:
+        - button "FR" [ref=e20] [cursor=pointer]
+        - button "EN" [ref=e21] [cursor=pointer]
+      - link "Storybook — Catalogue interactif des composants" [ref=e22] [cursor=pointer]:
+        - /url: https://main--6a1c1e665ec5fe8fc0540983.chromatic.com/
+        - img [ref=e23]
+      - link "GitHub — Code source du projet" [ref=e25] [cursor=pointer]:
+        - /url: https://github.com/gnegreiros-ux/agentica-design-system
+        - img [ref=e26]
+  - generic [ref=e29]:
+    - navigation "Secondary navigation / Navigation secondaire" [ref=e30]:
+      - generic [ref=e31]:
+        - generic [ref=e32]: Components
+        - link "Overview" [ref=e33] [cursor=pointer]:
+          - /url: ../components/index.html
+        - link "Button" [ref=e34] [cursor=pointer]:
+          - /url: ../components/button.html
+        - link "Icon" [ref=e35] [cursor=pointer]:
+          - /url: ../components/icon.html
+        - link "Input" [ref=e36] [cursor=pointer]:
+          - /url: ../components/input.html
+        - link "Badge" [ref=e37] [cursor=pointer]:
+          - /url: ../components/badge.html
+        - link "Image" [ref=e38] [cursor=pointer]:
+          - /url: ../components/image.html
+        - link "Card" [ref=e39] [cursor=pointer]:
+          - /url: ../components/card.html
+        - link "Checkbox" [ref=e40] [cursor=pointer]:
+          - /url: ../components/checkbox.html
+        - link "Radio" [ref=e41] [cursor=pointer]:
+          - /url: ../components/radio.html
+        - link "Toggle" [ref=e42] [cursor=pointer]:
+          - /url: ../components/toggle.html
+        - link "Table" [ref=e43] [cursor=pointer]:
+          - /url: ../components/table.html
+        - link "Code Block" [ref=e44] [cursor=pointer]:
+          - /url: ../components/code-block.html
+        - link "Banner" [ref=e45] [cursor=pointer]:
+          - /url: ../components/banner.html
+        - link "Link" [ref=e46] [cursor=pointer]:
+          - /url: ../components/link.html
+        - link "Segmented" [ref=e47] [cursor=pointer]:
+          - /url: ../components/segmented.html
+        - link "Tabs" [ref=e48] [cursor=pointer]:
+          - /url: ../components/tabs.html
+    - main [ref=e49]:
+      - heading "Radio" [level=1] [ref=e50]
+      - paragraph [ref=e51]:
+        - generic [ref=e52]:
+          - text: Mutually exclusive selection — exactly one choice.
+          - strong [ref=e53]: Round
+          - text: "shape (NN/g): square signals a checkbox. Always inside an"
+          - code [ref=e54]: <agtc-radio-group>
+          - text: handling exclusivity, roving focus, and arrow navigation.
+      - heading "States" [level=2] [ref=e55]
+      - generic [ref=e57]:
+        - generic [ref=e58]: "\"Plan\" group"
+        - generic [ref=e59]:
+          - generic [ref=e62]: Gratuit
+          - generic [ref=e66]: Pro
+          - generic [ref=e69]: Team (soon)
+      - heading "Keyboard navigation" [level=2] [ref=e70]
+      - table [ref=e72]:
+        - rowgroup [ref=e73]:
+          - row "Key Action" [ref=e74]:
+            - columnheader "Key" [ref=e75]
+            - columnheader "Action" [ref=e76]
+        - rowgroup [ref=e77]:
+          - row "Tab Enter/leave the group (roving focus)" [ref=e78]:
+            - cell "Tab" [ref=e79]:
+              - code [ref=e80]: Tab
+            - cell "Enter/leave the group (roving focus)" [ref=e81]
+          - row "↓ / → Next option (selects, wraps)" [ref=e82]:
+            - cell "↓ / →" [ref=e83]:
+              - code [ref=e84]: ↓
+              - text: /
+              - code [ref=e85]: →
+            - cell "Next option (selects, wraps)" [ref=e86]
+          - row "↑ / ← Previous option (selects, wraps)" [ref=e87]:
+            - cell "↑ / ←" [ref=e88]:
+              - code [ref=e89]: ↑
+              - text: /
+              - code [ref=e90]: ←
+            - cell "Previous option (selects, wraps)" [ref=e91]
+          - row "Espace Selects the focused option (Enter reserved for submission)" [ref=e92]:
+            - cell "Espace" [ref=e93]:
+              - code [ref=e94]: Espace
+            - cell "Selects the focused option (Enter reserved for submission)" [ref=e95]:
+              - generic [ref=e96]:
+                - text: Selects the focused option (
+                - code [ref=e97]: Enter
+                - text: reserved for submission)
+      - heading "Absolute rules" [level=2] [ref=e98]
+      - list [ref=e99]:
+        - listitem [ref=e100]:
+          - img [ref=e102]
+          - text: Round shape — never square (square = checkbox)
+        - listitem [ref=e105]:
+          - img [ref=e107]
+          - generic [ref=e110]:
+            - text: Always inside an
+            - code [ref=e111]: <agtc-radio-group>
+        - listitem [ref=e112]:
+          - img [ref=e114]
+          - text: Pre-select a sensible default (except ethical/legal cases)
+        - listitem [ref=e117]:
+          - img [ref=e119]
+          - text: Multiple selection expected — use checkboxes
+      - heading "Component tokens" [level=2] [ref=e123]
+      - table [ref=e125]:
+        - rowgroup [ref=e130]:
+          - row "Token CSS Semantic reference Resolved value" [ref=e131]:
+            - columnheader "Token CSS" [ref=e132]
+            - columnheader "Semantic reference" [ref=e133]
+            - columnheader "Resolved value" [ref=e134]
+        - rowgroup [ref=e135]:
+          - 'row "--agtc-radio-default-background semantic.color.background.surface #ffffff" [ref=e136]':
+            - cell "--agtc-radio-default-background" [ref=e137]:
+              - code [ref=e138]: "--agtc-radio-default-background"
+            - cell "semantic.color.background.surface" [ref=e139]:
+              - code [ref=e140]: semantic.color.background.surface
+            - cell "#ffffff" [ref=e141]
+          - 'row "--agtc-radio-default-border semantic.color.border.default #e8e8e8" [ref=e142]':
+            - cell "--agtc-radio-default-border" [ref=e143]:
+              - code [ref=e144]: "--agtc-radio-default-border"
+            - cell "semantic.color.border.default" [ref=e145]:
+              - code [ref=e146]: semantic.color.border.default
+            - cell "#e8e8e8" [ref=e147]
+          - 'row "--agtc-radio-default-border-hover semantic.color.action.primary #007a68" [ref=e148]':
+            - cell "--agtc-radio-default-border-hover" [ref=e149]:
+              - code [ref=e150]: "--agtc-radio-default-border-hover"
+            - cell "semantic.color.action.primary" [ref=e151]:
+              - code [ref=e152]: semantic.color.action.primary
+            - cell "#007a68" [ref=e153]
+          - 'row "--agtc-radio-default-border-focus semantic.color.border.focus #007a68" [ref=e154]':
+            - cell "--agtc-radio-default-border-focus" [ref=e155]:
+              - code [ref=e156]: "--agtc-radio-default-border-focus"
+            - cell "semantic.color.border.focus" [ref=e157]:
+              - code [ref=e158]: semantic.color.border.focus
+            - cell "#007a68" [ref=e159]
+          - 'row "--agtc-radio-default-fill semantic.color.action.primary #007a68" [ref=e160]':
+            - cell "--agtc-radio-default-fill" [ref=e161]:
+              - code [ref=e162]: "--agtc-radio-default-fill"
+            - cell "semantic.color.action.primary" [ref=e163]:
+              - code [ref=e164]: semantic.color.action.primary
+            - cell "#007a68" [ref=e165]
+          - 'row "--agtc-radio-default-label semantic.color.text.primary #202020" [ref=e166]':
+            - cell "--agtc-radio-default-label" [ref=e167]:
+              - code [ref=e168]: "--agtc-radio-default-label"
+            - cell "semantic.color.text.primary" [ref=e169]:
+              - code [ref=e170]: semantic.color.text.primary
+            - cell "#202020" [ref=e171]
+      - heading "Implementation" [level=2] [ref=e172]
+      - generic [ref=e173]:
+        - code [ref=e174]: <agtc-radio-group name="plan" value="pro" label=" Plan"> <agtc-radio value="free"> Free</agtc-radio> <agtc-radio value="pro">Pro</agtc-radio> <agtc-radio value="team"> Team</agtc-radio> </agtc-radio-group>
+        - generic [ref=e175]: html
+        - button "Copy code (html)" [ref=e176] [cursor=pointer]: Copy
+      - heading "UX Patterns Reference" [level=2] [ref=e177]
+      - blockquote [ref=e178]:
+        - paragraph [ref=e179]:
+          - text: Patterns approved by the Design System Lead via the
+          - code [ref=e180]: ux-pattern-review
+          - text: workflow (see
+          - code [ref=e181]: .claude/rules/ux-patterns-sources.md
+          - text: "and ADR-036). Decision:"
+          - strong [ref=e182]: all approved
+          - text: .
+      - table [ref=e184]:
+        - rowgroup [ref=e185]:
+          - row "Pattern Source Applied Justification" [ref=e186]:
+            - columnheader "Pattern" [ref=e187]
+            - columnheader "Source" [ref=e188]
+            - columnheader "Applied" [ref=e189]
+            - columnheader "Justification" [ref=e190]
+        - rowgroup [ref=e191]:
+          - 'row "Round shape (square = checkbox) NN/g — checkboxes vs radio ✅ border-radius: var(--agtc-semantic-radius-pill)" [ref=e192]':
+            - cell "Round shape (square = checkbox)" [ref=e193]:
+              - strong [ref=e194]: Round shape
+              - text: (square = checkbox)
+            - cell "NN/g — checkboxes vs radio" [ref=e195]:
+              - link "NN/g — checkboxes vs radio" [ref=e196] [cursor=pointer]:
+                - /url: https://www.nngroup.com/articles/checkboxes-vs-radio-buttons/
+            - cell "✅" [ref=e197]
+            - 'cell "border-radius: var(--agtc-semantic-radius-pill)" [ref=e198]':
+              - code [ref=e199]: "border-radius: var(--agtc-semantic-radius-pill)"
+          - row "Mutually exclusive selection (exactly 1) NN/g ✅ Group manages exclusivity" [ref=e200]:
+            - cell "Mutually exclusive selection (exactly 1)" [ref=e201]
+            - cell "NN/g" [ref=e202]:
+              - link "NN/g" [ref=e203] [cursor=pointer]:
+                - /url: https://www.nngroup.com/articles/checkboxes-vs-radio-buttons/
+            - cell "✅" [ref=e204]
+            - cell "Group manages exclusivity" [ref=e205]
+          - row "Pre-select a sensible default (except exceptions) NN/g — radio default selection ✅ Group value — usage guidance" [ref=e206]:
+            - cell "Pre-select a sensible default (except exceptions)" [ref=e207]
+            - cell "NN/g — radio default selection" [ref=e208]:
+              - link "NN/g — radio default selection" [ref=e209] [cursor=pointer]:
+                - /url: https://www.nngroup.com/articles/radio-buttons-default-selection/
+            - cell "✅" [ref=e210]
+            - cell "Group value — usage guidance" [ref=e211]:
+              - text: Group
+              - code [ref=e212]: value
+              - text: — usage guidance
+          - row "Vertical stacking, one option per row NN/g ✅ Layout recommendation" [ref=e213]:
+            - cell "Vertical stacking, one option per row" [ref=e214]
+            - cell "NN/g" [ref=e215]:
+              - link "NN/g" [ref=e216] [cursor=pointer]:
+                - /url: https://www.nngroup.com/articles/checkboxes-vs-radio-buttons/
+            - cell "✅" [ref=e217]
+            - cell "Layout recommendation" [ref=e218]
+          - row "Clickable label (dot or text) — Fitts NN/g · IxDF ✅ The whole option is clickable" [ref=e219]:
+            - cell "Clickable label (dot or text) — Fitts" [ref=e220]:
+              - text: Clickable label (dot
+              - strong [ref=e221]: or
+              - text: text) — Fitts
+            - cell "NN/g · IxDF" [ref=e222]:
+              - link "NN/g" [ref=e223] [cursor=pointer]:
+                - /url: https://www.nngroup.com/articles/checkboxes-vs-radio-buttons/
+              - text: ·
+              - link "IxDF" [ref=e224] [cursor=pointer]:
+                - /url: https://ixdf.org/literature/topics/ui-design-patterns
+            - cell "✅" [ref=e225]
+            - cell "The whole option is clickable" [ref=e226]
+          - 'row "Touch target ≥ 24×24px IxDF ✅ min-height: 24px (WCAG 2.5.8)" [ref=e227]':
+            - cell "Touch target ≥ 24×24px" [ref=e228]
+            - cell "IxDF" [ref=e229]:
+              - link "IxDF" [ref=e230] [cursor=pointer]:
+                - /url: https://ixdf.org/literature/topics/ui-design-patterns
+            - cell "✅" [ref=e231]
+            - 'cell "min-height: 24px (WCAG 2.5.8)" [ref=e232]':
+              - code [ref=e233]: "min-height: 24px"
+              - text: (WCAG 2.5.8)
+          - row "Arrow navigation = selection (native radio) NN/g ✅ Managed by the group (WAI-ARIA radiogroup)" [ref=e234]:
+            - cell "Arrow navigation = selection (native radio)" [ref=e235]
+            - cell "NN/g" [ref=e236]:
+              - link "NN/g" [ref=e237] [cursor=pointer]:
+                - /url: https://www.nngroup.com/articles/checkboxes-vs-radio-buttons/
+            - cell "✅" [ref=e238]
+            - cell "Managed by the group (WAI-ARIA radiogroup)" [ref=e239]
+          - row "Complete visible states NN/g ✅ default/hover/focus/selected/disabled" [ref=e240]:
+            - cell "Complete visible states" [ref=e241]
+            - cell "NN/g" [ref=e242]:
+              - link "NN/g" [ref=e243] [cursor=pointer]:
+                - /url: https://www.nngroup.com/articles/checkboxes-vs-radio-buttons/
+            - cell "✅" [ref=e244]
+            - cell "default/hover/focus/selected/disabled" [ref=e245]
+      - generic [ref=e246]:
+        - img [ref=e248]
+        - generic [ref=e251]:
+          - strong [ref=e252]: Contribute to this project
+          - paragraph [ref=e253]: This system welcomes contributions — tokens, components, architectural decisions, accessibility fixes, or documentation. Every improvement counts.
+        - link "View on GitHub" [ref=e254] [cursor=pointer]:
+          - /url: https://github.com/gnegreiros-ux/agentica-design-system
+          - generic [ref=e255]: View on GitHub
+    - navigation "Table of contents / Table des matières" [ref=e256]:
+      - generic [ref=e257]: On this page
+      - link "States" [ref=e258] [cursor=pointer]:
+        - /url: "#etats"
+      - link "Keyboard navigation" [ref=e259] [cursor=pointer]:
+        - /url: "#navigation-clavier"
+      - link "Absolute rules" [ref=e260] [cursor=pointer]:
+        - /url: "#regles-absolues"
+      - link "Component tokens" [ref=e261] [cursor=pointer]:
+        - /url: "#tokens-de-composant"
+      - link "Implementation" [ref=e262] [cursor=pointer]:
+        - /url: "#implementation"
+      - link "UX Patterns Reference" [ref=e263] [cursor=pointer]:
+        - /url: "#ux-patterns-reference"
+  - contentinfo [ref=e264]:
+    - generic [ref=e265]:
+      - generic [ref=e266]:
+        - link "Agentica — Accueil" [ref=e267] [cursor=pointer]:
+          - /url: ../index.html
+          - img "Agentica" [ref=e268]
+        - link "Guilherme Negreiros" [ref=e269] [cursor=pointer]:
+          - /url: https://www.linkedin.com/in/gnegreiros/
+          - img [ref=e270]
+          - text: Guilherme Negreiros
+      - generic [ref=e274]:
+        - generic [ref=e275]: Navigation
+        - link "Home" [ref=e276] [cursor=pointer]:
+          - /url: ../index.html
+        - link "Why" [ref=e277] [cursor=pointer]:
+          - /url: ../pourquoi.html
+        - link "Architecture" [ref=e278] [cursor=pointer]:
+          - /url: ../architecture.html
+        - link "Quality" [ref=e279] [cursor=pointer]:
+          - /url: ../qualite.html
+        - link "AI" [ref=e280] [cursor=pointer]:
+          - /url: ../ia.html
+      - generic [ref=e281]:
+        - generic [ref=e282]: Documentation
+        - link "Understand" [ref=e283] [cursor=pointer]:
+          - /url: ../pourquoi.html
+        - link "Get started" [ref=e284] [cursor=pointer]:
+          - /url: ../get-started.html
+        - link "Foundations" [ref=e285] [cursor=pointer]:
+          - /url: ../foundations/index.html
+        - link "Components" [ref=e286] [cursor=pointer]:
+          - /url: ../components/index.html
+        - link "Tokens" [ref=e287] [cursor=pointer]:
+          - /url: ../tokens/index.html
+        - link "Decisions" [ref=e288] [cursor=pointer]:
+          - /url: ../decisions/index.html
+        - link "Continuity" [ref=e289] [cursor=pointer]:
+          - /url: ../continuite.html
+        - link "Changelog" [ref=e290] [cursor=pointer]:
+          - /url: ../changelog.html
+      - generic [ref=e291]:
+        - generic [ref=e292]: Explorer
+        - link "Storybook" [ref=e293] [cursor=pointer]:
+          - /url: https://main--6a1c1e665ec5fe8fc0540983.chromatic.com/
+        - link "GitHub" [ref=e294] [cursor=pointer]:
+          - /url: https://github.com/gnegreiros-ux/agentica-design-system
+        - link "Audit" [ref=e295] [cursor=pointer]:
+          - /url: ../audit.html
+        - link "AI Brief" [ref=e296] [cursor=pointer]:
+          - /url: ../ai-brief.html
+    - generic [ref=e297]:
+      - generic [ref=e298]: © 2026 Guilherme Negreiros
+      - generic [ref=e299]: Built with Claude Code.
+  - button "Retour en haut" [ref=e300] [cursor=pointer]:
+    - img [ref=e301]
+    - generic [ref=e303]: Top
+  - status [ref=e304]
+```
+
+# Test source
+
+```ts
+  1  | import { test, expect } from '@playwright/test';
+  2  | 
+  3  | // Visual regressions for every component page (except button.html, already covered)
+  4  | const PAGES = [
+  5  |   'badge', 'banner', 'card', 'checkbox', 'code-block',
+  6  |   'icon', 'input', 'link', 'radio', 'segmented',
+  7  |   'table', 'tabs', 'toggle',
+  8  | ];
+  9  | 
+  10 | for (const name of PAGES) {
+  11 |   test.describe(`${name} — visual regressions`, () => {
+  12 |     for (const theme of ['light', 'dark']) {
+  13 |       test(`page ${name} — ${theme}`, async ({ page }) => {
+  14 |         await page.goto(`/components/${name}.html`);
+  15 |         await page.waitForLoadState('networkidle');
+  16 |         await page.evaluate((t) =>
+  17 |           document.documentElement.setAttribute('data-theme', t), theme
+  18 |         );
+> 19 |         await expect(page).toHaveScreenshot(`${name}-${theme}.png`, { fullPage: true });
+     |                            ^ Error: expect(page).toHaveScreenshot(expected) failed
+  20 |       });
+  21 |     }
+  22 |   });
+  23 | }
+  24 | 
+```

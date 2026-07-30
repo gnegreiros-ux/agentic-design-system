@@ -1,0 +1,509 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: visual/components/all-components.spec.js >> segmented — visual regressions >> page segmented — dark
+- Location: tests/visual/components/all-components.spec.js:13:7
+
+# Error details
+
+```
+Error: expect(page).toHaveScreenshot(expected) failed
+
+  Expected an image 1287px by 4307px, received 1287px by 4219px. 217157 pixels (ratio 0.04 of all image pixels) are different.
+
+  Snapshot: segmented-dark.png
+
+Call log:
+  - Expect "toHaveScreenshot(segmented-dark.png)" with timeout 5000ms
+    - verifying given screenshot expectation
+  - taking page screenshot
+    - disabled all CSS animations
+  - waiting for fonts to load...
+  - fonts loaded
+  - Expected an image 1287px by 4307px, received 1287px by 4219px. 217157 pixels (ratio 0.04 of all image pixels) are different.
+  - waiting 100ms before taking screenshot
+  - taking page screenshot
+    - disabled all CSS animations
+  - waiting for fonts to load...
+  - fonts loaded
+  - captured a stable screenshot
+  - Expected an image 1287px by 4307px, received 1287px by 4219px. 217157 pixels (ratio 0.04 of all image pixels) are different.
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=e3]:
+    - link "Agentica — Accueil" [ref=e4] [cursor=pointer]:
+      - /url: ../index.html
+      - img "Agentica" [ref=e5]
+    - navigation "Navigation principale" [ref=e6]:
+      - link "Home" [ref=e7] [cursor=pointer]:
+        - /url: ../index.html
+      - link "Why" [ref=e8] [cursor=pointer]:
+        - /url: ../pourquoi.html
+      - link "Architecture" [ref=e9] [cursor=pointer]:
+        - /url: ../architecture.html
+      - link "Quality" [ref=e10] [cursor=pointer]:
+        - /url: ../qualite.html
+      - link "AI" [ref=e11] [cursor=pointer]:
+        - /url: ../ia.html
+      - generic [ref=e12]:
+        - link "Documentation" [ref=e13] [cursor=pointer]:
+          - /url: ../documentation.html
+        - generic:
+          - generic:
+            - heading "Understand" [level=2]
+            - link "Introduction":
+              - /url: ../pourquoi.html
+            - link "Foundations":
+              - /url: ../foundations/index.html
+            - link "Human control":
+              - /url: ../ia.html
+            - link "Single source of truth":
+              - /url: ../architecture.html
+          - generic:
+            - heading "Reference" [level=2]
+            - link "Foundations":
+              - /url: ../foundations/index.html
+            - link "Components":
+              - /url: ../components/index.html
+            - link "Tokens":
+              - /url: ../tokens/index.html
+            - link "Decisions":
+              - /url: ../decisions/index.html
+            - link "Agents":
+              - /url: ../agents/index.html
+            - link "Pipelines":
+              - /url: ../pipelines/index.html
+            - link "Continuity":
+              - /url: ../continuite.html
+          - generic:
+            - heading "Explore" [level=2]
+            - link "Storybook":
+              - /url: https://main--6a1c1e665ec5fe8fc0540983.chromatic.com/
+            - link "GitHub":
+              - /url: https://github.com/gnegreiros-ux/agentica-design-system
+            - link "Audit":
+              - /url: ../audit.html
+      - link "Get started" [ref=e14] [cursor=pointer]:
+        - /url: ../get-started.html
+    - generic "Liens rapides" [ref=e15]:
+      - button "Basculer thème sombre / Switch to dark theme" [ref=e16] [cursor=pointer]:
+        - img [ref=e17]
+      - group "Language" [ref=e19]:
+        - button "FR" [ref=e20] [cursor=pointer]
+        - button "EN" [ref=e21] [cursor=pointer]
+      - link "Storybook — Catalogue interactif des composants" [ref=e22] [cursor=pointer]:
+        - /url: https://main--6a1c1e665ec5fe8fc0540983.chromatic.com/
+        - img [ref=e23]
+      - link "GitHub — Code source du projet" [ref=e25] [cursor=pointer]:
+        - /url: https://github.com/gnegreiros-ux/agentica-design-system
+        - img [ref=e26]
+  - generic [ref=e29]:
+    - navigation "Secondary navigation / Navigation secondaire" [ref=e30]:
+      - generic [ref=e31]:
+        - generic [ref=e32]: Components
+        - link "Overview" [ref=e33] [cursor=pointer]:
+          - /url: ../components/index.html
+        - link "Button" [ref=e34] [cursor=pointer]:
+          - /url: ../components/button.html
+        - link "Icon" [ref=e35] [cursor=pointer]:
+          - /url: ../components/icon.html
+        - link "Input" [ref=e36] [cursor=pointer]:
+          - /url: ../components/input.html
+        - link "Badge" [ref=e37] [cursor=pointer]:
+          - /url: ../components/badge.html
+        - link "Image" [ref=e38] [cursor=pointer]:
+          - /url: ../components/image.html
+        - link "Card" [ref=e39] [cursor=pointer]:
+          - /url: ../components/card.html
+        - link "Checkbox" [ref=e40] [cursor=pointer]:
+          - /url: ../components/checkbox.html
+        - link "Radio" [ref=e41] [cursor=pointer]:
+          - /url: ../components/radio.html
+        - link "Toggle" [ref=e42] [cursor=pointer]:
+          - /url: ../components/toggle.html
+        - link "Table" [ref=e43] [cursor=pointer]:
+          - /url: ../components/table.html
+        - link "Code Block" [ref=e44] [cursor=pointer]:
+          - /url: ../components/code-block.html
+        - link "Banner" [ref=e45] [cursor=pointer]:
+          - /url: ../components/banner.html
+        - link "Link" [ref=e46] [cursor=pointer]:
+          - /url: ../components/link.html
+        - link "Segmented" [ref=e47] [cursor=pointer]:
+          - /url: ../components/segmented.html
+        - link "Tabs" [ref=e48] [cursor=pointer]:
+          - /url: ../components/tabs.html
+    - main [ref=e49]:
+      - heading "Segmented" [level=1] [ref=e50]
+      - paragraph [ref=e51]:
+        - generic [ref=e52]:
+          - text: "Single-select segmented control with immediate effect (2–5 short options): language toggle, density, list/grid view. Native button group +"
+          - code [ref=e53]: aria-current
+          - text: — distinct from radio group (forms) and tabs (panels).
+      - heading "Preview" [level=2] [ref=e54]
+      - generic [ref=e55]:
+        - group "Langue" [ref=e57]:
+          - button "FR" [ref=e58] [cursor=pointer]
+          - button "EN" [ref=e59] [cursor=pointer]
+        - group "Density" [ref=e61]:
+          - button "Compact" [ref=e62] [cursor=pointer]
+          - button "Normal" [ref=e63] [cursor=pointer]
+          - button "Comfortable" [ref=e64] [cursor=pointer]
+      - heading "When to use" [level=2] [ref=e65]
+      - table [ref=e67]:
+        - rowgroup [ref=e71]:
+          - row "Component Usage" [ref=e72]:
+            - columnheader "Component" [ref=e73]
+            - columnheader "Usage" [ref=e74]
+        - rowgroup [ref=e75]:
+          - row "agtc-segmented Immediate-effect setting (language, density, view) — Tab + aria-current" [ref=e76]:
+            - cell "agtc-segmented" [ref=e77]:
+              - code [ref=e78]: agtc-segmented
+            - cell "Immediate-effect setting (language, density, view) — Tab + aria-current" [ref=e79]:
+              - generic [ref=e80]:
+                - strong [ref=e81]: Immediate-effect
+                - text: setting (language, density, view) — Tab + aria-current
+          - row "agtc-radio-group Submitted form choice — radiogroup + arrows" [ref=e82]:
+            - cell "agtc-radio-group" [ref=e83]:
+              - code [ref=e84]: agtc-radio-group
+            - cell "Submitted form choice — radiogroup + arrows" [ref=e85]:
+              - generic [ref=e86]:
+                - text: Submitted
+                - strong [ref=e87]: form
+                - text: choice — radiogroup + arrows
+          - row "agtc-toggle Binary on/off setting" [ref=e88]:
+            - cell "agtc-toggle" [ref=e89]:
+              - code [ref=e90]: agtc-toggle
+            - cell "Binary on/off setting" [ref=e91]
+      - heading "Absolute rules" [level=2] [ref=e92]
+      - list [ref=e93]:
+        - listitem [ref=e94]:
+          - img [ref=e96]
+          - generic [ref=e99]:
+            - text: Always exactly one active segment (
+            - code [ref=e100]: aria-current="true"
+            - text: )
+        - listitem [ref=e101]:
+          - img [ref=e103]
+          - generic [ref=e106]:
+            - text: 2 to 5 options, short labels; beyond →
+            - code [ref=e107]: select
+        - listitem [ref=e108]:
+          - img [ref=e110]
+          - text: Selected state = solid fill + weight 700 (not color alone)
+        - listitem [ref=e113]:
+          - img [ref=e115]
+          - generic [ref=e119]:
+            - text: Never
+            - code [ref=e120]: role="radiogroup"
+            - text: or
+            - code [ref=e121]: tablist
+            - text: for immediate effect
+        - listitem [ref=e122]:
+          - img [ref=e124]
+          - generic [ref=e128]:
+            - text: Never without a group
+            - code [ref=e129]: aria-label
+      - heading "Component tokens" [level=2] [ref=e130]
+      - table [ref=e132]:
+        - rowgroup [ref=e137]:
+          - row "Token CSS Reference Value" [ref=e138]:
+            - columnheader "Token CSS" [ref=e139]
+            - columnheader "Reference" [ref=e140]
+            - columnheader "Value" [ref=e141]
+        - rowgroup [ref=e142]:
+          - 'row "--agtc-component-segmented-default-track-background semantic.color.background.subtle #f0f0f0" [ref=e143]':
+            - cell "--agtc-component-segmented-default-track-background" [ref=e144]:
+              - code [ref=e145]: "--agtc-component-segmented-default-track-background"
+            - cell "semantic.color.background.subtle" [ref=e146]:
+              - code [ref=e147]: semantic.color.background.subtle
+            - cell "#f0f0f0" [ref=e148]
+          - 'row "--agtc-component-segmented-default-text semantic.color.text.secondary #646464" [ref=e149]':
+            - cell "--agtc-component-segmented-default-text" [ref=e150]:
+              - code [ref=e151]: "--agtc-component-segmented-default-text"
+            - cell "semantic.color.text.secondary" [ref=e152]:
+              - code [ref=e153]: semantic.color.text.secondary
+            - cell "#646464" [ref=e154]
+          - 'row "--agtc-component-segmented-default-selected-background semantic.color.action.primary #007a68" [ref=e155]':
+            - cell "--agtc-component-segmented-default-selected-background" [ref=e156]:
+              - code [ref=e157]: "--agtc-component-segmented-default-selected-background"
+            - cell "semantic.color.action.primary" [ref=e158]:
+              - code [ref=e159]: semantic.color.action.primary
+            - cell "#007a68" [ref=e160]
+          - 'row "--agtc-component-segmented-default-selected-text semantic.color.text.on-action #ffffff" [ref=e161]':
+            - cell "--agtc-component-segmented-default-selected-text" [ref=e162]:
+              - code [ref=e163]: "--agtc-component-segmented-default-selected-text"
+            - cell "semantic.color.text.on-action" [ref=e164]:
+              - code [ref=e165]: semantic.color.text.on-action
+            - cell "#ffffff" [ref=e166]
+          - 'row "--agtc-component-segmented-default-border-focus semantic.color.border.focus #007a68" [ref=e167]':
+            - cell "--agtc-component-segmented-default-border-focus" [ref=e168]:
+              - code [ref=e169]: "--agtc-component-segmented-default-border-focus"
+            - cell "semantic.color.border.focus" [ref=e170]:
+              - code [ref=e171]: semantic.color.border.focus
+            - cell "#007a68" [ref=e172]
+          - row "--agtc-component-segmented-default-radius semantic.radius.control 6px" [ref=e173]:
+            - cell "--agtc-component-segmented-default-radius" [ref=e174]:
+              - code [ref=e175]: "--agtc-component-segmented-default-radius"
+            - cell "semantic.radius.control" [ref=e176]:
+              - code [ref=e177]: semantic.radius.control
+            - cell "6px" [ref=e178]
+      - heading "Accessibility" [level=2] [ref=e179]
+      - list [ref=e180]:
+        - listitem [ref=e181]:
+          - generic [ref=e182]:
+            - code [ref=e183]: role="group"
+            - text: +
+            - code [ref=e184]: aria-label
+            - text: on the track
+        - listitem [ref=e185]:
+          - generic [ref=e186]:
+            - text: "Active segment:"
+            - code [ref=e187]: aria-current="true"
+            - text: ; native buttons (Tab, Enter/Space)
+        - listitem [ref=e188]:
+          - generic [ref=e189]:
+            - text: Tokenized
+            - code [ref=e190]: :focus-visible
+            - text: per segment
+        - listitem [ref=e191]: Selected contrast (white on teal) ≥ 4.5:1
+      - heading "Implementation" [level=2] [ref=e192]
+      - generic [ref=e193]:
+        - code [ref=e194]: "<agtc-segmented label=\"Langue\" value=\"fr\"></agtc-segmented> <script> const s = document.querySelector('agtc-segmented'); s.options = [{ value: 'fr', label: 'FR' }, { value: 'en', label: 'EN' }]; s.addEventListener('change', (e) => setLanguage(e.detail.value)); </script>"
+        - generic [ref=e195]: html
+        - button "Copy code (html)" [ref=e196] [cursor=pointer]: Copy
+      - heading "DOs and DON'Ts" [level=2] [ref=e197]
+      - generic [ref=e198]:
+        - generic [ref=e199]:
+          - heading "Do" [level=3] [ref=e200]:
+            - img [ref=e201]
+            - text: Do
+          - list [ref=e204]:
+            - listitem [ref=e205]: Reserve for immediate-effect settings (≤ 5 options)
+            - listitem [ref=e206]:
+              - generic [ref=e207]:
+                - text: Name the group with
+                - code [ref=e208]: label
+            - listitem [ref=e209]: Keep labels short
+        - generic [ref=e210]:
+          - heading "Don't" [level=3] [ref=e211]:
+            - img [ref=e212]
+            - text: Don't
+          - list [ref=e216]:
+            - listitem [ref=e217]:
+              - generic [ref=e218]:
+                - text: Use it for a submitted form choice (→
+                - code [ref=e219]: agtc-radio-group
+                - text: )
+            - listitem [ref=e220]: Use it to switch a content panel (→ tabs)
+            - listitem [ref=e221]: More than 5 options or long labels
+      - heading "UX Patterns Reference" [level=2] [ref=e222]
+      - blockquote [ref=e223]:
+        - paragraph [ref=e224]:
+          - text: Patterns approved via the
+          - code [ref=e225]: ux-pattern-review
+          - text: "workflow (ADR-036/044). Decision:"
+          - strong [ref=e226]: SG1–SG8 all approved
+          - text: .
+      - table [ref=e228]:
+        - rowgroup [ref=e229]:
+          - row "Pattern Source Applied Justification" [ref=e230]:
+            - columnheader "Pattern" [ref=e231]
+            - columnheader "Source" [ref=e232]
+            - columnheader "Applied" [ref=e233]
+            - columnheader "Justification" [ref=e234]
+        - rowgroup [ref=e235]:
+          - row "Single selection, always one active Primer ✅ No empty state" [ref=e236]:
+            - cell "Single selection, always one active" [ref=e237]
+            - cell "Primer" [ref=e238]:
+              - link "Primer" [ref=e239] [cursor=pointer]:
+                - /url: https://primer.style/product/components/segmented-control/accessibility/
+            - cell "✅" [ref=e240]
+            - cell "No empty state" [ref=e241]
+          - row "<button> group + aria-current + immediate effect Primer ✅ Deliberate deviation from radiogroup" [ref=e242]:
+            - cell "<button> group + aria-current + immediate effect" [ref=e243]:
+              - code [ref=e244]: <button>
+              - text: group +
+              - code [ref=e245]: aria-current
+              - text: + immediate effect
+            - cell "Primer" [ref=e246]:
+              - link "Primer" [ref=e247] [cursor=pointer]:
+                - /url: https://primer.style/product/components/segmented-control/accessibility/
+            - cell "✅" [ref=e248]
+            - cell "Deliberate deviation from radiogroup" [ref=e249]
+          - row "2–5 options, short labels NN/g ✅ Documented guidance" [ref=e250]:
+            - cell "2–5 options, short labels" [ref=e251]
+            - cell "NN/g" [ref=e252]
+            - cell "✅" [ref=e253]
+            - cell "Documented guidance" [ref=e254]
+          - row "Selected not by color alone WCAG 1.4.1 ✅ Solid background + weight 700" [ref=e255]:
+            - cell "Selected not by color alone" [ref=e256]
+            - cell "WCAG 1.4.1" [ref=e257]:
+              - link "WCAG 1.4.1" [ref=e258] [cursor=pointer]:
+                - /url: https://www.w3.org/WAI/ARIA/apg/patterns/radio/
+            - cell "✅" [ref=e259]
+            - cell "Solid background + weight 700" [ref=e260]
+          - row "Immediate effect (no \"apply\") Primer ✅ Emits change" [ref=e261]:
+            - cell "Immediate effect (no \"apply\")" [ref=e262]
+            - cell "Primer" [ref=e263]:
+              - link "Primer" [ref=e264] [cursor=pointer]:
+                - /url: https://primer.style/product/components/segmented-control/accessibility/
+            - cell "✅" [ref=e265]
+            - cell "Emits change" [ref=e266]:
+              - text: Emits
+              - code [ref=e267]: change
+          - row ":focus-visible per segment, native Tab Primer ✅ Native buttons" [ref=e268]:
+            - cell ":focus-visible per segment, native Tab" [ref=e269]:
+              - code [ref=e270]: :focus-visible
+              - text: per segment, native Tab
+            - cell "Primer" [ref=e271]:
+              - link "Primer" [ref=e272] [cursor=pointer]:
+                - /url: https://primer.style/product/components/segmented-control/accessibility/
+            - cell "✅" [ref=e273]
+            - cell "Native buttons" [ref=e274]
+          - row "Equal-width segments, icon + label NN/g ✅ equal-width, icon optional" [ref=e275]:
+            - cell "Equal-width segments, icon + label" [ref=e276]
+            - cell "NN/g" [ref=e277]
+            - cell "✅" [ref=e278]
+            - cell "equal-width, icon optional" [ref=e279]:
+              - code [ref=e280]: equal-width
+              - text: ","
+              - code [ref=e281]: icon
+              - text: optional
+          - row "value API + change event Primer ✅ Integration" [ref=e282]:
+            - cell "value API + change event" [ref=e283]:
+              - code [ref=e284]: value
+              - text: API +
+              - code [ref=e285]: change
+              - text: event
+            - cell "Primer" [ref=e286]:
+              - link "Primer" [ref=e287] [cursor=pointer]:
+                - /url: https://primer.style/product/components/segmented-control/accessibility/
+            - cell "✅" [ref=e288]
+            - cell "Integration" [ref=e289]
+      - generic [ref=e290]:
+        - img [ref=e292]
+        - generic [ref=e295]:
+          - strong [ref=e296]: Contribute to this project
+          - paragraph [ref=e297]: This system welcomes contributions — tokens, components, architectural decisions, accessibility fixes, or documentation. Every improvement counts.
+        - link "View on GitHub" [ref=e298] [cursor=pointer]:
+          - /url: https://github.com/gnegreiros-ux/agentica-design-system
+          - generic [ref=e299]: View on GitHub
+    - navigation "Table of contents / Table des matières" [ref=e300]:
+      - generic [ref=e301]: On this page
+      - link "Preview" [ref=e302] [cursor=pointer]:
+        - /url: "#aper-u"
+      - link "When to use" [ref=e303] [cursor=pointer]:
+        - /url: "#quand-l-utiliser"
+      - link "Absolute rules" [ref=e304] [cursor=pointer]:
+        - /url: "#regles-absolues"
+      - link "Component tokens" [ref=e305] [cursor=pointer]:
+        - /url: "#tokens-de-composant"
+      - link "Accessibility" [ref=e306] [cursor=pointer]:
+        - /url: "#accessibilite"
+      - link "Implementation" [ref=e307] [cursor=pointer]:
+        - /url: "#implementation"
+      - link "DOs and DON'Ts" [ref=e308] [cursor=pointer]:
+        - /url: "#dos-et-don-ts"
+      - link "UX Patterns Reference" [ref=e309] [cursor=pointer]:
+        - /url: "#ux-patterns-reference"
+  - contentinfo [ref=e310]:
+    - generic [ref=e311]:
+      - generic [ref=e312]:
+        - link "Agentica — Accueil" [ref=e313] [cursor=pointer]:
+          - /url: ../index.html
+          - img "Agentica" [ref=e314]
+        - link "Guilherme Negreiros" [ref=e315] [cursor=pointer]:
+          - /url: https://www.linkedin.com/in/gnegreiros/
+          - img [ref=e316]
+          - text: Guilherme Negreiros
+      - generic [ref=e320]:
+        - generic [ref=e321]: Navigation
+        - link "Home" [ref=e322] [cursor=pointer]:
+          - /url: ../index.html
+        - link "Why" [ref=e323] [cursor=pointer]:
+          - /url: ../pourquoi.html
+        - link "Architecture" [ref=e324] [cursor=pointer]:
+          - /url: ../architecture.html
+        - link "Quality" [ref=e325] [cursor=pointer]:
+          - /url: ../qualite.html
+        - link "AI" [ref=e326] [cursor=pointer]:
+          - /url: ../ia.html
+      - generic [ref=e327]:
+        - generic [ref=e328]: Documentation
+        - link "Understand" [ref=e329] [cursor=pointer]:
+          - /url: ../pourquoi.html
+        - link "Get started" [ref=e330] [cursor=pointer]:
+          - /url: ../get-started.html
+        - link "Foundations" [ref=e331] [cursor=pointer]:
+          - /url: ../foundations/index.html
+        - link "Components" [ref=e332] [cursor=pointer]:
+          - /url: ../components/index.html
+        - link "Tokens" [ref=e333] [cursor=pointer]:
+          - /url: ../tokens/index.html
+        - link "Decisions" [ref=e334] [cursor=pointer]:
+          - /url: ../decisions/index.html
+        - link "Continuity" [ref=e335] [cursor=pointer]:
+          - /url: ../continuite.html
+        - link "Changelog" [ref=e336] [cursor=pointer]:
+          - /url: ../changelog.html
+      - generic [ref=e337]:
+        - generic [ref=e338]: Explorer
+        - link "Storybook" [ref=e339] [cursor=pointer]:
+          - /url: https://main--6a1c1e665ec5fe8fc0540983.chromatic.com/
+        - link "GitHub" [ref=e340] [cursor=pointer]:
+          - /url: https://github.com/gnegreiros-ux/agentica-design-system
+        - link "Audit" [ref=e341] [cursor=pointer]:
+          - /url: ../audit.html
+        - link "AI Brief" [ref=e342] [cursor=pointer]:
+          - /url: ../ai-brief.html
+    - generic [ref=e343]:
+      - generic [ref=e344]: © 2026 Guilherme Negreiros
+      - generic [ref=e345]: Built with Claude Code.
+  - button "Retour en haut" [ref=e346] [cursor=pointer]:
+    - img [ref=e347]
+    - generic [ref=e349]: Top
+  - status [ref=e350]
+```
+
+# Test source
+
+```ts
+  1  | import { test, expect } from '@playwright/test';
+  2  | 
+  3  | // Visual regressions for every component page (except button.html, already covered)
+  4  | const PAGES = [
+  5  |   'badge', 'banner', 'card', 'checkbox', 'code-block',
+  6  |   'icon', 'input', 'link', 'radio', 'segmented',
+  7  |   'table', 'tabs', 'toggle',
+  8  | ];
+  9  | 
+  10 | for (const name of PAGES) {
+  11 |   test.describe(`${name} — visual regressions`, () => {
+  12 |     for (const theme of ['light', 'dark']) {
+  13 |       test(`page ${name} — ${theme}`, async ({ page }) => {
+  14 |         await page.goto(`/components/${name}.html`);
+  15 |         await page.waitForLoadState('networkidle');
+  16 |         await page.evaluate((t) =>
+  17 |           document.documentElement.setAttribute('data-theme', t), theme
+  18 |         );
+> 19 |         await expect(page).toHaveScreenshot(`${name}-${theme}.png`, { fullPage: true });
+     |                            ^ Error: expect(page).toHaveScreenshot(expected) failed
+  20 |       });
+  21 |     }
+  22 |   });
+  23 | }
+  24 | 
+```

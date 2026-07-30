@@ -1,0 +1,1147 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: visual/documentation.spec.js >> Documentation — visual regressions >> foundations/color — dark
+- Location: tests/visual/documentation.spec.js:12:5
+
+# Error details
+
+```
+Error: expect(page).toHaveScreenshot(expected) failed
+
+  Expected an image 1280px by 10351px, received 1280px by 8963px. 3147962 pixels (ratio 0.24 of all image pixels) are different.
+
+  Snapshot: foundations-color-dark.png
+
+Call log:
+  - Expect "toHaveScreenshot(foundations-color-dark.png)" with timeout 5000ms
+    - verifying given screenshot expectation
+  - taking page screenshot
+    - disabled all CSS animations
+  - waiting for fonts to load...
+  - fonts loaded
+  - Expected an image 1280px by 10351px, received 1280px by 8963px. 3147962 pixels (ratio 0.24 of all image pixels) are different.
+  - waiting 100ms before taking screenshot
+  - taking page screenshot
+    - disabled all CSS animations
+  - waiting for fonts to load...
+  - fonts loaded
+  - captured a stable screenshot
+  - Expected an image 1280px by 10351px, received 1280px by 8963px. 3147962 pixels (ratio 0.24 of all image pixels) are different.
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=e3]:
+    - link "Agentica — Accueil" [ref=e4] [cursor=pointer]:
+      - /url: ../index.html
+      - img "Agentica" [ref=e5]
+    - navigation "Navigation principale" [ref=e6]:
+      - link "Home" [ref=e7] [cursor=pointer]:
+        - /url: ../index.html
+      - link "Why" [ref=e8] [cursor=pointer]:
+        - /url: ../pourquoi.html
+      - link "Architecture" [ref=e9] [cursor=pointer]:
+        - /url: ../architecture.html
+      - link "Quality" [ref=e10] [cursor=pointer]:
+        - /url: ../qualite.html
+      - link "AI" [ref=e11] [cursor=pointer]:
+        - /url: ../ia.html
+      - generic [ref=e12]:
+        - link "Documentation" [ref=e13] [cursor=pointer]:
+          - /url: ../documentation.html
+        - generic:
+          - generic:
+            - heading "Understand" [level=2]
+            - link "Introduction":
+              - /url: ../pourquoi.html
+            - link "Foundations":
+              - /url: ../foundations/index.html
+            - link "Human control":
+              - /url: ../ia.html
+            - link "Single source of truth":
+              - /url: ../architecture.html
+          - generic:
+            - heading "Reference" [level=2]
+            - link "Foundations":
+              - /url: ../foundations/index.html
+            - link "Components":
+              - /url: ../components/index.html
+            - link "Tokens":
+              - /url: ../tokens/index.html
+            - link "Decisions":
+              - /url: ../decisions/index.html
+            - link "Agents":
+              - /url: ../agents/index.html
+            - link "Pipelines":
+              - /url: ../pipelines/index.html
+            - link "Continuity":
+              - /url: ../continuite.html
+          - generic:
+            - heading "Explore" [level=2]
+            - link "Storybook":
+              - /url: https://main--6a1c1e665ec5fe8fc0540983.chromatic.com/
+            - link "GitHub":
+              - /url: https://github.com/gnegreiros-ux/agentica-design-system
+            - link "Audit":
+              - /url: ../audit.html
+      - link "Get started" [ref=e14] [cursor=pointer]:
+        - /url: ../get-started.html
+    - generic "Liens rapides" [ref=e15]:
+      - button "Basculer thème sombre / Switch to dark theme" [ref=e16] [cursor=pointer]:
+        - img [ref=e17]
+      - group "Language" [ref=e19]:
+        - button "FR" [ref=e20] [cursor=pointer]
+        - button "EN" [ref=e21] [cursor=pointer]
+      - link "Storybook — Catalogue interactif des composants" [ref=e22] [cursor=pointer]:
+        - /url: https://main--6a1c1e665ec5fe8fc0540983.chromatic.com/
+        - img [ref=e23]
+      - link "GitHub — Code source du projet" [ref=e25] [cursor=pointer]:
+        - /url: https://github.com/gnegreiros-ux/agentica-design-system
+        - img [ref=e26]
+  - generic [ref=e29]:
+    - navigation "Secondary navigation / Navigation secondaire" [ref=e30]:
+      - generic [ref=e31]:
+        - generic [ref=e32]: Foundations
+        - link "Overview" [ref=e33] [cursor=pointer]:
+          - /url: ../foundations/index.html
+        - link "Color" [ref=e34] [cursor=pointer]:
+          - /url: ../foundations/color.html
+        - link "Spacing" [ref=e35] [cursor=pointer]:
+          - /url: ../foundations/spacing.html
+        - link "Typography" [ref=e36] [cursor=pointer]:
+          - /url: ../foundations/typography.html
+        - link "Icons" [ref=e37] [cursor=pointer]:
+          - /url: ../foundations/icons.html
+        - link "Contexts" [ref=e38] [cursor=pointer]:
+          - /url: ../foundations/contextes.html
+    - main [ref=e39]:
+      - heading "Colors" [level=1] [ref=e40]
+      - paragraph [ref=e41]: "Three-level color system: Radix UI primitive palettes → semantic intentions → component contracts. Agents use semantic tokens, never primitive values."
+      - heading "Primitive palette — Radix UI" [level=2] [ref=e42]
+      - paragraph [ref=e43]:
+        - generic [ref=e44]:
+          - text: 37 color scales, each with
+          - strong [ref=e45]: 12 numbered steps
+          - text: following a perceptually uniform system designed for accessibility and dark mode.
+      - generic [ref=e46]:
+        - generic [ref=e47]:
+          - generic [ref=e48]: Steps 1–2
+          - generic [ref=e49]: Page backgrounds
+          - generic [ref=e50]: Very subtle backgrounds, near-white
+        - generic [ref=e51]:
+          - generic [ref=e52]: Steps 3–5
+          - generic [ref=e53]: Interactive elements
+          - generic [ref=e54]: Hover, selection, component backgrounds
+        - generic [ref=e55]:
+          - generic [ref=e56]: Steps 6–8
+          - generic [ref=e57]: Borders
+          - generic [ref=e58]: Separators, field outlines, dividers
+        - generic [ref=e59]:
+          - generic [ref=e60]: Steps 9–12
+          - generic [ref=e61]: Solids & text
+          - generic [ref=e62]: CTA, high-readability text, guaranteed contrast
+      - blockquote [ref=e63]:
+        - paragraph [ref=e64]:
+          - generic [ref=e65]:
+            - strong [ref=e66]: Why Radix UI?
+            - text: Each palette is tested to guarantee WCAG AA contrast at steps 11–12, and designed to work in light and dark mode without token overhead. Steps are perceptually uniform — the visual jump between two consecutive steps is constant regardless of hue.
+      - generic [ref=e67]:
+        - generic [ref=e68]:
+          - generic [ref=e69]: gray
+          - generic [ref=e70]:
+            - 'img "gray step 1: #fcfcfc" [ref=e71]'
+            - 'img "gray step 2: #f9f9f9" [ref=e72]'
+            - 'img "gray step 3: #f0f0f0" [ref=e73]'
+            - 'img "gray step 4: #e8e8e8" [ref=e74]'
+            - 'img "gray step 5: #e0e0e0" [ref=e75]'
+            - 'img "gray step 6: #d9d9d9" [ref=e76]'
+            - 'img "gray step 7: #cecece" [ref=e77]'
+            - 'img "gray step 8: #bbbbbb" [ref=e78]'
+            - 'img "gray step 9: #8d8d8d" [ref=e79]'
+            - 'img "gray step 10: #838383" [ref=e80]'
+            - 'img "gray step 11: #646464" [ref=e81]'
+            - 'img "gray step 12: #202020" [ref=e82]'
+        - generic [ref=e83]:
+          - generic [ref=e84]: mauve
+          - generic [ref=e85]:
+            - 'img "mauve step 1: #fdfcfd" [ref=e86]'
+            - 'img "mauve step 2: #faf9fb" [ref=e87]'
+            - 'img "mauve step 3: #f2eff3" [ref=e88]'
+            - 'img "mauve step 4: #eae7ec" [ref=e89]'
+            - 'img "mauve step 5: #e3dfe6" [ref=e90]'
+            - 'img "mauve step 6: #dbd8e0" [ref=e91]'
+            - 'img "mauve step 7: #d0cdd7" [ref=e92]'
+            - 'img "mauve step 8: #bcbac7" [ref=e93]'
+            - 'img "mauve step 9: #8e8c99" [ref=e94]'
+            - 'img "mauve step 10: #84828e" [ref=e95]'
+            - 'img "mauve step 11: #65636d" [ref=e96]'
+            - 'img "mauve step 12: #211f26" [ref=e97]'
+        - generic [ref=e98]:
+          - generic [ref=e99]: slate
+          - generic [ref=e100]:
+            - 'img "slate step 1: #fbfcfd" [ref=e101]'
+            - 'img "slate step 2: #f8f9fa" [ref=e102]'
+            - 'img "slate step 3: #eff1f3" [ref=e103]'
+            - 'img "slate step 4: #e7e9ec" [ref=e104]'
+            - 'img "slate step 5: #dfe3e6" [ref=e105]'
+            - 'img "slate step 6: #d7dbdf" [ref=e106]'
+            - 'img "slate step 7: #c9cdd2" [ref=e107]'
+            - 'img "slate step 8: #b9bfc9" [ref=e108]'
+            - 'img "slate step 9: #8b9098" [ref=e109]'
+            - 'img "slate step 10: #80868e" [ref=e110]'
+            - 'img "slate step 11: #60646c" [ref=e111]'
+            - 'img "slate step 12: #1c2024" [ref=e112]'
+        - generic [ref=e113]:
+          - generic [ref=e114]: sage
+          - generic [ref=e115]:
+            - 'img "sage step 1: #fbfdfc" [ref=e116]'
+            - 'img "sage step 2: #f7f9f8" [ref=e117]'
+            - 'img "sage step 3: #eef1f0" [ref=e118]'
+            - 'img "sage step 4: #e6e9e8" [ref=e119]'
+            - 'img "sage step 5: #dfe2e0" [ref=e120]'
+            - 'img "sage step 6: #d7dad9" [ref=e121]'
+            - 'img "sage step 7: #c9cdcb" [ref=e122]'
+            - 'img "sage step 8: #b5bcba" [ref=e123]'
+            - 'img "sage step 9: #869e9a" [ref=e124]'
+            - 'img "sage step 10: #7c9490" [ref=e125]'
+            - 'img "sage step 11: #5c7672" [ref=e126]'
+            - 'img "sage step 12: #1a2421" [ref=e127]'
+        - generic [ref=e128]:
+          - generic [ref=e129]: olive
+          - generic [ref=e130]:
+            - 'img "olive step 1: #fcfdfc" [ref=e131]'
+            - 'img "olive step 2: #f8faf8" [ref=e132]'
+            - 'img "olive step 3: #eff1ee" [ref=e133]'
+            - 'img "olive step 4: #e7e9e6" [ref=e134]'
+            - 'img "olive step 5: #dfe2de" [ref=e135]'
+            - 'img "olive step 6: #d7dad6" [ref=e136]'
+            - 'img "olive step 7: #c8cdc7" [ref=e137]'
+            - 'img "olive step 8: #b4bab3" [ref=e138]'
+            - 'img "olive step 9: #8b9389" [ref=e139]'
+            - 'img "olive step 10: #818a7f" [ref=e140]'
+            - 'img "olive step 11: #606b5e" [ref=e141]'
+            - 'img "olive step 12: #1d201c" [ref=e142]'
+        - generic [ref=e143]:
+          - generic [ref=e144]: sand
+          - generic [ref=e145]:
+            - 'img "sand step 1: #fdfdfc" [ref=e146]'
+            - 'img "sand step 2: #f9f9f8" [ref=e147]'
+            - 'img "sand step 3: #f1f0ef" [ref=e148]'
+            - 'img "sand step 4: #e9e8e6" [ref=e149]'
+            - 'img "sand step 5: #e2e1de" [ref=e150]'
+            - 'img "sand step 6: #dad9d6" [ref=e151]'
+            - 'img "sand step 7: #cdceca" [ref=e152]'
+            - 'img "sand step 8: #b9bbb5" [ref=e153]'
+            - 'img "sand step 9: #8d8e86" [ref=e154]'
+            - 'img "sand step 10: #83847c" [ref=e155]'
+            - 'img "sand step 11: #63645b" [ref=e156]'
+            - 'img "sand step 12: #21201c" [ref=e157]'
+        - generic [ref=e158]:
+          - generic [ref=e159]: tomato
+          - generic [ref=e160]:
+            - 'img "tomato step 1: #fffcfc" [ref=e161]'
+            - 'img "tomato step 2: #fff8f7" [ref=e162]'
+            - 'img "tomato step 3: #feebe7" [ref=e163]'
+            - 'img "tomato step 4: #ffdcd3" [ref=e164]'
+            - 'img "tomato step 5: #ffcdc2" [ref=e165]'
+            - 'img "tomato step 6: #fdbdaf" [ref=e166]'
+            - 'img "tomato step 7: #f5a898" [ref=e167]'
+            - 'img "tomato step 8: #ec8e7b" [ref=e168]'
+            - 'img "tomato step 9: #e54d2e" [ref=e169]'
+            - 'img "tomato step 10: #dd4425" [ref=e170]'
+            - 'img "tomato step 11: #d13415" [ref=e171]'
+            - 'img "tomato step 12: #5c271f" [ref=e172]'
+        - generic [ref=e173]:
+          - generic [ref=e174]: red
+          - generic [ref=e175]:
+            - 'img "red step 1: #fffcfc" [ref=e176]'
+            - 'img "red step 2: #fff7f7" [ref=e177]'
+            - 'img "red step 3: #feebec" [ref=e178]'
+            - 'img "red step 4: #ffdbdc" [ref=e179]'
+            - 'img "red step 5: #ffcdce" [ref=e180]'
+            - 'img "red step 6: #fdbdbe" [ref=e181]'
+            - 'img "red step 7: #f4a9aa" [ref=e182]'
+            - 'img "red step 8: #eb8e90" [ref=e183]'
+            - 'img "red step 9: #e5484d" [ref=e184]'
+            - 'img "red step 10: #dc3e42" [ref=e185]'
+            - 'img "red step 11: #ce2c31" [ref=e186]'
+            - 'img "red step 12: #641723" [ref=e187]'
+        - generic [ref=e188]:
+          - generic [ref=e189]: ruby
+          - generic [ref=e190]:
+            - 'img "ruby step 1: #fffcfd" [ref=e191]'
+            - 'img "ruby step 2: #fff7f8" [ref=e192]'
+            - 'img "ruby step 3: #feeaed" [ref=e193]'
+            - 'img "ruby step 4: #ffdbe1" [ref=e194]'
+            - 'img "ruby step 5: #ffccd6" [ref=e195]'
+            - 'img "ruby step 6: #fabcc7" [ref=e196]'
+            - 'img "ruby step 7: #f2a7b6" [ref=e197]'
+            - 'img "ruby step 8: #e88098" [ref=e198]'
+            - 'img "ruby step 9: #e54666" [ref=e199]'
+            - 'img "ruby step 10: #dc3b5d" [ref=e200]'
+            - 'img "ruby step 11: #ca244d" [ref=e201]'
+            - 'img "ruby step 12: #64172b" [ref=e202]'
+        - generic [ref=e203]:
+          - generic [ref=e204]: crimson
+          - generic [ref=e205]:
+            - 'img "crimson step 1: #fffcfd" [ref=e206]'
+            - 'img "crimson step 2: #fff7fb" [ref=e207]'
+            - 'img "crimson step 3: #feecf4" [ref=e208]'
+            - 'img "crimson step 4: #ffdcea" [ref=e209]'
+            - 'img "crimson step 5: #ffcedf" [ref=e210]'
+            - 'img "crimson step 6: #f8bdd0" [ref=e211]'
+            - 'img "crimson step 7: #eda9c0" [ref=e212]'
+            - 'img "crimson step 8: #e087a9" [ref=e213]'
+            - 'img "crimson step 9: #e93d82" [ref=e214]'
+            - 'img "crimson step 10: #df3478" [ref=e215]'
+            - 'img "crimson step 11: #cb1d63" [ref=e216]'
+            - 'img "crimson step 12: #621639" [ref=e217]'
+        - generic [ref=e218]:
+          - generic [ref=e219]: pink
+          - generic [ref=e220]:
+            - 'img "pink step 1: #fffcfe" [ref=e221]'
+            - 'img "pink step 2: #fff7fc" [ref=e222]'
+            - 'img "pink step 3: #feeef8" [ref=e223]'
+            - 'img "pink step 4: #fce0f3" [ref=e224]'
+            - 'img "pink step 5: #f9d2eb" [ref=e225]'
+            - 'img "pink step 6: #f3c0e0" [ref=e226]'
+            - 'img "pink step 7: #ebacce" [ref=e227]'
+            - 'img "pink step 8: #de85b5" [ref=e228]'
+            - 'img "pink step 9: #d6409f" [ref=e229]'
+            - 'img "pink step 10: #cf3897" [ref=e230]'
+            - 'img "pink step 11: #c2298a" [ref=e231]'
+            - 'img "pink step 12: #651249" [ref=e232]'
+        - generic [ref=e233]:
+          - generic [ref=e234]: plum
+          - generic [ref=e235]:
+            - 'img "plum step 1: #fefcff" [ref=e236]'
+            - 'img "plum step 2: #fdf7ff" [ref=e237]'
+            - 'img "plum step 3: #fbf0fe" [ref=e238]'
+            - 'img "plum step 4: #f7e2fb" [ref=e239]'
+            - 'img "plum step 5: #f3d4f7" [ref=e240]'
+            - 'img "plum step 6: #ecc4ee" [ref=e241]'
+            - 'img "plum step 7: #e0afe3" [ref=e242]'
+            - 'img "plum step 8: #ce91d3" [ref=e243]'
+            - 'img "plum step 9: #ab4aba" [ref=e244]'
+            - 'img "plum step 10: #a144ae" [ref=e245]'
+            - 'img "plum step 11: #953ea3" [ref=e246]'
+            - 'img "plum step 12: #53195d" [ref=e247]'
+        - generic [ref=e248]:
+          - generic [ref=e249]: purple
+          - generic [ref=e250]:
+            - 'img "purple step 1: #fefcfe" [ref=e251]'
+            - 'img "purple step 2: #fbf7fe" [ref=e252]'
+            - 'img "purple step 3: #f7edfe" [ref=e253]'
+            - 'img "purple step 4: #f2e2fc" [ref=e254]'
+            - 'img "purple step 5: #ead5f9" [ref=e255]'
+            - 'img "purple step 6: #e0c4f4" [ref=e256]'
+            - 'img "purple step 7: #d1afec" [ref=e257]'
+            - 'img "purple step 8: #be93e4" [ref=e258]'
+            - 'img "purple step 9: #8e4ec6" [ref=e259]'
+            - 'img "purple step 10: #8445bc" [ref=e260]'
+            - 'img "purple step 11: #793aaf" [ref=e261]'
+            - 'img "purple step 12: #402060" [ref=e262]'
+        - generic [ref=e263]:
+          - generic [ref=e264]: violet
+          - generic [ref=e265]:
+            - 'img "violet step 1: #fdfcfe" [ref=e266]'
+            - 'img "violet step 2: #faf8ff" [ref=e267]'
+            - 'img "violet step 3: #f4f0fe" [ref=e268]'
+            - 'img "violet step 4: #ebe4ff" [ref=e269]'
+            - 'img "violet step 5: #e1d9ff" [ref=e270]'
+            - 'img "violet step 6: #d4cafe" [ref=e271]'
+            - 'img "violet step 7: #c2b5f5" [ref=e272]'
+            - 'img "violet step 8: #aa99ec" [ref=e273]'
+            - 'img "violet step 9: #6e56cf" [ref=e274]'
+            - 'img "violet step 10: #654dc4" [ref=e275]'
+            - 'img "violet step 11: #6550b9" [ref=e276]'
+            - 'img "violet step 12: #2f265f" [ref=e277]'
+        - generic [ref=e278]:
+          - generic [ref=e279]: iris
+          - generic [ref=e280]:
+            - 'img "iris step 1: #fdfdff" [ref=e281]'
+            - 'img "iris step 2: #f8f8ff" [ref=e282]'
+            - 'img "iris step 3: #f0f1fe" [ref=e283]'
+            - 'img "iris step 4: #e6e7ff" [ref=e284]'
+            - 'img "iris step 5: #dadcff" [ref=e285]'
+            - 'img "iris step 6: #cbceff" [ref=e286]'
+            - 'img "iris step 7: #b8bcf8" [ref=e287]'
+            - 'img "iris step 8: #9da0f0" [ref=e288]'
+            - 'img "iris step 9: #5b5bd6" [ref=e289]'
+            - 'img "iris step 10: #5252cd" [ref=e290]'
+            - 'img "iris step 11: #5151cd" [ref=e291]'
+            - 'img "iris step 12: #272962" [ref=e292]'
+        - generic [ref=e293]:
+          - generic [ref=e294]: indigo
+          - generic [ref=e295]:
+            - 'img "indigo step 1: #fdfdfe" [ref=e296]'
+            - 'img "indigo step 2: #f7f9ff" [ref=e297]'
+            - 'img "indigo step 3: #edf2fe" [ref=e298]'
+            - 'img "indigo step 4: #e1e9ff" [ref=e299]'
+            - 'img "indigo step 5: #d2deff" [ref=e300]'
+            - 'img "indigo step 6: #c1d0fb" [ref=e301]'
+            - 'img "indigo step 7: #abbdf9" [ref=e302]'
+            - 'img "indigo step 8: #8da4ef" [ref=e303]'
+            - 'img "indigo step 9: #3e63dd" [ref=e304]'
+            - 'img "indigo step 10: #3358d4" [ref=e305]'
+            - 'img "indigo step 11: #3a5bc7" [ref=e306]'
+            - 'img "indigo step 12: #1f2d5c" [ref=e307]'
+        - generic [ref=e308]:
+          - generic [ref=e309]: blue
+          - generic [ref=e310]:
+            - 'img "blue step 1: #fbfdff" [ref=e311]'
+            - 'img "blue step 2: #f4faff" [ref=e312]'
+            - 'img "blue step 3: #e6f4fe" [ref=e313]'
+            - 'img "blue step 4: #d5efff" [ref=e314]'
+            - 'img "blue step 5: #c2e5ff" [ref=e315]'
+            - 'img "blue step 6: #acd8fa" [ref=e316]'
+            - 'img "blue step 7: #8ec8f6" [ref=e317]'
+            - 'img "blue step 8: #5eb1ef" [ref=e318]'
+            - 'img "blue step 9: #0090ff" [ref=e319]'
+            - 'img "blue step 10: #0588f0" [ref=e320]'
+            - 'img "blue step 11: #0d74ce" [ref=e321]'
+            - 'img "blue step 12: #113264" [ref=e322]'
+        - generic [ref=e323]:
+          - generic [ref=e324]: cyan
+          - generic [ref=e325]:
+            - 'img "cyan step 1: #fafdfe" [ref=e326]'
+            - 'img "cyan step 2: #f2fafb" [ref=e327]'
+            - 'img "cyan step 3: #def7f9" [ref=e328]'
+            - 'img "cyan step 4: #caf1f6" [ref=e329]'
+            - 'img "cyan step 5: #b5e9f0" [ref=e330]'
+            - 'img "cyan step 6: #9ddde7" [ref=e331]'
+            - 'img "cyan step 7: #7dcedc" [ref=e332]'
+            - 'img "cyan step 8: #3db9cf" [ref=e333]'
+            - 'img "cyan step 9: #00a2c7" [ref=e334]'
+            - 'img "cyan step 10: #0797b9" [ref=e335]'
+            - 'img "cyan step 11: #107d98" [ref=e336]'
+            - 'img "cyan step 12: #0d3c48" [ref=e337]'
+        - generic [ref=e338]:
+          - generic [ref=e339]: teal
+          - generic [ref=e340]:
+            - 'img "teal step 1: #fafefd" [ref=e341]'
+            - 'img "teal step 2: #f3fbf9" [ref=e342]'
+            - 'img "teal step 3: #e0f8f3" [ref=e343]'
+            - 'img "teal step 4: #ccf3ea" [ref=e344]'
+            - 'img "teal step 5: #b8ecdf" [ref=e345]'
+            - 'img "teal step 6: #a1e0d2" [ref=e346]'
+            - 'img "teal step 7: #83cfc4" [ref=e347]'
+            - 'img "teal step 8: #53b9ab" [ref=e348]'
+            - 'img "teal step 9: #12a594" [ref=e349]'
+            - 'img "teal step 10: #0d9b8a" [ref=e350]'
+            - 'img "teal step 11: #007a68" [ref=e351]'
+            - 'img "teal step 12: #0d3d38" [ref=e352]'
+        - generic [ref=e353]:
+          - generic [ref=e354]: jade
+          - generic [ref=e355]:
+            - 'img "jade step 1: #fbfefd" [ref=e356]'
+            - 'img "jade step 2: #f4fbf7" [ref=e357]'
+            - 'img "jade step 3: #e6f7ed" [ref=e358]'
+            - 'img "jade step 4: #d6f1e3" [ref=e359]'
+            - 'img "jade step 5: #c3e9d7" [ref=e360]'
+            - 'img "jade step 6: #acdfc8" [ref=e361]'
+            - 'img "jade step 7: #8ed1b4" [ref=e362]'
+            - 'img "jade step 8: #5eba94" [ref=e363]'
+            - 'img "jade step 9: #29a383" [ref=e364]'
+            - 'img "jade step 10: #26997b" [ref=e365]'
+            - 'img "jade step 11: #208368" [ref=e366]'
+            - 'img "jade step 12: #1d3b31" [ref=e367]'
+        - generic [ref=e368]:
+          - generic [ref=e369]: green
+          - generic [ref=e370]:
+            - 'img "green step 1: #fbfefc" [ref=e371]'
+            - 'img "green step 2: #f4fbf6" [ref=e372]'
+            - 'img "green step 3: #e6f6eb" [ref=e373]'
+            - 'img "green step 4: #d6efdf" [ref=e374]'
+            - 'img "green step 5: #c4e8d1" [ref=e375]'
+            - 'img "green step 6: #addfc0" [ref=e376]'
+            - 'img "green step 7: #8fd1aa" [ref=e377]'
+            - 'img "green step 8: #5eba87" [ref=e378]'
+            - 'img "green step 9: #30a46c" [ref=e379]'
+            - 'img "green step 10: #299764" [ref=e380]'
+            - 'img "green step 11: #18794e" [ref=e381]'
+            - 'img "green step 12: #153226" [ref=e382]'
+        - generic [ref=e383]:
+          - generic [ref=e384]: grass
+          - generic [ref=e385]:
+            - 'img "grass step 1: #fbfefb" [ref=e386]'
+            - 'img "grass step 2: #f5fbf5" [ref=e387]'
+            - 'img "grass step 3: #e9f6e9" [ref=e388]'
+            - 'img "grass step 4: #d7eed8" [ref=e389]'
+            - 'img "grass step 5: #c2e3c4" [ref=e390]'
+            - 'img "grass step 6: #a9d6ab" [ref=e391]'
+            - 'img "grass step 7: #87c58b" [ref=e392]'
+            - 'img "grass step 8: #5bae63" [ref=e393]'
+            - 'img "grass step 9: #46a758" [ref=e394]'
+            - 'img "grass step 10: #3e9b50" [ref=e395]'
+            - 'img "grass step 11: #297c3b" [ref=e396]'
+            - 'img "grass step 12: #1b311e" [ref=e397]'
+        - generic [ref=e398]:
+          - generic [ref=e399]: brown
+          - generic [ref=e400]:
+            - 'img "brown step 1: #fefdfc" [ref=e401]'
+            - 'img "brown step 2: #fcf9f6" [ref=e402]'
+            - 'img "brown step 3: #f6eee7" [ref=e403]'
+            - 'img "brown step 4: #f0e4d9" [ref=e404]'
+            - 'img "brown step 5: #ebdaca" [ref=e405]'
+            - 'img "brown step 6: #e4cdb7" [ref=e406]'
+            - 'img "brown step 7: #dcbc9f" [ref=e407]'
+            - 'img "brown step 8: #cea37e" [ref=e408]'
+            - 'img "brown step 9: #ad7f58" [ref=e409]'
+            - 'img "brown step 10: #a07653" [ref=e410]'
+            - 'img "brown step 11: #815e46" [ref=e411]'
+            - 'img "brown step 12: #3e2a1e" [ref=e412]'
+        - generic [ref=e413]:
+          - generic [ref=e414]: bronze
+          - generic [ref=e415]:
+            - 'img "bronze step 1: #fdfcfc" [ref=e416]'
+            - 'img "bronze step 2: #fdf7f5" [ref=e417]'
+            - 'img "bronze step 3: #f6edea" [ref=e418]'
+            - 'img "bronze step 4: #efe4df" [ref=e419]'
+            - 'img "bronze step 5: #e7d9d3" [ref=e420]'
+            - 'img "bronze step 6: #dfcdc5" [ref=e421]'
+            - 'img "bronze step 7: #d3bcb3" [ref=e422]'
+            - 'img "bronze step 8: #c2a499" [ref=e423]'
+            - 'img "bronze step 9: #a18072" [ref=e424]'
+            - 'img "bronze step 10: #957468" [ref=e425]'
+            - 'img "bronze step 11: #7d5e54" [ref=e426]'
+            - 'img "bronze step 12: #43302b" [ref=e427]'
+        - generic [ref=e428]:
+          - generic [ref=e429]: gold
+          - generic [ref=e430]:
+            - 'img "gold step 1: #fdfdfc" [ref=e431]'
+            - 'img "gold step 2: #faf9f2" [ref=e432]'
+            - 'img "gold step 3: #f2f0e7" [ref=e433]'
+            - 'img "gold step 4: #eae6db" [ref=e434]'
+            - 'img "gold step 5: #e1dccf" [ref=e435]'
+            - 'img "gold step 6: #d8d0bf" [ref=e436]'
+            - 'img "gold step 7: #cbc0aa" [ref=e437]'
+            - 'img "gold step 8: #b9a88d" [ref=e438]'
+            - 'img "gold step 9: #978365" [ref=e439]'
+            - 'img "gold step 10: #8c795c" [ref=e440]'
+            - 'img "gold step 11: #71624b" [ref=e441]'
+            - 'img "gold step 12: #3b3427" [ref=e442]'
+        - generic [ref=e443]:
+          - generic [ref=e444]: sky
+          - generic [ref=e445]:
+            - 'img "sky step 1: #f9feff" [ref=e446]'
+            - 'img "sky step 2: #f1fafd" [ref=e447]'
+            - 'img "sky step 3: #e1f6fd" [ref=e448]'
+            - 'img "sky step 4: #d1f0fa" [ref=e449]'
+            - 'img "sky step 5: #bee7f5" [ref=e450]'
+            - 'img "sky step 6: #a9daed" [ref=e451]'
+            - 'img "sky step 7: #8dcae3" [ref=e452]'
+            - 'img "sky step 8: #60b3d7" [ref=e453]'
+            - 'img "sky step 9: #7ce2fe" [ref=e454]'
+            - 'img "sky step 10: #74daf8" [ref=e455]'
+            - 'img "sky step 11: #00749e" [ref=e456]'
+            - 'img "sky step 12: #1d3e56" [ref=e457]'
+        - generic [ref=e458]:
+          - generic [ref=e459]: mint
+          - generic [ref=e460]:
+            - 'img "mint step 1: #f9fefd" [ref=e461]'
+            - 'img "mint step 2: #f2fbf9" [ref=e462]'
+            - 'img "mint step 3: #ddf9f2" [ref=e463]'
+            - 'img "mint step 4: #c8f4e9" [ref=e464]'
+            - 'img "mint step 5: #b3ecde" [ref=e465]'
+            - 'img "mint step 6: #9ae0d0" [ref=e466]'
+            - 'img "mint step 7: #76d2be" [ref=e467]'
+            - 'img "mint step 8: #4fc4a7" [ref=e468]'
+            - 'img "mint step 9: #86ead4" [ref=e469]'
+            - 'img "mint step 10: #7de0cb" [ref=e470]'
+            - 'img "mint step 11: #027864" [ref=e471]'
+            - 'img "mint step 12: #16433c" [ref=e472]'
+        - generic [ref=e473]:
+          - generic [ref=e474]: lime
+          - generic [ref=e475]:
+            - 'img "lime step 1: #fcfdfa" [ref=e476]'
+            - 'img "lime step 2: #f8faf3" [ref=e477]'
+            - 'img "lime step 3: #eef6d6" [ref=e478]'
+            - 'img "lime step 4: #e2f0bd" [ref=e479]'
+            - 'img "lime step 5: #d3e7a6" [ref=e480]'
+            - 'img "lime step 6: #c2da91" [ref=e481]'
+            - 'img "lime step 7: #abc978" [ref=e482]'
+            - 'img "lime step 8: #8db654" [ref=e483]'
+            - 'img "lime step 9: #bdee63" [ref=e484]'
+            - 'img "lime step 10: #b0e64c" [ref=e485]'
+            - 'img "lime step 11: #5c7c2f" [ref=e486]'
+            - 'img "lime step 12: #37401c" [ref=e487]'
+        - generic [ref=e488]:
+          - generic [ref=e489]: yellow
+          - generic [ref=e490]:
+            - 'img "yellow step 1: #fdfdf9" [ref=e491]'
+            - 'img "yellow step 2: #fefce9" [ref=e492]'
+            - 'img "yellow step 3: #fffab8" [ref=e493]'
+            - 'img "yellow step 4: #fff394" [ref=e494]'
+            - 'img "yellow step 5: #ffe770" [ref=e495]'
+            - 'img "yellow step 6: #f3d768" [ref=e496]'
+            - 'img "yellow step 7: #e4c767" [ref=e497]'
+            - 'img "yellow step 8: #d5ae39" [ref=e498]'
+            - 'img "yellow step 9: #ffe629" [ref=e499]'
+            - 'img "yellow step 10: #ffdc00" [ref=e500]'
+            - 'img "yellow step 11: #9e6c00" [ref=e501]'
+            - 'img "yellow step 12: #473b1f" [ref=e502]'
+        - generic [ref=e503]:
+          - generic [ref=e504]: amber
+          - generic [ref=e505]:
+            - 'img "amber step 1: #fefdfb" [ref=e506]'
+            - 'img "amber step 2: #fefbe9" [ref=e507]'
+            - 'img "amber step 3: #fff7c2" [ref=e508]'
+            - 'img "amber step 4: #ffee9c" [ref=e509]'
+            - 'img "amber step 5: #fbe577" [ref=e510]'
+            - 'img "amber step 6: #f3d673" [ref=e511]'
+            - 'img "amber step 7: #e9c162" [ref=e512]'
+            - 'img "amber step 8: #e2a336" [ref=e513]'
+            - 'img "amber step 9: #ffc53d" [ref=e514]'
+            - 'img "amber step 10: #ffba18" [ref=e515]'
+            - 'img "amber step 11: #ab6400" [ref=e516]'
+            - 'img "amber step 12: #4f3422" [ref=e517]'
+        - generic [ref=e518]:
+          - generic [ref=e519]: orange
+          - generic [ref=e520]:
+            - 'img "orange step 1: #fefcfb" [ref=e521]'
+            - 'img "orange step 2: #fff7ed" [ref=e522]'
+            - 'img "orange step 3: #ffefd6" [ref=e523]'
+            - 'img "orange step 4: #ffdfb5" [ref=e524]'
+            - 'img "orange step 5: #ffd19a" [ref=e525]'
+            - 'img "orange step 6: #ffc182" [ref=e526]'
+            - 'img "orange step 7: #f5ae73" [ref=e527]'
+            - 'img "orange step 8: #ec9455" [ref=e528]'
+            - 'img "orange step 9: #f76b15" [ref=e529]'
+            - 'img "orange step 10: #ef5f00" [ref=e530]'
+            - 'img "orange step 11: #cc4e00" [ref=e531]'
+            - 'img "orange step 12: #582d1d" [ref=e532]'
+        - generic [ref=e533]:
+          - generic [ref=e534]: accent
+          - generic [ref=e535]:
+            - 'img "accent step 1: #f0eded" [ref=e536]'
+            - 'img "accent step 2: #eee8e8" [ref=e537]'
+            - 'img "accent step 3: #ebdadc" [ref=e538]'
+            - 'img "accent step 4: #ecccd0" [ref=e539]'
+            - 'img "accent step 5: #e7bdc3" [ref=e540]'
+            - 'img "accent step 6: #dfadb4" [ref=e541]'
+            - 'img "accent step 7: #d49aa2" [ref=e542]'
+            - 'img "accent step 8: #c8818c" [ref=e543]'
+            - 'img "accent step 9: #ed6b86" [ref=e544]'
+            - 'img "accent step 10: #e05f7b" [ref=e545]'
+            - 'img "accent step 11: #a6294c" [ref=e546]'
+            - 'img "accent step 12: #5d1f2e" [ref=e547]'
+        - generic [ref=e548]:
+          - generic [ref=e549]: secondary
+          - generic [ref=e550]:
+            - 'img "secondary step 1: #f0edee" [ref=e551]'
+            - 'img "secondary step 2: #f0e7ea" [ref=e552]'
+            - 'img "secondary step 3: #edd9df" [ref=e553]'
+            - 'img "secondary step 4: #ebcbd5" [ref=e554]'
+            - 'img "secondary step 5: #e4becb" [ref=e555]'
+            - 'img "secondary step 6: #d8b2bf" [ref=e556]'
+            - 'img "secondary step 7: #c8a3af" [ref=e557]'
+            - 'img "secondary step 8: #b18d99" [ref=e558]'
+            - 'img "secondary step 9: #463239" [ref=e559]'
+            - 'img "secondary step 10: #5f404b" [ref=e560]'
+            - 'img "secondary step 11: #6b4b56" [ref=e561]'
+            - 'img "secondary step 12: #432f36" [ref=e562]'
+        - generic [ref=e563]:
+          - generic [ref=e564]: brand
+          - generic [ref=e565]:
+            - 'img "brand step black: #000000" [ref=e566]'
+            - 'img "brand step gray: #6B7280" [ref=e567]'
+        - generic [ref=e568]:
+          - generic [ref=e569]: neutral
+          - generic [ref=e570]:
+            - 'img "neutral step 0: #ffffff" [ref=e571]'
+            - 'img "neutral step 50: #fafafa" [ref=e572]'
+            - 'img "neutral step 500: #767676" [ref=e573]'
+            - 'img "neutral step 900: #1a1e24" [ref=e574]'
+            - 'img "neutral step 950: #0f1117" [ref=e575]'
+        - generic [ref=e576]:
+          - generic [ref=e577]: white
+          - generic [ref=e578]:
+            - 'img "white step 1: rgba(255,255,255,1.00)" [ref=e579]'
+            - 'img "white step 2: rgba(255,255,255,0.97)" [ref=e580]'
+            - 'img "white step 3: rgba(255,255,255,0.93)" [ref=e581]'
+            - 'img "white step 4: rgba(255,255,255,0.90)" [ref=e582]'
+            - 'img "white step 5: rgba(255,255,255,0.88)" [ref=e583]'
+            - 'img "white step 6: rgba(255,255,255,0.85)" [ref=e584]'
+            - 'img "white step 7: rgba(255,255,255,0.80)" [ref=e585]'
+            - 'img "white step 8: rgba(255,255,255,0.75)" [ref=e586]'
+            - 'img "white step 9: rgba(255,255,255,0.60)" [ref=e587]'
+            - 'img "white step 10: rgba(255,255,255,0.52)" [ref=e588]'
+            - 'img "white step 11: rgba(255,255,255,0.39)" [ref=e589]'
+            - 'img "white step 12: rgba(255,255,255,0.18)" [ref=e590]'
+        - generic [ref=e591]:
+          - generic [ref=e592]: black
+          - generic [ref=e593]:
+            - 'img "black step 1: rgba(0,0,0,0.05)" [ref=e594]'
+            - 'img "black step 2: rgba(0,0,0,0.10)" [ref=e595]'
+            - 'img "black step 3: rgba(0,0,0,0.15)" [ref=e596]'
+            - 'img "black step 4: rgba(0,0,0,0.20)" [ref=e597]'
+            - 'img "black step 5: rgba(0,0,0,0.30)" [ref=e598]'
+            - 'img "black step 6: rgba(0,0,0,0.40)" [ref=e599]'
+            - 'img "black step 7: rgba(0,0,0,0.50)" [ref=e600]'
+            - 'img "black step 8: rgba(0,0,0,0.60)" [ref=e601]'
+            - 'img "black step 9: rgba(0,0,0,0.70)" [ref=e602]'
+            - 'img "black step 10: rgba(0,0,0,0.75)" [ref=e603]'
+            - 'img "black step 11: rgba(0,0,0,0.80)" [ref=e604]'
+            - 'img "black step 12: rgba(0,0,0,0.90)" [ref=e605]'
+      - heading "Brand colors" [level=2] [ref=e606]
+      - paragraph [ref=e607]:
+        - generic [ref=e608]:
+          - text: Three brand palettes — Teal (primary), Rose-coral (accent), Bordeaux (secondary). Always consumed via
+          - code [ref=e609]: color.brand.*
+          - text: semantic tokens, never as raw values.
+      - generic [ref=e610]:
+        - table [ref=e612]:
+          - rowgroup [ref=e618]:
+            - row "Color Token CSS Value Intent" [ref=e619]:
+              - columnheader "Color" [ref=e620]
+              - columnheader "Token CSS" [ref=e621]
+              - columnheader "Value" [ref=e622]
+              - columnheader "Intent" [ref=e623]
+          - rowgroup [ref=e624]:
+            - 'row "--agtc-semantic-color-brand-primary #12a594 Primary brand color — Teal" [ref=e625]':
+              - cell [ref=e626]
+              - cell "--agtc-semantic-color-brand-primary" [ref=e629]:
+                - code [ref=e630]: "--agtc-semantic-color-brand-primary"
+              - cell "#12a594" [ref=e631]
+              - cell "Primary brand color — Teal" [ref=e632]
+            - 'row "--agtc-semantic-color-brand-primary-hover #0d9b8a Primary brand hover" [ref=e633]':
+              - cell [ref=e634]
+              - cell "--agtc-semantic-color-brand-primary-hover" [ref=e637]:
+                - code [ref=e638]: "--agtc-semantic-color-brand-primary-hover"
+              - cell "#0d9b8a" [ref=e639]
+              - cell "Primary brand hover" [ref=e640]
+            - 'row "--agtc-semantic-color-brand-primary-subtle #e0f8f3 Subtle teal background — badges, chips" [ref=e641]':
+              - cell [ref=e642]
+              - cell "--agtc-semantic-color-brand-primary-subtle" [ref=e645]:
+                - code [ref=e646]: "--agtc-semantic-color-brand-primary-subtle"
+              - cell "#e0f8f3" [ref=e647]
+              - cell "Subtle teal background — badges, chips" [ref=e648]
+            - 'row "--agtc-semantic-color-brand-primary-text #0d3d38 Teal text on light background — WCAG AA" [ref=e649]':
+              - cell [ref=e650]
+              - cell "--agtc-semantic-color-brand-primary-text" [ref=e653]:
+                - code [ref=e654]: "--agtc-semantic-color-brand-primary-text"
+              - cell "#0d3d38" [ref=e655]
+              - cell "Teal text on light background — WCAG AA" [ref=e656]
+            - 'row "--agtc-semantic-color-brand-accent #ed6b86 Accent color — Rose-coral (secondary CTA, highlights)" [ref=e657]':
+              - cell [ref=e658]
+              - cell "--agtc-semantic-color-brand-accent" [ref=e661]:
+                - code [ref=e662]: "--agtc-semantic-color-brand-accent"
+              - cell "#ed6b86" [ref=e663]
+              - cell "Accent color — Rose-coral (secondary CTA, highlights)" [ref=e664]
+            - 'row "--agtc-semantic-color-brand-accent-hover #e05f7b Accent hover" [ref=e665]':
+              - cell [ref=e666]
+              - cell "--agtc-semantic-color-brand-accent-hover" [ref=e669]:
+                - code [ref=e670]: "--agtc-semantic-color-brand-accent-hover"
+              - cell "#e05f7b" [ref=e671]
+              - cell "Accent hover" [ref=e672]
+            - 'row "--agtc-semantic-color-brand-accent-subtle #ebdadc Subtle accent background — version badges" [ref=e673]':
+              - cell [ref=e674]
+              - cell "--agtc-semantic-color-brand-accent-subtle" [ref=e677]:
+                - code [ref=e678]: "--agtc-semantic-color-brand-accent-subtle"
+              - cell "#ebdadc" [ref=e679]
+              - cell "Subtle accent background — version badges" [ref=e680]
+            - 'row "--agtc-semantic-color-brand-accent-text #a6294c Accent text — 7.1:1 WCAG AA+" [ref=e681]':
+              - cell [ref=e682]
+              - cell "--agtc-semantic-color-brand-accent-text" [ref=e685]:
+                - code [ref=e686]: "--agtc-semantic-color-brand-accent-text"
+              - cell "#a6294c" [ref=e687]
+              - cell "Accent text — 7.1:1 WCAG AA+" [ref=e688]
+            - 'row "--agtc-semantic-color-brand-secondary #463239 Secondary brand color — Bordeaux (editorial tags, ADR type)" [ref=e689]':
+              - cell [ref=e690]
+              - cell "--agtc-semantic-color-brand-secondary" [ref=e693]:
+                - code [ref=e694]: "--agtc-semantic-color-brand-secondary"
+              - cell "#463239" [ref=e695]
+              - cell "Secondary brand color — Bordeaux (editorial tags, ADR type)" [ref=e696]
+            - 'row "--agtc-semantic-color-brand-secondary-hover #5f404b Secondary brand hover" [ref=e697]':
+              - cell [ref=e698]
+              - cell "--agtc-semantic-color-brand-secondary-hover" [ref=e701]:
+                - code [ref=e702]: "--agtc-semantic-color-brand-secondary-hover"
+              - cell "#5f404b" [ref=e703]
+              - cell "Secondary brand hover" [ref=e704]
+            - 'row "--agtc-semantic-color-brand-secondary-text #432f36 Bordeaux secondary text — high readability" [ref=e705]':
+              - cell [ref=e706]
+              - cell "--agtc-semantic-color-brand-secondary-text" [ref=e709]:
+                - code [ref=e710]: "--agtc-semantic-color-brand-secondary-text"
+              - cell "#432f36" [ref=e711]
+              - cell "Bordeaux secondary text — high readability" [ref=e712]
+        - heading "UI semantic tokens" [level=2] [ref=e713]
+        - paragraph [ref=e714]: These 39 tokens encode UX intentions. Every component references them — never the primitives directly.
+        - searchbox "Search a semantic token / Rechercher un token sémantique" [ref=e715]
+        - paragraph [ref=e716]
+        - generic [ref=e717]:
+          - table [ref=e719]:
+            - rowgroup [ref=e725]:
+              - row "Color Token CSS Value Intent" [ref=e726]:
+                - columnheader "Color" [ref=e727]
+                - columnheader "Token CSS" [ref=e728]
+                - columnheader "Value" [ref=e729]
+                - columnheader "Intent" [ref=e730]
+            - rowgroup [ref=e731]:
+              - 'row "--agtc-semantic-color-action-primary #007a68 Primary action — CTA, primary button" [ref=e732]':
+                - cell [ref=e733]
+                - cell "--agtc-semantic-color-action-primary" [ref=e736]:
+                  - code [ref=e737]: "--agtc-semantic-color-action-primary"
+                - cell "#007a68" [ref=e738]
+                - cell "Primary action — CTA, primary button" [ref=e739]
+              - 'row "--agtc-semantic-color-action-primary-hover #0d3d38 Primary action hover state" [ref=e740]':
+                - cell [ref=e741]
+                - cell "--agtc-semantic-color-action-primary-hover" [ref=e744]:
+                  - code [ref=e745]: "--agtc-semantic-color-action-primary-hover"
+                - cell "#0d3d38" [ref=e746]
+                - cell "Primary action hover state" [ref=e747]
+              - 'row "--agtc-semantic-color-action-primary-disabled #d9d9d9 Disabled primary action" [ref=e748]':
+                - cell [ref=e749]
+                - cell "--agtc-semantic-color-action-primary-disabled" [ref=e752]:
+                  - code [ref=e753]: "--agtc-semantic-color-action-primary-disabled"
+                - cell "#d9d9d9" [ref=e754]
+                - cell "Disabled primary action" [ref=e755]
+              - 'row "--agtc-semantic-color-feedback-danger #ce2c31 Error, destructive action, critical alert" [ref=e756]':
+                - cell [ref=e757]
+                - cell "--agtc-semantic-color-feedback-danger" [ref=e760]:
+                  - code [ref=e761]: "--agtc-semantic-color-feedback-danger"
+                - cell "#ce2c31" [ref=e762]
+                - cell "Error, destructive action, critical alert" [ref=e763]
+              - 'row "--agtc-semantic-color-feedback-danger-subtle #feebec Subtle background for danger state" [ref=e764]':
+                - cell [ref=e765]
+                - cell "--agtc-semantic-color-feedback-danger-subtle" [ref=e768]:
+                  - code [ref=e769]: "--agtc-semantic-color-feedback-danger-subtle"
+                - cell "#feebec" [ref=e770]
+                - cell "Subtle background for danger state" [ref=e771]
+              - 'row "--agtc-semantic-color-feedback-success #18794e Confirmation, success, validation" [ref=e772]':
+                - cell [ref=e773]
+                - cell "--agtc-semantic-color-feedback-success" [ref=e776]:
+                  - code [ref=e777]: "--agtc-semantic-color-feedback-success"
+                - cell "#18794e" [ref=e778]
+                - cell "Confirmation, success, validation" [ref=e779]
+              - 'row "--agtc-semantic-color-feedback-info #0d74ce Neutral information, contextual help" [ref=e780]':
+                - cell [ref=e781]
+                - cell "--agtc-semantic-color-feedback-info" [ref=e784]:
+                  - code [ref=e785]: "--agtc-semantic-color-feedback-info"
+                - cell "#0d74ce" [ref=e786]
+                - cell "Neutral information, contextual help" [ref=e787]
+              - 'row "--agtc-semantic-color-background-page #fcfcfc Main page background" [ref=e788]':
+                - cell [ref=e789]
+                - cell "--agtc-semantic-color-background-page" [ref=e792]:
+                  - code [ref=e793]: "--agtc-semantic-color-background-page"
+                - cell "#fcfcfc" [ref=e794]
+                - cell "Main page background" [ref=e795]
+              - 'row "--agtc-semantic-color-background-surface #ffffff Card, panel, modal background" [ref=e796]':
+                - cell [ref=e797]
+                - cell "--agtc-semantic-color-background-surface" [ref=e800]:
+                  - code [ref=e801]: "--agtc-semantic-color-background-surface"
+                - cell "#ffffff" [ref=e802]
+                - cell "Card, panel, modal background" [ref=e803]
+              - 'row "--agtc-semantic-color-background-subtle #f0f0f0 Secondary background, subtle hover" [ref=e804]':
+                - cell [ref=e805]
+                - cell "--agtc-semantic-color-background-subtle" [ref=e808]:
+                  - code [ref=e809]: "--agtc-semantic-color-background-subtle"
+                - cell "#f0f0f0" [ref=e810]
+                - cell "Secondary background, subtle hover" [ref=e811]
+              - 'row "--agtc-semantic-color-background-hover #fafafa Hover background" [ref=e812]':
+                - cell [ref=e813]
+                - cell "--agtc-semantic-color-background-hover" [ref=e816]:
+                  - code [ref=e817]: "--agtc-semantic-color-background-hover"
+                - cell "#fafafa" [ref=e818]
+                - cell "Hover background" [ref=e819]
+              - 'row "--agtc-semantic-color-background-inverse #0f1117 Dark inverse background — hero, footer, dark sections" [ref=e820]':
+                - cell [ref=e821]
+                - cell "--agtc-semantic-color-background-inverse" [ref=e824]:
+                  - code [ref=e825]: "--agtc-semantic-color-background-inverse"
+                - cell "#0f1117" [ref=e826]
+                - cell "Dark inverse background — hero, footer, dark sections" [ref=e827]
+              - 'row "--agtc-semantic-color-background-inverse-raised #1a1e24 Raised dark surface — tooltips, popovers on inverse bg" [ref=e828]':
+                - cell [ref=e829]
+                - cell "--agtc-semantic-color-background-inverse-raised" [ref=e832]:
+                  - code [ref=e833]: "--agtc-semantic-color-background-inverse-raised"
+                - cell "#1a1e24" [ref=e834]
+                - cell "Raised dark surface — tooltips, popovers on inverse bg" [ref=e835]
+              - 'row "--agtc-semantic-color-background-code #202020 Code block background" [ref=e836]':
+                - cell [ref=e837]
+                - cell "--agtc-semantic-color-background-code" [ref=e840]:
+                  - code [ref=e841]: "--agtc-semantic-color-background-code"
+                - cell "#202020" [ref=e842]
+                - cell "Code block background" [ref=e843]
+              - 'row "--agtc-semantic-color-background-code-raised #646464 Raised code background — inline code on surface" [ref=e844]':
+                - cell [ref=e845]
+                - cell "--agtc-semantic-color-background-code-raised" [ref=e848]:
+                  - code [ref=e849]: "--agtc-semantic-color-background-code-raised"
+                - cell "#646464" [ref=e850]
+                - cell "Raised code background — inline code on surface" [ref=e851]
+              - 'row "--agtc-semantic-color-text-primary #202020 Primary text, high readability" [ref=e852]':
+                - cell [ref=e853]
+                - cell "--agtc-semantic-color-text-primary" [ref=e856]:
+                  - code [ref=e857]: "--agtc-semantic-color-text-primary"
+                - cell "#202020" [ref=e858]
+                - cell "Primary text, high readability" [ref=e859]
+              - 'row "--agtc-semantic-color-text-secondary #646464 Secondary text, labels, metadata" [ref=e860]':
+                - cell [ref=e861]
+                - cell "--agtc-semantic-color-text-secondary" [ref=e864]:
+                  - code [ref=e865]: "--agtc-semantic-color-text-secondary"
+                - cell "#646464" [ref=e866]
+                - cell "Secondary text, labels, metadata" [ref=e867]
+              - 'row "--agtc-semantic-color-text-disabled #767676 Disabled text" [ref=e868]':
+                - cell [ref=e869]
+                - cell "--agtc-semantic-color-text-disabled" [ref=e872]:
+                  - code [ref=e873]: "--agtc-semantic-color-text-disabled"
+                - cell "#767676" [ref=e874]
+                - cell "Disabled text" [ref=e875]
+              - 'row "--agtc-semantic-color-text-on-action #ffffff Text on action background — buttons" [ref=e876]':
+                - cell [ref=e877]
+                - cell "--agtc-semantic-color-text-on-action" [ref=e880]:
+                  - code [ref=e881]: "--agtc-semantic-color-text-on-action"
+                - cell "#ffffff" [ref=e882]
+                - cell "Text on action background — buttons" [ref=e883]
+              - row "--agtc-semantic-color-text-on-dark rgba(255,255,255,1.00) Primary text on inverse background (hero, footer)" [ref=e884]:
+                - cell [ref=e885]
+                - cell "--agtc-semantic-color-text-on-dark" [ref=e888]:
+                  - code [ref=e889]: "--agtc-semantic-color-text-on-dark"
+                - cell "rgba(255,255,255,1.00)" [ref=e890]
+                - cell "Primary text on inverse background (hero, footer)" [ref=e891]
+              - row "--agtc-semantic-color-text-on-dark-muted rgba(255,255,255,0.52) Muted text on inverse background — dark metadata" [ref=e892]:
+                - cell [ref=e893]
+                - cell "--agtc-semantic-color-text-on-dark-muted" [ref=e896]:
+                  - code [ref=e897]: "--agtc-semantic-color-text-on-dark-muted"
+                - cell "rgba(255,255,255,0.52)" [ref=e898]
+                - cell "Muted text on inverse background — dark metadata" [ref=e899]
+              - row "--agtc-semantic-color-text-on-dark-secondary rgba(255,255,255,0.75) Secondary text on inverse background" [ref=e900]:
+                - cell [ref=e901]
+                - cell "--agtc-semantic-color-text-on-dark-secondary" [ref=e904]:
+                  - code [ref=e905]: "--agtc-semantic-color-text-on-dark-secondary"
+                - cell "rgba(255,255,255,0.75)" [ref=e906]
+                - cell "Secondary text on inverse background" [ref=e907]
+              - 'row "--agtc-semantic-color-text-on-danger #ffffff Text on danger background" [ref=e908]':
+                - cell [ref=e909]
+                - cell "--agtc-semantic-color-text-on-danger" [ref=e912]:
+                  - code [ref=e913]: "--agtc-semantic-color-text-on-danger"
+                - cell "#ffffff" [ref=e914]
+                - cell "Text on danger background" [ref=e915]
+              - 'row "--agtc-semantic-color-text-on-code #e8e8e8 Text on code background" [ref=e916]':
+                - cell [ref=e917]
+                - cell "--agtc-semantic-color-text-on-code" [ref=e920]:
+                  - code [ref=e921]: "--agtc-semantic-color-text-on-code"
+                - cell "#e8e8e8" [ref=e922]
+                - cell "Text on code background" [ref=e923]
+              - 'row "--agtc-semantic-color-text-on-code-muted #bbbbbb Muted text on code background" [ref=e924]':
+                - cell [ref=e925]
+                - cell "--agtc-semantic-color-text-on-code-muted" [ref=e928]:
+                  - code [ref=e929]: "--agtc-semantic-color-text-on-code-muted"
+                - cell "#bbbbbb" [ref=e930]
+                - cell "Muted text on code background" [ref=e931]
+              - 'row "--agtc-semantic-color-border-default #e8e8e8 Default border" [ref=e932]':
+                - cell [ref=e933]
+                - cell "--agtc-semantic-color-border-default" [ref=e936]:
+                  - code [ref=e937]: "--agtc-semantic-color-border-default"
+                - cell "#e8e8e8" [ref=e938]
+                - cell "Default border" [ref=e939]
+              - 'row "--agtc-semantic-color-border-strong #d9d9d9 Strong border — important separators" [ref=e940]':
+                - cell [ref=e941]
+                - cell "--agtc-semantic-color-border-strong" [ref=e944]:
+                  - code [ref=e945]: "--agtc-semantic-color-border-strong"
+                - cell "#d9d9d9" [ref=e946]
+                - cell "Strong border — important separators" [ref=e947]
+              - 'row "--agtc-semantic-color-border-focus #007a68 Focus border — keyboard accessibility" [ref=e948]':
+                - cell [ref=e949]
+                - cell "--agtc-semantic-color-border-focus" [ref=e952]:
+                  - code [ref=e953]: "--agtc-semantic-color-border-focus"
+                - cell "#007a68" [ref=e954]
+                - cell "Focus border — keyboard accessibility" [ref=e955]
+              - 'row "--agtc-semantic-color-border-danger #ce2c31 Error state border" [ref=e956]':
+                - cell [ref=e957]
+                - cell "--agtc-semantic-color-border-danger" [ref=e960]:
+                  - code [ref=e961]: "--agtc-semantic-color-border-danger"
+                - cell "#ce2c31" [ref=e962]
+                - cell "Error state border" [ref=e963]
+              - 'row "--agtc-semantic-color-feedback-warning #cc4e00 Warning, attention required" [ref=e964]':
+                - cell [ref=e965]
+                - cell "--agtc-semantic-color-feedback-warning" [ref=e968]:
+                  - code [ref=e969]: "--agtc-semantic-color-feedback-warning"
+                - cell "#cc4e00" [ref=e970]
+                - cell "Warning, attention required" [ref=e971]
+              - 'row "--agtc-semantic-color-feedback-warning-subtle #ffefd6 Subtle warning background" [ref=e972]':
+                - cell [ref=e973]
+                - cell "--agtc-semantic-color-feedback-warning-subtle" [ref=e976]:
+                  - code [ref=e977]: "--agtc-semantic-color-feedback-warning-subtle"
+                - cell "#ffefd6" [ref=e978]
+                - cell "Subtle warning background" [ref=e979]
+              - 'row "--agtc-semantic-color-feedback-warning-text #582d1d Accessible warning text" [ref=e980]':
+                - cell [ref=e981]
+                - cell "--agtc-semantic-color-feedback-warning-text" [ref=e984]:
+                  - code [ref=e985]: "--agtc-semantic-color-feedback-warning-text"
+                - cell "#582d1d" [ref=e986]
+                - cell "Accessible warning text" [ref=e987]
+              - 'row "--agtc-semantic-color-feedback-info-subtle #e6f4fe Subtle info background" [ref=e988]':
+                - cell [ref=e989]
+                - cell "--agtc-semantic-color-feedback-info-subtle" [ref=e992]:
+                  - code [ref=e993]: "--agtc-semantic-color-feedback-info-subtle"
+                - cell "#e6f4fe" [ref=e994]
+                - cell "Subtle info background" [ref=e995]
+              - 'row "--agtc-semantic-color-feedback-info-border #acd8fa Info state border" [ref=e996]':
+                - cell [ref=e997]
+                - cell "--agtc-semantic-color-feedback-info-border" [ref=e1000]:
+                  - code [ref=e1001]: "--agtc-semantic-color-feedback-info-border"
+                - cell "#acd8fa" [ref=e1002]
+                - cell "Info state border" [ref=e1003]
+              - 'row "--agtc-semantic-color-feedback-info-text #113264 Accessible info text" [ref=e1004]':
+                - cell [ref=e1005]
+                - cell "--agtc-semantic-color-feedback-info-text" [ref=e1008]:
+                  - code [ref=e1009]: "--agtc-semantic-color-feedback-info-text"
+                - cell "#113264" [ref=e1010]
+                - cell "Accessible info text" [ref=e1011]
+              - 'row "--agtc-semantic-color-feedback-success-subtle #e6f6eb Subtle success background" [ref=e1012]':
+                - cell [ref=e1013]
+                - cell "--agtc-semantic-color-feedback-success-subtle" [ref=e1016]:
+                  - code [ref=e1017]: "--agtc-semantic-color-feedback-success-subtle"
+                - cell "#e6f6eb" [ref=e1018]
+                - cell "Subtle success background" [ref=e1019]
+              - 'row "--agtc-semantic-color-feedback-success-border #addfc0 Success state border" [ref=e1020]':
+                - cell [ref=e1021]
+                - cell "--agtc-semantic-color-feedback-success-border" [ref=e1024]:
+                  - code [ref=e1025]: "--agtc-semantic-color-feedback-success-border"
+                - cell "#addfc0" [ref=e1026]
+                - cell "Success state border" [ref=e1027]
+              - 'row "--agtc-semantic-color-feedback-danger-border #fdbdbe Danger state border" [ref=e1028]':
+                - cell [ref=e1029]
+                - cell "--agtc-semantic-color-feedback-danger-border" [ref=e1032]:
+                  - code [ref=e1033]: "--agtc-semantic-color-feedback-danger-border"
+                - cell "#fdbdbe" [ref=e1034]
+                - cell "Danger state border" [ref=e1035]
+              - 'row "--agtc-semantic-color-illustration-ink #211f26 Illustration ink — decorative strokes and icons" [ref=e1036]':
+                - cell [ref=e1037]
+                - cell "--agtc-semantic-color-illustration-ink" [ref=e1040]:
+                  - code [ref=e1041]: "--agtc-semantic-color-illustration-ink"
+                - cell "#211f26" [ref=e1042]
+                - cell "Illustration ink — decorative strokes and icons" [ref=e1043]
+          - blockquote [ref=e1044]:
+            - paragraph [ref=e1045]:
+              - generic [ref=e1046]:
+                - text: Agents understand
+                - code [ref=e1047]: color.action.primary
+                - text: as an intention. They do not understand
+                - code [ref=e1048]: "#007a68"
+                - text: as an intention — it is just a value.
+          - generic [ref=e1049]:
+            - img [ref=e1051]
+            - generic [ref=e1054]:
+              - strong [ref=e1055]: Contribute to this project
+              - paragraph [ref=e1056]: This system welcomes contributions — tokens, components, architectural decisions, accessibility fixes, or documentation. Every improvement counts.
+            - link "View on GitHub" [ref=e1057] [cursor=pointer]:
+              - /url: https://github.com/gnegreiros-ux/agentica-design-system
+              - generic [ref=e1058]: View on GitHub
+    - navigation "Table of contents / Table des matières" [ref=e1059]:
+      - generic [ref=e1060]: On this page
+      - link "Primitive palette — Radix UI" [ref=e1061] [cursor=pointer]:
+        - /url: "#palette-primitive-radix-ui"
+      - link "Brand colors" [ref=e1062] [cursor=pointer]:
+        - /url: "#couleurs-de-marque"
+      - link "UI semantic tokens" [ref=e1063] [cursor=pointer]:
+        - /url: "#tokens-semantiques-ui"
+  - contentinfo [ref=e1064]:
+    - generic [ref=e1065]:
+      - generic [ref=e1066]:
+        - link "Agentica — Accueil" [ref=e1067] [cursor=pointer]:
+          - /url: ../index.html
+          - img "Agentica" [ref=e1068]
+        - link "Guilherme Negreiros" [ref=e1069] [cursor=pointer]:
+          - /url: https://www.linkedin.com/in/gnegreiros/
+          - img [ref=e1070]
+          - text: Guilherme Negreiros
+      - generic [ref=e1074]:
+        - generic [ref=e1075]: Navigation
+        - link "Home" [ref=e1076] [cursor=pointer]:
+          - /url: ../index.html
+        - link "Why" [ref=e1077] [cursor=pointer]:
+          - /url: ../pourquoi.html
+        - link "Architecture" [ref=e1078] [cursor=pointer]:
+          - /url: ../architecture.html
+        - link "Quality" [ref=e1079] [cursor=pointer]:
+          - /url: ../qualite.html
+        - link "AI" [ref=e1080] [cursor=pointer]:
+          - /url: ../ia.html
+      - generic [ref=e1081]:
+        - generic [ref=e1082]: Documentation
+        - link "Understand" [ref=e1083] [cursor=pointer]:
+          - /url: ../pourquoi.html
+        - link "Get started" [ref=e1084] [cursor=pointer]:
+          - /url: ../get-started.html
+        - link "Foundations" [ref=e1085] [cursor=pointer]:
+          - /url: ../foundations/index.html
+        - link "Components" [ref=e1086] [cursor=pointer]:
+          - /url: ../components/index.html
+        - link "Tokens" [ref=e1087] [cursor=pointer]:
+          - /url: ../tokens/index.html
+        - link "Decisions" [ref=e1088] [cursor=pointer]:
+          - /url: ../decisions/index.html
+        - link "Continuity" [ref=e1089] [cursor=pointer]:
+          - /url: ../continuite.html
+        - link "Changelog" [ref=e1090] [cursor=pointer]:
+          - /url: ../changelog.html
+      - generic [ref=e1091]:
+        - generic [ref=e1092]: Explorer
+        - link "Storybook" [ref=e1093] [cursor=pointer]:
+          - /url: https://main--6a1c1e665ec5fe8fc0540983.chromatic.com/
+        - link "GitHub" [ref=e1094] [cursor=pointer]:
+          - /url: https://github.com/gnegreiros-ux/agentica-design-system
+        - link "Audit" [ref=e1095] [cursor=pointer]:
+          - /url: ../audit.html
+        - link "AI Brief" [ref=e1096] [cursor=pointer]:
+          - /url: ../ai-brief.html
+    - generic [ref=e1097]:
+      - generic [ref=e1098]: © 2026 Guilherme Negreiros
+      - generic [ref=e1099]: Built with Claude Code.
+  - button "Retour en haut" [ref=e1100] [cursor=pointer]:
+    - img [ref=e1101]
+    - generic [ref=e1103]: Top
+  - status [ref=e1104]
+```
+
+# Test source
+
+```ts
+  1  | import { test, expect } from '@playwright/test';
+  2  | 
+  3  | test.describe('Documentation — visual regressions', () => {
+  4  |   for (const theme of ['light', 'dark']) {
+  5  |     test(`page documentation — ${theme}`, async ({ page }) => {
+  6  |       await page.goto('/documentation.html');
+  7  |       await page.waitForLoadState('networkidle');
+  8  |       await page.evaluate((t) => document.documentElement.setAttribute('data-theme', t), theme);
+  9  |       await expect(page).toHaveScreenshot(`documentation-${theme}.png`, { fullPage: true });
+  10 |     });
+  11 | 
+  12 |     test(`foundations/color — ${theme}`, async ({ page }) => {
+  13 |       await page.goto('/foundations/color.html');
+  14 |       await page.waitForLoadState('networkidle');
+  15 |       await page.evaluate((t) => document.documentElement.setAttribute('data-theme', t), theme);
+> 16 |       await expect(page).toHaveScreenshot(`foundations-color-${theme}.png`, { fullPage: true });
+     |                          ^ Error: expect(page).toHaveScreenshot(expected) failed
+  17 |     });
+  18 | 
+  19 |     test(`foundations/typography — ${theme}`, async ({ page }) => {
+  20 |       await page.goto('/foundations/typography.html');
+  21 |       await page.waitForLoadState('networkidle');
+  22 |       await page.evaluate((t) => document.documentElement.setAttribute('data-theme', t), theme);
+  23 |       await expect(page).toHaveScreenshot(`foundations-typography-${theme}.png`, { fullPage: true });
+  24 |     });
+  25 | 
+  26 |     test(`foundations/spacing — ${theme}`, async ({ page }) => {
+  27 |       await page.goto('/foundations/spacing.html');
+  28 |       await page.waitForLoadState('networkidle');
+  29 |       await page.evaluate((t) => document.documentElement.setAttribute('data-theme', t), theme);
+  30 |       await expect(page).toHaveScreenshot(`foundations-spacing-${theme}.png`, { fullPage: true });
+  31 |     });
+  32 |   }
+  33 | });
+  34 | 
+```

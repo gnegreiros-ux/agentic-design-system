@@ -1,0 +1,551 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: visual/components/all-components.spec.js >> tabs — visual regressions >> page tabs — light
+- Location: tests/visual/components/all-components.spec.js:13:7
+
+# Error details
+
+```
+Error: expect(page).toHaveScreenshot(expected) failed
+
+  Expected an image 1280px by 4911px, received 1280px by 4817px. 227127 pixels (ratio 0.04 of all image pixels) are different.
+
+  Snapshot: tabs-light.png
+
+Call log:
+  - Expect "toHaveScreenshot(tabs-light.png)" with timeout 5000ms
+    - verifying given screenshot expectation
+  - taking page screenshot
+    - disabled all CSS animations
+  - waiting for fonts to load...
+  - fonts loaded
+  - Expected an image 1280px by 4911px, received 1280px by 4817px. 227127 pixels (ratio 0.04 of all image pixels) are different.
+  - waiting 100ms before taking screenshot
+  - taking page screenshot
+    - disabled all CSS animations
+  - waiting for fonts to load...
+  - fonts loaded
+  - captured a stable screenshot
+  - Expected an image 1280px by 4911px, received 1280px by 4817px. 227127 pixels (ratio 0.04 of all image pixels) are different.
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=e3]:
+    - link "Agentica — Accueil" [ref=e4] [cursor=pointer]:
+      - /url: ../index.html
+      - img [ref=e5]
+    - navigation "Navigation principale" [ref=e6]:
+      - link "Home" [ref=e7] [cursor=pointer]:
+        - /url: ../index.html
+      - link "Why" [ref=e8] [cursor=pointer]:
+        - /url: ../pourquoi.html
+      - link "Architecture" [ref=e9] [cursor=pointer]:
+        - /url: ../architecture.html
+      - link "Quality" [ref=e10] [cursor=pointer]:
+        - /url: ../qualite.html
+      - link "AI" [ref=e11] [cursor=pointer]:
+        - /url: ../ia.html
+      - generic [ref=e12]:
+        - link "Documentation" [ref=e13] [cursor=pointer]:
+          - /url: ../documentation.html
+        - generic:
+          - generic:
+            - heading "Understand" [level=2]
+            - link "Introduction":
+              - /url: ../pourquoi.html
+            - link "Foundations":
+              - /url: ../foundations/index.html
+            - link "Human control":
+              - /url: ../ia.html
+            - link "Single source of truth":
+              - /url: ../architecture.html
+          - generic:
+            - heading "Reference" [level=2]
+            - link "Foundations":
+              - /url: ../foundations/index.html
+            - link "Components":
+              - /url: ../components/index.html
+            - link "Tokens":
+              - /url: ../tokens/index.html
+            - link "Decisions":
+              - /url: ../decisions/index.html
+            - link "Agents":
+              - /url: ../agents/index.html
+            - link "Pipelines":
+              - /url: ../pipelines/index.html
+            - link "Continuity":
+              - /url: ../continuite.html
+          - generic:
+            - heading "Explore" [level=2]
+            - link "Storybook":
+              - /url: https://main--6a1c1e665ec5fe8fc0540983.chromatic.com/
+            - link "GitHub":
+              - /url: https://github.com/gnegreiros-ux/agentica-design-system
+            - link "Audit":
+              - /url: ../audit.html
+      - link "Get started" [ref=e14] [cursor=pointer]:
+        - /url: ../get-started.html
+    - generic "Liens rapides" [ref=e15]:
+      - button "Basculer thème sombre / Switch to dark theme" [ref=e16] [cursor=pointer]:
+        - img [ref=e17]
+      - group "Language" [ref=e20]:
+        - button "FR" [ref=e21] [cursor=pointer]
+        - button "EN" [ref=e22] [cursor=pointer]
+      - link "Storybook — Catalogue interactif des composants" [ref=e23] [cursor=pointer]:
+        - /url: https://main--6a1c1e665ec5fe8fc0540983.chromatic.com/
+        - img [ref=e24]
+      - link "GitHub — Code source du projet" [ref=e26] [cursor=pointer]:
+        - /url: https://github.com/gnegreiros-ux/agentica-design-system
+        - img [ref=e27]
+  - generic [ref=e30]:
+    - navigation "Secondary navigation / Navigation secondaire" [ref=e31]:
+      - generic [ref=e32]:
+        - generic [ref=e33]: Components
+        - link "Overview" [ref=e34] [cursor=pointer]:
+          - /url: ../components/index.html
+        - link "Button" [ref=e35] [cursor=pointer]:
+          - /url: ../components/button.html
+        - link "Icon" [ref=e36] [cursor=pointer]:
+          - /url: ../components/icon.html
+        - link "Input" [ref=e37] [cursor=pointer]:
+          - /url: ../components/input.html
+        - link "Badge" [ref=e38] [cursor=pointer]:
+          - /url: ../components/badge.html
+        - link "Image" [ref=e39] [cursor=pointer]:
+          - /url: ../components/image.html
+        - link "Card" [ref=e40] [cursor=pointer]:
+          - /url: ../components/card.html
+        - link "Checkbox" [ref=e41] [cursor=pointer]:
+          - /url: ../components/checkbox.html
+        - link "Radio" [ref=e42] [cursor=pointer]:
+          - /url: ../components/radio.html
+        - link "Toggle" [ref=e43] [cursor=pointer]:
+          - /url: ../components/toggle.html
+        - link "Table" [ref=e44] [cursor=pointer]:
+          - /url: ../components/table.html
+        - link "Code Block" [ref=e45] [cursor=pointer]:
+          - /url: ../components/code-block.html
+        - link "Banner" [ref=e46] [cursor=pointer]:
+          - /url: ../components/banner.html
+        - link "Link" [ref=e47] [cursor=pointer]:
+          - /url: ../components/link.html
+        - link "Segmented" [ref=e48] [cursor=pointer]:
+          - /url: ../components/segmented.html
+        - link "Tabs" [ref=e49] [cursor=pointer]:
+          - /url: ../components/tabs.html
+    - main [ref=e50]:
+      - heading "Tabs" [level=1] [ref=e51]
+      - paragraph [ref=e52]:
+        - generic [ref=e53]:
+          - text: Horizontal in-page tabs — each tab reveals an associated content panel. W3C APG-compliant
+          - code [ref=e54]: tablist/tab/tabpanel
+          - text: ARIA pattern, automatic activation on focus.
+      - heading "Preview" [level=2] [ref=e55]
+      - generic [ref=e56]:
+        - tablist "Documentation" [ref=e57]:
+          - tab "Overview" [selected] [ref=e58] [cursor=pointer]:
+            - generic [ref=e59]: Overview
+          - tab "Tokens" [ref=e60] [cursor=pointer]
+          - tab "Accessibility" [ref=e61] [cursor=pointer]:
+            - generic [ref=e62]: Accessibility
+        - paragraph [ref=e63]: Panel content for "Overview".
+      - heading "When to use" [level=2] [ref=e64]
+      - table [ref=e66]:
+        - rowgroup [ref=e70]:
+          - row "Component Usage" [ref=e71]:
+            - columnheader "Component" [ref=e72]
+            - columnheader "Usage" [ref=e73]
+        - rowgroup [ref=e74]:
+          - row "agtc-tabs In-page navigation with panel — tablist/tab/tabpanel (ARIA)" [ref=e75]:
+            - cell "agtc-tabs" [ref=e76]:
+              - code [ref=e77]: agtc-tabs
+            - cell "In-page navigation with panel — tablist/tab/tabpanel (ARIA)" [ref=e78]:
+              - generic [ref=e79]:
+                - text: In-page navigation with
+                - strong [ref=e80]: panel
+                - text: — tablist/tab/tabpanel (ARIA)
+          - row "agtc-segmented Immediate-effect setting without panel (language, density, view)" [ref=e81]:
+            - cell "agtc-segmented" [ref=e82]:
+              - code [ref=e83]: agtc-segmented
+            - cell "Immediate-effect setting without panel (language, density, view)" [ref=e84]:
+              - generic [ref=e85]:
+                - strong [ref=e86]: Immediate-effect
+                - text: setting without panel (language, density, view)
+      - heading "Absolute rules" [level=2] [ref=e87]
+      - list [ref=e88]:
+        - listitem [ref=e89]:
+          - img [ref=e91]
+          - generic [ref=e94]:
+            - text: Always a
+            - code [ref=e95]: label
+            - text: on the tablist (for AT)
+        - listitem [ref=e96]:
+          - img [ref=e98]
+          - text: Minimum 2 tabs — a single tab is not tabs
+        - listitem [ref=e101]:
+          - img [ref=e103]
+          - generic [ref=e106]:
+            - text: Tablist positioned
+            - strong [ref=e107]: above
+            - text: the panel (never to the right)
+        - listitem [ref=e108]:
+          - img [ref=e110]
+          - text: Labels in natural case (never ALL-CAPS)
+        - listitem [ref=e113]:
+          - img [ref=e115]
+          - generic [ref=e119]:
+            - text: Never for a setting without panel (→
+            - code [ref=e120]: agtc-segmented
+            - text: )
+        - listitem [ref=e121]:
+          - img [ref=e123]
+          - generic [ref=e127]:
+            - text: Never hardcoded values — always via
+            - code [ref=e128]: var(--agtc-…)
+      - heading "Keyboard" [level=2] [ref=e129]
+      - table [ref=e131]:
+        - rowgroup [ref=e135]:
+          - row "Key Effect" [ref=e136]:
+            - columnheader "Key" [ref=e137]
+            - columnheader "Effect" [ref=e138]
+        - rowgroup [ref=e139]:
+          - row "← → Focus + activate previous/next tab (circular) — auto mode" [ref=e140]:
+            - cell "← →" [ref=e141]
+            - cell "Focus + activate previous/next tab (circular) — auto mode" [ref=e142]:
+              - generic [ref=e143]:
+                - text: Focus + activate previous/next tab (circular) —
+                - code [ref=e144]: auto
+                - text: mode
+          - row "Home End Focus first / last tab" [ref=e145]:
+            - cell "Home End" [ref=e146]
+            - cell "Focus first / last tab" [ref=e147]
+          - row "Enter Space Activate focused tab (always, including manual mode)" [ref=e148]:
+            - cell "Enter Space" [ref=e149]
+            - cell "Activate focused tab (always, including manual mode)" [ref=e150]:
+              - generic [ref=e151]:
+                - text: Activate focused tab (always, including
+                - code [ref=e152]: manual
+                - text: mode)
+          - row "Tab Exits group to the active panel" [ref=e153]:
+            - cell "Tab" [ref=e154]
+            - cell "Exits group to the active panel" [ref=e155]
+      - heading "Component tokens" [level=2] [ref=e156]
+      - table [ref=e158]:
+        - rowgroup [ref=e163]:
+          - row "Token CSS Reference Value" [ref=e164]:
+            - columnheader "Token CSS" [ref=e165]
+            - columnheader "Reference" [ref=e166]
+            - columnheader "Value" [ref=e167]
+        - rowgroup [ref=e168]:
+          - 'row "--agtc-component-tabs-default-tab-text semantic.color.text.secondary #646464" [ref=e169]':
+            - cell "--agtc-component-tabs-default-tab-text" [ref=e170]:
+              - code [ref=e171]: "--agtc-component-tabs-default-tab-text"
+            - cell "semantic.color.text.secondary" [ref=e172]:
+              - code [ref=e173]: semantic.color.text.secondary
+            - cell "#646464" [ref=e174]
+          - 'row "--agtc-component-tabs-default-tab-text-hover semantic.color.text.primary #202020" [ref=e175]':
+            - cell "--agtc-component-tabs-default-tab-text-hover" [ref=e176]:
+              - code [ref=e177]: "--agtc-component-tabs-default-tab-text-hover"
+            - cell "semantic.color.text.primary" [ref=e178]:
+              - code [ref=e179]: semantic.color.text.primary
+            - cell "#202020" [ref=e180]
+          - 'row "--agtc-component-tabs-default-tab-text-active semantic.color.action.primary #007a68" [ref=e181]':
+            - cell "--agtc-component-tabs-default-tab-text-active" [ref=e182]:
+              - code [ref=e183]: "--agtc-component-tabs-default-tab-text-active"
+            - cell "semantic.color.action.primary" [ref=e184]:
+              - code [ref=e185]: semantic.color.action.primary
+            - cell "#007a68" [ref=e186]
+          - 'row "--agtc-component-tabs-default-indicator semantic.color.action.primary #007a68" [ref=e187]':
+            - cell "--agtc-component-tabs-default-indicator" [ref=e188]:
+              - code [ref=e189]: "--agtc-component-tabs-default-indicator"
+            - cell "semantic.color.action.primary" [ref=e190]:
+              - code [ref=e191]: semantic.color.action.primary
+            - cell "#007a68" [ref=e192]
+          - 'row "--agtc-component-tabs-default-border semantic.color.border.default #e8e8e8" [ref=e193]':
+            - cell "--agtc-component-tabs-default-border" [ref=e194]:
+              - code [ref=e195]: "--agtc-component-tabs-default-border"
+            - cell "semantic.color.border.default" [ref=e196]:
+              - code [ref=e197]: semantic.color.border.default
+            - cell "#e8e8e8" [ref=e198]
+          - 'row "--agtc-component-tabs-default-border-focus semantic.color.border.focus #007a68" [ref=e199]':
+            - cell "--agtc-component-tabs-default-border-focus" [ref=e200]:
+              - code [ref=e201]: "--agtc-component-tabs-default-border-focus"
+            - cell "semantic.color.border.focus" [ref=e202]:
+              - code [ref=e203]: semantic.color.border.focus
+            - cell "#007a68" [ref=e204]
+          - row "--agtc-component-tabs-default-padding-x semantic.space.control.padding-x 16px" [ref=e205]:
+            - cell "--agtc-component-tabs-default-padding-x" [ref=e206]:
+              - code [ref=e207]: "--agtc-component-tabs-default-padding-x"
+            - cell "semantic.space.control.padding-x" [ref=e208]:
+              - code [ref=e209]: semantic.space.control.padding-x
+            - cell "16px" [ref=e210]
+          - row "--agtc-component-tabs-default-padding-y semantic.space.control.padding-y 8px" [ref=e211]:
+            - cell "--agtc-component-tabs-default-padding-y" [ref=e212]:
+              - code [ref=e213]: "--agtc-component-tabs-default-padding-y"
+            - cell "semantic.space.control.padding-y" [ref=e214]:
+              - code [ref=e215]: semantic.space.control.padding-y
+            - cell "8px" [ref=e216]
+      - heading "Accessibility" [level=2] [ref=e217]
+      - list [ref=e218]:
+        - listitem [ref=e219]:
+          - generic [ref=e220]:
+            - code [ref=e221]: role="tablist"
+            - text: +
+            - code [ref=e222]: aria-label
+            - text: on the container
+        - listitem [ref=e223]:
+          - generic [ref=e224]:
+            - code [ref=e225]: role="tab"
+            - text: +
+            - code [ref=e226]: aria-selected
+            - text: +
+            - code [ref=e227]: aria-controls
+            - text: on each tab
+        - listitem [ref=e228]:
+          - generic [ref=e229]:
+            - code [ref=e230]: role="tabpanel"
+            - text: +
+            - code [ref=e231]: aria-labelledby
+            - text: on each panel
+        - listitem [ref=e232]:
+          - generic [ref=e233]:
+            - text: "Roving tabindex: active tab"
+            - code [ref=e234]: tabindex="0"
+            - text: ", others"
+            - code [ref=e235]: "-1"
+        - listitem [ref=e236]:
+          - generic [ref=e237]:
+            - text: Tokenized
+            - code [ref=e238]: :focus-visible
+            - text: · neutralized
+            - code [ref=e239]: :visited
+            - text: (ADR-047)
+        - listitem [ref=e240]: "Active text contrast (teal on white): 5.14:1 ✅ WCAG AA"
+      - heading "Implementation" [level=2] [ref=e241]
+      - generic [ref=e242]:
+        - code [ref=e243]: "<agtc-tabs label=\"Documentation Button\" selected=\"overview\"> <div slot=\"overview\">Overview content</div> <div slot=\"tokens\">Tokens content</div> </agtc-tabs> <script type=\"module\" src=\"../components/agtc-tabs.js\"></script> <script> document.querySelector('agtc-tabs').tabs = [ { value: 'overview', label: 'Overview' }, { value: 'tokens', label: 'Tokens' }, ]; </script>"
+        - generic [ref=e244]: html
+        - button "Copy code (html)" [ref=e245] [cursor=pointer]: Copy
+      - heading "DOs and DON'Ts" [level=2] [ref=e246]
+      - generic [ref=e247]:
+        - generic [ref=e248]:
+          - heading "Do" [level=3] [ref=e249]:
+            - img [ref=e250]
+            - text: Do
+          - list [ref=e253]:
+            - listitem [ref=e254]:
+              - generic [ref=e255]:
+                - text: Name the tablist with
+                - code [ref=e256]: label="…"
+            - listitem [ref=e257]: Position the tablist above the panel
+            - listitem [ref=e258]: Concise labels in natural case
+        - generic [ref=e259]:
+          - heading "Don't" [level=3] [ref=e260]:
+            - img [ref=e261]
+            - text: Don't
+          - list [ref=e265]:
+            - listitem [ref=e266]:
+              - generic [ref=e267]:
+                - text: Use for a setting without panel (→
+                - code [ref=e268]: agtc-segmented
+                - text: )
+            - listitem [ref=e269]: ALL-CAPS labels
+            - listitem [ref=e270]: A single tab (not tabs)
+      - heading "UX Patterns Reference" [level=2] [ref=e271]
+      - table [ref=e273]:
+        - rowgroup [ref=e274]:
+          - row "Pattern Source (link) Applied Justification" [ref=e275]:
+            - columnheader "Pattern" [ref=e276]
+            - columnheader "Source (link)" [ref=e277]
+            - columnheader "Applied" [ref=e278]
+            - columnheader "Justification" [ref=e279]
+        - rowgroup [ref=e280]:
+          - row "Tablist above the panel NN/g — Tabs Used Right ✅ Maximum content discoverability" [ref=e281]:
+            - cell "Tablist above the panel" [ref=e282]
+            - cell "NN/g — Tabs Used Right" [ref=e283]:
+              - link "NN/g — Tabs Used Right" [ref=e284] [cursor=pointer]:
+                - /url: https://www.nngroup.com/articles/tabs-used-right/
+            - cell "✅" [ref=e285]
+            - cell "Maximum content discoverability" [ref=e286]
+          - row "In-page tabs (instant change) NN/g ✅ Keeps the user in place" [ref=e287]:
+            - cell "In-page tabs (instant change)" [ref=e288]
+            - cell "NN/g" [ref=e289]:
+              - link "NN/g" [ref=e290] [cursor=pointer]:
+                - /url: https://www.nngroup.com/articles/tabs-used-right/
+            - cell "✅" [ref=e291]
+            - cell "Keeps the user in place" [ref=e292]
+          - row "Automatic activation on focus W3C APG ✅ Preloaded content — APG recommends auto" [ref=e293]:
+            - cell "Automatic activation on focus" [ref=e294]
+            - cell "W3C APG" [ref=e295]:
+              - link "W3C APG" [ref=e296] [cursor=pointer]:
+                - /url: https://www.w3.org/WAI/ARIA/apg/patterns/tabs/
+            - cell "✅" [ref=e297]
+            - cell "Preloaded content — APG recommends auto" [ref=e298]
+          - row "ARIA tablist/tab/tabpanel W3C APG ✅ Standard accessibility pattern" [ref=e299]:
+            - cell "ARIA tablist/tab/tabpanel" [ref=e300]
+            - cell "W3C APG" [ref=e301]:
+              - link "W3C APG" [ref=e302] [cursor=pointer]:
+                - /url: https://www.w3.org/WAI/ARIA/apg/patterns/tabs/
+            - cell "✅" [ref=e303]
+            - cell "Standard accessibility pattern" [ref=e304]
+          - row "Arrows + Home/End + roving tabindex W3C APG ✅ Compliant keyboard navigation" [ref=e305]:
+            - cell "Arrows + Home/End + roving tabindex" [ref=e306]
+            - cell "W3C APG" [ref=e307]:
+              - link "W3C APG" [ref=e308] [cursor=pointer]:
+                - /url: https://www.w3.org/WAI/ARIA/apg/patterns/tabs/
+            - cell "✅" [ref=e309]
+            - cell "Compliant keyboard navigation" [ref=e310]
+          - row "Labels in natural case NN/g ✅ Readability — never ALL-CAPS" [ref=e311]:
+            - cell "Labels in natural case" [ref=e312]
+            - cell "NN/g" [ref=e313]:
+              - link "NN/g" [ref=e314] [cursor=pointer]:
+                - /url: https://www.nngroup.com/articles/tabs-used-right/
+            - cell "✅" [ref=e315]
+            - cell "Readability — never ALL-CAPS" [ref=e316]
+          - row ":visited neutralized ADR-047 ✅ System rule — navigation" [ref=e317]:
+            - cell ":visited neutralized" [ref=e318]:
+              - code [ref=e319]: :visited
+              - text: neutralized
+            - cell "ADR-047" [ref=e320]:
+              - link "ADR-047" [ref=e321] [cursor=pointer]:
+                - /url: decisions/ADR-047-no-visited-nav.md
+            - cell "✅" [ref=e322]
+            - cell "System rule — navigation" [ref=e323]
+          - row "Optional href (navigation tabs) NN/g ✅ Mixed in-page + external link tabs" [ref=e324]:
+            - cell "Optional href (navigation tabs)" [ref=e325]:
+              - text: Optional
+              - code [ref=e326]: href
+              - text: (navigation tabs)
+            - cell "NN/g" [ref=e327]:
+              - link "NN/g" [ref=e328] [cursor=pointer]:
+                - /url: https://www.nngroup.com/articles/tabs-used-right/
+            - cell "✅" [ref=e329]
+            - cell "Mixed in-page + external link tabs" [ref=e330]
+      - generic [ref=e331]:
+        - img [ref=e333]
+        - generic [ref=e336]:
+          - strong [ref=e337]: Contribute to this project
+          - paragraph [ref=e338]: This system welcomes contributions — tokens, components, architectural decisions, accessibility fixes, or documentation. Every improvement counts.
+        - link "View on GitHub" [ref=e339] [cursor=pointer]:
+          - /url: https://github.com/gnegreiros-ux/agentica-design-system
+          - generic [ref=e340]: View on GitHub
+    - navigation "Table of contents / Table des matières" [ref=e341]:
+      - generic [ref=e342]: On this page
+      - link "Preview" [ref=e343] [cursor=pointer]:
+        - /url: "#aper-u"
+      - link "When to use" [ref=e344] [cursor=pointer]:
+        - /url: "#quand-l-utiliser"
+      - link "Absolute rules" [ref=e345] [cursor=pointer]:
+        - /url: "#regles-absolues"
+      - link "Keyboard" [ref=e346] [cursor=pointer]:
+        - /url: "#clavier"
+      - link "Component tokens" [ref=e347] [cursor=pointer]:
+        - /url: "#tokens-de-composant"
+      - link "Accessibility" [ref=e348] [cursor=pointer]:
+        - /url: "#accessibilite"
+      - link "Implementation" [ref=e349] [cursor=pointer]:
+        - /url: "#implementation"
+      - link "DOs and DON'Ts" [ref=e350] [cursor=pointer]:
+        - /url: "#dos-et-don-ts"
+      - link "UX Patterns Reference" [ref=e351] [cursor=pointer]:
+        - /url: "#ux-patterns-reference"
+  - contentinfo [ref=e352]:
+    - generic [ref=e353]:
+      - generic [ref=e354]:
+        - link "Agentica — Accueil" [ref=e355] [cursor=pointer]:
+          - /url: ../index.html
+          - img [ref=e356]
+        - link "Guilherme Negreiros" [ref=e357] [cursor=pointer]:
+          - /url: https://www.linkedin.com/in/gnegreiros/
+          - img [ref=e358]
+          - text: Guilherme Negreiros
+      - generic [ref=e362]:
+        - generic [ref=e363]: Navigation
+        - link "Home" [ref=e364] [cursor=pointer]:
+          - /url: ../index.html
+        - link "Why" [ref=e365] [cursor=pointer]:
+          - /url: ../pourquoi.html
+        - link "Architecture" [ref=e366] [cursor=pointer]:
+          - /url: ../architecture.html
+        - link "Quality" [ref=e367] [cursor=pointer]:
+          - /url: ../qualite.html
+        - link "AI" [ref=e368] [cursor=pointer]:
+          - /url: ../ia.html
+      - generic [ref=e369]:
+        - generic [ref=e370]: Documentation
+        - link "Understand" [ref=e371] [cursor=pointer]:
+          - /url: ../pourquoi.html
+        - link "Get started" [ref=e372] [cursor=pointer]:
+          - /url: ../get-started.html
+        - link "Foundations" [ref=e373] [cursor=pointer]:
+          - /url: ../foundations/index.html
+        - link "Components" [ref=e374] [cursor=pointer]:
+          - /url: ../components/index.html
+        - link "Tokens" [ref=e375] [cursor=pointer]:
+          - /url: ../tokens/index.html
+        - link "Decisions" [ref=e376] [cursor=pointer]:
+          - /url: ../decisions/index.html
+        - link "Continuity" [ref=e377] [cursor=pointer]:
+          - /url: ../continuite.html
+        - link "Changelog" [ref=e378] [cursor=pointer]:
+          - /url: ../changelog.html
+      - generic [ref=e379]:
+        - generic [ref=e380]: Explorer
+        - link "Storybook" [ref=e381] [cursor=pointer]:
+          - /url: https://main--6a1c1e665ec5fe8fc0540983.chromatic.com/
+        - link "GitHub" [ref=e382] [cursor=pointer]:
+          - /url: https://github.com/gnegreiros-ux/agentica-design-system
+        - link "Audit" [ref=e383] [cursor=pointer]:
+          - /url: ../audit.html
+        - link "AI Brief" [ref=e384] [cursor=pointer]:
+          - /url: ../ai-brief.html
+    - generic [ref=e385]:
+      - generic [ref=e386]: © 2026 Guilherme Negreiros
+      - generic [ref=e387]: Built with Claude Code.
+  - button "Retour en haut" [ref=e388] [cursor=pointer]:
+    - img [ref=e389]
+    - generic [ref=e391]: Top
+  - status [ref=e392]
+```
+
+# Test source
+
+```ts
+  1  | import { test, expect } from '@playwright/test';
+  2  | 
+  3  | // Visual regressions for every component page (except button.html, already covered)
+  4  | const PAGES = [
+  5  |   'badge', 'banner', 'card', 'checkbox', 'code-block',
+  6  |   'icon', 'input', 'link', 'radio', 'segmented',
+  7  |   'table', 'tabs', 'toggle',
+  8  | ];
+  9  | 
+  10 | for (const name of PAGES) {
+  11 |   test.describe(`${name} — visual regressions`, () => {
+  12 |     for (const theme of ['light', 'dark']) {
+  13 |       test(`page ${name} — ${theme}`, async ({ page }) => {
+  14 |         await page.goto(`/components/${name}.html`);
+  15 |         await page.waitForLoadState('networkidle');
+  16 |         await page.evaluate((t) =>
+  17 |           document.documentElement.setAttribute('data-theme', t), theme
+  18 |         );
+> 19 |         await expect(page).toHaveScreenshot(`${name}-${theme}.png`, { fullPage: true });
+     |                            ^ Error: expect(page).toHaveScreenshot(expected) failed
+  20 |       });
+  21 |     }
+  22 |   });
+  23 | }
+  24 | 
+```

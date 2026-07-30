@@ -1,0 +1,542 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: functional/language.spec.js >> Language — English rendering has no French leftovers >> decisions/adr-082.html — clean in English mode
+- Location: tests/functional/language.spec.js:63:5
+
+# Error details
+
+```
+Error: French content visible in decisions/adr-082.html with data-lang=en:
+  line 163: "é" in "The GitHub Projects "Séparer les composants Brand/logo dans un fichier Figma dédié" ticket (P2) move"
+
+expect(received).toEqual(expected) // deep equality
+
+- Expected  - 1
++ Received  + 3
+
+- Array []
++ Array [
++   "  line 163: \"é\" in \"The GitHub Projects \"Séparer les composants Brand/logo dans un fichier Figma dédié\" ticket (P2) move\"",
++ ]
+```
+
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=e3]:
+    - link "Agentica — Accueil" [ref=e4] [cursor=pointer]:
+      - /url: ../index.html
+      - img [ref=e5]
+    - navigation "Navigation principale" [ref=e6]:
+      - link "Home" [ref=e7] [cursor=pointer]:
+        - /url: ../index.html
+      - link "Why" [ref=e8] [cursor=pointer]:
+        - /url: ../pourquoi.html
+      - link "Architecture" [ref=e9] [cursor=pointer]:
+        - /url: ../architecture.html
+      - link "Quality" [ref=e10] [cursor=pointer]:
+        - /url: ../qualite.html
+      - link "AI" [ref=e11] [cursor=pointer]:
+        - /url: ../ia.html
+      - generic [ref=e12]:
+        - link "Documentation" [ref=e13] [cursor=pointer]:
+          - /url: ../documentation.html
+        - generic:
+          - generic:
+            - heading "Understand" [level=2]
+            - link "Introduction":
+              - /url: ../pourquoi.html
+            - link "Foundations":
+              - /url: ../foundations/index.html
+            - link "Human control":
+              - /url: ../ia.html
+            - link "Single source of truth":
+              - /url: ../architecture.html
+          - generic:
+            - heading "Reference" [level=2]
+            - link "Foundations":
+              - /url: ../foundations/index.html
+            - link "Components":
+              - /url: ../components/index.html
+            - link "Tokens":
+              - /url: ../tokens/index.html
+            - link "Decisions":
+              - /url: ../decisions/index.html
+            - link "Agents":
+              - /url: ../agents/index.html
+            - link "Pipelines":
+              - /url: ../pipelines/index.html
+            - link "Continuity":
+              - /url: ../continuite.html
+          - generic:
+            - heading "Explore" [level=2]
+            - link "Storybook":
+              - /url: https://main--6a1c1e665ec5fe8fc0540983.chromatic.com/
+            - link "GitHub":
+              - /url: https://github.com/gnegreiros-ux/agentica-design-system
+            - link "Audit":
+              - /url: ../audit.html
+      - link "Get started" [ref=e14] [cursor=pointer]:
+        - /url: ../get-started.html
+    - generic "Liens rapides" [ref=e15]:
+      - button "Basculer thème sombre / Switch to dark theme" [ref=e16] [cursor=pointer]:
+        - img [ref=e17]
+      - group "Language" [ref=e20]:
+        - button "FR" [ref=e21] [cursor=pointer]
+        - button "EN" [ref=e22] [cursor=pointer]
+      - link "Storybook — Catalogue interactif des composants" [ref=e23] [cursor=pointer]:
+        - /url: https://main--6a1c1e665ec5fe8fc0540983.chromatic.com/
+        - img [ref=e24]
+      - link "GitHub — Code source du projet" [ref=e26] [cursor=pointer]:
+        - /url: https://github.com/gnegreiros-ux/agentica-design-system
+        - img [ref=e27]
+  - generic [ref=e30]:
+    - navigation "Secondary navigation / Navigation secondaire" [ref=e31]:
+      - generic [ref=e32]:
+        - generic [ref=e33]: Decisions
+        - link "ADR index" [ref=e34] [cursor=pointer]:
+          - /url: index.html
+        - link "ADR-001" [ref=e35] [cursor=pointer]:
+          - /url: adr-001.html
+        - link "ADR-002" [ref=e36] [cursor=pointer]:
+          - /url: adr-002.html
+        - link "ADR-003" [ref=e37] [cursor=pointer]:
+          - /url: adr-003.html
+        - link "ADR-004" [ref=e38] [cursor=pointer]:
+          - /url: adr-004.html
+        - link "ADR-005" [ref=e39] [cursor=pointer]:
+          - /url: adr-005.html
+        - link "ADR-006" [ref=e40] [cursor=pointer]:
+          - /url: adr-006.html
+        - link "ADR-007" [ref=e41] [cursor=pointer]:
+          - /url: adr-007.html
+        - link "ADR-008" [ref=e42] [cursor=pointer]:
+          - /url: adr-008.html
+        - link "ADR-009" [ref=e43] [cursor=pointer]:
+          - /url: adr-009.html
+        - link "ADR-010" [ref=e44] [cursor=pointer]:
+          - /url: adr-010.html
+        - link "ADR-011" [ref=e45] [cursor=pointer]:
+          - /url: adr-011.html
+        - link "ADR-012" [ref=e46] [cursor=pointer]:
+          - /url: adr-012.html
+        - link "ADR-013" [ref=e47] [cursor=pointer]:
+          - /url: adr-013.html
+        - link "ADR-014" [ref=e48] [cursor=pointer]:
+          - /url: adr-014.html
+        - link "ADR-015" [ref=e49] [cursor=pointer]:
+          - /url: adr-015.html
+        - link "ADR-016" [ref=e50] [cursor=pointer]:
+          - /url: adr-016.html
+        - link "ADR-017" [ref=e51] [cursor=pointer]:
+          - /url: adr-017.html
+        - link "ADR-018" [ref=e52] [cursor=pointer]:
+          - /url: adr-018.html
+        - link "ADR-019" [ref=e53] [cursor=pointer]:
+          - /url: adr-019.html
+        - link "ADR-020" [ref=e54] [cursor=pointer]:
+          - /url: adr-020.html
+        - link "ADR-021" [ref=e55] [cursor=pointer]:
+          - /url: adr-021.html
+        - link "ADR-022" [ref=e56] [cursor=pointer]:
+          - /url: adr-022.html
+        - link "ADR-023" [ref=e57] [cursor=pointer]:
+          - /url: adr-023.html
+        - link "ADR-024" [ref=e58] [cursor=pointer]:
+          - /url: adr-024.html
+        - link "ADR-025" [ref=e59] [cursor=pointer]:
+          - /url: adr-025.html
+        - link "ADR-026" [ref=e60] [cursor=pointer]:
+          - /url: adr-026.html
+        - link "ADR-027" [ref=e61] [cursor=pointer]:
+          - /url: adr-027.html
+        - link "ADR-028" [ref=e62] [cursor=pointer]:
+          - /url: adr-028.html
+        - link "ADR-029" [ref=e63] [cursor=pointer]:
+          - /url: adr-029.html
+        - link "ADR-030" [ref=e64] [cursor=pointer]:
+          - /url: adr-030.html
+        - link "ADR-031" [ref=e65] [cursor=pointer]:
+          - /url: adr-031.html
+        - link "ADR-032" [ref=e66] [cursor=pointer]:
+          - /url: adr-032.html
+        - link "ADR-033" [ref=e67] [cursor=pointer]:
+          - /url: adr-033.html
+        - link "ADR-034" [ref=e68] [cursor=pointer]:
+          - /url: adr-034.html
+        - link "ADR-035" [ref=e69] [cursor=pointer]:
+          - /url: adr-035.html
+        - link "ADR-036" [ref=e70] [cursor=pointer]:
+          - /url: adr-036.html
+        - link "ADR-037" [ref=e71] [cursor=pointer]:
+          - /url: adr-037.html
+        - link "ADR-038" [ref=e72] [cursor=pointer]:
+          - /url: adr-038.html
+        - link "ADR-039" [ref=e73] [cursor=pointer]:
+          - /url: adr-039.html
+        - link "ADR-040" [ref=e74] [cursor=pointer]:
+          - /url: adr-040.html
+        - link "ADR-041" [ref=e75] [cursor=pointer]:
+          - /url: adr-041.html
+        - link "ADR-042" [ref=e76] [cursor=pointer]:
+          - /url: adr-042.html
+        - link "ADR-043" [ref=e77] [cursor=pointer]:
+          - /url: adr-043.html
+        - link "ADR-044" [ref=e78] [cursor=pointer]:
+          - /url: adr-044.html
+        - link "ADR-045" [ref=e79] [cursor=pointer]:
+          - /url: adr-045.html
+        - link "ADR-046" [ref=e80] [cursor=pointer]:
+          - /url: adr-046.html
+        - link "ADR-047" [ref=e81] [cursor=pointer]:
+          - /url: adr-047.html
+        - link "ADR-048" [ref=e82] [cursor=pointer]:
+          - /url: adr-048.html
+        - link "ADR-049" [ref=e83] [cursor=pointer]:
+          - /url: adr-049.html
+        - link "ADR-050" [ref=e84] [cursor=pointer]:
+          - /url: adr-050.html
+        - link "ADR-051" [ref=e85] [cursor=pointer]:
+          - /url: adr-051.html
+        - link "ADR-052" [ref=e86] [cursor=pointer]:
+          - /url: adr-052.html
+        - link "ADR-053" [ref=e87] [cursor=pointer]:
+          - /url: adr-053.html
+        - link "ADR-054" [ref=e88] [cursor=pointer]:
+          - /url: adr-054.html
+        - link "ADR-055" [ref=e89] [cursor=pointer]:
+          - /url: adr-055.html
+        - link "ADR-056" [ref=e90] [cursor=pointer]:
+          - /url: adr-056.html
+        - link "ADR-057" [ref=e91] [cursor=pointer]:
+          - /url: adr-057.html
+        - link "ADR-058" [ref=e92] [cursor=pointer]:
+          - /url: adr-058.html
+        - link "ADR-059" [ref=e93] [cursor=pointer]:
+          - /url: adr-059.html
+        - link "ADR-060" [ref=e94] [cursor=pointer]:
+          - /url: adr-060.html
+        - link "ADR-061" [ref=e95] [cursor=pointer]:
+          - /url: adr-061.html
+        - link "ADR-062" [ref=e96] [cursor=pointer]:
+          - /url: adr-062.html
+        - link "ADR-063" [ref=e97] [cursor=pointer]:
+          - /url: adr-063.html
+        - link "ADR-064" [ref=e98] [cursor=pointer]:
+          - /url: adr-064.html
+        - link "ADR-065" [ref=e99] [cursor=pointer]:
+          - /url: adr-065.html
+        - link "ADR-066" [ref=e100] [cursor=pointer]:
+          - /url: adr-066.html
+        - link "ADR-067" [ref=e101] [cursor=pointer]:
+          - /url: adr-067.html
+        - link "ADR-068" [ref=e102] [cursor=pointer]:
+          - /url: adr-068.html
+        - link "ADR-069" [ref=e103] [cursor=pointer]:
+          - /url: adr-069.html
+        - link "ADR-070" [ref=e104] [cursor=pointer]:
+          - /url: adr-070.html
+        - link "ADR-071" [ref=e105] [cursor=pointer]:
+          - /url: adr-071.html
+        - link "ADR-072" [ref=e106] [cursor=pointer]:
+          - /url: adr-072.html
+        - link "ADR-073" [ref=e107] [cursor=pointer]:
+          - /url: adr-073.html
+        - link "ADR-074" [ref=e108] [cursor=pointer]:
+          - /url: adr-074.html
+        - link "ADR-075" [ref=e109] [cursor=pointer]:
+          - /url: adr-075.html
+        - link "ADR-076" [ref=e110] [cursor=pointer]:
+          - /url: adr-076.html
+        - link "ADR-077" [ref=e111] [cursor=pointer]:
+          - /url: adr-077.html
+        - link "ADR-078" [ref=e112] [cursor=pointer]:
+          - /url: adr-078.html
+        - link "ADR-079" [ref=e113] [cursor=pointer]:
+          - /url: adr-079.html
+        - link "ADR-080" [ref=e114] [cursor=pointer]:
+          - /url: adr-080.html
+        - link "ADR-081" [ref=e115] [cursor=pointer]:
+          - /url: adr-081.html
+        - link "ADR-082" [ref=e116] [cursor=pointer]:
+          - /url: adr-082.html
+        - link "ADR-083" [ref=e117] [cursor=pointer]:
+          - /url: adr-083.html
+        - link "ADR-084" [ref=e118] [cursor=pointer]:
+          - /url: adr-084.html
+        - link "ADR-085" [ref=e119] [cursor=pointer]:
+          - /url: adr-085.html
+        - link "ADR-086" [ref=e120] [cursor=pointer]:
+          - /url: adr-086.html
+        - link "ADR-087" [ref=e121] [cursor=pointer]:
+          - /url: adr-087.html
+        - link "ADR-088" [ref=e122] [cursor=pointer]:
+          - /url: adr-088.html
+        - link "ADR-089" [ref=e123] [cursor=pointer]:
+          - /url: adr-089.html
+        - link "ADR-090" [ref=e124] [cursor=pointer]:
+          - /url: adr-090.html
+    - main [ref=e125]:
+      - generic [ref=e126]:
+        - generic [ref=e127]:
+          - code [ref=e128]: ADR-082
+          - status [ref=e130]:
+            - generic [ref=e131]: Active
+        - heading "Brand/logo separated into a dedicated Figma library file (amends ADR-080)" [level=1] [ref=e132]
+        - generic [ref=e133]:
+          - generic [ref=e134]:
+            - term [ref=e135]: Date
+            - definition [ref=e136]: 2026-07-21
+          - generic [ref=e137]:
+            - term [ref=e138]: Decision makers
+            - definition [ref=e139]: Guilherme Negreiros — Design System Lead
+      - heading "Context" [level=2] [ref=e140]
+      - paragraph [ref=e141]:
+        - text: "ADR-080 (2026-07-21, earlier the same session) documented an open, not-yet-actioned discussion: splitting the Agentica brand/logo out of the main design system file into a separate published Figma library, consumed by the main file via cross-file instances — floated as a structural alternative to manually excluding the"
+        - code [ref=e142]: FOUNDATIONS > logos
+        - text: "page at each Community File publish. That discussion explicitly noted a reservation: the structural split does not by itself replace ADR-080's Rule 2 pre-publication nested-instance audit, because Figma tends to preserve an instance's rendered appearance even when a third party who duplicates the file can't resolve the link back to the source library."
+      - paragraph [ref=e143]: "This has now been executed, not just discussed:"
+      - list [ref=e144]:
+        - listitem [ref=e145]:
+          - text: The
+          - code [ref=e146]: ↳ logos
+          - text: canvas (frames
+          - code [ref=e147]: Logo
+          - text: ", 5 color variants, and"
+          - code [ref=e148]: Symbole
+          - text: ", 5 color"
+      - paragraph [ref=e149]:
+        - text: variants — the same content ADR-080 described under
+        - code [ref=e150]: FOUNDATIONS > logos
+        - text: ) has been moved out of the main design system file into a new dedicated file,
+        - strong [ref=e151]:
+          - code [ref=e152]: Agentica | Brand
+        - text: (file key
+        - code [ref=e153]: F8jhyCeRJaJhF7W1inlFuc
+        - text: ), confirmed live via the Figma MCP connector.
+      - list [ref=e154]:
+        - listitem [ref=e155]: The move is permanent, with no back-reference left in the main file.
+        - listitem [ref=e156]:
+          - code [ref=e157]: Agentica | Brand
+          - text: has been published as a Figma library and is consumed by the
+      - paragraph [ref=e158]:
+        - text: main file (
+        - code [ref=e159]: Agentica — Agentic design system
+        - text: ", file key"
+        - code [ref=e160]: uXgPVB6cMLwAPqSwoa0dGq
+        - text: ) via cross-file instances — the cross-file pattern from the ADR-080 discussion is now live, not hypothetical.
+      - list [ref=e161]:
+        - listitem [ref=e162]:
+          - code [ref=e163]: COVER
+          - text: was explicitly confirmed to remain in the main file — unaffected by this
+      - paragraph [ref=e164]: change.
+      - heading "Decision" [level=2] [ref=e165]
+      - paragraph [ref=e166]:
+        - strong [ref=e167]: "Amends ADR-080 Rule 1:"
+        - code [ref=e168]: FOUNDATIONS > logos
+        - text: is dropped from the page-level exclusion list — there is no longer a page by that name in the main file to exclude.
+        - code [ref=e169]: COVER
+        - text: remains excluded, unchanged from ADR-080.
+      - paragraph [ref=e170]:
+        - strong [ref=e171]: ADR-080 Rule 2 (pre-publication nested-instance audit) is reaffirmed and now concretely in scope
+        - text: ", not merely a future contingency: because"
+        - code [ref=e172]: Agentica | Brand
+        - text: is a published library consumed via real cross-file instances, any component or pattern in the main file that places a logo instance (e.g. a future
+        - code [ref=e173]: top-nav
+        - text: "or page-banner pattern) will carry that instance if the main file is ever published as a Community File. The pre-publication audit ADR-080 already specifies (exclude the component, or replace the embedded instance with a placeholder before publishing) applies exactly as written — this decision does not relax it. Per the ADR-080 discussion's own reservation: the structural split reduces where a logo *page* has to be excluded, but does not, on its own, catch a logo *instance* embedded inside an otherwise-generic component."
+      - paragraph [ref=e174]:
+        - code [ref=e175]: tokens/figma-text-styles.json
+        - text: and any other content sourced against the main file's fileKey are unaffected — this change only concerns the logo/brand assets.
+      - heading "Rejected alternatives" [level=2] [ref=e176]
+      - paragraph [ref=e177]: "See ADR-080's \"Discussion en cours\" section for the alternative actually considered at the time (keep the logo page in the main file, rely solely on the Rule 1 page-exclusion list at each publish) — rejected there already, for the reasons recorded in that ADR: a manually-excluded page is one more thing to remember at every future publish, where a structural file boundary removes the need to remember it at all for the page-level case."
+      - heading "Consequences" [level=2] [ref=e178]
+      - list [ref=e179]:
+        - listitem [ref=e180]:
+          - code [ref=e181]: .claude/rules/figma-library-governance.md
+          - text: "'s Community File content triage section"
+      - paragraph [ref=e182]:
+        - text: (added under ADR-080) is updated to drop
+        - code [ref=e183]: FOUNDATIONS > logos
+        - text: from the exclusion table and record the new
+        - code [ref=e184]: Agentica | Brand
+        - text: file key alongside the main file's.
+      - list [ref=e185]:
+        - listitem [ref=e186]: "The GitHub Projects \"Séparer les composants Brand/logo dans un fichier Figma dédié\" ticket (P2) moves to Terminé (the board's Status field is French: Backlog/En cours/Terminé/etc.)."
+        - listitem [ref=e187]: Before the Community File is ever actually published, ADR-080's Rule 2 audit must
+      - paragraph [ref=e188]: still be run in full against whatever components/patterns exist by then — this ADR does not shrink that audit's scope, only the Rule 1 page list.
+      - list [ref=e189]:
+        - listitem [ref=e190]: "Separately (not part of this decision, flagged for follow-up): while verifying this"
+      - paragraph [ref=e191]:
+        - text: change,
+        - code [ref=e192]: get_metadata
+        - text: without a
+        - code [ref=e193]: nodeId
+        - text: was observed returning only a single page for both files rather than a full page list, and did not match the page the user had open locally at the time. If this reflects a real limitation of the Figma MCP connector's page enumeration, it could affect the completeness of the ADR-079 weekly §22 full-library audit, whose premise depends on enumerating every page. Worth checking specifically during that routine's first real run (2026-07-27) and its scheduled meta-check.
+      - generic [ref=e194]:
+        - link "← ADR-081" [ref=e195] [cursor=pointer]:
+          - /url: adr-081.html
+        - link "ADR-083 →" [ref=e196] [cursor=pointer]:
+          - /url: adr-083.html
+    - navigation "Table of contents / Table des matières" [ref=e197]:
+      - generic [ref=e198]: On this page
+      - link "Context" [ref=e199] [cursor=pointer]:
+        - /url: "#context"
+      - link "Decision" [ref=e200] [cursor=pointer]:
+        - /url: "#decision"
+      - link "Rejected alternatives" [ref=e201] [cursor=pointer]:
+        - /url: "#rejected-alternatives"
+      - link "Consequences" [ref=e202] [cursor=pointer]:
+        - /url: "#consequences"
+  - contentinfo [ref=e203]:
+    - generic [ref=e204]:
+      - generic [ref=e205]:
+        - link "Agentica — Accueil" [ref=e206] [cursor=pointer]:
+          - /url: ../index.html
+          - img [ref=e207]
+        - link "Guilherme Negreiros" [ref=e208] [cursor=pointer]:
+          - /url: https://www.linkedin.com/in/gnegreiros/
+          - img [ref=e209]
+          - text: Guilherme Negreiros
+      - generic [ref=e213]:
+        - generic [ref=e214]: Navigation
+        - link "Home" [ref=e215] [cursor=pointer]:
+          - /url: ../index.html
+        - link "Why" [ref=e216] [cursor=pointer]:
+          - /url: ../pourquoi.html
+        - link "Architecture" [ref=e217] [cursor=pointer]:
+          - /url: ../architecture.html
+        - link "Quality" [ref=e218] [cursor=pointer]:
+          - /url: ../qualite.html
+        - link "AI" [ref=e219] [cursor=pointer]:
+          - /url: ../ia.html
+      - generic [ref=e220]:
+        - generic [ref=e221]: Documentation
+        - link "Understand" [ref=e222] [cursor=pointer]:
+          - /url: ../pourquoi.html
+        - link "Get started" [ref=e223] [cursor=pointer]:
+          - /url: ../get-started.html
+        - link "Foundations" [ref=e224] [cursor=pointer]:
+          - /url: ../foundations/index.html
+        - link "Components" [ref=e225] [cursor=pointer]:
+          - /url: ../components/index.html
+        - link "Tokens" [ref=e226] [cursor=pointer]:
+          - /url: ../tokens/index.html
+        - link "Decisions" [ref=e227] [cursor=pointer]:
+          - /url: ../decisions/index.html
+        - link "Continuity" [ref=e228] [cursor=pointer]:
+          - /url: ../continuite.html
+        - link "Changelog" [ref=e229] [cursor=pointer]:
+          - /url: ../changelog.html
+      - generic [ref=e230]:
+        - generic [ref=e231]: Explorer
+        - link "Storybook" [ref=e232] [cursor=pointer]:
+          - /url: https://main--6a1c1e665ec5fe8fc0540983.chromatic.com/
+        - link "GitHub" [ref=e233] [cursor=pointer]:
+          - /url: https://github.com/gnegreiros-ux/agentica-design-system
+        - link "Audit" [ref=e234] [cursor=pointer]:
+          - /url: ../audit.html
+        - link "AI Brief" [ref=e235] [cursor=pointer]:
+          - /url: ../ai-brief.html
+    - generic [ref=e236]:
+      - generic [ref=e237]: © 2026 Guilherme Negreiros
+      - generic [ref=e238]: Built with Claude Code.
+  - button "Retour en haut" [ref=e239] [cursor=pointer]:
+    - img [ref=e240]
+    - generic [ref=e242]: Top
+  - status [ref=e243]
+```
+
+# Test source
+
+```ts
+  1  | import { test, expect } from '@playwright/test';
+  2  | import fs from 'fs';
+  3  | import path from 'path';
+  4  | import { fileURLToPath } from 'url';
+  5  | 
+  6  | // English-only content policy (ADR-070/071/075). scripts/audit-language.js catches
+  7  | // French text left untranslated in source files, but it cannot catch a different bug
+  8  | // class: a page that IS correctly bilingual by design, where one data cell (a table
+  9  | // row, a nav link) is hardcoded as a single string instead of a lang-fr/lang-en pair
+  10 | // — so it never toggles and stays visibly French even with data-lang="en". That bug
+  11 | // is only visible by actually rendering the page (see the `ia.html` nav link and the
+  12 | // get-started.html Framework Integration table, both fixed 2026-07-18 this way — a
+  13 | // text-content scan alone would never have flagged them, since French prose is
+  14 | // expected to exist somewhere on those pages).
+  15 | //
+  16 | // This spec renders every generated page with data-lang="en" and reads the VISIBLE
+  17 | // text only (innerText, not textContent — innerText excludes anything hidden by the
+  18 | // site's `html[data-lang="en"] .lang-fr{display:none}` CSS rule, textContent would not).
+  19 | 
+  20 | const __dirname = path.dirname(fileURLToPath(import.meta.url));
+  21 | const DIST = path.resolve(__dirname, '../../site/dist');
+  22 | 
+  23 | // Same curated word list as scripts/audit-language.js — kept in sync by hand, see
+  24 | // that file's comment for why these specific words (no plausible English collision).
+  25 | const STOPWORD_RE = /\b(?:être|où|équipe|système|chemin|aucun|aucune|jamais|doivent|également|vérifier|toujours|avec|dans|sont|cette|ces)\b/;
+  26 | const ACCENT_RE = /[àâäéèêëïîôöùûüçÀÂÄÉÈÊËÏÎÔÖÙÛÜÇœŒ]/;
+  27 | 
+  28 | function listPages(dir, base = '') {
+  29 |   const pages = [];
+  30 |   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+  31 |     const rel = base ? `${base}/${entry.name}` : entry.name;
+  32 |     if (entry.isDirectory()) {
+  33 |       pages.push(...listPages(path.join(dir, entry.name), rel));
+  34 |     } else if (entry.name.endsWith('.html')) {
+  35 |       pages.push(rel);
+  36 |     }
+  37 |   }
+  38 |   return pages;
+  39 | }
+  40 | 
+  41 | const pages = fs.existsSync(DIST) ? listPages(DIST) : [];
+  42 | 
+  43 | // Content that IS French by design and correctly renders regardless of data-lang:
+  44 | // a verbatim historical quote, a literal field-label/filename being documented, a
+  45 | // bilingual inline code comment, a font glyph specimen. Narrow on purpose (page +
+  46 | // distinguishing substring) so a real regression on the same page still gets caught.
+  47 | // An HTML-comment marker (the source-file `lang-audit-ignore` convention used by
+  48 | // scripts/audit-language.js) doesn't work here — comments never reach innerText.
+  49 | const KNOWN_EXCEPTIONS = {
+  50 |   'agents/index.html': ['Interdit —'], // naming-rule code example: bilingual comment in one line, by design
+  51 |   'changelog.html': ['Domaine'], // quoting the literal GitHub Projects custom field name
+  52 |   'decisions/adr-030.html': ['Densité'], // historical bug quote (the bug this ADR fixed)
+  53 |   'decisions/adr-055.html': ['Copié', 'critères'], // quoting the site's bilingual UI strings
+  54 |   'decisions/adr-071.html': ['Décideurs', 'Mon intention', 'francophones', 'seulement en anglais'], // literal field-label quote + verbatim human quote
+  55 |   'decisions/adr-075.html': ['notre-demarche', 'synthèse', 'Synthèse'], // documenting the pre-rename French filenames (ADR-075)
+  56 |   'foundations/typography.html': ['Æ Ç É'], // Atkinson Hyperlegible glyph specimen — intentional
+  57 | };
+  58 | 
+  59 | test.describe('Language — English rendering has no French leftovers', () => {
+  60 |   test.skip(pages.length === 0, 'site/dist not built — run node site/build.js first');
+  61 | 
+  62 |   for (const pagePath of pages) {
+  63 |     test(`${pagePath} — clean in English mode`, async ({ page }) => {
+  64 |       await page.goto(`/${pagePath}?lang=en`);
+  65 |       await page.waitForLoadState('networkidle');
+  66 | 
+  67 |       const visibleText = await page.evaluate(() => document.body.innerText);
+  68 |       const exceptions = KNOWN_EXCEPTIONS[pagePath] || [];
+  69 |       const hits = [];
+  70 |       visibleText.split('\n').forEach((line, idx) => {
+  71 |         if (exceptions.some(ex => line.includes(ex))) return;
+  72 |         const match = line.match(ACCENT_RE) || line.match(STOPWORD_RE);
+  73 |         if (match) hits.push(`  line ${idx + 1}: "${match[0]}" in "${line.trim().slice(0, 100)}"`);
+  74 |       });
+  75 | 
+> 76 |       expect(hits, `French content visible in ${pagePath} with data-lang=en:\n${hits.join('\n')}`).toEqual([]);
+     |                                                                                                    ^ Error: French content visible in decisions/adr-082.html with data-lang=en:
+  77 |     });
+  78 |   }
+  79 | });
+  80 | 
+```
