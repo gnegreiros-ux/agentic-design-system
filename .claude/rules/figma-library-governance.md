@@ -67,7 +67,10 @@ paths:
 > Before any `.remove()`, check `node.findAll()`/`node.children`: a "decorative" node
 > can contain a master component as a direct child (the exact cause of the Button incident).
 
-### B. Staging page "🟡 Proposal — pending approval"
+### B. Staging page "Proposal — pending approval"
+
+> Page name carries no emoji (`.claude/rules/no-emoji-icons.md`) — if a visual marker is wanted
+> next to it in the page list, use a real Lucide icon instance, never an emoji character.
 
 ```
 ✅ Every significant creation or redesign is written FIRST on the staging page
@@ -231,16 +234,21 @@ Weekly-run outcome: silent if clean; a GitHub issue (label `figma-audit`) if
 any violation is found, or if the run itself fails — a failure is never left
 indistinguishable from a clean result.
 
-**Open risk, not yet confirmed either way (flagged 2026-07-21, during ADR-082
-verification):** `get_metadata` called without a `nodeId` — the call this
-routine's "enumerate every page" step depends on — was observed returning only
-a single page for a file, and one that didn't match the page the user actually
-had open locally at the time. If that reflects a real limitation (page
-enumeration silently scoped to less than the whole file) rather than a one-off
-glitch, it would undermine this routine's core premise. Check specifically
-during the 2026-07-27 first real run and its scheduled meta-check
-(`trig_01UViQKgDMyb4ATCBeMduYsS`) before trusting a "clean" result at face
-value.
+**Confirmed risk (flagged 2026-07-21 during ADR-082 verification, confirmed
+2026-07-28 on the separate `Agentica — Lucide Icons` file, `TRMVFT2TenOibMniLYu00S`):**
+`get_metadata` called without a `nodeId` returned only a single page
+(`❖ GETTING STARTED`) for a file that in fact already had at least three more
+top-level pages (`COVER`, `❖ CATEGORIES`, a `---` separator) sitting at lower
+node IDs than the one page it reported — meaning page enumeration is silently
+scoped to less than the whole file, not a one-off glitch. No data was lost in
+that incident (the missing pages were pre-existing and untouched, discovered
+only during an unrelated audit), but any workflow relying on this call to
+"enumerate every page" — including the weekly scheduled audit routine above —
+must not trust its page list as complete. Prefer a targeted `nodeId` call per
+already-known page, or cross-check the returned list's plausibility (e.g.
+against an expected page count) before trusting it. First real run's
+scheduled meta-check (`trig_01UViQKgDMyb4ATCBeMduYsS`) should verify whether
+this also affects the main design system file, not just newly created ones.
 
 ---
 

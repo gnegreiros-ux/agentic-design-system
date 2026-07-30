@@ -152,6 +152,7 @@ decisions that were already settled.
 | [ADR-087](ADR-087-top-nav-mix-architecture-confirmed.md) | `agtc-top-nav` confirmed as "mix" architecture, dead mobile-menu code removed | 2026-07-22 | ✅ Active |
 | [ADR-088](ADR-088-agtc-logo-colors-retroactive.md) | Agentica logo colors formalized (retroactive) | 2026-07-22 | ✅ Active |
 | [ADR-089](ADR-089-audit-tokens-debt-zero-and-dark-mode-primitives.md) | `audit-tokens.js` debt reaches zero critical; real Radix dark primitives added | 2026-07-22 | ✅ Active |
+| [ADR-090](ADR-090-mandatory-figma-audit-script-per-session.md) | Consolidated Figma audit script, mandatory before ending any session that mutates the file | 2026-07-23 | ✅ Active |
 
 ---
 

@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="Agentica — a design system built for humans who decide and AI agents who execute. Tokens, components, governance, and WCAG 2.1.">
 <meta name="author" content="Guilherme Negreiros">
-<title>Choosing axe-core for accessibility testing — Agentica</title>
+<title>Consolidated Figma audit script, mandatory before ending any session that mutates the file — Agentica</title>
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Agentica">
-<meta property="og:title" content="Choosing axe-core for accessibility testing — Agentica">
+<meta property="og:title" content="Consolidated Figma audit script, mandatory before ending any session that mutates the file — Agentica">
 <meta property="og:description" content="Agentica — a design system built for humans who decide and AI agents who execute. Tokens, components, governance, and WCAG 2.1.">
 <meta property="og:image" content="https://agentica.design/social.png">
 <meta property="og:image:width" content="1076">
@@ -17,7 +17,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta property="twitter:domain" content="agentica.design">
 <meta property="twitter:url" content="https://agentica.design/">
-<meta name="twitter:title" content="Choosing axe-core for accessibility testing — Agentica">
+<meta name="twitter:title" content="Consolidated Figma audit script, mandatory before ending any session that mutates the file — Agentica">
 <meta name="twitter:description" content="Agentica — a design system built for humans who decide and AI agents who execute. Tokens, components, governance, and WCAG 2.1.">
 <meta name="twitter:image" content="https://agentica.design/social.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -114,124 +114,41 @@
   <main class="content" role="main"><button class="sidebar-toggle" aria-label="Secondary navigation / Navigation secondaire" aria-expanded="false" aria-controls="site-sidebar" hidden><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/></svg><span class="sidebar-toggle-label"><span class="lang-fr">Navigation</span><span class="lang-en">Navigation</span></span></button>
 <div class="adr-header">
   <div class="adr-header-eyebrow">
-    <code class="adr-number">ADR-007</code>
+    <code class="adr-number">ADR-090</code>
     <agtc-badge variant="success" size="sm"><span class="lang-fr">Actif</span><span class="lang-en">Active</span></agtc-badge>
-    <span class="adr-type">contract</span>
+    
   </div>
-  <h1 class="adr-page-title">Choosing axe-core for accessibility testing</h1>
+  <h1 class="adr-page-title">Consolidated Figma audit script, mandatory before ending any session that mutates the file</h1>
   <dl class="adr-meta">
     <div class="adr-meta-item">
       <dt><span class="lang-fr">Date</span><span class="lang-en">Date</span></dt>
-      <dd>2026-05-28</dd>
+      <dd>2026-07-23</dd>
     </div>
     <div class="adr-meta-item">
       <dt><span class="lang-fr">Décideurs</span><span class="lang-en">Decision makers</span></dt>
-      <dd>Design System Lead, Principal Designer, Tech Lead</dd>
+      <dd>Guilherme Negreiros — Design System Lead</dd>
     </div>
   </dl>
-</div><div class="lang-en"><h2>Context</h2>
-<p><code>DESIGN.md</code> establishes that accessibility is <strong>non-negotiable</strong>: WCAG 2.1 AA minimum on every component, in every circumstance. This requirement isn't a recommendation — it's a governance rule at the same level as the token rules.</p>
-<p>Two structural problems made a tooling response necessary:</p>
-<p><strong>1. Accessibility is invisible at the time code is written</strong> An insufficient contrast ratio, a missing <code>aria-label</code> attribute, an incorrect <code>role</code> — none of these violations is detectable by reading the code or through a standard functional test. They require specialized analysis.</p>
-<p><strong>2. Manual review doesn't scale</strong> With multiple components, multiple variants, multiple states each, a full manual audit per PR is unrealistic. Violations reach production and impact every consumer of the system simultaneously.</p>
-<p>The question was:</p>
-<blockquote><p><strong>How do we guarantee zero critical WCAG 2.1 AA violations on every PR, automatically, without depending on reviewers' individual vigilance?</strong></p></blockquote>
-<hr>
+</div><h2>Context</h2>
+<p>A single verification request on 2026-07-23 ("verify the mono pilot rendering") uncovered five regression classes that had been shipping silently for weeks, none caught by the existing §22 audit or <code>findOverflows()</code>: ~1600 color bindings pointed at an orphaned variable collection, hardcoded padding/radius drifted from code on <code>Button</code>'s 20 variants, a broken <code>lineHeight</code> unit on all 15 Text Styles (PIXELS instead of PERCENT — invisible on single-line text, only visible once text wraps), cropped focus rings, and invisible tag text. All five rendered as visually correct in a screenshot — none were catchable by eye or by the checks that existed at the time.</p>
+<p>The existing §22 audit (figma-library-governance.md) already mandated an audit at several triggers (new page, shared-component change, explicit user request, weekly scheduled routine — ADR-079), but left a gap: no trigger caught drift introduced *during* an ordinary editing session before that session ended. Five scattered prose checklists (one per bug class) were also proving to get skipped under time pressure — a script does not get skipped the same way a checklist item does.</p>
 <h2>Decision</h2>
-<p>Adopt <strong>axe-core</strong> (Deque Systems) as the automated accessibility audit engine, integrated at two complementary levels:</p>
-<p><strong>Component level</strong> — via <code>@axe-core/playwright</code> in Playwright tests: every component in every variant and state is audited under real browser rendering conditions. Zero critical violations = CI passing condition.</p>
-<p><strong>Storybook level</strong> — via <code>@storybook/addon-a11y</code> (based on axe-core): live audit in the Storybook canvas during development, before a PR is even opened.</p>
-<p>The rule is strict: <strong>zero <code>critical</code> or <code>serious</code> level violations</strong>. <code>moderate</code> and <code>minor</code> violations generate a warning but don't block the merge — they are documented and addressed in a dedicated ticket.</p>
-<hr>
+<p>1. <code>scripts/figma/audit-figma-file.js</code> consolidates seven checks into one canonical, versioned    script (paste-and-run in <code>use_figma</code>, mirroring the existing plugin-script convention — not a    Node/CI script, Figma has no first-party hook to run one on save): orphaned variable bindings,    unbound component layout properties, broken Text Style <code>lineHeight</code> units, <code>clipsContent</code>    cascading over effects/outside-strokes, parent/child bounding-box overflows, stale text    references after a rename (<code>KNOWN_RENAMES</code>), and broken internal hyperlinks. 2. New mandatory trigger (§0bis of <code>figma-components.md</code>, additive to the existing §22 triggers):    any session that calls <code>use_figma</code> with a mutation must run this script against every page it    touched <strong>before the session ends</strong> — not deferred to "when the whole file is declared done." 3. A non-empty result in <code>orphanedVariables</code>, <code>unboundComponentProps</code>, <code>brokenLineHeights</code>,    <code>staleNameReferences</code>, or <code>brokenLinks</code> is a blocking regression, fixed in the same session.    <code>clippedEffects</code>/<code>overflows</code> are flagged for visual verification (screenshot), not automatic    failures — some are legitimate decorative overflow.</p>
+<h2>Rationale</h2>
+<p>The 2026-07-23 incident's common thread: every one of the five bugs was invisible in a normal screenshot review, and the existing audit triggers all fired *after* the fact (new page created, shared component changed) rather than catching drift introduced mid-session on pages already past those trigger points. Ending every mutating session with a script run — rather than trusting "it looks right" — is the only check in this system's history that actually caught all five. Consolidating five scattered snippets into one file also means future incident-driven checks accumulate in one place instead of living only in agent memory across sessions.</p>
 <h2>Rejected alternatives</h2>
-<div class="table-wrap" tabindex="0"><table><thead><tr><th>Alternative</th><th>Reason for rejection</th></tr></thead><tbody><tr><td><strong>Lighthouse (Google)</strong></td><td>Designed to audit full pages, not isolated components. Its integration into a unit-test or Storybook pipeline is indirect. Relevant for page-level E2E tests, not for component-by-component validation in CI. Used as a complement, not a replacement.</td></tr><tr><td><strong>WAVE (WebAIM)</strong></td><td>Browser extension only. Not automatable in CI/CD. Indispensable for in-depth manual review, but cannot block a merge.</td></tr><tr><td><strong>Pa11y</strong></td><td>Accessible, open-source CLI. Less well integrated with the Playwright + Storybook ecosystem. Its WCAG rule set is less granular than axe-core's, and its maintenance community is significantly smaller.</td></tr><tr><td><strong>IBM Equal Access Checker</strong></td><td>Full WCAG coverage and interesting additional rules. Less adopted in the JS/Node ecosystem. Playwright and Storybook integration requires more custom configuration. Kept for occasional manual audits, not continuous CI.</td></tr><tr><td><strong>Manual audit by an accessibility expert</strong></td><td>Not substitutable for final validation and edge cases. But doesn't scale as a continuous safety net. Choosing axe-core doesn't replace human expertise — it guarantees an automatic minimum floor on every PR.</td></tr><tr><td><strong>ESLint + eslint-plugin-jsx-a11y</strong></td><td>Detects static issues in JSX (missing attributes, incorrect roles). Complementary but insufficient: it analyzes source code, not rendered output. A syntactically correct component can produce an incorrect accessibility tree at runtime (Shadow DOM, slots, dynamic states).</td></tr></tbody></table></div>
-<hr>
+<div class="table-wrap" tabindex="0"><table><thead><tr><th>Alternative</th><th>Reason for rejection</th></tr></thead><tbody><tr><td>Keep five separate prose checklist items, one per incident</td><td>Already the status quo that let this incident ship silently for weeks — checklists get skipped under time pressure, a script call does not</td></tr><tr><td>Only re-run the existing weekly scheduled routine (ADR-079) more often</td><td>Weekly-or-more-often still leaves same-session drift undetected until the next scheduled run; this decision closes the *in-session* gap, which ADR-079 was never scoped to cover</td></tr><tr><td>Treat this as an application of the existing §22 audit rather than a new rule</td><td>§22's triggers (new page / shared-component change / explicit request / weekly) do not include "before ending a mutating session" — this is a genuinely new, stricter trigger, not a restatement</td></tr></tbody></table></div>
 <h2>Consequences</h2>
-<p><strong>For CI/CD:</strong></p>
-<ul><li>Any PR introducing a <code>critical</code> or <code>serious</code> violation is blocked at merge</li><li>The axe-core report is included in the PR artifacts — visible in GitHub Actions</li><li>The <code>exit 1</code> rule on a critical violation is aligned with <code>audit-tokens.js --ci</code>'s behavior</li></ul>
-<p><strong>For AI agents:</strong></p>
-<ul><li>A critical accessibility violation detected by axe-core is a **mandatory</li></ul>
-<p>  escalation**, not an optional warning (see <code>.claude/rules/development.md</code>)</p>
-<ul><li>An agent cannot approve or dismiss a critical violation — it must flag it and</li></ul>
-<p>  block the PR until a human fixes it</p>
-<ul><li>axe-core provides a structured (JSON) report an agent can read and analyze to</li></ul>
-<p>  precisely identify which WCAG rule is violated, on which element, and what fix to apply</p>
-<p><strong>For developers:</strong></p>
-<ul><li>Feedback is immediate: the Storybook addon flags violations in the</li></ul>
-<p>  accessibility panel during development, before the commit</p>
-<ul><li>The axe-core report names the violated rule, the target element, and links to</li></ul>
-<p>  the corresponding WCAG documentation — no need to search</p>
-<p><strong>For designers:</strong></p>
-<ul><li>Contrast violations (insufficient ratio) are detected automatically</li><li>A component that passes axe-core in every variant and state is certified WCAG</li></ul>
-<p>  AA for automatically testable criteria</p>
-<ul><li>Criteria that can't be tested automatically (logical reading order, relevant</li></ul>
-<p>  text alternatives, behavior with a real screen reader) remain a human   responsibility — axe-core doesn't cover 100% of WCAG</p>
-<p><strong>Exact coverage scope:</strong> axe-core automatically detects roughly 30 to 40% of WCAG 2.1 AA violations. This figure is intentionally communicated to teams to avoid false confidence: zero axe-core violations is not equivalent to "accessible." It's a floor, not a ceiling.</p>
-<p><strong>Accepted cost:</strong></p>
-<ul><li>Playwright tests with axe-core lengthen the CI pipeline (real browser rendering)</li><li>False positives are rare with axe-core but do exist — every rule suppression</li></ul>
-<p>  must be documented in code with justification (commented <code>axe.disable</code>)</p>
-<ul><li>WCAG's partial coverage must be explicitly communicated to avoid creating false</li></ul>
-<p>  confidence in consuming teams</p>
-<hr>
-<h2>Relation to Chromatic (ADR-006)</h2>
-<p>axe-core and Chromatic are complementary, not redundant:</p>
-<div class="table-wrap" tabindex="0"><table><thead><tr><th>Chromatic</th><th>axe-core</th></tr></thead><tbody><tr><td><strong>Detects</strong></td><td>Pixel visual regressions</td><td>Semantic WCAG violations</td></tr><tr><td><strong>Example</strong></td><td>Background color that changes</td><td>Insufficient contrast ratio</td></tr><tr><td><strong>Example</strong></td><td>Spacing that shifts</td><td>Missing <code>aria-label</code></td></tr><tr><td><strong>Approval</strong></td><td>Human (Chromatic interface)</td><td>Automatic (zero tolerance for critical)</td></tr></tbody></table></div>
-<p>A component can pass Chromatic (visually stable) and fail axe-core (semantically inaccessible), and vice versa.</p>
-<hr>
-<h2>Incidents or triggers</h2>
-<p>Foundational decision, made before any incident. Motivated by the observation that design systems shipping components without automated accessibility tests generate cascading violations across every consuming application — each team inherits the same problems and fixes them locally, without reporting back to the source system. axe-core at the system level guarantees the problem is solved once, for every consumer.</p></div><div class="lang-fr"><h2>Contexte</h2>
-<p><code>DESIGN.md</code> établit que l'accessibilité est <strong>non négociable</strong> : WCAG 2.1 AA minimum sur tous les composants, en toutes circonstances. Cette exigence n'est pas une recommandation — c'est une règle de gouvernance au même niveau que les règles de tokens.</p>
-<p>Deux problèmes structurels rendaient une réponse outil nécessaire :</p>
-<p><strong>1. L'accessibilité est invisible au moment de l'écriture du code</strong> Un ratio de contraste insuffisant, un attribut <code>aria-label</code> manquant, un <code>role</code> incorrect — aucune de ces violations n'est détectable à la lecture du code ou lors d'un test fonctionnel standard. Elles nécessitent une analyse spécialisée.</p>
-<p><strong>2. La revue manuelle ne passe pas à l'échelle</strong> Avec plusieurs composants, plusieurs variantes, plusieurs états chacun, un audit manuel complet par PR est irréaliste. Les violations passent en production et impactent tous les consommateurs du système simultanément.</p>
-<p>La question posée était :</p>
-<blockquote><p><strong>Comment garantir zéro violation WCAG 2.1 AA critique à chaque PR, automatiquement, sans dépendre de la vigilance individuelle des reviewers ?</strong></p></blockquote>
-<hr>
-<h2>Décision</h2>
-<p>Adoption de <strong>axe-core</strong> (Deque Systems) comme moteur d'audit d'accessibilité automatisé, intégré à deux niveaux complémentaires :</p>
-<p><strong>Niveau composant</strong> — via <code>@axe-core/playwright</code> dans les tests Playwright : chaque composant dans chaque variante et état est audité en conditions réelles de rendu navigateur. Zéro violation critique = condition de passage du CI.</p>
-<p><strong>Niveau Storybook</strong> — via <code>@storybook/addon-a11y</code> (basé sur axe-core) : audit en direct dans le canvas Storybook pendant le développement, avant même d'ouvrir une PR.</p>
-<p>La règle est stricte : <strong>zéro violation de niveau <code>critical</code> ou <code>serious</code></strong>. Les violations <code>moderate</code> et <code>minor</code> génèrent un avertissement mais ne bloquent pas le merge — elles sont documentées et adressées dans un ticket dédié.</p>
-<hr>
-<h2>Alternatives rejetées</h2>
-<div class="table-wrap" tabindex="0"><table><thead><tr><th>Alternative</th><th>Raison du rejet</th></tr></thead><tbody><tr><td><strong>Lighthouse (Google)</strong></td><td>Conçu pour auditer des pages entières, pas des composants isolés. Son intégration dans un pipeline de tests unitaires ou Storybook est indirecte. Pertinent pour les tests E2E de pages, pas pour la validation composant par composant en CI. Utilisé en complément, pas en remplacement.</td></tr><tr><td><strong>WAVE (WebAIM)</strong></td><td>Extension navigateur uniquement. Non automatisable en CI/CD. Indispensable pour la revue manuelle approfondie, mais ne peut pas bloquer un merge.</td></tr><tr><td><strong>Pa11y</strong></td><td>CLI accessible et open source. Moins bien intégré à l'écosystème Playwright + Storybook. Le règlement de règles WCAG est moins granulaire qu'axe-core, et la communauté de maintenance est significativement plus petite.</td></tr><tr><td><strong>IBM Equal Access Checker</strong></td><td>Couverture WCAG complète et règles supplémentaires intéressantes. Moins adopté dans l'écosystème JS/Node. L'intégration Playwright et Storybook nécessite plus de configuration personnalisée. Retenu pour des audits ponctuels manuels, pas pour le CI continu.</td></tr><tr><td><strong>Audit manuel par un expert accessibilité</strong></td><td>Non substituable pour la validation finale et les cas limites. Mais ne passe pas à l'échelle comme filet de sécurité continu. Le choix d'axe-core ne remplace pas l'expertise humaine — il garantit un plancher minimal automatique à chaque PR.</td></tr><tr><td><strong>ESLint + eslint-plugin-jsx-a11y</strong></td><td>Détecte les problèmes statiques dans le JSX (attributs manquants, rôles incorrects). Complémentaire mais insuffisant : il analyse le code source, pas le rendu. Un composant syntaxiquement correct peut produire un arbre d'accessibilité incorrect à l'exécution (Shadow DOM, slots, états dynamiques).</td></tr></tbody></table></div>
-<hr>
-<h2>Conséquences</h2>
-<p><strong>Pour le CI/CD :</strong></p>
-<ul><li>Toute PR introduisant une violation <code>critical</code> ou <code>serious</code> est bloquée au merge</li><li>Le rapport axe-core est inclus dans les artefacts de PR — visible dans GitHub Actions</li><li>La règle <code>exit 1</code> sur violation critique est alignée avec le comportement de <code>audit-tokens.js --ci</code></li></ul>
-<p><strong>Pour les agents IA :</strong></p>
-<ul><li>Une violation d'accessibilité critique détectée par axe-core est une <strong>escalade obligatoire</strong>,</li></ul>
-<p>  pas un avertissement optionnel (voir <code>.claude/rules/development.md</code>)</p>
-<ul><li>Un agent ne peut pas approuver ou ignorer une violation critique — il doit la signaler</li></ul>
-<p>  et bloquer la PR jusqu'à correction humaine</p>
-<ul><li>axe-core fournit un rapport structuré (JSON) qu'un agent peut lire et analyser</li></ul>
-<p>  pour identifier précisément quelle règle WCAG est violée, sur quel élément, et   quelle correction appliquer</p>
-<p><strong>Pour les développeurs :</strong></p>
-<ul><li>Le retour est immédiat : l'addon Storybook signale les violations dans le panneau</li></ul>
-<p>  d'accessibilité pendant le développement, avant le commit</p>
-<ul><li>Le rapport axe-core nomme la règle violée, l'élément cible, et renvoie vers</li></ul>
-<p>  la documentation WCAG correspondante — pas besoin de chercher</p>
-<p><strong>Pour les designers :</strong></p>
-<ul><li>Les violations de contraste (ratio insuffisant) sont détectées automatiquement</li><li>Un composant qui passe axe-core en toutes variantes et états est certifié WCAG AA</li></ul>
-<p>  pour les critères testables automatiquement</p>
-<ul><li>Les critères non testables automatiquement (ordre de lecture logique, alternatives</li></ul>
-<p>  textuelles pertinentes, comportement avec lecteur d'écran réel) restent sous   responsabilité humaine — axe-core ne couvre pas 100% de WCAG</p>
-<p><strong>Périmètre exact de couverture :</strong> axe-core détecte automatiquement environ 30 à 40% des violations WCAG 2.1 AA. Ce chiffre est intentionnellement communiqué aux équipes pour éviter une fausse confiance : zéro violation axe-core n'est pas équivalent à "accessible". C'est un plancher, pas un plafond.</p>
-<p><strong>Coût accepté :</strong></p>
-<ul><li>Les tests Playwright avec axe-core allongent le pipeline CI (rendu navigateur réel)</li><li>Les faux positifs sont rares avec axe-core mais existent — chaque suppression de règle</li></ul>
-<p>  doit être documentée dans le code avec justification (<code>axe.disable</code> commenté)</p>
-<ul><li>La couverture partielle de WCAG doit être explicitement communiquée pour ne pas</li></ul>
-<p>  créer de fausse confiance dans les équipes consommatrices</p>
-<hr>
-<h2>Relation avec Chromatic (ADR-006)</h2>
-<p>axe-core et Chromatic sont complémentaires, pas redondants :</p>
-<div class="table-wrap" tabindex="0"><table><thead><tr><th>Chromatic</th><th>axe-core</th></tr></thead><tbody><tr><td><strong>Détecte</strong></td><td>Régressions visuelles pixel</td><td>Violations sémantiques WCAG</td></tr><tr><td><strong>Exemple</strong></td><td>Couleur de fond qui change</td><td>Ratio de contraste insuffisant</td></tr><tr><td><strong>Exemple</strong></td><td>Espacement qui se décale</td><td><code>aria-label</code> manquant</td></tr><tr><td><strong>Approbation</strong></td><td>Humaine (interface Chromatic)</td><td>Automatique (zéro tolérance critique)</td></tr></tbody></table></div>
-<p>Un composant peut passer Chromatic (visuellement stable) et échouer axe-core (sémantiquement inaccessible), et inversement.</p>
-<hr>
-<h2>Incidents ou déclencheurs</h2>
-<p>Décision fondatrice, prise avant incident. Motivée par le constat que les design systems livrant des composants sans tests d'accessibilité automatisés génèrent des violations en cascade dans toutes les applications consommatrices — chaque équipe hérite des mêmes problèmes et les corrige localement, sans remonter au système source. axe-core au niveau du système garantit que le problème est résolu une fois, pour tous les consommateurs.</p></div><div style="display:flex;justify-content:space-between;margin-top:48px;padding-top:24px;border-top:1px solid var(--agtc-semantic-color-border-default)">
-    <a href="adr-006.html" class="agtc-button secondary">← ADR-006</a>
-    <a href="adr-008.html" class="agtc-button secondary">ADR-008 →</a>
+<ul><li><code>.claude/instructions/figma-components.md</code> gained §0bis (the mandatory-trigger rule) and §26</li></ul>
+<p>  (the five 2026-07-23 incident writeups + the post-audit checklist each check encodes).</p>
+<ul><li><code>scripts/figma/audit-figma-file.js</code> is the single source of truth for these seven checks going</li></ul>
+<p>  forward — a new incident-driven check is added there, not as a sixth scattered snippet.</p>
+<ul><li>Phase 0bis of the Figma redesign (page rename/reorganization, 2026-07-24) was audited clean</li></ul>
+<p>  against this script on all 22 pages before being declared complete — first real use of the new   trigger.</p>
+<ul><li><code>KNOWN_RENAMES</code> requires upkeep: an entry is added the moment something canonically named is</li></ul>
+<p>  renamed, and retired once <code>findStaleNameReferences</code> confirms every reference updated (see the   retired <code>INTRO</code> → <code>GETTING STARTED</code> entry, swept clean the same day).</p><div style="display:flex;justify-content:space-between;margin-top:48px;padding-top:24px;border-top:1px solid var(--agtc-semantic-color-border-default)">
+    <a href="adr-089.html" class="agtc-button secondary">← ADR-089</a>
+    <span></span>
   </div></main>
   <nav class="toc" id="page-toc" aria-label="Table of contents / Table des matières"></nav>
 </div>
