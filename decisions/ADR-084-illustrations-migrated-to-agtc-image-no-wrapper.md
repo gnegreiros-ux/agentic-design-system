@@ -69,7 +69,7 @@ real ratio once loaded, momentarily disagreeing with the reserved placeholder sp
    aria-hidden="true">` wrapper. The figure keeps full ownership of
    position/bleed/sizing via the site's existing layout CSS; `agtc-image` owns
    loading/anti-CLS/fallback for the image itself. This resolves the separate
-   Site-domain "Migrer les balises <img> existantes vers agtc-image" ticket at the same time — same underlying change. <!-- lang-audit-ignore: literal ticket title, French by board convention -->
+   Site-domain "Migrer les balises `<img>` existantes vers agtc-image" ticket at the same time — same underlying change. <!-- lang-audit-ignore: literal ticket title, French by board convention -->
 3. **`width`/`height` corrected to `768×512`** (true 3:2 ratio) on all 9 instances,
    fixing the latent CLS mismatch described above.
 4. **`prefers-reduced-motion` added for `.illus-ambient`'s `float-illus` animation**,
@@ -93,7 +93,7 @@ real ratio once loaded, momentarily disagreeing with the reserved placeholder sp
 
 - `site/build.js`: 9 `<img>` → `<agtc-image>` migrations, corrected `width`/`height`,
   reduced-motion fix, 2 dead CSS rules removed.
-- GitHub Projects: `agtc-illustration` (P2) → Abandoned, reason recorded on the item; "Migrer les balises <img>" (P3) → Terminé (the board's Status field is French: Backlog/En cours/Terminé/etc.). <!-- lang-audit-ignore: literal ticket title + literal Status field value, both French by board convention -->
+- GitHub Projects: `agtc-illustration` (P2) → Abandoned, reason recorded on the item; "Migrer les balises `<img>`" (P3) → Terminé (the board's Status field is French: Backlog/En cours/Terminé/etc.). <!-- lang-audit-ignore: literal ticket title + literal Status field value, both French by board convention -->
 - No new component, no new tokens, no new ADR-036 propagation surfaces beyond this ADR
   itself (there's no `guidelines/components/illustration.md` to write, since there's no
   such component).
