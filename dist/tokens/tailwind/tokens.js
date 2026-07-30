@@ -55,6 +55,7 @@ export default {
     "agtc-color-border-on-dark": "var(--agtc-semantic-color-border-on-dark)",
     "agtc-color-border-swatch": "var(--agtc-semantic-color-border-swatch)",
     "agtc-color-border-overlay-dark": "var(--agtc-semantic-color-border-overlay-dark)",
+    "agtc-color-border-strong": "var(--agtc-semantic-color-border-strong)",
     "agtc-color-viz-scale-bar": "var(--agtc-semantic-color-viz-scale-bar)",
     "agtc-color-control-track-off": "var(--agtc-semantic-color-control-track-off)",
     "agtc-color-control-track-off-hover": "var(--agtc-semantic-color-control-track-off-hover)",
@@ -74,6 +75,7 @@ export default {
     "agtc-color-brand-secondary": "var(--agtc-semantic-color-brand-secondary)",
     "agtc-color-brand-secondary-hover": "var(--agtc-semantic-color-brand-secondary-hover)",
     "agtc-color-brand-secondary-text": "var(--agtc-semantic-color-brand-secondary-text)",
+    "agtc-color-brand-tertiary": "var(--agtc-semantic-color-brand-tertiary)",
     "agtc-color-brand-logo-black": "var(--agtc-semantic-color-brand-logo-black)",
     "agtc-color-brand-logo-gray": "var(--agtc-semantic-color-brand-logo-gray)"
   },
@@ -105,7 +107,9 @@ export default {
     "agtc-marketing-space-hero-gap": "var(--agtc-semantic-marketing-space-hero-gap)"
   },
   "borderRadius": {
+    "agtc-radius-control-tight": "var(--agtc-semantic-radius-control-tight)",
     "agtc-radius-control": "var(--agtc-semantic-radius-control)",
-    "agtc-radius-card": "var(--agtc-semantic-radius-card)"
+    "agtc-radius-card": "var(--agtc-semantic-radius-card)",
+    "agtc-radius-pill": "var(--agtc-semantic-radius-pill)"
   }
 };

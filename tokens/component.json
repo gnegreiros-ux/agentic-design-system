@@ -969,5 +969,40 @@
         "$intent": "CTA corner radius — marks its nature as a button vs. the flat tabs"
       }
     }
+  },
+  "image": {
+    "$metadata": {
+      "intent": "Render a raster image with reserved layout space, lazy loading, and graceful loading/error states.",
+      "owner": "design-system-team"
+    },
+    "skeleton": {
+      "background": {
+        "$value": "{semantic.color.background.subtle}",
+        "$type": "color",
+        "$intent": "Placeholder background shown while the image is loading (skeleton opt-in)"
+      },
+      "background-pulse": {
+        "$value": "{semantic.color.background.hover}",
+        "$type": "color",
+        "$intent": "Second tone of the skeleton pulse animation — disabled under prefers-reduced-motion"
+      }
+    },
+    "fallback": {
+      "background": {
+        "$value": "{semantic.color.background.subtle}",
+        "$type": "color",
+        "$intent": "Background shown when the image fails to load"
+      },
+      "icon": {
+        "$value": "{semantic.color.text.secondary}",
+        "$type": "color",
+        "$intent": "Fallback icon color — matches secondary text, not an error color (a broken image is not a critical failure)"
+      },
+      "text": {
+        "$value": "{semantic.color.text.secondary}",
+        "$type": "color",
+        "$intent": "Fallback caption color, shown when alt text is present"
+      }
+    }
   }
 }

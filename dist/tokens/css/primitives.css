@@ -1,6 +1,6 @@
 /**
  * Do not edit directly
- * Generated on Sat, 18 Jul 2026 17:56:25 GMT
+ * Generated on Wed, 22 Jul 2026 18:31:09 GMT
  */
 
 :root {
@@ -458,6 +458,7 @@
   --agtc-primitive-fontWeight-regular: 400;
   --agtc-primitive-fontWeight-medium: 500;
   --agtc-primitive-fontWeight-bold: 700;
+  --agtc-primitive-fontWeight-extrabold: 800;
   --agtc-primitive-lineHeight-reading: 1.6;
   --agtc-primitive-lineHeight-heading: 1.1;
   --agtc-primitive-lineHeight-display: 1.0;
@@ -472,6 +473,7 @@
   --agtc-primitive-letterSpacing-loose: 0.09em;
   --agtc-primitive-letterSpacing-overline: 0.1em;
   --agtc-primitive-letterSpacing-widest: 0.12em;
+  --agtc-primitive-radius-xs: 2px;
   --agtc-primitive-radius-sm: 6px;
   --agtc-primitive-radius-md: 10px;
   --agtc-primitive-fontFamily-base: 'Atkinson Hyperlegible', system-ui, sans-serif;

@@ -71,8 +71,8 @@ class AgtcSegmented extends LitElement {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
-      padding: 5px 12px;
+      gap: var(--agtc-semantic-space-component-padding-xs);
+      padding: var(--agtc-semantic-space-component-padding-xs) var(--agtc-semantic-space-component-padding-md);
       border: none;
       border-radius: calc(var(--agtc-component-segmented-default-radius) - 2px);
       background: none;

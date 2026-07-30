@@ -7,9 +7,9 @@ const TOKEN_COLUMNS = [
 ];
 
 const TOKEN_ROWS = [
-  ['--agtc-table-default-header-background', 'semantic.color.background.subtle', '#f0f0f0'],
-  ['--agtc-table-default-border',           'semantic.color.border.default',    '#e8e8e8'],
-  ['--agtc-table-default-row-hover',        'semantic.color.background.hover',   '#f5f5f5'],
+  ['--agtc-table-default-header-background', 'semantic.color.background.subtle', '#f0f0f0'], // audit-ignore: resolved value shown as reference data
+  ['--agtc-table-default-border',           'semantic.color.border.default',    '#e8e8e8'], // audit-ignore: resolved value shown as reference data
+  ['--agtc-table-default-row-hover',        'semantic.color.background.hover',   '#f5f5f5'], // audit-ignore: resolved value shown as reference data
   ['--agtc-table-padding-x',                'primitive.space.3',                 '12px'],
 ];
 

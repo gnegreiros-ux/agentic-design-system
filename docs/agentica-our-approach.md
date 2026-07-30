@@ -26,7 +26,7 @@ automatic changes.
 And that's where a problem showed up:
 
 > **Agents make things up.** When they don't understand the intent behind a decision,
-> they improvise. An agent that sees `#3B82F6` doesn't know whether it's an action color,
+> they improvise. An agent that sees `#3B82F6` doesn't know whether it's an action color, <!-- audit-ignore: illustrative example hex in prose, not applied styling -->
 > a decorative one, or an alert. It guesses. And sometimes it gets it wrong.
 
 The question we asked ourselves:

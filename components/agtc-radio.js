@@ -83,7 +83,7 @@ class AgtcRadio extends LitElement {
       inline-size: var(--agtc-semantic-icon-size-control);
       block-size: var(--agtc-semantic-icon-size-control);
       border: 1.5px solid var(--agtc-component-radio-default-border);
-      border-radius: 9999px;       /* round — radio convention */
+      border-radius: var(--agtc-semantic-radius-pill);       /* round — radio convention */
       background: var(--agtc-component-radio-default-background);
       transition: border-color 0.12s;
     }
@@ -107,7 +107,7 @@ class AgtcRadio extends LitElement {
       margin: auto;
       width: 50%;
       height: 50%;
-      border-radius: 9999px;
+      border-radius: var(--agtc-semantic-radius-pill);
       background: var(--agtc-component-radio-default-fill);
       transform: scale(0);
       transition: transform 0.12s;

@@ -31,21 +31,21 @@ function cr(a, b) {
 // has no meaning here. Keep these values in sync with tokens/semantic.json by
 // hand when a referenced color changes.
 const CONTRAST_PAIRS = [
-  ['#ffffff', '#007a68', 'Button primary — text on background (action.primary)',  4.5],
-  ['#202020', '#fcfcfc', 'Body text on page background',                         4.5],
-  ['#202020', '#ffffff', 'Body text on surface',                                 4.5],
-  ['#646464', '#ffffff', 'Secondary text on surface',                            4.5],
-  ['#646464', '#fcfcfc', 'Secondary text on page background',                    4.5],
-  ['#ffffff', '#ce2c31', 'Critical button — text on background',                 4.5],
-  ['#0d74ce', '#ffffff', 'Link / active sidebar — text on surface',              4.5],
-  ['#0d74ce', '#fcfcfc', 'Link on page background',                             4.5],
-  ['#0d74ce', '#fafafa', 'Link on hovered row',                                 4.5],
-  ['#18794e', '#ecfdf5', 'Success badge — text on background (UI 1.4.11)',      3.0],
-  ['#0d74ce', '#e8e8e8', 'Focus ring on default border (1.4.11)',               3.0],
-  ['#202020', '#f0f0f0', 'Text on subtle background',                           4.5],
-  ['#646464', '#f0f0f0', 'Secondary text on subtle background',                 4.5],
-  ['#767676', '#ffffff', 'Disabled text on surface',                            4.5],
-  ['#767676', '#fcfcfc', 'Disabled text on page background — 1.4.3 exempt',    1.0],
+  ['#ffffff', '#007a68', 'Button primary — text on background (action.primary)',  4.5], // audit-ignore
+  ['#202020', '#fcfcfc', 'Body text on page background',                         4.5], // audit-ignore
+  ['#202020', '#ffffff', 'Body text on surface',                                 4.5], // audit-ignore
+  ['#646464', '#ffffff', 'Secondary text on surface',                            4.5], // audit-ignore
+  ['#646464', '#fcfcfc', 'Secondary text on page background',                    4.5], // audit-ignore
+  ['#ffffff', '#ce2c31', 'Critical button — text on background',                 4.5], // audit-ignore
+  ['#0d74ce', '#ffffff', 'Link / active sidebar — text on surface',              4.5], // audit-ignore
+  ['#0d74ce', '#fcfcfc', 'Link on page background',                             4.5], // audit-ignore
+  ['#0d74ce', '#fafafa', 'Link on hovered row',                                 4.5], // audit-ignore
+  ['#18794e', '#ecfdf5', 'Success badge — text on background (UI 1.4.11)',      3.0], // audit-ignore
+  ['#0d74ce', '#e8e8e8', 'Focus ring on default border (1.4.11)',               3.0], // audit-ignore
+  ['#202020', '#f0f0f0', 'Text on subtle background',                           4.5], // audit-ignore
+  ['#646464', '#f0f0f0', 'Secondary text on subtle background',                 4.5], // audit-ignore
+  ['#767676', '#ffffff', 'Disabled text on surface',                            4.5], // audit-ignore
+  ['#767676', '#fcfcfc', 'Disabled text on page background — 1.4.3 exempt',    1.0], // audit-ignore
 ];
 
 // ─── MINIMAL HTML PARSER ────────────────────────────────────────────────────

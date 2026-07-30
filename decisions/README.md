@@ -138,6 +138,21 @@ decisions that were already settled.
 | [ADR-073](ADR-073-npm-scope-correction.md) | npm scope correction: `@agentica` → `@agentica-ds` (amends ADR-072) | 2026-07-16 | ✅ Active |
 | [ADR-074](ADR-074-npm-publish-ci-workflow.md) | Automated npm publishing via `changesets/action` in CI | 2026-07-17 | ✅ Active |
 | [ADR-075](ADR-075-english-filenames-retroactive-rename.md) | Retroactive English filenames for translated documents (amends ADR-070) | 2026-07-18 | ✅ Active |
+| [ADR-076](ADR-076-branch-protection-solo-maintainer.md) | Branch protection on `main`/`develop` with 0 required approvals (solo maintainer) | 2026-07-20 | ✅ Active |
+| [ADR-077](ADR-077-enforce-admins-after-bypass-incident.md) | Enable `enforce_admins` on `main`/`develop` (amends ADR-076, after a bypass incident) | 2026-07-20 | ✅ Active |
+| [ADR-078](ADR-078-figma-tokens-studio-write-restriction.md) | Restrict Tokens Studio write access to the `agentica/proposals` branch | 2026-07-20 | ✅ Active |
+| [ADR-079](ADR-079-figma-audit-scheduled-routine.md) | Weekly scheduled cloud agent for the Figma §22 full-library audit | 2026-07-21 | ✅ Active |
+| [ADR-080](ADR-080-figma-community-file-content-triage.md) | Figma Community File content triage rule: brand identity stays private | 2026-07-21 | ✅ Active |
+| [ADR-081](ADR-081-figma-community-file-license.md) | Figma Community File license: CC BY 4.0 | 2026-07-21 | ✅ Active |
+| [ADR-082](ADR-082-figma-brand-file-separation.md) | Brand/logo separated into a dedicated Figma library file (amends ADR-080) | 2026-07-21 | ✅ Active |
+| [ADR-083](ADR-083-agtc-image-implementation.md) | `agtc-image` implementation | 2026-07-21 | ✅ Active |
+| [ADR-084](ADR-084-illustrations-migrated-to-agtc-image-no-wrapper.md) | Home page illustrations migrated to `agtc-image` directly, no `agtc-illustration` wrapper | 2026-07-21 | ✅ Active |
+| [ADR-085](ADR-085-audit-tokens-debt-triage.md) | `audit-tokens.js` debt triage: exclusions, `audit-ignore` escape hatch, 7 promoted tokens | 2026-07-22 | ✅ Active |
+| [ADR-086](ADR-086-relationships-registry-and-contract-validation.md) | Relationships registry and contract validation scripts (concepts borrowed from DSDS) | 2026-07-22 | ✅ Active |
+| [ADR-087](ADR-087-top-nav-mix-architecture-confirmed.md) | `agtc-top-nav` confirmed as "mix" architecture, dead mobile-menu code removed | 2026-07-22 | ✅ Active |
+| [ADR-088](ADR-088-agtc-logo-colors-retroactive.md) | Agentica logo colors formalized (retroactive) | 2026-07-22 | ✅ Active |
+| [ADR-089](ADR-089-audit-tokens-debt-zero-and-dark-mode-primitives.md) | `audit-tokens.js` debt reaches zero critical; real Radix dark primitives added | 2026-07-22 | ✅ Active |
+| [ADR-090](ADR-090-mandatory-figma-audit-script-per-session.md) | Consolidated Figma audit script, mandatory before ending any session that mutates the file | 2026-07-23 | ✅ Active |
 
 ---
 

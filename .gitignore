@@ -19,6 +19,7 @@ starter-kit/dist/
 axe-report.json
 smoke-report.json
 audit-report.json
+relationships-report.json
 playwright-report/
 test-results/
 Temp/

@@ -12,7 +12,7 @@ name: Language — English-only content audit
 
 on:
   push:
-    branches: [main]
+    branches: [main, develop]
   pull_request:
 
 permissions:

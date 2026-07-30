@@ -496,6 +496,11 @@
               ]
             }
           }
+        },
+        "strong": {
+          "$value": "{primitive.color.gray.6}",
+          "$type": "color",
+          "$intent": "Emphasized non-text border — heavier than border.default, for decorative markers (e.g. changelog timeline dots) rather than standard control/card outlines"
         }
       },
       "viz": {
@@ -600,6 +605,11 @@
           "$type": "color",
           "$intent": "Secondary text on light background — 13.8:1 WCAG AAA"
         },
+        "tertiary": {
+          "$value": "{primitive.color.slate.9}",
+          "$type": "color",
+          "$intent": "Tertiary brand color — completes the accent/secondary/tertiary decorative trio (e.g. brand-band shape fills)"
+        },
         "logo-black": {
           "$value": "{primitive.color.brand.black}",
           "$type": "color",
@@ -613,7 +623,7 @@
                 "brand icon on a light background"
               ],
               "doNotUse": "Regular text (use text.primary), page background. Never for a generic UI component.",
-              "decision": "logo-identity"
+              "decision": "ADR-088"
             }
           }
         },
@@ -630,7 +640,7 @@
                 "secondary brand graphic element"
               ],
               "doNotUse": "Secondary text (use text.secondary), borders. Never for a generic UI component.",
-              "decision": "logo-identity"
+              "decision": "ADR-088"
             }
           }
         }
@@ -825,6 +835,11 @@
       }
     },
     "radius": {
+      "control-tight": {
+        "$value": "{primitive.radius.xs}",
+        "$type": "dimension",
+        "$intent": "Focus-ring corner softening on inline/small elements — agtc-link text focus outline, agtc-input password-toggle focus outline. Not for general control fills/borders, see radius.control."
+      },
       "control": {
         "$value": "{primitive.radius.sm}",
         "$type": "dimension",
@@ -834,6 +849,23 @@
         "$value": "{primitive.radius.md}",
         "$type": "dimension",
         "$intent": "Radius for containers (cards, panels)"
+      },
+      "pill": {
+        "$value": "9999px",
+        "$type": "dimension",
+        "$intent": "Fully rounded radius — pill/circle shapes (badges, toggles, avatars). Raw value, no primitive alias: no primitive.radius step exists at this value, same precedent as component.badge.md.radius."
+      }
+    },
+    "fontWeight": {
+      "bold": {
+        "$value": "{primitive.fontWeight.bold}",
+        "$type": "fontWeight",
+        "$intent": "Generic reusable bold weight, independent of any specific typography scale step (badges, labels, table headers, decorative emphasis) — distinct from the per-context typography.*.weight tokens, which stay for type-scale-specific use"
+      },
+      "display": {
+        "$value": "{primitive.fontWeight.extrabold}",
+        "$type": "fontWeight",
+        "$intent": "Heaviest weight — hero/display-scale numerals and headings"
       }
     },
     "typography": {

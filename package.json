@@ -27,7 +27,9 @@
     "playwright:update": "npx playwright test --update-snapshots",
     "playwright:report": "npx playwright show-report",
     "smoke": "node scripts/smoke-test.js",
-    "test": "npm run smoke && npm run lang-audit && npm run axe:all"
+    "relationships": "node scripts/extract-relationships.js --fix-report",
+    "validate:contracts": "node scripts/validate-contracts.js",
+    "test": "npm run smoke && npm run lang-audit && npm run validate:contracts && npm run axe:all"
   },
   "peerDependencies": {
     "lit": "^3.0.0"
@@ -37,6 +39,7 @@
     "@changesets/cli": "^2.27.1",
     "@chromatic-com/storybook": "^5.2.1",
     "@playwright/test": "^1.61.1",
+    "@radix-ui/colors": "^3.0.0",
     "@storybook/addon-a11y": "^10.4.1",
     "@storybook/addon-docs": "^10.4.1",
     "@storybook/addon-themes": "^10.4.6",

@@ -1,6 +1,7 @@
 // Bundle entry point — imports all Agentica Web Components as side effects.
 // agtc-icon first: dependency of button, badge, banner, link, segmented, tabs.
 import './agtc-icon.js';
+import './agtc-image.js';
 import './agtc-button.js';
 import './agtc-badge.js';
 import './agtc-banner.js';

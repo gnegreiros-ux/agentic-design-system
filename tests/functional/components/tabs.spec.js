@@ -11,7 +11,7 @@ test.describe('agtc-tabs — functional', () => {
     await page.evaluate(() => {
       const fixture = document.createElement('div');
       fixture.id = 'tabs-fixture';
-      fixture.style.cssText = 'padding:24px;';
+      fixture.style.cssText = 'padding:var(--agtc-semantic-space-component-padding-2xl);';
       document.body.appendChild(fixture);
 
       const tabs = document.createElement('agtc-tabs');

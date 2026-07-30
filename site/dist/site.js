@@ -97,22 +97,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // ── Mobile menu (agtc-top-nav) ───────────────────────────
-  const menuToggle = document.querySelector('.menu-toggle');
-  const topNav = document.querySelector('agtc-top-nav');
-  if (menuToggle && topNav) {
-    menuToggle.addEventListener('click', () => {
-      const isOpen = topNav.classList.toggle('open');
-      menuToggle.setAttribute('aria-expanded', String(isOpen));
-    });
-    document.addEventListener('click', e => {
-      if (!menuToggle.contains(e.target) && !topNav.contains(e.target)) {
-        topNav.classList.remove('open');
-        menuToggle.setAttribute('aria-expanded', 'false');
-      }
-    });
-  }
-
   // ── Sidebar drawer (mobile) ──────────────────────────────
   const sidebarToggle = document.querySelector('.sidebar-toggle');
   const sidebar = document.getElementById('site-sidebar');
@@ -340,7 +324,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ── Menu mobile V2 ────────────────────────────────────────────────────────
+  // ── Mobile menu ───────────────────────────────────────────────────────────
   const v2MenuToggle = document.querySelector('[data-menu-toggle]');
   const v2MainNav    = document.querySelector('[data-main-nav]');
   if (v2MenuToggle && v2MainNav) {

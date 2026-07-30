@@ -234,8 +234,8 @@
 
 <h2><span class="lang-fr">Tokens sémantiques UI</span><span class="lang-en">UI semantic tokens</span></h2>
 <p>
-  <span class="lang-fr">Ces 38 tokens encodent les intentions UX. Chaque composant les référence — jamais les primitives directement.</span>
-  <span class="lang-en">These 38 tokens encode UX intentions. Every component references them — never the primitives directly.</span>
+  <span class="lang-fr">Ces 39 tokens encodent les intentions UX. Chaque composant les référence — jamais les primitives directement.</span>
+  <span class="lang-en">These 39 tokens encode UX intentions. Every component references them — never the primitives directly.</span>
 </p>
 <input class="explorer-search" type="search" id="token-search" placeholder="Rechercher un token… / Search a token…" aria-label="Search a semantic token / Rechercher un token sémantique" autocomplete="off" spellcheck="false">
 <p class="token-search-status" id="token-search-status" aria-live="polite" aria-atomic="true"></p>
@@ -400,6 +400,12 @@
   <td><span class="lang-fr">Bordure standard</span><span class="lang-en">Default border</span></td>
 </tr>
 <tr class="token-row">
+  <td><div class="color-chip"><span class="color-swatch" style="background:#d9d9d9;border:1px solid var(--agtc-semantic-color-border-swatch)" aria-hidden="true"></span></div></td>
+  <td><code>--agtc-semantic-color-border-strong</code></td>
+  <td class="mono-sm">#d9d9d9</td>
+  <td><span class="lang-fr">Bordure accentuée — séparateurs importants</span><span class="lang-en">Strong border — important separators</span></td>
+</tr>
+<tr class="token-row">
   <td><div class="color-chip"><span class="color-swatch" style="background:#007a68;border:1px solid var(--agtc-semantic-color-border-swatch)" aria-hidden="true"></span></div></td>
   <td><code>--agtc-semantic-color-border-focus</code></td>
   <td class="mono-sm">#007a68</td>
@@ -506,7 +512,7 @@
         <img src="../img/logo-color-white.svg" alt="Agentica" class="logo-dark" height="40" width="180" loading="lazy">
         <img src="../img/logo-color.svg" alt="" aria-hidden="true" class="logo-light" height="40" width="180" loading="lazy">
       </a>
-      <a href="https://www.linkedin.com/in/gnegreiros/" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:6px;color:var(--site-muted);text-decoration:none;font-size:.9rem;transition:color .12s" class="footer-linkedin">
+      <a href="https://www.linkedin.com/in/gnegreiros/" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:var(--agtc-semantic-space-component-padding-xs);color:var(--site-muted);text-decoration:none;font-size:.9rem;transition:color .12s" class="footer-linkedin">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
         Guilherme Negreiros
       </a>

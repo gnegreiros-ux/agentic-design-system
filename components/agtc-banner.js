@@ -66,7 +66,7 @@ class AgtcBanner extends LitElement {
   static styles = css`
     :host {
       display: block;
-      margin: 18px 0;
+      margin: var(--agtc-semantic-space-layout-component) 0;
     }
     :host([hidden]) { display: none; }
 

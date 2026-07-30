@@ -25,6 +25,18 @@ correct: `<nav>` + `<a>` + `aria-current="page"`, not `role="tablist"`.
 
 ---
 
+## Architecture note — site usage (ADR-087)
+
+The Agentica site itself does **not** mount `<agtc-top-nav>` on its own pages — its main nav is
+hand-written markup (`.site-nav`) styled through the same token contract described below. This is
+a looser version of the "mix" pattern used by `agtc-table`/`agtc-banner`/`agtc-code-block`
+(ADR-040/041/042): those expose a dedicated, documented CSS class (`.agtc-table`, etc.) as a
+first-class alternative form; `.site-nav` is ordinary site chrome that happens to consume the same
+tokens, not a maintained class variant of this component. Everything in this contract (properties,
+tokens, states, accessibility) still applies to any consumer that mounts the real component.
+
+---
+
 ## Distinction from `agtc-tabs`
 
 | | `agtc-top-nav` | `agtc-tabs` |

@@ -87,7 +87,7 @@ class AgtcToggle extends LitElement {
       flex-shrink: 0;
       inline-size: 40px;
       block-size: 24px;
-      border-radius: 9999px;
+      border-radius: var(--agtc-semantic-radius-pill);
       background: var(--agtc-component-toggle-default-track-off);
       transition: background-color 0.15s;
     }
@@ -99,7 +99,7 @@ class AgtcToggle extends LitElement {
       left: 2px;
       width: 20px;
       height: 20px;
-      border-radius: 9999px;
+      border-radius: var(--agtc-semantic-radius-pill);
       background: var(--agtc-component-toggle-default-knob);
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);  /* outlines the knob (WCAG 1.4.11) */
       transition: transform 0.15s;

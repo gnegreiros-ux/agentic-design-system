@@ -93,7 +93,7 @@ export const States = {
 export const TaskList = {
   name: 'Composition — task list',
   render: () => html`
-    <div style="display:flex;flex-direction:column;gap:10px;max-width:340px;">
+    <div style="display:flex;flex-direction:column;gap:var(--agtc-semantic-space-control-gap);max-width:340px;">
       <agtc-checkbox label="Learn Web Components" checked></agtc-checkbox>
       <agtc-checkbox label="Build the design system tokens" checked></agtc-checkbox>
       <agtc-checkbox label="Ship the checkbox component"></agtc-checkbox>
@@ -106,7 +106,7 @@ export const TaskList = {
 export const SelectAllGroup = {
   name: 'Group — indeterminate parent',
   render: () => html`
-    <div style="display:flex;flex-direction:column;gap:10px;max-width:340px;">
+    <div style="display:flex;flex-direction:column;gap:var(--agtc-semantic-space-control-gap);max-width:340px;">
       <agtc-checkbox label="Select all" indeterminate></agtc-checkbox>
       <div style="display:flex;flex-direction:column;gap:var(--agtc-semantic-space-control-gap);padding-inline-start:28px;">
         <agtc-checkbox label="Email notifications" checked></agtc-checkbox>

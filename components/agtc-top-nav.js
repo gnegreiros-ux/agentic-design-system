@@ -218,7 +218,7 @@ class AgtcTopNav extends LitElement {
         margin: var(--agtc-semantic-space-component-padding-xs) 16px;
         border-radius: var(--agtc-semantic-radius-control);
         border-bottom: none;
-        padding: 10px 14px;
+        padding: var(--agtc-semantic-space-component-padding-md) var(--agtc-semantic-space-component-padding-lg);
       }
     }
   `;

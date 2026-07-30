@@ -4,7 +4,7 @@
 //
 
 // Do not edit directly
-// Generated on Sat, 18 Jul 2026 17:56:26 GMT
+// Generated on Wed, 22 Jul 2026 18:31:09 GMT
 
 
 import UIKit
@@ -123,6 +123,11 @@ public class AgenticaTokens {
     public static let codeBlockDefaultPaddingY = 16px
     public static let codeBlockDefaultRadius = 10px
     public static let codeBlockDefaultText = #e8e8e8
+    public static let imageFallbackBackground = #f0f0f0
+    public static let imageFallbackIcon = #646464
+    public static let imageFallbackText = #646464
+    public static let imageSkeletonBackground = #f0f0f0
+    public static let imageSkeletonBackgroundPulse = #fafafa
     public static let inputDefaultBackground = #ffffff
     public static let inputDefaultBorder = #e8e8e8
     public static let inputDefaultBorderError = #ce2c31
@@ -579,6 +584,7 @@ public class AgenticaTokens {
     public static let primitiveFontSizeXl = 1.5rem
     public static let primitiveFontSizeXs = 0.75rem
     public static let primitiveFontWeightBold = 700
+    public static let primitiveFontWeightExtrabold = 800
     public static let primitiveFontWeightMedium = 500
     public static let primitiveFontWeightRegular = 400
     public static let primitiveIconSizeLg = 24px
@@ -601,6 +607,7 @@ public class AgenticaTokens {
     public static let primitiveLineHeightReading = 1.6
     public static let primitiveRadiusMd = 10px
     public static let primitiveRadiusSm = 6px
+    public static let primitiveRadiusXs = 2px
     public static let primitiveSpace0 = 2px
     public static let primitiveSpace1 = 4px
     public static let primitiveSpace10 = 40px
@@ -647,6 +654,7 @@ public class AgenticaTokens {
     public static let semanticColorBorderFocus = #007a68
     public static let semanticColorBorderOnDark = rgba(255,255,255,0.18)
     public static let semanticColorBorderOverlayDark = rgba(255, 255, 255, 0.06)
+    public static let semanticColorBorderStrong = #d9d9d9
     public static let semanticColorBorderSwatch = rgba(0,0,0,0.10)
     public static let semanticColorBrandAccent = #ed6b86
     public static let semanticColorBrandAccentHover = #e05f7b
@@ -661,6 +669,7 @@ public class AgenticaTokens {
     public static let semanticColorBrandSecondary = #463239
     public static let semanticColorBrandSecondaryHover = #5f404b
     public static let semanticColorBrandSecondaryText = #432f36
+    public static let semanticColorBrandTertiary = #8b9098
     public static let semanticColorControlTrackOff = #8d8d8d
     public static let semanticColorControlTrackOffHover = #838383
     public static let semanticColorFeedbackDanger = #ce2c31
@@ -698,6 +707,8 @@ public class AgenticaTokens {
     public static let semanticColorTextPrimary = #202020
     public static let semanticColorTextSecondary = #646464
     public static let semanticColorVizScaleBar = #fdbdbe
+    public static let semanticFontWeightBold = 700
+    public static let semanticFontWeightDisplay = 800
     public static let semanticIconSizeControl = 20px
     public static let semanticIconSizeFeature = 32px
     public static let semanticIconSizeInline = 16px
@@ -712,6 +723,8 @@ public class AgenticaTokens {
     public static let semanticMarketingTypographyEyebrowWeight = 700
     public static let semanticRadiusCard = 10px
     public static let semanticRadiusControl = 6px
+    public static let semanticRadiusControlTight = 2px
+    public static let semanticRadiusPill = 9999px
     public static let semanticShadowCard = 0 1px 3px rgba(0,0,0,0.10), 0 1px 2px rgba(0,0,0,0.06)
     public static let semanticShadowCardHover = 0 4px 16px rgba(13,116,206,0.10)
     public static let semanticShadowHeader = 0 2px 24px rgba(0,0,0,0.12)

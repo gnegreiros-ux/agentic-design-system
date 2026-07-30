@@ -1,0 +1,575 @@
+{
+  "$schema": "https://design-tokens.github.io/community-group/format/",
+  "$metadata": {
+    "tokenSetOrder": [
+      "primitive/color-dark"
+    ]
+  },
+  "primitive": {
+    "color-dark": {
+      "_readme": {
+        "$value": "Radix UI Color System — Dark mode primitives (stock @radix-ui/colors v3.0.0, unmodified)",
+        "$type": "other",
+        "$description": "Dark-theme counterpart to primitives.json's color.* scales, for the Radix palettes actually referenced in semantic.json (gray, mauve, slate, blue, crimson, green, orange, red, teal). These are the OFFICIAL Radix dark values, taken as-is from the @radix-ui/colors package (ADR-085) — not yet wired into any build target. Deliberately namespaced as color-dark (not color) to avoid a silent token-path collision with primitives.json's light scales if ever added to the same Style Dictionary source list. semantic.dark.json independently carries its own already-calibrated dark values (some deliberately adjusted from stock Radix for WCAG contrast, e.g. action.primary/teal — see ADR-048, ADR-050) and does not consume this file. Custom brand scales (accent, secondary) have no Radix dark equivalent by definition — they stay hand-tuned in semantic.dark.json."
+      },
+      "gray": {
+        "1": {
+          "$value": "#111111",
+          "$type": "color",
+          "$description": "App background"
+        },
+        "2": {
+          "$value": "#191919",
+          "$type": "color",
+          "$description": "Subtle background"
+        },
+        "3": {
+          "$value": "#222222",
+          "$type": "color",
+          "$description": "UI element background"
+        },
+        "4": {
+          "$value": "#2a2a2a",
+          "$type": "color",
+          "$description": "Hovered UI element background"
+        },
+        "5": {
+          "$value": "#313131",
+          "$type": "color",
+          "$description": "Active / selected UI element background"
+        },
+        "6": {
+          "$value": "#3a3a3a",
+          "$type": "color",
+          "$description": "Subtle border and separator"
+        },
+        "7": {
+          "$value": "#484848",
+          "$type": "color",
+          "$description": "UI element border and focus ring"
+        },
+        "8": {
+          "$value": "#606060",
+          "$type": "color",
+          "$description": "Hovered UI element border"
+        },
+        "9": {
+          "$value": "#6e6e6e",
+          "$type": "color",
+          "$description": "Solid background (non-interactive)"
+        },
+        "10": {
+          "$value": "#7b7b7b",
+          "$type": "color",
+          "$description": "Hovered solid background"
+        },
+        "11": {
+          "$value": "#b4b4b4",
+          "$type": "color",
+          "$description": "Low-contrast text"
+        },
+        "12": {
+          "$value": "#eeeeee",
+          "$type": "color",
+          "$description": "High-contrast text"
+        }
+      },
+      "mauve": {
+        "1": {
+          "$value": "#121113",
+          "$type": "color",
+          "$description": "App background"
+        },
+        "2": {
+          "$value": "#1a191b",
+          "$type": "color",
+          "$description": "Subtle background"
+        },
+        "3": {
+          "$value": "#232225",
+          "$type": "color",
+          "$description": "UI element background"
+        },
+        "4": {
+          "$value": "#2b292d",
+          "$type": "color",
+          "$description": "Hovered UI element background"
+        },
+        "5": {
+          "$value": "#323035",
+          "$type": "color",
+          "$description": "Active / selected UI element background"
+        },
+        "6": {
+          "$value": "#3c393f",
+          "$type": "color",
+          "$description": "Subtle border and separator"
+        },
+        "7": {
+          "$value": "#49474e",
+          "$type": "color",
+          "$description": "UI element border and focus ring"
+        },
+        "8": {
+          "$value": "#625f69",
+          "$type": "color",
+          "$description": "Hovered UI element border"
+        },
+        "9": {
+          "$value": "#6f6d78",
+          "$type": "color",
+          "$description": "Solid background (non-interactive)"
+        },
+        "10": {
+          "$value": "#7c7a85",
+          "$type": "color",
+          "$description": "Hovered solid background"
+        },
+        "11": {
+          "$value": "#b5b2bc",
+          "$type": "color",
+          "$description": "Low-contrast text"
+        },
+        "12": {
+          "$value": "#eeeef0",
+          "$type": "color",
+          "$description": "High-contrast text"
+        }
+      },
+      "slate": {
+        "1": {
+          "$value": "#111113",
+          "$type": "color",
+          "$description": "App background"
+        },
+        "2": {
+          "$value": "#18191b",
+          "$type": "color",
+          "$description": "Subtle background"
+        },
+        "3": {
+          "$value": "#212225",
+          "$type": "color",
+          "$description": "UI element background"
+        },
+        "4": {
+          "$value": "#272a2d",
+          "$type": "color",
+          "$description": "Hovered UI element background"
+        },
+        "5": {
+          "$value": "#2e3135",
+          "$type": "color",
+          "$description": "Active / selected UI element background"
+        },
+        "6": {
+          "$value": "#363a3f",
+          "$type": "color",
+          "$description": "Subtle border and separator"
+        },
+        "7": {
+          "$value": "#43484e",
+          "$type": "color",
+          "$description": "UI element border and focus ring"
+        },
+        "8": {
+          "$value": "#5a6169",
+          "$type": "color",
+          "$description": "Hovered UI element border"
+        },
+        "9": {
+          "$value": "#696e77",
+          "$type": "color",
+          "$description": "Solid background (non-interactive)"
+        },
+        "10": {
+          "$value": "#777b84",
+          "$type": "color",
+          "$description": "Hovered solid background"
+        },
+        "11": {
+          "$value": "#b0b4ba",
+          "$type": "color",
+          "$description": "Low-contrast text"
+        },
+        "12": {
+          "$value": "#edeef0",
+          "$type": "color",
+          "$description": "High-contrast text"
+        }
+      },
+      "blue": {
+        "1": {
+          "$value": "#0d1520",
+          "$type": "color",
+          "$description": "App background"
+        },
+        "2": {
+          "$value": "#111927",
+          "$type": "color",
+          "$description": "Subtle background"
+        },
+        "3": {
+          "$value": "#0d2847",
+          "$type": "color",
+          "$description": "UI element background"
+        },
+        "4": {
+          "$value": "#003362",
+          "$type": "color",
+          "$description": "Hovered UI element background"
+        },
+        "5": {
+          "$value": "#004074",
+          "$type": "color",
+          "$description": "Active / selected UI element background"
+        },
+        "6": {
+          "$value": "#104d87",
+          "$type": "color",
+          "$description": "Subtle border and separator"
+        },
+        "7": {
+          "$value": "#205d9e",
+          "$type": "color",
+          "$description": "UI element border and focus ring"
+        },
+        "8": {
+          "$value": "#2870bd",
+          "$type": "color",
+          "$description": "Hovered UI element border"
+        },
+        "9": {
+          "$value": "#0090ff",
+          "$type": "color",
+          "$description": "Solid background (non-interactive)"
+        },
+        "10": {
+          "$value": "#3b9eff",
+          "$type": "color",
+          "$description": "Hovered solid background"
+        },
+        "11": {
+          "$value": "#70b8ff",
+          "$type": "color",
+          "$description": "Low-contrast text"
+        },
+        "12": {
+          "$value": "#c2e6ff",
+          "$type": "color",
+          "$description": "High-contrast text"
+        }
+      },
+      "crimson": {
+        "1": {
+          "$value": "#191114",
+          "$type": "color",
+          "$description": "App background"
+        },
+        "2": {
+          "$value": "#201318",
+          "$type": "color",
+          "$description": "Subtle background"
+        },
+        "3": {
+          "$value": "#381525",
+          "$type": "color",
+          "$description": "UI element background"
+        },
+        "4": {
+          "$value": "#4d122f",
+          "$type": "color",
+          "$description": "Hovered UI element background"
+        },
+        "5": {
+          "$value": "#5c1839",
+          "$type": "color",
+          "$description": "Active / selected UI element background"
+        },
+        "6": {
+          "$value": "#6d2545",
+          "$type": "color",
+          "$description": "Subtle border and separator"
+        },
+        "7": {
+          "$value": "#873356",
+          "$type": "color",
+          "$description": "UI element border and focus ring"
+        },
+        "8": {
+          "$value": "#b0436e",
+          "$type": "color",
+          "$description": "Hovered UI element border"
+        },
+        "9": {
+          "$value": "#e93d82",
+          "$type": "color",
+          "$description": "Solid background (non-interactive)"
+        },
+        "10": {
+          "$value": "#ee518a",
+          "$type": "color",
+          "$description": "Hovered solid background"
+        },
+        "11": {
+          "$value": "#ff92ad",
+          "$type": "color",
+          "$description": "Low-contrast text"
+        },
+        "12": {
+          "$value": "#fdd3e8",
+          "$type": "color",
+          "$description": "High-contrast text"
+        }
+      },
+      "green": {
+        "1": {
+          "$value": "#0e1512",
+          "$type": "color",
+          "$description": "App background"
+        },
+        "2": {
+          "$value": "#121b17",
+          "$type": "color",
+          "$description": "Subtle background"
+        },
+        "3": {
+          "$value": "#132d21",
+          "$type": "color",
+          "$description": "UI element background"
+        },
+        "4": {
+          "$value": "#113b29",
+          "$type": "color",
+          "$description": "Hovered UI element background"
+        },
+        "5": {
+          "$value": "#174933",
+          "$type": "color",
+          "$description": "Active / selected UI element background"
+        },
+        "6": {
+          "$value": "#20573e",
+          "$type": "color",
+          "$description": "Subtle border and separator"
+        },
+        "7": {
+          "$value": "#28684a",
+          "$type": "color",
+          "$description": "UI element border and focus ring"
+        },
+        "8": {
+          "$value": "#2f7c57",
+          "$type": "color",
+          "$description": "Hovered UI element border"
+        },
+        "9": {
+          "$value": "#30a46c",
+          "$type": "color",
+          "$description": "Solid background (non-interactive)"
+        },
+        "10": {
+          "$value": "#33b074",
+          "$type": "color",
+          "$description": "Hovered solid background"
+        },
+        "11": {
+          "$value": "#3dd68c",
+          "$type": "color",
+          "$description": "Low-contrast text"
+        },
+        "12": {
+          "$value": "#b1f1cb",
+          "$type": "color",
+          "$description": "High-contrast text"
+        }
+      },
+      "orange": {
+        "1": {
+          "$value": "#17120e",
+          "$type": "color",
+          "$description": "App background"
+        },
+        "2": {
+          "$value": "#1e160f",
+          "$type": "color",
+          "$description": "Subtle background"
+        },
+        "3": {
+          "$value": "#331e0b",
+          "$type": "color",
+          "$description": "UI element background"
+        },
+        "4": {
+          "$value": "#462100",
+          "$type": "color",
+          "$description": "Hovered UI element background"
+        },
+        "5": {
+          "$value": "#562800",
+          "$type": "color",
+          "$description": "Active / selected UI element background"
+        },
+        "6": {
+          "$value": "#66350c",
+          "$type": "color",
+          "$description": "Subtle border and separator"
+        },
+        "7": {
+          "$value": "#7e451d",
+          "$type": "color",
+          "$description": "UI element border and focus ring"
+        },
+        "8": {
+          "$value": "#a35829",
+          "$type": "color",
+          "$description": "Hovered UI element border"
+        },
+        "9": {
+          "$value": "#f76b15",
+          "$type": "color",
+          "$description": "Solid background (non-interactive)"
+        },
+        "10": {
+          "$value": "#ff801f",
+          "$type": "color",
+          "$description": "Hovered solid background"
+        },
+        "11": {
+          "$value": "#ffa057",
+          "$type": "color",
+          "$description": "Low-contrast text"
+        },
+        "12": {
+          "$value": "#ffe0c2",
+          "$type": "color",
+          "$description": "High-contrast text"
+        }
+      },
+      "red": {
+        "1": {
+          "$value": "#191111",
+          "$type": "color",
+          "$description": "App background"
+        },
+        "2": {
+          "$value": "#201314",
+          "$type": "color",
+          "$description": "Subtle background"
+        },
+        "3": {
+          "$value": "#3b1219",
+          "$type": "color",
+          "$description": "UI element background"
+        },
+        "4": {
+          "$value": "#500f1c",
+          "$type": "color",
+          "$description": "Hovered UI element background"
+        },
+        "5": {
+          "$value": "#611623",
+          "$type": "color",
+          "$description": "Active / selected UI element background"
+        },
+        "6": {
+          "$value": "#72232d",
+          "$type": "color",
+          "$description": "Subtle border and separator"
+        },
+        "7": {
+          "$value": "#8c333a",
+          "$type": "color",
+          "$description": "UI element border and focus ring"
+        },
+        "8": {
+          "$value": "#b54548",
+          "$type": "color",
+          "$description": "Hovered UI element border"
+        },
+        "9": {
+          "$value": "#e5484d",
+          "$type": "color",
+          "$description": "Solid background (non-interactive)"
+        },
+        "10": {
+          "$value": "#ec5d5e",
+          "$type": "color",
+          "$description": "Hovered solid background"
+        },
+        "11": {
+          "$value": "#ff9592",
+          "$type": "color",
+          "$description": "Low-contrast text"
+        },
+        "12": {
+          "$value": "#ffd1d9",
+          "$type": "color",
+          "$description": "High-contrast text"
+        }
+      },
+      "teal": {
+        "1": {
+          "$value": "#0d1514",
+          "$type": "color",
+          "$description": "App background"
+        },
+        "2": {
+          "$value": "#111c1b",
+          "$type": "color",
+          "$description": "Subtle background"
+        },
+        "3": {
+          "$value": "#0d2d2a",
+          "$type": "color",
+          "$description": "UI element background"
+        },
+        "4": {
+          "$value": "#023b37",
+          "$type": "color",
+          "$description": "Hovered UI element background"
+        },
+        "5": {
+          "$value": "#084843",
+          "$type": "color",
+          "$description": "Active / selected UI element background"
+        },
+        "6": {
+          "$value": "#145750",
+          "$type": "color",
+          "$description": "Subtle border and separator"
+        },
+        "7": {
+          "$value": "#1c6961",
+          "$type": "color",
+          "$description": "UI element border and focus ring"
+        },
+        "8": {
+          "$value": "#207e73",
+          "$type": "color",
+          "$description": "Hovered UI element border"
+        },
+        "9": {
+          "$value": "#12a594",
+          "$type": "color",
+          "$description": "Solid background (non-interactive)"
+        },
+        "10": {
+          "$value": "#0eb39e",
+          "$type": "color",
+          "$description": "Hovered solid background"
+        },
+        "11": {
+          "$value": "#0bd8b6",
+          "$type": "color",
+          "$description": "Low-contrast text"
+        },
+        "12": {
+          "$value": "#adf0dd",
+          "$type": "color",
+          "$description": "High-contrast text"
+        }
+      }
+    }
+  }
+}

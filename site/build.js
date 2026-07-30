@@ -109,8 +109,9 @@ function storybookIcon(size = 18) {
 }
 
 // ─── TOKEN DATA ────────────────────────────────────────────────────────────
-const primitives   = readJson(path.join(TOKENS_DIR, 'primitives.json'));
-const semanticData = readJson(path.join(TOKENS_DIR, 'semantic.json'));
+const primitives       = readJson(path.join(TOKENS_DIR, 'primitives.json'));
+const semanticData     = readJson(path.join(TOKENS_DIR, 'semantic.json'));
+const semanticDarkData = readJson(path.join(TOKENS_DIR, 'semantic.dark.json'));
 
 function extractColorScales(prim) {
   const scales = {};
@@ -158,6 +159,10 @@ function flattenTokens(obj, data, prefix = '') {
 
 // SEM is now resolved dynamically from semantic.json + primitives.json
 const SEM = flattenTokens(semanticData.semantic, primitives);
+// SEM_DARK: semantic.dark.json values are already literal (deltas vs. light,
+// some deliberately hand-tuned for WCAG contrast — ADR-048, ADR-050), no
+// primitive resolution needed, but flattenTokens handles that fine either way.
+const SEM_DARK = flattenTokens(semanticDarkData.semantic, primitives);
 
 const COMP = {
   'button-primary-background':          'var(--agtc-semantic-color-action-primary)',
@@ -654,8 +659,6 @@ function tokensCSS() {
   --agtc-site-sidebar-width:236px;
   --agtc-site-toc-width:208px;
   --agtc-content-max:1180px;
-  --agtc-semantic-radius-pill:999px;
-  --agtc-semantic-color-border-strong:var(--agtc-primitive-color-gray-6);
   --agtc-shadow-sm:0 1px 2px rgba(16,24,40,.06),0 1px 3px rgba(16,24,40,.05);
   --agtc-shadow-md:0 4px 12px rgba(16,24,40,.07),0 2px 6px rgba(16,24,40,.05);
   --agtc-shadow-lg:0 18px 40px -12px rgba(16,24,40,.18),0 8px 16px -8px rgba(16,24,40,.10);
@@ -667,19 +670,12 @@ function tokensCSS() {
   --agtc-font-size-h2:2rem;         --agtc-font-size-h1:2.5rem;
   --agtc-font-size-display:clamp(2.5rem,5vw,3.5rem);
   --agtc-line-height-text:1.6;      --agtc-line-height-heading:1.05;
-  /* Accent (rose) and secondary (prune) brand primitives */
-  --agtc-primitive-color-accent-9:#ed6b86;   --agtc-primitive-color-accent-10:#e05f7b;
-  --agtc-primitive-color-accent-11:#a6294c;  --agtc-primitive-color-accent-12:#5d1f2e;
-  --agtc-primitive-color-accent-8:#c8818c;
-  --agtc-primitive-color-secondary-9:#463239; --agtc-primitive-color-secondary-11:#6b4b56;
-  /* Brand semantic tokens (nouveaux — absents de tokens/semantic.json) */
-  --agtc-semantic-color-accent:#ed6b86;
-  --agtc-semantic-color-secondary:#463239;
-  --agtc-semantic-color-tertiary:var(--agtc-primitive-color-slate-9);
-  /* Brand gradients (teal → accent rose) */
-  --agtc-gradient-brand:linear-gradient(115deg,var(--agtc-primitive-color-teal-11) 0%,var(--agtc-primitive-color-teal-9) 38%,var(--agtc-primitive-color-accent-9) 78%,var(--agtc-primitive-color-accent-10) 100%);
-  --agtc-gradient-text:linear-gradient(100deg,var(--agtc-primitive-color-teal-8) 0%,var(--agtc-primitive-color-accent-8) 100%);
-  --agtc-gradient-text-light:linear-gradient(100deg,var(--agtc-primitive-color-teal-11) 0%,var(--agtc-primitive-color-accent-11) 100%);
+  /* Brand gradients (teal -> accent rose) — multi-stop blends across adjacent
+     primitive scale steps (teal-8/9/11, accent-8/9/10/11), not individual UI
+     roles — no 1:1 semantic equivalent exists or is meaningful here. */
+  --agtc-gradient-brand:linear-gradient(115deg,var(--agtc-primitive-color-teal-11) 0%,var(--agtc-primitive-color-teal-9) 38%,var(--agtc-primitive-color-accent-9) 78%,var(--agtc-primitive-color-accent-10) 100%); /* audit-ignore: multi-stop gradient, not a UI role */
+  --agtc-gradient-text:linear-gradient(100deg,var(--agtc-primitive-color-teal-8) 0%,var(--agtc-primitive-color-accent-8) 100%); /* audit-ignore: multi-stop gradient, not a UI role */
+  --agtc-gradient-text-light:linear-gradient(100deg,var(--agtc-primitive-color-teal-11) 0%,var(--agtc-primitive-color-accent-11) 100%); /* audit-ignore: multi-stop gradient, not a UI role */
   --agtc-gradient-aurora:radial-gradient(60% 50% at 18% 8%,rgba(18,165,148,.26) 0%,transparent 60%),radial-gradient(55% 50% at 88% 22%,rgba(237,107,134,.20) 0%,transparent 62%),radial-gradient(70% 60% at 60% 100%,rgba(70,50,57,.40) 0%,transparent 60%);
   --agtc-surface-grid:rgba(95,227,208,.10);
   /* Surfaces semi-transparentes pour fonds sombres (home-section-ink) */
@@ -690,16 +686,6 @@ function tokensCSS() {
   --agtc-surface-glass-ghost-text:rgba(255,255,255,.85);
   --agtc-surface-accent-border:rgba(237,107,134,.45);
   --agtc-surface-overlay:rgba(0,0,0,.40);
-  /* Espacement comfortable — valeurs pré-résolues (ceil() non supporté en CSS natif)
-     comfortable = ceil(base × 1.25 / 4) × 4 */
-  --agtc-semantic-space-comfortable-layout-component:28px;
-  --agtc-semantic-space-comfortable-layout-section:40px;
-  --agtc-semantic-space-comfortable-control-padding-x:20px;
-  --agtc-semantic-space-comfortable-control-padding-y:12px;
-  --agtc-semantic-space-comfortable-control-gap:12px;
-  /* Font-weight sémantique — bold(700) et display(800) complètent la palette DTCG */
-  --agtc-semantic-fontWeight-bold:700;
-  --agtc-semantic-fontWeight-display:800;
   /* Tracking (letter-spacing) — échelle systémique, câblée sur semantic.typography.letter-spacing.* (ADR-068) */
   --agtc-tracking-tighter:var(--agtc-semantic-typography-letter-spacing-tighter);
   --agtc-tracking-tight:var(--agtc-semantic-typography-letter-spacing-tight);
@@ -713,51 +699,9 @@ function tokensCSS() {
   --agtc-tracking-eyebrow:var(--agtc-semantic-marketing-typography-eyebrow-letter-spacing);
   color-scheme:light;
 }
-/* ── Dark mode — semantic overrides only ── */
+/* ── Dark mode — semantic overrides only (generated from tokens/semantic.dark.json, ADR-085) ── */
 :root[data-theme="dark"] {
-  --agtc-semantic-color-action-primary:#34d3bb;
-  --agtc-semantic-color-action-primary-hover:#5fe0cd;
-  --agtc-semantic-color-action-primary-disabled:#33373d;
-  --agtc-semantic-color-feedback-danger:#ff9592;
-  --agtc-semantic-color-feedback-danger-subtle:#291415;
-  --agtc-semantic-color-feedback-success:#3dd68c;
-  --agtc-semantic-color-feedback-success-subtle:#132d21;
-  --agtc-semantic-color-feedback-info:#34d3bb;
-  --agtc-semantic-color-feedback-info-subtle:#0f2925;
-  --agtc-semantic-color-feedback-info-border:#1e5e57;
-  --agtc-semantic-color-feedback-warning:#ffca16;
-  --agtc-semantic-color-brand-primary:#34d3bb;
-  --agtc-semantic-color-background-page:#0a0c11;
-  --agtc-semantic-color-background-surface:#13161d;
-  --agtc-semantic-color-background-subtle:#1b1f27;
-  --agtc-semantic-color-background-hover:#232833;
-  --agtc-semantic-color-background-inverse:#120c0f;
-  --agtc-semantic-color-text-primary:#edeef0;
-  --agtc-semantic-color-text-secondary:#a4abb8;
-  --agtc-semantic-color-text-disabled:#6b7280;
-  --agtc-semantic-color-text-on-action:#04201c;
-  --agtc-semantic-color-text-on-dark:rgba(255,255,255,.92);
-  --agtc-semantic-color-text-on-dark-muted:rgba(255,255,255,.62);
-  --agtc-semantic-color-border-default:#272c36;
-  --agtc-semantic-color-border-strong:#363c48;
-  --agtc-semantic-color-border-focus:#34d3bb;
-  --agtc-semantic-color-border-danger:#ff9592;
-  --agtc-semantic-color-accent:#ff8aa1;
-  --agtc-semantic-color-secondary:#6b4b56;
-  --agtc-semantic-color-brand-secondary:#6b4b56;
-  --agtc-semantic-color-brand-secondary-text:#edd9df;
-  /* Subtle + text — manquants en dark, provoquent des échecs de contraste */
-  --agtc-semantic-color-brand-primary-subtle:#0d2924;
-  --agtc-semantic-color-brand-primary-text:#34d3bb;
-  --agtc-semantic-color-brand-accent-subtle:#2a1520;
-  --agtc-semantic-color-brand-accent-text:#ed6b86;
-  --agtc-semantic-color-feedback-warning-subtle:#241800;
-  --agtc-semantic-color-feedback-warning-text:#ffca16;
-  --agtc-semantic-color-feedback-info-text:#34d3bb;
-  /* text-on-danger : fond danger est rose clair en dark (#ff9592) → texte doit être foncé */
-  --agtc-semantic-color-text-on-danger:#3d0f0f;
-  --agtc-semantic-color-tertiary:#6b7280;
-  --agtc-semantic-color-illustration-ink:#14121a;
+${Object.entries(SEM_DARK).map(([k, v]) => `  --agtc-semantic-${k}:${v};`).join('\n')}
   --agtc-shadow-sm:0 1px 2px rgba(0,0,0,.4);
   --agtc-shadow-md:0 4px 14px rgba(0,0,0,.45);
   --agtc-shadow-lg:0 20px 44px -12px rgba(0,0,0,.6);
@@ -797,7 +741,7 @@ body{
   box-shadow:var(--agtc-shadow-sm);
   display:flex;align-items:center;padding:0 var(--agtc-site-header-padding-x);gap:var(--agtc-space-4);
 }
-.logo{display:flex;align-items:center;gap:9px;text-decoration:none;flex-shrink:0}
+.logo{display:flex;align-items:center;gap:var(--agtc-semantic-space-control-gap);text-decoration:none;flex-shrink:0}
 .logo-mark{height:26px;width:26px;flex-shrink:0;display:block}
 .logo-name{font-size:1.05rem;font-weight:var(--agtc-semantic-fontWeight-display);letter-spacing:var(--agtc-tracking-snug);color:var(--agtc-semantic-color-brand-primary);line-height:1}
 /* ── Règle système : no-visited-nav (ADR-047) ───────────────────────────
@@ -842,7 +786,7 @@ body{
   color:var(--agtc-semantic-color-text-secondary);padding:var(--agtc-space-2) 20px 4px;display:block;
 }
 .sidebar a{
-  display:block;padding:6px 20px;text-decoration:none;font-size:var(--agtc-semantic-typography-label-size);
+  display:block;padding:var(--agtc-semantic-space-component-padding-sm) var(--agtc-semantic-space-component-padding-xl);text-decoration:none;font-size:var(--agtc-semantic-typography-label-size);
   color:var(--agtc-semantic-color-text-secondary);border-radius:0;
   transition:background .1s,color .1s;border-left:2px solid transparent;
 }
@@ -853,7 +797,7 @@ body{
   background:var(--agtc-semantic-color-background-surface);color:var(--agtc-semantic-color-action-primary);
   border-left-color:var(--agtc-semantic-color-action-primary);border-left-width:3px;font-weight:var(--agtc-semantic-typography-label-weight);
 }
-.content{flex:1;padding:52px 64px;max-width:960px}
+.content{flex:1;padding:52px 64px;max-width:960px} /* audit-ignore: documented layout constant, .claude/rules/layout-pattern.md */
 
 /* ── HOME LAYOUT ────────────────────────────────────────── */
 .home-layout{margin-top:var(--agtc-header-height,64px)}
@@ -865,11 +809,11 @@ body{
   border-bottom:1px solid rgba(255,255,255,.12);
 }
 .stat-item{
-  flex:1;min-width:150px;padding:28px 32px;text-align:center;
+  flex:1;min-width:150px;padding:var(--agtc-semantic-space-comfortable-layout-component) 32px;text-align:center;
   border-right:1px solid rgba(255,255,255,.12);
 }
 .stat-item:last-child{border-right:none}
-.stat-band .stat-num{font-size:var(--agtc-font-size-display);font-weight:var(--agtc-semantic-fontWeight-display);display:block;letter-spacing:var(--agtc-tracking-snug);color:var(--agtc-semantic-color-action-primary)}
+.stat-band .stat-num{font-size:var(--agtc-font-size-display);font-weight:var(--agtc-semantic-fontWeight-display);display:block;letter-spacing:var(--agtc-tracking-snug);color:var(--agtc-semantic-color-text-on-dark)}
 .stat-text{font-size:var(--agtc-semantic-typography-label-size);color:var(--agtc-semantic-color-text-secondary);margin-top:4px;display:block}
 .stat-band .stat-text{color:rgba(255,255,255,.72)}
 
@@ -907,7 +851,7 @@ h3 .icon-ok,h3 .icon-no{margin-right:6px}
 .pipeline-tag{font-size:var(--agtc-semantic-typography-detail-size);font-weight:var(--agtc-semantic-fontWeight-bold);text-transform:uppercase;letter-spacing:var(--agtc-tracking-overline);color:var(--agtc-semantic-color-text-secondary);margin-bottom:6px}
 .pipeline-title{font-size:var(--agtc-semantic-typography-label-size);font-weight:var(--agtc-semantic-fontWeight-bold);color:var(--agtc-semantic-color-text-primary);margin-bottom:6px}
 .pipeline-desc{font-size:var(--agtc-semantic-typography-label-size);color:var(--agtc-semantic-color-text-secondary);line-height:1.5}
-.pipeline-example{font-family:var(--agtc-font-mono);font-size:var(--agtc-semantic-typography-detail-size);color:var(--agtc-semantic-color-action-primary);margin-top:10px;background:var(--agtc-semantic-color-background-surface);padding:6px 10px;border-radius:var(--agtc-semantic-radius-control);border:1px solid var(--agtc-semantic-color-border-default)}
+.pipeline-example{font-family:var(--agtc-font-mono);font-size:var(--agtc-semantic-typography-detail-size);color:var(--agtc-semantic-color-action-primary);margin-top:10px;background:var(--agtc-semantic-color-background-surface);padding:var(--agtc-semantic-space-component-padding-sm) var(--agtc-semantic-space-control-gap);border-radius:var(--agtc-semantic-radius-control);border:1px solid var(--agtc-semantic-color-border-default)}
 
 /* ── ILLUSTRATIONS ───────────────────────────────────────── */
 .illus-block{margin:var(--agtc-space-6) 0 24px;border-radius:var(--agtc-semantic-radius-card);overflow:hidden;line-height:0}
@@ -954,8 +898,8 @@ h3 .icon-ok,h3 .icon-no{margin-right:6px}
 
 /* ── DEUX CONTEXTES CARDS ─────────────────────────────────── */
 .contexts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:var(--agtc-semantic-space-layout-component);margin:var(--agtc-space-5) 0 32px}
-.context-card{padding:28px;border-radius:var(--agtc-semantic-radius-card);display:flex;flex-direction:column;gap:var(--agtc-space-3);border:1px solid var(--agtc-semantic-color-border-default)}
-.context-badge{display:inline-block;font-size:var(--agtc-semantic-typography-detail-size);font-weight:var(--agtc-semantic-fontWeight-bold);text-transform:uppercase;letter-spacing:var(--agtc-tracking-overline);color:var(--agtc-semantic-color-text-secondary);padding:3px 10px;border-radius:var(--agtc-semantic-radius-control);background:var(--agtc-semantic-color-background-subtle);border:1px solid var(--agtc-semantic-color-border-default);width:fit-content}
+.context-card{padding:var(--agtc-semantic-space-comfortable-layout-component);border-radius:var(--agtc-semantic-radius-card);display:flex;flex-direction:column;gap:var(--agtc-space-3);border:1px solid var(--agtc-semantic-color-border-default)}
+.context-badge{display:inline-block;font-size:var(--agtc-semantic-typography-detail-size);font-weight:var(--agtc-semantic-fontWeight-bold);text-transform:uppercase;letter-spacing:var(--agtc-tracking-overline);color:var(--agtc-semantic-color-text-secondary);padding:var(--agtc-semantic-space-component-padding-xs) 10px;border-radius:var(--agtc-semantic-radius-control);background:var(--agtc-semantic-color-background-subtle);border:1px solid var(--agtc-semantic-color-border-default);width:fit-content}
 .context-badge-accent{color:var(--agtc-semantic-color-brand-accent-text);background:var(--agtc-semantic-color-brand-accent-subtle);border-color:var(--agtc-semantic-color-brand-accent)}
 .context-title{font-size:var(--agtc-semantic-typography-heading-4-size,18px);font-weight:var(--agtc-semantic-fontWeight-bold);color:var(--agtc-semantic-color-brand-secondary-text);line-height:1.3}
 .context-desc{font-size:var(--agtc-semantic-typography-body-size);color:var(--agtc-semantic-color-text-secondary);line-height:1.6}
@@ -1001,15 +945,15 @@ h3{font-size:var(--agtc-semantic-typography-body-size);font-weight:var(--agtc-se
 p{color:var(--agtc-semantic-color-text-secondary);margin-bottom:16px;line-height:1.7}
 
 code{font-family:var(--agtc-font-mono);font-size:.85em;background:var(--agtc-semantic-color-background-subtle);padding:var(--agtc-semantic-space-component-padding-2xs) 5px;border-radius:var(--agtc-semantic-radius-control);color:var(--agtc-semantic-color-text-primary)}
-pre.code-block{background:var(--agtc-component-code-block-default-background);border-radius:var(--agtc-component-code-block-default-radius);padding:var(--agtc-component-code-block-default-padding-y) var(--agtc-component-code-block-default-padding-x);overflow-x:auto;margin:18px 0;position:relative}
+pre.code-block{background:var(--agtc-component-code-block-default-background);border-radius:var(--agtc-component-code-block-default-radius);padding:var(--agtc-component-code-block-default-padding-y) var(--agtc-component-code-block-default-padding-x);overflow-x:auto;margin:var(--agtc-semantic-space-layout-component) 0;position:relative}
 pre.code-block code{background:none;color:var(--agtc-component-code-block-default-text);font-family:var(--agtc-semantic-typography-mono-family);font-size:var(--agtc-component-code-block-default-font-size);padding:0;border-radius:0}
 pre.code-block .code-lang{position:absolute;top:12px;left:18px;color:var(--agtc-component-code-block-default-meta-text);font-size:var(--agtc-semantic-typography-detail-size);text-transform:uppercase;letter-spacing:var(--agtc-tracking-wider);font-weight:var(--agtc-semantic-typography-label-weight);font-family:var(--agtc-semantic-typography-mono-family)}
 pre.code-block.has-lang{padding-top:38px}
-.code-copy{position:absolute;top:10px;right:10px;display:inline-flex;align-items:center;gap:6px;background:var(--agtc-component-code-block-default-copy-background);color:var(--agtc-component-code-block-default-copy-text);border:none;border-radius:var(--agtc-semantic-radius-control);padding:var(--agtc-space-1) 10px;font-size:var(--agtc-semantic-typography-detail-size);font-family:inherit;cursor:pointer}
+.code-copy{position:absolute;top:10px;right:10px;display:inline-flex;align-items:center;gap:var(--agtc-semantic-space-component-padding-xs);background:var(--agtc-component-code-block-default-copy-background);color:var(--agtc-component-code-block-default-copy-text);border:none;border-radius:var(--agtc-semantic-radius-control);padding:var(--agtc-space-1) 10px;font-size:var(--agtc-semantic-typography-detail-size);font-family:inherit;cursor:pointer}
 .code-copy:hover{background:var(--agtc-component-code-block-default-copy-background-hover)}
 .code-copy:focus-visible{outline:2px solid var(--agtc-component-code-block-default-border-focus);outline-offset:2px}
 
-blockquote{border-left:3px solid var(--agtc-semantic-color-action-primary);padding:14px 20px;margin:var(--agtc-semantic-space-layout-component) 0;background:var(--agtc-semantic-color-background-subtle);border-radius:0 var(--agtc-semantic-radius-control) var(--agtc-semantic-radius-control) 0}
+blockquote{border-left:3px solid var(--agtc-semantic-color-action-primary);padding:var(--agtc-semantic-space-component-padding-lg) 20px;margin:var(--agtc-semantic-space-layout-component) 0;background:var(--agtc-semantic-color-background-subtle);border-radius:0 var(--agtc-semantic-radius-control) var(--agtc-semantic-radius-control) 0}
 blockquote p{margin:0;font-style:italic;color:var(--agtc-semantic-color-text-primary)}
 
 hr{border:none;border-top:1px solid var(--agtc-semantic-color-border-default);margin:var(--agtc-space-6) 0}
@@ -1024,7 +968,7 @@ li code{font-size:.8em}
    d'en-tête (majuscules, tracking), mais toutes les COULEURS viennent du composant. */
 .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:var(--agtc-space-4) 0 28px;outline-offset:2px}.table-wrap:focus-visible{outline:2px solid var(--agtc-semantic-color-border-focus)}
 table{width:100%;border-collapse:collapse;margin:0;font-size:var(--agtc-semantic-typography-label-size);table-layout:auto;min-width:420px}
-th{text-align:left;padding:10px 16px;background:var(--agtc-component-table-default-header-background);color:var(--agtc-component-table-default-header-text);font-size:var(--agtc-semantic-typography-detail-size);font-weight:var(--agtc-semantic-fontWeight-bold);text-transform:uppercase;letter-spacing:var(--agtc-tracking-wider);border-bottom:1px solid var(--agtc-component-table-default-border);white-space:nowrap}
+th{text-align:left;padding:var(--agtc-semantic-space-control-gap) 16px;background:var(--agtc-component-table-default-header-background);color:var(--agtc-component-table-default-header-text);font-size:var(--agtc-semantic-typography-detail-size);font-weight:var(--agtc-semantic-fontWeight-bold);text-transform:uppercase;letter-spacing:var(--agtc-tracking-wider);border-bottom:1px solid var(--agtc-component-table-default-border);white-space:nowrap}
 td{padding:var(--agtc-space-3) 16px;border-bottom:1px solid var(--agtc-component-table-default-border);color:var(--agtc-component-table-default-cell-text);vertical-align:top;word-break:break-word;overflow-wrap:anywhere}
 tr:last-child td{border-bottom:none}
 tr:hover td{background:var(--agtc-component-table-default-row-hover)}
@@ -1032,23 +976,23 @@ td code{color:var(--agtc-semantic-color-action-primary);word-break:break-all}
 
 /* ── COLOR SYSTEM ───────────────────────────────────────── */
 .semantic-colors{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--agtc-space-3);margin:var(--agtc-space-5) 0}
-.color-token{background:var(--agtc-semantic-color-background-surface);border:1px solid var(--agtc-semantic-color-border-default);border-radius:var(--agtc-semantic-radius-card);padding:var(--agtc-space-4);display:flex;align-items:center;gap:14px}
+.color-token{background:var(--agtc-semantic-color-background-surface);border:1px solid var(--agtc-semantic-color-border-default);border-radius:var(--agtc-semantic-radius-card);padding:var(--agtc-space-4);display:flex;align-items:center;gap:var(--agtc-semantic-space-component-padding-lg)}
 .color-swatch{width:44px;height:44px;display:inline-block;border-radius:var(--agtc-semantic-radius-control);border:1px solid var(--agtc-semantic-color-border-swatch);flex-shrink:0}
 .color-info{}
 .color-name{font-family:var(--agtc-font-mono);font-size:var(--agtc-semantic-typography-detail-size);font-weight:var(--agtc-semantic-fontWeight-bold);color:var(--agtc-semantic-color-text-primary);margin-bottom:3px}
 .color-value{font-family:var(--agtc-font-mono);font-size:var(--agtc-semantic-typography-detail-size);color:var(--agtc-semantic-color-text-secondary)}
 .color-intent{font-size:var(--agtc-semantic-typography-detail-size);color:var(--agtc-semantic-color-text-secondary);margin-top:4px}
 
-.palette-section{margin:var(--agtc-primitive-space-10) 0}
+.palette-section{margin:var(--agtc-semantic-space-comfortable-layout-section) 0}
 .palette-scale-name{font-size:var(--agtc-semantic-typography-label-size);font-weight:var(--agtc-semantic-fontWeight-bold);text-transform:capitalize;color:var(--agtc-semantic-color-text-primary);margin-bottom:8px}
 .palette-steps{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--agtc-space-1)}
 .palette-step{height:48px;border-radius:var(--agtc-semantic-radius-control);cursor:default;position:relative}
 .palette-step:hover::after{content:attr(title);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--agtc-semantic-color-background-inverse-raised);color:var(--agtc-semantic-color-text-on-dark);font-size:var(--agtc-semantic-typography-detail-size);padding:var(--agtc-space-1) 8px;border-radius:var(--agtc-semantic-radius-control);white-space:nowrap;z-index:10;font-family:var(--agtc-font-mono);pointer-events:none}
 
 /* ── SPACING ────────────────────────────────────────────── */
-.space-demo{display:flex;flex-direction:column;gap:6px;margin:28px 0}
+.space-demo{display:flex;flex-direction:column;gap:var(--agtc-semantic-space-component-padding-xs);margin:var(--agtc-semantic-space-comfortable-layout-component) 0}
 .space-item{display:flex;align-items:center;gap:var(--agtc-space-3)}
-.space-bar{background:var(--agtc-semantic-color-viz-scale-bar);border-radius:3px;height:20px;min-width:4px;flex-shrink:0}
+.space-bar{background:var(--agtc-semantic-color-viz-scale-bar);border-radius:var(--agtc-semantic-radius-control-tight);height:20px;min-width:4px;flex-shrink:0}
 .space-label{font-family:var(--agtc-font-mono);font-size:var(--agtc-semantic-typography-detail-size);color:var(--agtc-semantic-color-text-secondary);min-width:72px}
 
 /* ── TYPOGRAPHY ─────────────────────────────────────────── */
@@ -1056,14 +1000,14 @@ td code{color:var(--agtc-semantic-color-action-primary);word-break:break-all}
 .type-spec-label{font-size:var(--agtc-semantic-typography-detail-size);font-weight:var(--agtc-semantic-fontWeight-bold);text-transform:uppercase;letter-spacing:var(--agtc-tracking-overline);color:var(--agtc-semantic-color-text-secondary);margin-bottom:12px}
 
 /* ── COMPONENT DEMOS ────────────────────────────────────── */
-.demo-box{background:var(--agtc-semantic-color-background-surface);border:1px solid var(--agtc-semantic-color-border-default);border-radius:var(--agtc-semantic-radius-card);padding:var(--agtc-primitive-space-10);margin:var(--agtc-space-5) 0}
+.demo-box{background:var(--agtc-semantic-color-background-surface);border:1px solid var(--agtc-semantic-color-border-default);border-radius:var(--agtc-semantic-radius-card);padding:var(--agtc-semantic-space-comfortable-layout-section);margin:var(--agtc-space-5) 0}
 .demo-row{display:flex;gap:var(--agtc-space-3);flex-wrap:wrap;align-items:center}
 .demo-group{margin-bottom:28px}
 .demo-group:last-child{margin-bottom:0}
 .demo-group-label{font-size:var(--agtc-semantic-typography-detail-size);font-weight:var(--agtc-semantic-fontWeight-bold);text-transform:uppercase;letter-spacing:var(--agtc-tracking-overline);color:var(--agtc-semantic-color-text-secondary);margin-bottom:12px;display:block}
 
 .agtc-button{
-  display:inline-flex;align-items:center;gap:6px;
+  display:inline-flex;align-items:center;gap:var(--agtc-semantic-space-component-padding-xs);
   padding:var(--agtc-component-button-primary-padding-y) var(--agtc-component-button-primary-padding-x);
   border-radius:var(--agtc-component-button-primary-radius);
   font-size:var(--agtc-semantic-typography-label-size);font-weight:var(--agtc-semantic-typography-label-weight);font-family:inherit;cursor:pointer;
@@ -1087,7 +1031,7 @@ td code{color:var(--agtc-semantic-color-action-primary);word-break:break-all}
 /* ── TOKEN EXPLORER ─────────────────────────────────────── */
 .token-search-status{font-size:var(--agtc-semantic-typography-label-size);color:var(--agtc-semantic-color-text-secondary);min-height:1.2em;margin:-8px 0 8px}
 .explorer-search{
-  width:100%;max-width:480px;padding:10px 14px;
+  width:100%;max-width:480px;padding:var(--agtc-semantic-space-control-gap) 14px;
   border:1.5px solid var(--agtc-semantic-color-border-default);
   border-radius:var(--agtc-semantic-radius-control);
   font-size:var(--agtc-semantic-typography-label-size);background:var(--agtc-semantic-color-background-surface);
@@ -1145,7 +1089,7 @@ td code{color:var(--agtc-semantic-color-action-primary);word-break:break-all}
 .agtc-table.striped tbody tr:nth-child(even):hover{background:var(--agtc-component-table-default-row-hover)}
 
 /* ── agtc-banner (classe — moitié light DOM du mix, ADR-042) ────────────── */
-.agtc-banner{display:flex;align-items:flex-start;gap:var(--agtc-space-3);padding:var(--agtc-component-banner-padding-y) var(--agtc-component-banner-padding-x);border:1px solid var(--agtc-semantic-color-border-default);border-left-width:3px;border-radius:0 var(--agtc-component-banner-radius) var(--agtc-component-banner-radius) 0;margin:18px 0}
+.agtc-banner{display:flex;align-items:flex-start;gap:var(--agtc-space-3);padding:var(--agtc-component-banner-padding-y) var(--agtc-component-banner-padding-x);border:1px solid var(--agtc-semantic-color-border-default);border-left-width:3px;border-radius:0 var(--agtc-component-banner-radius) var(--agtc-component-banner-radius) 0;margin:var(--agtc-semantic-space-layout-component) 0}
 .agtc-banner .banner-icon{flex-shrink:0;line-height:0;padding-top:1px}
 .agtc-banner .banner-content{flex:1;min-width:0}
 .agtc-banner .banner-content strong{display:block;color:var(--agtc-component-banner-heading-text);font-weight:var(--agtc-semantic-typography-label-weight);font-size:var(--agtc-semantic-typography-label-size);margin-bottom:3px}
@@ -1167,7 +1111,7 @@ td code{color:var(--agtc-semantic-color-action-primary);word-break:break-all}
 .visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 
 /* ── agtc-link (classe — moitié light DOM du mix, ADR-043) ──────────────── */
-.agtc-link{color:var(--agtc-component-link-default-text);text-decoration:underline;text-underline-offset:2px;border-radius:2px}
+.agtc-link{color:var(--agtc-component-link-default-text);text-decoration:underline;text-underline-offset:2px;border-radius:var(--agtc-semantic-radius-control-tight)}
 .agtc-link:hover{color:var(--agtc-component-link-default-text-hover)}
 .agtc-link:focus-visible{outline:2px solid var(--agtc-component-link-default-border-focus);outline-offset:2px}
 .agtc-link.underline-hover,.agtc-link.underline-none{text-decoration:none}
@@ -1175,7 +1119,7 @@ td code{color:var(--agtc-semantic-color-action-primary);word-break:break-all}
 
 /* ── agtc-segmented (classe — moitié light DOM du mix, ADR-044) ─────────── */
 .agtc-segmented{display:inline-flex;gap:var(--agtc-semantic-space-component-padding-2xs);padding:var(--agtc-semantic-space-component-padding-2xs);background:var(--agtc-component-segmented-default-track-background);border-radius:var(--agtc-component-segmented-default-radius)}
-.agtc-segmented button{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:5px 12px;border:none;border-radius:calc(var(--agtc-component-segmented-default-radius) - 2px);background:none;color:var(--agtc-component-segmented-default-text);font-family:inherit;font-size:var(--agtc-semantic-typography-label-size);font-weight:var(--agtc-semantic-typography-label-weight);line-height:1.2;white-space:nowrap;cursor:pointer;transition:background .12s,color .12s}
+.agtc-segmented button{display:inline-flex;align-items:center;justify-content:center;gap:var(--agtc-semantic-space-component-padding-xs);padding:var(--agtc-semantic-space-component-padding-xs) 12px;border:none;border-radius:calc(var(--agtc-component-segmented-default-radius) - 2px);background:none;color:var(--agtc-component-segmented-default-text);font-family:inherit;font-size:var(--agtc-semantic-typography-label-size);font-weight:var(--agtc-semantic-typography-label-weight);line-height:1.2;white-space:nowrap;cursor:pointer;transition:background .12s,color .12s}
 .agtc-segmented button:hover{color:var(--agtc-component-segmented-default-text-hover)}
 .agtc-segmented button[aria-current="true"]{background:var(--agtc-component-segmented-default-selected-background);color:var(--agtc-component-segmented-default-selected-text);font-weight:var(--agtc-semantic-fontWeight-bold)}
 .agtc-segmented button:focus-visible{outline:2px solid var(--agtc-component-segmented-default-border-focus);outline-offset:2px}
@@ -1196,11 +1140,11 @@ td code{color:var(--agtc-semantic-color-action-primary);word-break:break-all}
 /* ── ADR HEADER — redesign scannable (sans doublon) ───────── */
 .adr-header{margin-bottom:32px;padding-bottom:24px;border-bottom:2px solid var(--agtc-semantic-color-border-default)}
 .adr-header-eyebrow{display:flex;align-items:center;gap:var(--agtc-space-2);margin-bottom:14px;flex-wrap:wrap}
-.adr-number{font-family:var(--agtc-font-mono);font-size:var(--agtc-semantic-typography-label-size);font-weight:var(--agtc-semantic-fontWeight-bold);color:var(--agtc-semantic-color-action-primary);background:var(--agtc-semantic-color-background-subtle);padding:3px 10px;border-radius:var(--agtc-semantic-radius-pill);border:1px solid var(--agtc-semantic-color-border-default)}
-.adr-type{font-size:var(--agtc-semantic-typography-detail-size);font-weight:var(--agtc-semantic-fontWeight-bold);text-transform:uppercase;letter-spacing:var(--agtc-tracking-overline);color:var(--agtc-semantic-color-text-on-dark);background:var(--agtc-semantic-color-brand-secondary);padding:3px 8px;border-radius:var(--agtc-semantic-radius-control)}
+.adr-number{font-family:var(--agtc-font-mono);font-size:var(--agtc-semantic-typography-label-size);font-weight:var(--agtc-semantic-fontWeight-bold);color:var(--agtc-semantic-color-action-primary);background:var(--agtc-semantic-color-background-subtle);padding:var(--agtc-semantic-space-component-padding-xs) 10px;border-radius:var(--agtc-semantic-radius-pill);border:1px solid var(--agtc-semantic-color-border-default)}
+.adr-type{font-size:var(--agtc-semantic-typography-detail-size);font-weight:var(--agtc-semantic-fontWeight-bold);text-transform:uppercase;letter-spacing:var(--agtc-tracking-overline);color:var(--agtc-semantic-color-text-on-dark);background:var(--agtc-semantic-color-brand-secondary);padding:var(--agtc-semantic-space-component-padding-xs) 8px;border-radius:var(--agtc-semantic-radius-control)}
 .adr-page-title{font-size:var(--agtc-semantic-typography-heading-2-size);font-weight:var(--agtc-semantic-fontWeight-display);letter-spacing:var(--agtc-tracking-heading);margin:0 0 16px;line-height:1.15;color:var(--agtc-semantic-color-text-primary)}
 .adr-meta{display:flex;flex-wrap:wrap;gap:0 32px;margin:0;padding:0}
-.adr-meta-item{display:flex;gap:6px;align-items:baseline;padding:var(--agtc-space-1) 0}
+.adr-meta-item{display:flex;gap:var(--agtc-semantic-space-component-padding-xs);align-items:baseline;padding:var(--agtc-space-1) 0}
 .adr-meta-item dt{font-size:var(--agtc-semantic-typography-detail-size);font-weight:var(--agtc-semantic-fontWeight-bold);text-transform:uppercase;letter-spacing:var(--agtc-tracking-label);color:var(--agtc-semantic-color-text-secondary);white-space:nowrap}
 .adr-meta-item dd{font-size:var(--agtc-semantic-typography-label-size);color:var(--agtc-semantic-color-text-primary);margin:0}
 
@@ -1220,7 +1164,7 @@ td code{color:var(--agtc-semantic-color-action-primary);word-break:break-all}
 .rule-cannot li{color:var(--agtc-semantic-color-feedback-danger);font-size:var(--agtc-semantic-typography-label-size)}
 
 /* ── SIDEBAR DRAWER (mobile) ─────────────────────────────── */
-.sidebar-toggle{display:none;align-items:center;gap:6px;background:var(--agtc-semantic-color-background-subtle);border:1px solid var(--agtc-semantic-color-border-default);cursor:pointer;padding:6px 12px;color:var(--agtc-semantic-color-text-secondary);border-radius:var(--agtc-semantic-radius-control);font-size:var(--agtc-semantic-typography-detail-size);font-weight:var(--agtc-semantic-typography-label-weight);font-family:inherit;margin-bottom:20px}
+.sidebar-toggle{display:none;align-items:center;gap:var(--agtc-semantic-space-component-padding-xs);background:var(--agtc-semantic-color-background-subtle);border:1px solid var(--agtc-semantic-color-border-default);cursor:pointer;padding:var(--agtc-semantic-space-component-padding-sm) var(--agtc-semantic-space-component-padding-md);color:var(--agtc-semantic-color-text-secondary);border-radius:var(--agtc-semantic-radius-control);font-size:var(--agtc-semantic-typography-detail-size);font-weight:var(--agtc-semantic-typography-label-weight);font-family:inherit;margin-bottom:20px}
 .sidebar-toggle-label{font-size:var(--agtc-semantic-typography-detail-size)}
 .sidebar-toggle:hover,.sidebar-toggle:focus-visible{background:var(--agtc-semantic-color-background-surface);color:var(--agtc-semantic-color-text-primary);border-color:var(--agtc-semantic-color-border-focus);outline:2px solid var(--agtc-semantic-color-border-focus);outline-offset:2px}
 .sidebar-overlay{display:none;position:fixed;inset:0;top:var(--agtc-header-height,64px);background:var(--agtc-surface-overlay);z-index:89;backdrop-filter:blur(2px)}
@@ -1241,7 +1185,7 @@ td code{color:var(--agtc-semantic-color-action-primary);word-break:break-all}
   }
   .sidebar.open{transform:translateX(0)}
   .sidebar-toggle{display:flex}
-  .content{padding:28px 20px}
+  .content{padding:var(--agtc-semantic-space-comfortable-layout-component) 20px}
   .home-section{padding:var(--agtc-space-7,48px) var(--agtc-space-4,16px)}
   .home-section-ink .illus-block{margin-left:-20px;margin-right:-20px;margin-top:64px;margin-bottom:0}
   .pipeline{flex-direction:column}
@@ -1266,7 +1210,7 @@ a:hover{color:var(--agtc-component-link-default-text-hover)}
 
 /* ── LANG TOGGLE (consomme .agtc-segmented — ADR-044, dogfooding cat. A) ──── */
 /* Override compact pour le header (le composant n'a pas encore de taille sm). */
-.lang-switch button{padding:3px 9px;font-size:var(--agtc-semantic-typography-detail-size);letter-spacing:var(--agtc-tracking-wide)}
+.lang-switch button{padding:var(--agtc-semantic-space-component-padding-xs) 9px;font-size:var(--agtc-semantic-typography-detail-size);letter-spacing:var(--agtc-tracking-wide)}
 html[data-lang="fr"] .lang-en{display:none}
 html[data-lang="en"] .lang-fr{display:none}
 
@@ -1300,20 +1244,20 @@ html[data-lang="en"] .lang-fr{display:none}
 .token-tile-label{font-size:var(--agtc-semantic-typography-label-size);color:var(--agtc-semantic-color-text-secondary);margin-top:6px;display:block}
 
 /* ── FOOTER ──────────────────────────────────────────────── */
-.site-footer{background:var(--agtc-semantic-color-background-inverse);color:var(--agtc-semantic-color-text-on-dark-muted);padding:var(--agtc-primitive-space-10) 32px;font-size:var(--agtc-semantic-typography-label-size);margin-top:auto}
+.site-footer{background:var(--agtc-semantic-color-background-inverse);color:var(--agtc-semantic-color-text-on-dark-muted);padding:var(--agtc-semantic-space-comfortable-layout-section) 32px;font-size:var(--agtc-semantic-typography-label-size);margin-top:auto}
 .footer-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr 1fr;gap:var(--agtc-space-6);align-items:start}
-.footer-col{display:flex;flex-direction:column;gap:10px}
+.footer-col{display:flex;flex-direction:column;gap:var(--agtc-semantic-space-control-gap)}
 .footer-col-right{align-items:flex-start;text-align:left}
 .footer-logo{display:inline-flex;align-items:center;gap:var(--agtc-space-2);text-decoration:none;margin-bottom:4px}
 .footer-logo-name{font-size:var(--agtc-semantic-typography-body-size);font-weight:var(--agtc-semantic-fontWeight-bold);color:var(--agtc-semantic-color-text-on-dark)}
 .footer-name{font-size:var(--agtc-semantic-typography-detail-size);color:var(--agtc-semantic-color-text-on-dark-secondary)}
 .footer-copy{color:var(--agtc-semantic-color-text-on-dark-muted);font-size:var(--agtc-semantic-typography-detail-size)}
 .footer-links{display:flex;flex-direction:column;gap:var(--agtc-space-2)}
-.footer-links a,.footer-link{color:var(--agtc-semantic-color-text-on-dark-secondary);text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:color .12s;font-size:var(--agtc-semantic-typography-detail-size)}
+.footer-links a,.footer-link{color:var(--agtc-semantic-color-text-on-dark-secondary);text-decoration:none;display:inline-flex;align-items:center;gap:var(--agtc-semantic-space-component-padding-xs);transition:color .12s;font-size:var(--agtc-semantic-typography-detail-size)}
 .footer-links a:hover,.footer-link:hover{color:var(--agtc-semantic-color-text-on-dark)}
 .footer-links a:active,.footer-link:active{color:var(--agtc-semantic-color-text-on-dark)}
 .footer-links a:focus-visible,.footer-link:focus-visible{outline:2px solid var(--agtc-semantic-color-border-focus);outline-offset:2px}
-.footer-credit{font-size:var(--agtc-semantic-typography-detail-size);color:var(--agtc-semantic-color-text-on-dark-muted);display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap}
+.footer-credit{font-size:var(--agtc-semantic-typography-detail-size);color:var(--agtc-semantic-color-text-on-dark-muted);display:inline-flex;align-items:center;gap:var(--agtc-semantic-space-component-padding-xs);flex-wrap:wrap}
 
 /* ── INFO CARDS ──────────────────────────────────────────── */
 .info-card{background:var(--agtc-semantic-color-background-surface);border:1px solid var(--agtc-semantic-color-border-default);border-radius:var(--agtc-semantic-radius-card);padding:var(--agtc-semantic-space-layout-component)}
@@ -1321,15 +1265,15 @@ html[data-lang="en"] .lang-fr{display:none}
 
 /* ── AUDIT PAGE ──────────────────────────────────────────── */
 .audit-hero{display:flex;flex-direction:column;align-items:center;gap:var(--agtc-space-4);text-align:center;padding:var(--agtc-space-6) 32px 28px;border-bottom:1px solid var(--agtc-semantic-color-border-default);margin-bottom:28px}
-.audit-badge{display:inline-flex;align-items:center;gap:var(--agtc-space-2);padding:10px 20px;border-radius:var(--agtc-semantic-radius-pill);font-weight:var(--agtc-semantic-fontWeight-bold);font-size:var(--agtc-semantic-typography-body-size)}
+.audit-badge{display:inline-flex;align-items:center;gap:var(--agtc-space-2);padding:var(--agtc-semantic-space-control-gap) 20px;border-radius:var(--agtc-semantic-radius-pill);font-weight:var(--agtc-semantic-fontWeight-bold);font-size:var(--agtc-semantic-typography-body-size)}
 .audit-badge.pass{background:var(--agtc-semantic-color-feedback-success-subtle);color:var(--agtc-semantic-color-feedback-success)}
 .audit-badge.fail{background:var(--agtc-semantic-color-feedback-danger-subtle);color:var(--agtc-semantic-color-feedback-danger)}
-.audit-date-row{display:inline-flex;align-items:center;gap:10px;margin:0;color:var(--agtc-semantic-color-text-primary)}
+.audit-date-row{display:inline-flex;align-items:center;gap:var(--agtc-semantic-space-control-gap);margin:0;color:var(--agtc-semantic-color-text-primary)}
 .audit-date-row svg{color:var(--agtc-semantic-color-text-secondary);flex-shrink:0}
 .audit-date-main{display:block;font-size:var(--agtc-semantic-typography-heading-4-size);font-weight:var(--agtc-semantic-fontWeight-bold);line-height:1.2;margin-bottom:4px}
 .audit-date-detail{display:block;font-size:var(--agtc-semantic-typography-detail-size);color:var(--agtc-semantic-color-text-secondary)}
 .audit-results{background:var(--agtc-semantic-color-background-subtle);border:1px solid var(--agtc-semantic-color-border-default);border-radius:var(--agtc-semantic-radius-card);margin-bottom:48px;overflow:hidden}
-.audit-cards-wrap{padding:28px 32px 32px}
+.audit-cards-wrap{padding:var(--agtc-semantic-space-comfortable-layout-component) 32px 32px}
 .audit-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--agtc-space-4);margin-bottom:0}
 .audit-card{background:var(--agtc-semantic-color-background-surface);border:1px solid var(--agtc-semantic-color-border-default);border-radius:var(--agtc-semantic-radius-card);box-shadow:var(--agtc-semantic-shadow-card);padding:var(--agtc-space-6);text-align:center}
 .audit-card--pass{border-color:var(--agtc-semantic-color-feedback-success-border)}
@@ -1347,7 +1291,7 @@ html[data-lang="en"] .lang-fr{display:none}
 .audit-contrast-table tr:last-child td{border-bottom:none}
 .audit-contrast-pass{color:var(--agtc-semantic-color-feedback-success);font-weight:var(--agtc-semantic-typography-label-weight)}
 .audit-contrast-fail{color:var(--agtc-semantic-color-feedback-danger);font-weight:var(--agtc-semantic-typography-label-weight)}
-.audit-swatch{width:14px;height:14px;border-radius:3px;display:inline-block;vertical-align:middle;border:1px solid var(--agtc-semantic-color-border-swatch);margin-right:4px}
+.audit-swatch{width:14px;height:14px;border-radius:var(--agtc-semantic-radius-control-tight);display:inline-block;vertical-align:middle;border:1px solid var(--agtc-semantic-color-border-swatch);margin-right:4px}
 .audit-manual-list{list-style:none;padding:0;margin:0}
 .audit-manual-item{display:flex;gap:var(--agtc-space-3);padding:var(--agtc-space-3) 0;border-bottom:1px solid var(--agtc-semantic-color-border-default)}
 .audit-manual-item:last-child{border-bottom:none}
@@ -1384,7 +1328,7 @@ html[data-lang="en"] .lang-fr{display:none}
 /* ── VENDOR LOGOS (frameworks / plateformes / outils) ────── */
 .vendor-logo{height:20px;width:20px;flex-shrink:0;display:inline-block;vertical-align:middle;object-fit:contain}
 .platform-cell{display:flex;align-items:center;gap:var(--agtc-space-2)}
-.platform-logos-grid{display:flex;flex-wrap:wrap;gap:var(--agtc-space-5);margin:28px 0;align-items:center;justify-content:center}
+.platform-logos-grid{display:flex;flex-wrap:wrap;gap:var(--agtc-space-5);margin:var(--agtc-semantic-space-comfortable-layout-component) 0;align-items:center;justify-content:center}
 .platform-logo-item{display:flex;flex-direction:column;align-items:center;gap:var(--agtc-space-2);opacity:.85;transition:opacity .15s}
 .platform-logo-item:hover{opacity:1}
 .platform-logo-item img{width:40px;height:40px;object-fit:contain;filter:drop-shadow(var(--agtc-drop-shadow-sm))}
@@ -1404,8 +1348,8 @@ html[data-lang="en"] .lang-fr{display:none}
 .density-card-label{font-size:var(--agtc-semantic-typography-detail-size);font-weight:var(--agtc-semantic-fontWeight-bold);text-transform:uppercase;letter-spacing:var(--agtc-tracking-label);color:var(--agtc-semantic-color-text-secondary);margin-bottom:6px}
 .density-card-label.active{color:var(--agtc-semantic-color-action-primary)}
 .density-card-desc{font-size:var(--agtc-semantic-typography-label-size);color:var(--agtc-semantic-color-text-primary);margin-bottom:8px}
-.density-card-formula{display:flex;gap:6px;align-items:center}
-.density-card-bar{height:24px;background:var(--agtc-semantic-color-action-primary);border-radius:2px}
+.density-card-formula{display:flex;gap:var(--agtc-semantic-space-component-padding-xs);align-items:center}
+.density-card-bar{height:24px;background:var(--agtc-semantic-color-action-primary);border-radius:var(--agtc-semantic-radius-control-tight)}
 .density-card-math{font-size:var(--agtc-semantic-typography-detail-size);font-family:var(--agtc-font-mono);color:var(--agtc-semantic-color-text-secondary)}
 
 /* ── LINEHEIGHT DEMO CARDS ───────────────────────────────── */
@@ -1443,7 +1387,7 @@ html[data-lang="en"] .lang-fr{display:none}
 @media(max-width:768px){.agtc-banner{flex-wrap:wrap}}
 
 /* ── AUDIENCE CARDS ──────────────────────────────────────── */
-.audience-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:var(--agtc-space-3);margin:28px 0}
+.audience-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:var(--agtc-space-3);margin:var(--agtc-semantic-space-comfortable-layout-component) 0}
 .audience-card{background:var(--agtc-semantic-color-background-surface);border:1px solid var(--agtc-semantic-color-border-default);border-radius:var(--agtc-semantic-radius-card);padding:var(--agtc-semantic-space-layout-component)}
 .audience-icon{color:var(--agtc-semantic-color-action-primary);margin-bottom:10px}
 .audience-label{font-size:var(--agtc-semantic-typography-detail-size);font-weight:var(--agtc-semantic-fontWeight-bold);text-transform:uppercase;letter-spacing:var(--agtc-tracking-loose);color:var(--agtc-semantic-color-text-secondary);margin-bottom:4px}
@@ -1451,7 +1395,7 @@ html[data-lang="en"] .lang-fr{display:none}
 .audience-desc{font-size:var(--agtc-component-card-typography-body-size);color:var(--agtc-semantic-color-text-secondary);line-height:1.55}
 
 /* ── KPI BAND ────────────────────────────────────────────── */
-.kpi-band{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--agtc-space-3);margin:28px 0}
+.kpi-band{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--agtc-space-3);margin:var(--agtc-semantic-space-comfortable-layout-component) 0}
 .kpi-card{background:var(--agtc-semantic-color-background-surface);border:1px solid var(--agtc-semantic-color-border-default);border-radius:var(--agtc-semantic-radius-card);padding:var(--agtc-component-card-default-padding)}
 .kpi-num{font-size:var(--agtc-semantic-typography-heading-2-size);font-weight:var(--agtc-semantic-fontWeight-display);color:var(--agtc-semantic-color-action-primary);letter-spacing:var(--agtc-tracking-snug);display:block;margin-bottom:4px}
 .kpi-label{font-size:var(--agtc-semantic-typography-label-size);color:var(--agtc-semantic-color-text-primary);font-weight:var(--agtc-semantic-typography-label-weight);margin-bottom:6px;display:block}
@@ -1459,7 +1403,7 @@ html[data-lang="en"] .lang-fr{display:none}
 .kpi-source a{color:var(--agtc-semantic-color-action-primary);font-size:var(--agtc-semantic-typography-detail-size)}
 
 /* ── TECH STACK PIPELINE ─────────────────────────────────── */
-.stack-flow{display:flex;align-items:stretch;gap:0;margin:28px 0;overflow-x:auto;border:1px solid var(--agtc-semantic-color-border-default);border-radius:var(--agtc-semantic-radius-card);overflow:hidden}
+.stack-flow{display:flex;align-items:stretch;gap:0;margin:var(--agtc-semantic-space-comfortable-layout-component) 0;overflow-x:auto;border:1px solid var(--agtc-semantic-color-border-default);border-radius:var(--agtc-semantic-radius-card);overflow:hidden}
 .stack-node{flex:1;min-width:100px;padding:var(--agtc-space-4) 12px;background:var(--agtc-semantic-color-background-surface);text-align:center;border-right:1px solid var(--agtc-semantic-color-border-default);position:relative}
 .stack-node:last-child{border-right:none;background:var(--agtc-semantic-color-background-subtle)}
 .stack-node-icon{color:var(--agtc-semantic-color-action-primary);margin-bottom:8px;display:flex;justify-content:center}
@@ -1471,14 +1415,14 @@ html[data-lang="en"] .lang-fr{display:none}
 @media(max-width:1200px){.toc{display:none}}
 /* ── CHANGELOG TIMELINE ──────────────────────────────────── */
 .changelog-timeline{position:relative;padding-left:0}
-.changelog-item{position:relative;margin-bottom:36px;display:grid;grid-template-columns:110px 1fr;gap:28px;align-items:start}
+.changelog-item{position:relative;margin-bottom:36px;display:grid;grid-template-columns:110px 1fr;gap:var(--agtc-semantic-space-comfortable-layout-component);align-items:start}
 .changelog-item-date{font-size:var(--agtc-semantic-typography-detail-size);font-weight:var(--agtc-semantic-typography-label-weight);color:var(--agtc-semantic-color-text-secondary);padding-top:20px;text-align:right;white-space:nowrap}
 .changelog-item-content{position:relative}
 .changelog-item-content::before{content:'';position:absolute;left:-19px;top:20px;width:10px;height:10px;border-radius:50%;background:var(--agtc-semantic-color-border-strong);border:2px solid var(--agtc-semantic-color-background-surface)}
 .changelog-item.latest .changelog-item-content::before{background:var(--agtc-semantic-color-action-primary);border-color:var(--agtc-semantic-color-background-surface)}
 .changelog-timeline-track{position:absolute;left:124px;top:8px;bottom:8px;width:2px;background:var(--agtc-semantic-color-border-default)}
 .changelog-accordion{border:1px solid var(--agtc-semantic-color-border-default);border-radius:var(--agtc-semantic-radius-card);overflow:hidden}
-.changelog-summary{display:flex;align-items:center;gap:var(--agtc-space-3);padding:14px 20px;cursor:pointer;list-style:none;background:var(--agtc-semantic-color-background-surface);user-select:none}
+.changelog-summary{display:flex;align-items:center;gap:var(--agtc-space-3);padding:var(--agtc-semantic-space-component-padding-lg) 20px;cursor:pointer;list-style:none;background:var(--agtc-semantic-color-background-surface);user-select:none}
 .changelog-summary::-webkit-details-marker{display:none}
 .changelog-summary:hover{background:var(--agtc-semantic-color-background-subtle)}
 .changelog-chevron{margin-left:auto;color:var(--agtc-semantic-color-text-secondary);transition:transform .2s}
@@ -1491,7 +1435,7 @@ details[open] .changelog-chevron{transform:rotate(180deg)}
 .changelog-body ul{margin:0 0 10px;padding-left:18px}
 .changelog-body li{font-size:var(--agtc-semantic-typography-label-size);margin-bottom:4px;color:var(--agtc-semantic-color-text-primary)}
 @media(max-width:768px){.changelog-item{grid-template-columns:1fr}.changelog-item-date{padding-top:0;text-align:left}.changelog-timeline-track{display:none}.changelog-item-content::before{display:none}}
-.back-to-top{position:fixed;bottom:24px;right:24px;z-index:200;display:flex;align-items:center;gap:6px;padding:var(--agtc-space-2) 14px;background:var(--agtc-semantic-color-background-surface);color:var(--agtc-semantic-color-text-secondary);border:1px solid var(--agtc-semantic-color-border-default);border-radius:var(--agtc-semantic-radius-control);font-size:var(--agtc-semantic-typography-label-size);font-weight:var(--agtc-semantic-typography-label-weight);cursor:pointer;box-shadow:var(--agtc-semantic-shadow-raised);transition:opacity .2s,transform .2s;opacity:0;transform:translateY(8px);pointer-events:none}
+.back-to-top{position:fixed;bottom:24px;right:24px;z-index:200;display:flex;align-items:center;gap:var(--agtc-semantic-space-component-padding-xs);padding:var(--agtc-space-2) 14px;background:var(--agtc-semantic-color-background-surface);color:var(--agtc-semantic-color-text-secondary);border:1px solid var(--agtc-semantic-color-border-default);border-radius:var(--agtc-semantic-radius-control);font-size:var(--agtc-semantic-typography-label-size);font-weight:var(--agtc-semantic-typography-label-weight);cursor:pointer;box-shadow:var(--agtc-semantic-shadow-raised);transition:opacity .2s,transform .2s;opacity:0;transform:translateY(8px);pointer-events:none}
 .back-to-top:not([hidden]){opacity:1;transform:translateY(0);pointer-events:auto}
 .back-to-top:hover{background:var(--agtc-semantic-color-background-subtle);color:var(--agtc-semantic-color-text-primary);border-color:var(--agtc-semantic-color-border-focus)}
 .back-to-top:focus-visible{outline:2px solid var(--agtc-semantic-color-border-focus);outline-offset:2px}
@@ -1650,7 +1594,7 @@ html { scroll-padding-top:calc(var(--agtc-header-height,64px) + 12px); }
 }
 .hero-badge .pulse{
   width:8px;height:8px;border-radius:50%;
-  background:var(--agtc-semantic-color-accent);
+  background:var(--agtc-semantic-color-brand-accent);
   animation:pulse 2s ease-in-out infinite;
 }
 .hero-eyebrow{
@@ -1716,7 +1660,7 @@ html { scroll-padding-top:calc(var(--agtc-header-height,64px) + 12px); }
 
 /* ── REDUCED MOTION ───────────────────────────────────────── */
 @media(prefers-reduced-motion:reduce){
-  .hero::before,.layer-plane,.hero-badge .pulse{animation:none!important}
+  .hero::before,.layer-plane,.hero-badge .pulse,.illus-ambient{animation:none!important}
 }
 
 /* ── HERO — responsive ───────────────────────────────────── */
@@ -1743,7 +1687,7 @@ body{overflow-x:hidden}
   border:1.5px solid var(--agtc-semantic-color-border-strong);
   background:transparent;color:var(--agtc-semantic-color-text-secondary);
   transition:background .14s,color .14s,border-color .14s;
-  padding:5px 10px;font-size:var(--agtc-font-size-detail);font-weight:var(--agtc-semantic-fontWeight-bold);
+  padding:var(--agtc-semantic-space-component-padding-xs) 10px;font-size:var(--agtc-font-size-detail);font-weight:var(--agtc-semantic-fontWeight-bold);
   letter-spacing:var(--agtc-tracking-wide);min-width:38px;min-height:34px;
 }
 .lang-btn.active{background:var(--agtc-semantic-color-action-primary);color:var(--agtc-semantic-color-text-on-action);border-color:var(--agtc-semantic-color-action-primary)}
@@ -1844,9 +1788,9 @@ body{overflow-x:hidden}
 /* ── Brand band ──────────────────────────────────────────── */
 .brand-band{position:relative;width:100%;height:160px;overflow:hidden;background:var(--agtc-semantic-color-background-inverse)}
 .brand-band svg{position:absolute;inset:0;width:100%;height:100%;display:block}
-.brand-band .shape-plum{fill:var(--agtc-semantic-color-secondary)}
-.brand-band .shape-accent{fill:var(--agtc-semantic-color-accent)}
-.brand-band .shape-slate{fill:var(--agtc-semantic-color-tertiary)}
+.brand-band .shape-plum{fill:var(--agtc-semantic-color-brand-secondary)}
+.brand-band .shape-accent{fill:var(--agtc-semantic-color-brand-accent)}
+.brand-band .shape-slate{fill:var(--agtc-semantic-color-brand-tertiary)}
 .brand-band .shape-surface{fill:var(--agtc-semantic-color-background-page)}
 .brand-band .shape-teal{fill:var(--agtc-semantic-color-brand-primary)}
 .brand-band .shape{opacity:.96;transition:transform .9s cubic-bezier(.22,1,.36,1)}
@@ -1974,7 +1918,7 @@ body{overflow-x:hidden}
   background:var(--agtc-semantic-color-overlay-scrim);
   -webkit-backdrop-filter:blur(10px);
   backdrop-filter:blur(10px);
-  border-radius:16px;
+  border-radius:16px; /* audit-ignore: deliberate marketing-hero glassmorphism radius, larger than semantic.radius.card by design */
 }
 /* L'image absolute doit passer au-dessus de l'aurora (z-index:0) mais sous le texte */
 [data-context="marketing"] .hero .hero-illus-wrap{z-index:1}
@@ -2161,7 +2105,7 @@ body{overflow-x:hidden}
   background:var(--agtc-semantic-color-overlay-scrim);
   -webkit-backdrop-filter:blur(10px);
   backdrop-filter:blur(10px);
-  border-radius:16px;
+  border-radius:16px; /* audit-ignore: deliberate marketing-hero glassmorphism radius, larger than semantic.radius.card by design */
 }
 .rd-cinematic-body-r{margin-left:auto}
 .rd-cinematic-tall{min-height:85vh}
@@ -2173,7 +2117,7 @@ body{overflow-x:hidden}
   .rd-bg-wrap img{width:100%;height:100%;object-fit:contain;mask-image:none;-webkit-mask-image:none}
   .rd-bg-fade{display:none}
   .rd-cinematic-inner{display:block;padding:0 clamp(1rem,5vw,2rem)}
-  .rd-cinematic-body,.rd-cinematic-body-r,.rd-cinematic-body-wide{width:100%;max-width:none;margin:0;border-radius:12px}
+  .rd-cinematic-body,.rd-cinematic-body-r,.rd-cinematic-body-wide{width:100%;max-width:none;margin:0;border-radius:var(--agtc-semantic-radius-card)}
 }
 
 /* ── rd-split : illustration collée au bord — pas de max-width sur la colonne illus ──
@@ -2258,7 +2202,7 @@ body{overflow-x:hidden}
   --site-muted: var(--agtc-semantic-color-text-on-dark-muted);
   --site-faint: var(--agtc-semantic-color-text-on-dark-muted);
   --site-teal: var(--agtc-semantic-color-action-primary);
-  --site-rose: var(--agtc-semantic-color-accent);
+  --site-rose: var(--agtc-semantic-color-brand-accent);
   --site-violet: var(--agtc-primitive-color-violet-9, #6e56cf);
   --site-radius: var(--agtc-semantic-radius-card, 16px);
   --site-shell: min(var(--agtc-content-max, 1180px), calc(100vw - 48px));
@@ -2338,14 +2282,14 @@ body.page{
   margin-left:var(--agtc-space-3,12px);flex-shrink:0;
 }
 .lang-switch{min-height:34px}
-.lang-switch button{padding:3px 9px;font-size:var(--agtc-semantic-typography-detail-size);letter-spacing:var(--agtc-tracking-wide)}
+.lang-switch button{padding:var(--agtc-semantic-space-component-padding-xs) 9px;font-size:var(--agtc-semantic-typography-detail-size);letter-spacing:var(--agtc-tracking-wide)}
 
 /* Megapanel Documentation */
 .docs-menu{position:relative}
 .docs-panel{
   position:absolute;top:calc(100% + 16px);right:-148px;
   display:grid;width:min(660px,calc(100vw - 48px));grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:1px;padding:1px;border:1px solid var(--site-line);border-radius:18px;
+  gap:1px /* audit-ignore: hairline grid-divider technique, not a spacing decision */;padding:1px /* audit-ignore: hairline grid-divider technique, not a spacing decision */;border:1px solid var(--site-line);border-radius:18px /* audit-ignore: outer panel radius, see the nested div:first-child/nth-child(3) 17px = 18px minus the 1px border, concentric by design */;
   background:var(--agtc-gradient-aurora),var(--agtc-surface-glass);
   box-shadow:var(--agtc-shadow-lg);
   opacity:0;transform:translateY(-8px);pointer-events:none;
@@ -2356,8 +2300,8 @@ body.page{
   min-height:230px;padding:1.35rem;
   background:color-mix(in srgb,var(--agtc-semantic-color-background-page) 94%,transparent);
 }
-.docs-panel > div:first-child{border-radius:17px 0 0 17px}
-.docs-panel > div:nth-child(3){border-radius:0 17px 17px 0}
+.docs-panel > div:first-child{border-radius:17px 0 0 17px} /* audit-ignore: concentric with the 18px outer panel radius minus its 1px border */
+.docs-panel > div:nth-child(3){border-radius:0 17px 17px 0} /* audit-ignore: concentric with the 18px outer panel radius minus its 1px border */
 .docs-panel h2{margin:0 0 .9rem;font-size:.86rem;color:var(--site-text);border-top:none;padding-top:0;margin-top:0}
 .docs-panel a{display:block;margin:.2rem 0;padding:.45rem .1rem;color:var(--site-muted)}
 .docs-panel a:hover,.docs-panel a:focus-visible{color:var(--site-text);outline:none}
@@ -2453,15 +2397,15 @@ body.page{
 }
 .cta-btn-ghost:hover,.cta-btn-ghost:focus-visible{background:var(--agtc-surface-glass,rgba(255,255,255,.08))}
 
-/* Illustrations V2 */
+/* Illustrations — each figure now wraps agtc-image (decorative, fit=contain)
+   instead of a bare img; shadow DOM handles width/height/object-fit
+   internally, so no descendant img rule is needed here anymore. */
 .illus{position:relative;margin:0;line-height:0}
-.illus img{display:block;width:100%;height:auto;filter:none}
 .illus-hero{
   position:absolute;right:0;top:50%;transform:translateY(-50%);
   width:55%;height:auto;max-width:none;overflow:visible;margin:0;
   z-index:0;
 }
-.illus-hero img{width:100%;height:auto;object-fit:contain;filter:none}
 /* Texte limité à 40% du shell — image part de 45vw vers la droite */
 .hero .shell{position:static}
 .hero .hero-grid{grid-template-columns:1fr}
@@ -2498,7 +2442,7 @@ body.page{
 /* Cards rôles */
 .role-grid{
   display:grid;grid-template-columns:repeat(5,minmax(0,1fr));
-  gap:1px;border:1px solid var(--site-line);background:var(--site-line);
+  gap:1px /* audit-ignore: hairline grid-divider technique, not a spacing decision */;border:1px solid var(--site-line);background:var(--site-line);
 }
 .role-card{
   position:relative;min-height:235px;padding:1.5rem;
@@ -2588,14 +2532,6 @@ body.page{
 .back-to-top{opacity:0;transform:translateY(8px);pointer-events:none;transition:opacity .22s ease,transform .22s ease}
 .back-to-top.is-visible{opacity:1;transform:translateY(0);pointer-events:auto}
 
-/* Dark mode — couleur brand principale cohérente avec les composants */
-[data-theme="dark"]{
-  --agtc-semantic-color-action-primary:var(--agtc-primitive-color-teal-9);
-  --agtc-semantic-color-action-primary-hover:var(--agtc-primitive-color-teal-10);
-  --agtc-component-button-primary-background:var(--agtc-primitive-color-teal-9);
-  --agtc-component-button-primary-background-hover:var(--agtc-primitive-color-teal-10);
-  --agtc-component-top-nav-tab-indicator-color:var(--agtc-primitive-color-teal-9);
-}
 
 /* ── LIGHT MODE — surcharges v2 ────────────────────────────────────────────
    Les variables --v2-* sont définies dans :root avec les valeurs dark (défaut).
@@ -2648,7 +2584,7 @@ body.page{
   box-shadow:var(--agtc-semantic-shadow-card);
 }
 
-/* Doc/editorial blocks — contraste sur fond page light (#f0f0f0 sur #fcfcfc = ΔL minime) */
+/* Doc/editorial blocks — contraste sur fond page light (#f0f0f0 sur #fcfcfc = ΔL minime) */ /* audit-ignore: resolved values cited in a design-rationale comment */
 [data-theme="light"] .doc-block,
 [data-theme="light"] .editorial-block{
   background:var(--agtc-semantic-color-background-surface);
@@ -2718,16 +2654,16 @@ body.page{
 .ai-answer{margin:0}
 .ai-answer p{margin:0 0 .5rem;color:var(--site-muted);font-size:.875rem;line-height:1.55}
 .ai-answer p:last-child{margin-bottom:0}
-.ai-answer code{background:rgba(52,211,187,.12);color:var(--site-teal);padding:.1em .35em;border-radius:4px;font-size:.8rem}
+.ai-answer code{background:rgba(52,211,187,.03);color:var(--site-teal);padding:.1em .35em;border-radius:var(--agtc-semantic-radius-control-tight);font-size:.8rem}
 .ai-brief-section{padding-block:2.5rem;border-top:1px solid var(--site-line)}
 .ai-brief-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:.75rem}
 .ai-brief-header h2{margin:0}
 .ai-brief-note{margin:0 0 1.5rem;color:var(--site-muted);font-size:.875rem}
 /* Bloc pre natif — remplacement de agtc-code-block (non injectible via slot JS) */
-.brief-block{border-radius:12px;overflow:hidden;background:var(--agtc-semantic-color-background-code);border:1px solid rgba(255,255,255,.08)}
+.brief-block{border-radius:var(--agtc-component-code-block-default-radius);overflow:hidden;background:var(--agtc-semantic-color-background-code);border:1px solid rgba(255,255,255,.08)}
 .brief-block-header{display:flex;align-items:center;justify-content:space-between;padding:.6rem 1rem;background:var(--agtc-semantic-color-background-code-raised);border-bottom:1px solid rgba(255,255,255,.07)}
-.brief-block-lang{font-size:.7rem;font-weight:700;letter-spacing:.08em;color:var(--agtc-semantic-color-text-on-code-muted);text-transform:uppercase}
-.brief-copy-btn{padding:.35rem .8rem;border-radius:6px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);color:var(--agtc-semantic-color-text-on-code-strong);font-size:.8rem;cursor:pointer;transition:background .15s}
+.brief-block-lang{font-size:.7rem;font-weight:700;letter-spacing:.08em;color:var(--agtc-semantic-color-text-on-code);text-transform:uppercase}
+.brief-copy-btn{padding:.35rem .8rem;border-radius:var(--agtc-semantic-radius-control);border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);color:var(--agtc-semantic-color-text-on-code-strong);font-size:.8rem;cursor:pointer;transition:background .15s}
 .brief-copy-btn:hover{background:var(--agtc-semantic-color-background-code-raised-hover)}
 .brief-pre{margin:0;padding:1.25rem 1.5rem;overflow-x:auto;font-family:var(--agtc-semantic-typography-mono-family,"ui-monospace",monospace);font-size:.82rem;line-height:1.65;color:var(--agtc-semantic-color-text-on-code);white-space:pre-wrap;word-break:break-word;max-height:520px;overflow-y:auto}
 @media(max-width:720px){
@@ -2744,7 +2680,7 @@ body.page{
 /* Border-bottom animation cards — couleur principale */
 .role-card::after{background:var(--agtc-semantic-color-action-primary)}
 body[data-context="marketing"] .role-card::after{
-  background:linear-gradient(90deg,var(--agtc-semantic-color-action-primary),var(--agtc-semantic-color-accent,#e35d6a))
+  background:linear-gradient(90deg,var(--agtc-semantic-color-action-primary),var(--agtc-semantic-color-brand-accent,#e35d6a))
 }
 
 /* Footer V2 — 4 colonnes */
@@ -2773,7 +2709,7 @@ body[data-context="marketing"] .role-card::after{
 /* Icônes dans les blocs éditoriaux des sous-pages */
 .editorial-icon{
   display:flex;align-items:center;justify-content:center;
-  width:2.5rem;height:2.5rem;border-radius:10px;
+  width:2.5rem;height:2.5rem;border-radius:var(--agtc-semantic-radius-card);
   background:rgba(18,165,148,.12);color:var(--site-teal);
   margin-bottom:1rem;flex-shrink:0;
 }
@@ -2976,22 +2912,6 @@ document.addEventListener('DOMContentLoaded', () => {
       buildToc();
     });
   });
-
-  // ── Mobile menu (agtc-top-nav) ───────────────────────────
-  const menuToggle = document.querySelector('.menu-toggle');
-  const topNav = document.querySelector('agtc-top-nav');
-  if (menuToggle && topNav) {
-    menuToggle.addEventListener('click', () => {
-      const isOpen = topNav.classList.toggle('open');
-      menuToggle.setAttribute('aria-expanded', String(isOpen));
-    });
-    document.addEventListener('click', e => {
-      if (!menuToggle.contains(e.target) && !topNav.contains(e.target)) {
-        topNav.classList.remove('open');
-        menuToggle.setAttribute('aria-expanded', 'false');
-      }
-    });
-  }
 
   // ── Sidebar drawer (mobile) ──────────────────────────────
   const sidebarToggle = document.querySelector('.sidebar-toggle');
@@ -3220,7 +3140,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ── Menu mobile V2 ────────────────────────────────────────────────────────
+  // ── Mobile menu ───────────────────────────────────────────────────────────
   const v2MenuToggle = document.querySelector('[data-menu-toggle]');
   const v2MainNav    = document.querySelector('[data-main-nav]');
   if (v2MenuToggle && v2MainNav) {
@@ -3309,7 +3229,7 @@ function layout({ title, pageTitle, depth = 0, section = '', sidebar = null, bod
         <img src="${base}img/logo-color-white.svg" alt="Agentica" class="logo-dark" height="40" width="180" loading="lazy">
         <img src="${base}img/logo-color.svg" alt="" aria-hidden="true" class="logo-light" height="40" width="180" loading="lazy">
       </a>
-      <a href="https://www.linkedin.com/in/gnegreiros/" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:6px;color:var(--site-muted);text-decoration:none;font-size:.9rem;transition:color .12s" class="footer-linkedin">
+      <a href="https://www.linkedin.com/in/gnegreiros/" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:var(--agtc-semantic-space-component-padding-xs);color:var(--site-muted);text-decoration:none;font-size:.9rem;transition:color .12s" class="footer-linkedin">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
         Guilherme Negreiros
       </a>
@@ -3503,6 +3423,7 @@ const COMPONENT_PAGES = [
   ['icon.html',  'Icon'],
   ['input.html', 'Input'],
   ['badge.html', 'Badge'],
+  ['image.html', 'Image'],
   ['card.html',  'Card'],
   ['checkbox.html', 'Checkbox'],
   ['radio.html', 'Radio'],
@@ -3643,7 +3564,7 @@ function buildHome(adrs) {
       </div>
     </div>
     <figure class="illus illus-hero" aria-hidden="true">
-      <img src="img/IMG-HERO-SYSTEM.png" alt="" fetchpriority="high" width="720" height="540" loading="eager">
+      <agtc-image src="img/IMG-HERO-SYSTEM.png" decorative fit="contain" width="768" height="512" priority></agtc-image>
     </figure>
   </div>
 </section>
@@ -3663,7 +3584,7 @@ function buildHome(adrs) {
       </p>
     </div>
     <figure class="illus illus-feature" aria-hidden="true">
-      <img src="img/IMG-CONTEXT-on-dark.png" alt="" loading="lazy" width="740" height="560">
+      <agtc-image src="img/IMG-CONTEXT-on-dark.png" decorative fit="contain" width="768" height="512"></agtc-image>
     </figure>
   </div>
 </section>
@@ -3683,7 +3604,7 @@ function buildHome(adrs) {
       </p>
     </div>
     <figure class="illus illus-ambient" aria-hidden="true">
-      <img src="img/IMG-HUMANS-AI.png" alt="" loading="lazy" width="720" height="540">
+      <agtc-image src="img/IMG-HUMANS-AI.png" decorative fit="contain" width="768" height="512"></agtc-image>
     </figure>
   </div>
 </section>
@@ -3692,7 +3613,7 @@ function buildHome(adrs) {
 <section class="site-section" data-reveal>
   <div class="shell split">
     <figure class="illus" aria-hidden="true">
-      <img src="img/IMG-KNOWLEDGE-ASSETS.png" alt="" loading="lazy" width="680" height="520">
+      <agtc-image src="img/IMG-KNOWLEDGE-ASSETS.png" decorative fit="contain" width="768" height="512"></agtc-image>
     </figure>
     <div class="copy">
       <p class="kicker"><span class="lang-fr">Les connaissances</span><span class="lang-en">Knowledge</span></p>
@@ -3723,7 +3644,7 @@ function buildHome(adrs) {
       </p>
     </div>
     <figure class="illus illus-feature" aria-hidden="true">
-      <img src="img/IMG-SINGLE-SOURCE.png" alt="" loading="lazy" width="740" height="560">
+      <agtc-image src="img/IMG-SINGLE-SOURCE.png" decorative fit="contain" width="768" height="512"></agtc-image>
     </figure>
   </div>
 </section>
@@ -3808,7 +3729,7 @@ function buildHome(adrs) {
       </div>
     </div>
     <figure class="illus" aria-hidden="true">
-      <img src="img/IMG-CONTRACTS.png" alt="" loading="lazy" width="680" height="520">
+      <agtc-image src="img/IMG-CONTRACTS.png" decorative fit="contain" width="768" height="512"></agtc-image>
     </figure>
   </div>
 </section>
@@ -3817,7 +3738,7 @@ function buildHome(adrs) {
 <section class="site-section human-control" id="ia" data-reveal>
   <div class="shell overlap">
     <figure class="illus illus-feature" aria-hidden="true">
-      <img src="img/IMG-HUMAN-LOOP.png" alt="" loading="lazy" width="740" height="560">
+      <agtc-image src="img/IMG-HUMAN-LOOP.png" decorative fit="contain" width="768" height="512"></agtc-image>
     </figure>
     <div class="copy copy-narrow">
       <p class="kicker"><span class="lang-fr">Intelligence artificielle</span><span class="lang-en">Artificial intelligence</span></p>
@@ -3855,7 +3776,7 @@ function buildHome(adrs) {
       </div>
     </div>
     <figure class="illus" aria-hidden="true">
-      <img src="img/IMG-DURABILITY.png" alt="" loading="lazy" width="760" height="500">
+      <agtc-image src="img/IMG-DURABILITY.png" decorative fit="contain" width="768" height="512"></agtc-image>
     </figure>
   </div>
 </section>
@@ -3880,7 +3801,7 @@ function buildHome(adrs) {
       </div>
     </div>
     <figure class="illus illus-brand" aria-hidden="true">
-      <img src="img/IMG-AGENTICA.png" alt="" loading="lazy" width="680" height="520">
+      <agtc-image src="img/IMG-AGENTICA.png" decorative fit="contain" width="768" height="512"></agtc-image>
     </figure>
   </div>
 </section>
@@ -4150,7 +4071,7 @@ function buildIA() {
       <div class="editorial-block">
         <div class="editorial-icon">${icon('brain', 20)}</div>
         <h2><span class="lang-fr">Les agents comprennent l'intention</span><span class="lang-en">Agents understand intent</span></h2>
-        <p><span class="lang-fr">Un agent comprend <code>color.action.primary</code> comme une intention UX. Il ne comprend pas <code>#3B82F6</code> comme une intention — c'est juste une valeur. Les tokens sémantiques rendent le système lisible par machine.</span><span class="lang-en">An agent understands <code>color.action.primary</code> as a UX intent. It doesn't understand <code>#3B82F6</code> as an intent — it's just a value. Semantic tokens make the system machine-readable.</span></p>
+        <p><span class="lang-fr">Un agent comprend <code>color.action.primary</code> comme une intention UX. Il ne comprend pas <code>#3B82F6</code> comme une intention — c'est juste une valeur. Les tokens sémantiques rendent le système lisible par machine.</span><span class="lang-en">An agent understands <code>color.action.primary</code> as a UX intent. It doesn't understand <code>#3B82F6</code> as an intent — it's just a value. Semantic tokens make the system machine-readable.</span></p> <!-- audit-ignore: illustrative example hex in prose, not applied styling -->
       </div>
       <div class="editorial-block">
         <div class="editorial-icon">${icon('network', 20)}</div>
@@ -4756,7 +4677,7 @@ function buildTypography() {
   ).join('');
 
   const scaleSpecimens = scaleSteps.map(({ step, rem, role, lh, weight }) =>
-    `<div style="display:flex;align-items:baseline;gap:var(--agtc-space-4);padding:10px 0;border-bottom:1px solid var(--agtc-semantic-color-border-default)">
+    `<div style="display:flex;align-items:baseline;gap:var(--agtc-space-4);padding:var(--agtc-semantic-space-control-gap) 0;border-bottom:1px solid var(--agtc-semantic-color-border-default)">
       <code style="min-width:56px;font-size:var(--agtc-semantic-typography-detail-size);color:var(--agtc-semantic-color-text-secondary);flex-shrink:0">${step}</code>
       <div style="font-size:${rem};font-weight:${weight};line-height:${lh};color:var(--agtc-semantic-color-text-primary)">${role}</div>
       <span style="font-size:var(--agtc-semantic-typography-detail-size);color:var(--agtc-semantic-color-text-secondary);margin-left:auto;flex-shrink:0">${rem} · lh ${lh}</span>
@@ -4772,11 +4693,11 @@ function buildTypography() {
 
 <h2 class="first"><span class="lang-fr">Police — Atkinson Hyperlegible</span><span class="lang-en">Typeface — Atkinson Hyperlegible</span></h2>
 <div class="demo-box" style="padding:var(--agtc-space-5) 28px">
-  <p style="font-size:13px;color:var(--agtc-semantic-color-text-secondary);margin-bottom:16px"><code>--agtc-semantic-typography-fontFamily</code></p>
-  <div style="font-size:28px;font-weight:var(--agtc-semantic-fontWeight-bold);letter-spacing:var(--agtc-tracking-heading);line-height:1.3;color:var(--agtc-semantic-color-text-primary);word-break:break-all">ABCDEFGHIJKLMNOPQRSTUVWXYZ</div>
-  <div style="font-size:28px;line-height:1.3;color:var(--agtc-semantic-color-text-secondary);word-break:break-all;margin-top:4px">abcdefghijklmnopqrstuvwxyz</div>
+  <p style="font-size:var(--agtc-semantic-typography-detail-size);color:var(--agtc-semantic-color-text-secondary);margin-bottom:16px"><code>--agtc-semantic-typography-fontFamily</code></p>
+  <div style="font-size:var(--agtc-semantic-typography-heading-3-size);font-weight:var(--agtc-semantic-fontWeight-bold);letter-spacing:var(--agtc-tracking-heading);line-height:1.3;color:var(--agtc-semantic-color-text-primary);word-break:break-all">ABCDEFGHIJKLMNOPQRSTUVWXYZ</div>
+  <div style="font-size:var(--agtc-semantic-typography-heading-3-size);line-height:1.3;color:var(--agtc-semantic-color-text-secondary);word-break:break-all;margin-top:4px">abcdefghijklmnopqrstuvwxyz</div>
   <div style="font-size:var(--agtc-space-5);line-height:1.4;color:var(--agtc-semantic-color-text-primary);margin-top:8px;font-weight:var(--agtc-semantic-fontWeight-bold)">0 1 2 3 4 5 6 7 8 9</div>
-  <div style="font-size:18px;line-height:1.5;color:var(--agtc-semantic-color-text-secondary);margin-top:8px">! @ # $ % &amp; * ( ) [ ] { } , . ; : ' " - _ / \ ? + = &lt; &gt;</div>
+  <div style="font-size:var(--agtc-semantic-typography-body-size);line-height:1.5;color:var(--agtc-semantic-color-text-secondary);margin-top:8px">! @ # $ % &amp; * ( ) [ ] { } , . ; : ' " - _ / \ ? + = &lt; &gt;</div>
   <div style="font-size:var(--agtc-space-4);line-height:1.6;color:var(--agtc-semantic-color-text-secondary);margin-top:12px;border-top:1px solid var(--agtc-semantic-color-border-default);padding-top:12px">
     <span style="font-size:var(--agtc-semantic-typography-detail-size);font-weight:var(--agtc-semantic-fontWeight-bold);text-transform:uppercase;letter-spacing:var(--agtc-tracking-label);display:block;margin-bottom:6px"><span class="lang-fr">Caractères ambigus — différenciation maximale</span><span class="lang-en">Ambiguous characters — maximum disambiguation</span></span>
     l 1 I &nbsp;·&nbsp; O 0 &nbsp;·&nbsp; b d p q &nbsp;·&nbsp; n u m &nbsp;·&nbsp; rn m
@@ -4797,18 +4718,18 @@ function buildTypography() {
   <span class="lang-en">Monospace companion to Atkinson Hyperlegible — same accessibility DNA, monospaced glyphs optimised for code and token values.</span>
 </p>
 <div class="demo-box" style="padding:var(--agtc-space-5) 28px">
-  <p style="font-size:13px;color:var(--agtc-semantic-color-text-secondary);margin-bottom:16px"><code>--agtc-font-mono</code></p>
-  <div style="font-family:var(--agtc-font-mono);font-size:22px;font-weight:var(--agtc-semantic-fontWeight-bold);line-height:1.3;color:var(--agtc-semantic-color-text-primary);word-break:break-all">ABCDEFGHIJKLMNOPQRSTUVWXYZ</div>
-  <div style="font-family:var(--agtc-font-mono);font-size:22px;line-height:1.3;color:var(--agtc-semantic-color-text-secondary);word-break:break-all;margin-top:4px">abcdefghijklmnopqrstuvwxyz</div>
+  <p style="font-size:var(--agtc-semantic-typography-detail-size);color:var(--agtc-semantic-color-text-secondary);margin-bottom:16px"><code>--agtc-font-mono</code></p>
+  <div style="font-family:var(--agtc-font-mono);font-size:var(--agtc-semantic-typography-heading-4-size);font-weight:var(--agtc-semantic-fontWeight-bold);line-height:1.3;color:var(--agtc-semantic-color-text-primary);word-break:break-all">ABCDEFGHIJKLMNOPQRSTUVWXYZ</div>
+  <div style="font-family:var(--agtc-font-mono);font-size:var(--agtc-semantic-typography-heading-4-size);line-height:1.3;color:var(--agtc-semantic-color-text-secondary);word-break:break-all;margin-top:4px">abcdefghijklmnopqrstuvwxyz</div>
   <div style="font-family:var(--agtc-font-mono);font-size:var(--agtc-semantic-space-layout-component);line-height:1.4;color:var(--agtc-semantic-color-text-primary);margin-top:8px;font-weight:var(--agtc-semantic-fontWeight-bold)">0 1 2 3 4 5 6 7 8 9</div>
-  <div style="font-family:var(--agtc-font-mono);font-size:16px;line-height:1.6;color:var(--agtc-semantic-color-text-secondary);margin-top:8px">! @ # $ % &amp; * ( ) [ ] { } , . ; : ' " - _ / \ ? + = &lt; &gt;</div>
+  <div style="font-family:var(--agtc-font-mono);font-size:var(--agtc-semantic-typography-body-size);line-height:1.6;color:var(--agtc-semantic-color-text-secondary);margin-top:8px">! @ # $ % &amp; * ( ) [ ] { } , . ; : ' " - _ / \ ? + = &lt; &gt;</div>
   <div style="font-family:var(--agtc-font-mono);font-size:var(--agtc-space-4);line-height:1.6;color:var(--agtc-semantic-color-text-secondary);margin-top:12px;border-top:1px solid var(--agtc-semantic-color-border-default);padding-top:12px">
     <span style="font-size:var(--agtc-semantic-typography-detail-size);font-weight:var(--agtc-semantic-fontWeight-bold);text-transform:uppercase;letter-spacing:var(--agtc-tracking-label);display:block;margin-bottom:6px"><span class="lang-fr">Caractères ambigus — clé pour le code</span><span class="lang-en">Ambiguous characters — critical for code</span></span>
     l 1 I &nbsp;·&nbsp; O 0 &nbsp;·&nbsp; b d p q &nbsp;·&nbsp; n u m &nbsp;·&nbsp; rn m
   </div>
-  <div style="font-family:var(--agtc-font-mono);font-size:13px;line-height:1.7;color:var(--agtc-semantic-color-action-primary);margin-top:12px;border-top:1px solid var(--agtc-semantic-color-border-default);padding-top:12px;word-break:break-all">
+  <div style="font-family:var(--agtc-font-mono);font-size:var(--agtc-semantic-typography-detail-size);line-height:1.7;color:var(--agtc-semantic-color-action-primary);margin-top:12px;border-top:1px solid var(--agtc-semantic-color-border-default);padding-top:12px;word-break:break-all">
     <span style="font-size:var(--agtc-semantic-typography-detail-size);font-weight:var(--agtc-semantic-fontWeight-bold);text-transform:uppercase;letter-spacing:var(--agtc-tracking-label);display:block;margin-bottom:8px;color:var(--agtc-semantic-color-text-secondary)"><span class="lang-fr">Exemple — token CSS</span><span class="lang-en">Example — CSS token</span></span>
-    --agtc-semantic-color-action-primary: #007a68;<br>
+    --agtc-semantic-color-action-primary: #007a68;<br> <!-- audit-ignore: resolved value shown as reference example text -->
     --agtc-component-button-primary-background: var(--agtc-semantic-color-action-primary);
   </div>
   <p style="font-size:var(--agtc-semantic-typography-detail-size);color:var(--agtc-semantic-color-text-secondary);margin-top:12px;margin-bottom:0">
@@ -4895,9 +4816,9 @@ function buildIconsFoundation() {
 
   const sizeDemo = sizes.map(([name, val]) =>
     `<div style="display:flex;align-items:center;gap:var(--agtc-space-4);padding:var(--agtc-space-3) 0;border-bottom:1px solid var(--agtc-semantic-color-border-default)">
-      <div style="width:80px;color:var(--agtc-semantic-color-text-secondary);font-size:13px"><code>${name}</code></div>
+      <div style="width:80px;color:var(--agtc-semantic-color-text-secondary);font-size:var(--agtc-semantic-typography-detail-size)"><code>${name}</code></div>
       ${icon('star', parseInt(val), 'var(--agtc-semantic-color-action-primary)')}
-      <div style="font-size:13px;color:var(--agtc-semantic-color-text-secondary)">${val} — <code>--agtc-semantic-icon-size-${name}</code></div>
+      <div style="font-size:var(--agtc-semantic-typography-detail-size);color:var(--agtc-semantic-color-text-secondary)">${val} — <code>--agtc-semantic-icon-size-${name}</code></div>
     </div>`
   ).join('');
 
@@ -4920,7 +4841,7 @@ function buildIconsFoundation() {
 </table>
 
 <h2><span class="lang-fr">Galerie — aperçu Lucide</span><span class="lang-en">Gallery — Lucide preview</span></h2>
-<p style="color:var(--agtc-semantic-color-text-secondary);font-size:14px;margin-bottom:16px">
+<p style="color:var(--agtc-semantic-color-text-secondary);font-size:var(--agtc-semantic-typography-label-size);margin-bottom:16px">
   <span class="lang-fr">Extrait de 20 icônes. Catalogue complet sur <a href="https://lucide.dev" target="_blank" rel="noopener">lucide.dev</a>.</span>
   <span class="lang-en">Sample of 20 icons. Full catalog at <a href="https://lucide.dev" target="_blank" rel="noopener">lucide.dev</a>.</span>
 </p>
@@ -5002,6 +4923,14 @@ function buildComponentsIndex() {
     <div class="nav-card-desc">
       <span class="lang-fr">6 variantes sémantiques, 2 tailles, icônes, mode icon-only accessible.</span>
       <span class="lang-en">6 semantic variants, 2 sizes, icons, accessible icon-only mode.</span>
+    </div>
+  </a>
+  <a href="image.html" class="nav-card">
+    <span class="nav-card-icon">${icon('image',24)}</span>
+    <div class="nav-card-title">Image</div>
+    <div class="nav-card-desc">
+      <span class="lang-fr">Lazy loading, largeur/hauteur anti-CLS, WebP + repli, skeleton en option.</span>
+      <span class="lang-en">Lazy loading, width/height anti-CLS, WebP + fallback, opt-in skeleton.</span>
     </div>
   </a>
   <a href="card.html" class="nav-card">
@@ -5708,6 +5637,113 @@ function buildBadge() {
   }));
 }
 
+// ─── PAGE: IMAGE ─────────────────────────────────────────────────────────────
+function buildImage() {
+  const tokenRows = [
+    ['image-skeleton-background',       'semantic.color.background.subtle', SEM['color-background-subtle']],
+    ['image-skeleton-background-pulse', 'semantic.color.background.hover',  SEM['color-background-hover']],
+    ['image-fallback-background',       'semantic.color.background.subtle', SEM['color-background-subtle']],
+    ['image-fallback-icon',             'semantic.color.text.secondary',    SEM['color-text-secondary']],
+    ['image-fallback-text',             'semantic.color.text.secondary',    SEM['color-text-secondary']],
+  ];
+
+  const body = `
+<h1>Image</h1>
+<p class="page-lead">
+  <span class="lang-fr">Encapsule &lt;img&gt; avec les garanties qu'il n'impose pas par défaut : espace réservé (anti-CLS), lazy loading, support WebP, états de chargement et d'erreur.</span>
+  <span class="lang-en">Wraps &lt;img&gt; with the guarantees it doesn't enforce by default: reserved space (anti-CLS), lazy loading, WebP support, loading and error states.</span>
+</p>
+
+<h2 class="first"><span class="lang-fr">Démonstration</span><span class="lang-en">Demo</span></h2>
+<div class="demo-box">
+  <div class="demo-group">
+    <span class="demo-group-label"><span class="lang-fr">Par défaut — lazy, sans skeleton</span><span class="lang-en">Default — lazy, no skeleton</span></span>
+    <div class="demo-row" style="max-width:320px">
+      <agtc-image src="../img/IMG-AGENTICA.png" alt="Agentica illustration" width="768" height="512"></agtc-image>
+    </div>
+  </div>
+  <div class="demo-group">
+    <span class="demo-group-label"><span class="lang-fr">object-fit: cover / contain</span><span class="lang-en">object-fit: cover / contain</span></span>
+    <div class="demo-row" style="flex-wrap:wrap">
+      <div style="width:180px">
+        <agtc-image src="../img/IMG-AGENTICA.png" alt="Agentica illustration, cropped to fill a square" width="180" height="180" fit="cover"></agtc-image>
+      </div>
+      <div style="width:180px">
+        <agtc-image src="../img/IMG-AGENTICA.png" alt="Agentica illustration, letterboxed in a square" width="180" height="180" fit="contain"></agtc-image>
+      </div>
+    </div>
+  </div>
+  <div class="demo-group">
+    <span class="demo-group-label"><span class="lang-fr">État d'erreur — repli si l'image échoue</span><span class="lang-en">Error state — fallback on failed load</span></span>
+    <div class="demo-row" style="max-width:280px">
+      <agtc-image src="../img/does-not-exist.png" alt="An image that fails to load" width="600" height="300"></agtc-image>
+    </div>
+  </div>
+</div>
+
+<h2><span class="lang-fr">Règles absolues</span><span class="lang-en">Absolute rules</span></h2>
+<ul>
+  <li><span class='icon-ok'>${icon('circle-check', 16)}</span> <span class="lang-fr"><code>width</code> et <code>height</code> obligatoires — sinon le CLS que le composant existe pour éviter se produit quand même</span><span class="lang-en"><code>width</code> and <code>height</code> are required — otherwise the CLS this component exists to prevent still occurs</span></li>
+  <li><span class='icon-ok'>${icon('circle-check', 16)}</span> <span class="lang-fr"><code>alt</code> obligatoire sauf <code>decorative</code> — WCAG 1.1.1</span><span class="lang-en"><code>alt</code> required unless <code>decorative</code> — WCAG 1.1.1</span></li>
+  <li><span class='icon-ok'>${icon('circle-check', 16)}</span> <span class="lang-fr"><code>priority</code> sur une seule image par page (la véritable LCP)</span><span class="lang-en"><code>priority</code> on at most one image per page (the true LCP)</span></li>
+  <li><span class='icon-no'>${icon('circle-x', 16)}</span> <span class="lang-fr"><code>skeleton</code> par défaut sur chaque petite image inline — réservé aux images lourdes/hero</span><span class="lang-en"><code>skeleton</code> by default on every small inline image — reserved for heavy/hero images</span></li>
+</ul>
+
+<h2><span class="lang-fr">Tokens de composant</span><span class="lang-en">Component tokens</span></h2>
+<table class="token-table"><colgroup><col style="width:45%"><col style="width:35%"><col style="width:20%"></colgroup>
+  <thead><tr><th>Token CSS</th><th><span class="lang-fr">Référence</span><span class="lang-en">Reference</span></th><th><span class="lang-fr">Valeur</span><span class="lang-en">Value</span></th></tr></thead>
+  <tbody>${tokenRows.map(([k,r,v]) => `<tr class="token-row"><td><code>--agtc-component-${k}</code></td><td><code>${r}</code></td><td class="mono-sm">${v||'—'}</td></tr>`).join('')}</tbody>
+</table>
+
+<h2><span class="lang-fr">Accessibilité</span><span class="lang-en">Accessibility</span></h2>
+<ul>
+  <li><span class="lang-fr"><code>alt</code> manquant sans <code>decorative</code> : avertissement console (WCAG 1.1.1)</span><span class="lang-en">Missing <code>alt</code> without <code>decorative</code>: console warning (WCAG 1.1.1)</span></li>
+  <li><span class="lang-fr">Image décorative : <code>alt=""</code> + <code>aria-hidden="true"</code></span><span class="lang-en">Decorative image: <code>alt=""</code> + <code>aria-hidden="true"</code></span></li>
+  <li><span class="lang-fr">État de repli : <code>role="img"</code> + <code>aria-label</code> reprenant le texte alternatif</span><span class="lang-en">Fallback state: <code>role="img"</code> + <code>aria-label</code> carrying the same alt text</span></li>
+  <li><span class="lang-fr">Animation du skeleton désactivée sous <code>prefers-reduced-motion</code></span><span class="lang-en">Skeleton animation disabled under <code>prefers-reduced-motion</code></span></li>
+</ul>
+
+<h2><span class="lang-fr">Implémentation</span><span class="lang-en">Implementation</span></h2>
+<pre class="code-block"><code class="lang-html">&lt;!-- <span class="lang-fr">De base — width/height obligatoires</span><span class="lang-en">Basic — width/height required</span> --&gt;
+&lt;agtc-image src="photo.jpg" alt="…" width="800" height="450"&gt;&lt;/agtc-image&gt;
+
+&lt;!-- WebP <span class="lang-fr">avec repli</span><span class="lang-en">with fallback</span> --&gt;
+&lt;agtc-image src="photo.jpg" src-webp="photo.webp" alt="…" width="800" height="450"&gt;&lt;/agtc-image&gt;
+
+&lt;!-- <span class="lang-fr">Skeleton en option (images lourdes/hero)</span><span class="lang-en">Opt-in skeleton (heavy/hero images)</span> --&gt;
+&lt;agtc-image src="hero.jpg" alt="…" width="1200" height="630" skeleton&gt;&lt;/agtc-image&gt;
+
+&lt;!-- LCP --&gt;
+&lt;agtc-image src="hero.jpg" alt="…" width="1200" height="630" priority&gt;&lt;/agtc-image&gt;</code></pre>
+
+<h2><span class="lang-fr">DOs et DON'Ts</span><span class="lang-en">DOs and DON'Ts</span></h2>
+<div class="dos-donts">
+  <div class="do-section">
+    <h3>${icon('circle-check',16)} <span class="lang-fr">À faire</span><span class="lang-en">Do</span></h3>
+    <ul>
+      <li><span class="lang-fr">Toujours fournir <code>width</code> et <code>height</code></span><span class="lang-en">Always provide <code>width</code> and <code>height</code></span></li>
+      <li><span class="lang-fr">Réserver <code>priority</code> à la véritable image LCP</span><span class="lang-en">Reserve <code>priority</code> for the true LCP image</span></li>
+      <li><span class="lang-fr">Utiliser <code>skeleton</code> pour les images lourdes/hero seulement</span><span class="lang-en">Use <code>skeleton</code> for heavy/hero images only</span></li>
+    </ul>
+  </div>
+  <div class="dont-section">
+    <h3>${icon('circle-x',16)} <span class="lang-fr">À éviter</span><span class="lang-en">Don't</span></h3>
+    <ul>
+      <li><span class="lang-fr">Omettre <code>width</code>/<code>height</code></span><span class="lang-en">Omitting <code>width</code>/<code>height</code></span></li>
+      <li><span class="lang-fr"><code>decorative</code> sur une image porteuse de sens</span><span class="lang-en"><code>decorative</code> on a meaningful image</span></li>
+      <li><span class="lang-fr"><code>priority</code> sur plus d'une image par page</span><span class="lang-en"><code>priority</code> on more than one image per page</span></li>
+    </ul>
+  </div>
+</div>
+`;
+
+  write(path.join(DIST, 'components/image.html'), layout({
+    title: 'Image', depth: 1,
+    sidebar: sidebarComponents('../','image.html'),
+    body: body + uxPatternsFromMd('image') + contributionBanner()
+  }));
+}
+
 // ─── PAGE: CARD ──────────────────────────────────────────────────────────────
 function buildCard() {
   const tokenRows = [
@@ -6053,8 +6089,8 @@ function buildToggle() {
   }
 
   const tokenRows = [
-    ['toggle-default-track-off',       'primitive.color.gray.9',              '#8d8d8d'],
-    ['toggle-default-track-off-hover', 'primitive.color.gray.10',             '#838383'],
+    ['toggle-default-track-off',       'primitive.color.gray.9',              '#8d8d8d'], // audit-ignore: resolved value shown as reference data
+    ['toggle-default-track-off-hover', 'primitive.color.gray.10',             '#838383'], // audit-ignore: resolved value shown as reference data
     ['toggle-default-track-on',        'semantic.color.action.primary',       SEM['color-action-primary']],
     ['toggle-default-track-on-hover',  'semantic.color.action.primary-hover', SEM['color-action-primary-hover']],
     ['toggle-default-knob',            'semantic.color.background.surface',   SEM['color-background-surface']],
@@ -6205,7 +6241,7 @@ function buildTable() {
     { label: 'Value',    align: 'end' },
   ];
   t.rows = [
-    ['--agtc-badge-neutral-background', 'semantic.color.background.subtle', '#f0f0f0'],
+    ['--agtc-badge-neutral-background', 'semantic.color.background.subtle', '#f0f0f0'], // audit-ignore: resolved value shown as reference data
   ];
 &lt;/script&gt;
 
@@ -6213,7 +6249,7 @@ function buildTable() {
 &lt;table class="agtc-table striped"&gt;
   &lt;caption class="visually-hidden"&gt;Badge tokens&lt;/caption&gt;
   &lt;thead&gt;&lt;tr&gt;&lt;th scope="col"&gt;Token&lt;/th&gt;&lt;th scope="col" class="num"&gt;Value&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
-  &lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;code&gt;--agtc-badge-neutral-text&lt;/code&gt;&lt;/td&gt;&lt;td class="num"&gt;#646464&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;
+  &lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;code&gt;--agtc-badge-neutral-text&lt;/code&gt;&lt;/td&gt;&lt;td class="num"&gt;#646464&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt; <!-- audit-ignore: resolved value shown as reference example text -->
 &lt;/table&gt;</code></pre>
 
 <h2><span class="lang-fr">DOs et DON'Ts</span><span class="lang-en">DOs and DON'Ts</span></h2>
@@ -6247,11 +6283,11 @@ function buildTable() {
 // ─── PAGE: CODE BLOCK ────────────────────────────────────────────────────────
 function buildCodeBlock() {
   const tokenRows = [
-    ['code-block-default-background',            'primitive.color.gray.12', '#202020'],
-    ['code-block-default-text',                  'primitive.color.gray.4',  '#e8e8e8'],
-    ['code-block-default-meta-text',             'primitive.color.gray.8',  '#bbbbbb'],
-    ['code-block-default-copy-background',       'primitive.color.gray.11', '#646464'],
-    ['code-block-default-copy-text',             'primitive.color.gray.1',  '#fcfcfc'],
+    ['code-block-default-background',            'primitive.color.gray.12', '#202020'], // audit-ignore: resolved value shown as reference data
+    ['code-block-default-text',                  'primitive.color.gray.4',  '#e8e8e8'], // audit-ignore: resolved value shown as reference data
+    ['code-block-default-meta-text',             'primitive.color.gray.8',  '#bbbbbb'], // audit-ignore: resolved value shown as reference data
+    ['code-block-default-copy-background',       'primitive.color.gray.11', '#646464'], // audit-ignore: resolved value shown as reference data
+    ['code-block-default-copy-text',             'primitive.color.gray.1',  '#fcfcfc'], // audit-ignore: resolved value shown as reference data
     ['code-block-default-border-focus',          'semantic.color.border.focus', SEM['color-border-focus']],
     ['code-block-default-font-size',             'semantic.typography.label.size', SEM['typography-label-size']],
     ['code-block-default-padding-x',             'primitive.space.5',       '20px'],
@@ -6453,10 +6489,10 @@ function buildLink() {
 </p>
 
 <h2 class="first"><span class="lang-fr">Aperçu</span><span class="lang-en">Preview</span></h2>
-<div class="demo-box" style="display:flex;flex-direction:column;gap:14px;align-items:flex-start">
+<div class="demo-box" style="display:flex;flex-direction:column;gap:var(--agtc-semantic-space-component-padding-lg);align-items:flex-start">
   <p style="margin:0;color:var(--agtc-semantic-color-text-primary)"><span class="lang-fr">Consulter la </span><span class="lang-en">See the </span><agtc-link href="#guideline"><span class="lang-fr">guideline du composant</span><span class="lang-en">component guideline</span></agtc-link><span class="lang-fr"> pour les détails.</span><span class="lang-en"> for details.</span></p>
   <p style="margin:0;color:var(--agtc-semantic-color-text-primary)"><span class="lang-fr">Lien externe : </span><span class="lang-en">External link: </span><agtc-link href="https://www.nngroup.com/articles/guidelines-for-visualizing-links/" external>NN/g — Visualizing Links</agtc-link></p>
-  <div style="display:flex;gap:18px"><agtc-link href="#a" underline="hover"><span class="lang-fr">Accueil</span><span class="lang-en">Home</span></agtc-link><agtc-link href="#b" underline="hover"><span class="lang-fr">Composants</span><span class="lang-en">Components</span></agtc-link><agtc-link href="#c" underline="hover">Tokens</agtc-link></div>
+  <div style="display:flex;gap:var(--agtc-semantic-space-layout-component)"><agtc-link href="#a" underline="hover"><span class="lang-fr">Accueil</span><span class="lang-en">Home</span></agtc-link><agtc-link href="#b" underline="hover"><span class="lang-fr">Composants</span><span class="lang-en">Components</span></agtc-link><agtc-link href="#c" underline="hover">Tokens</agtc-link></div>
 </div>
 
 <h2><span class="lang-fr">Règles absolues</span><span class="lang-en">Absolute rules</span></h2>
@@ -6649,14 +6685,14 @@ function buildTabs() {
     .demo-tablist { display:flex; border-bottom:1px solid var(--agtc-component-tabs-default-border); margin-bottom:16px; }
     .demo-tab { display:inline-flex; align-items:center; padding:var(--agtc-component-tabs-default-padding-y) var(--agtc-component-tabs-default-padding-x); background:none; border:none; border-bottom:2px solid transparent; margin-bottom:-1px; color:var(--agtc-component-tabs-default-tab-text); font-family:inherit; font-size:var(--agtc-semantic-typography-label-size); font-weight:var(--agtc-semantic-typography-label-weight); cursor:pointer; }
     .demo-tab--active { color:var(--agtc-component-tabs-default-tab-text-active); font-weight:var(--agtc-semantic-fontWeight-bold); border-bottom-color:var(--agtc-component-tabs-default-indicator); }
-    .demo-tab:focus-visible { outline:2px solid var(--agtc-component-tabs-default-border-focus); outline-offset:2px; border-radius:2px; }
+    .demo-tab:focus-visible { outline:2px solid var(--agtc-component-tabs-default-border-focus); outline-offset:2px; border-radius:var(--agtc-semantic-radius-control-tight); }
   </style>
   <div role="tablist" aria-label="Documentation" class="demo-tablist">
     ${demoTab('<span class="lang-fr">Aperçu</span><span class="lang-en">Overview</span>', true)}
     ${demoTab('Tokens', false)}
     ${demoTab('<span class="lang-fr">Accessibilité</span><span class="lang-en">Accessibility</span>', false)}
   </div>
-  <p style="margin:0;color:var(--agtc-semantic-color-text-secondary);font-size:14px"><span class="lang-fr">Contenu du panneau « Aperçu ».</span><span class="lang-en">Panel content for "Overview".</span></p>
+  <p style="margin:0;color:var(--agtc-semantic-color-text-secondary);font-size:var(--agtc-semantic-typography-label-size)"><span class="lang-fr">Contenu du panneau « Aperçu ».</span><span class="lang-en">Panel content for "Overview".</span></p>
 </div>
 
 <h2><span class="lang-fr">Quand l'utiliser</span><span class="lang-en">When to use</span></h2>
@@ -6761,7 +6797,7 @@ function buildTokens() {
 
   const primRows = Object.entries(COLOR_SCALES).flatMap(([scale, steps]) =>
     Object.entries(steps).map(([step, { value, desc }]) =>
-      `<tr class="token-row"><td><div style="display:flex;align-items:center;gap:10px"><span style="width:40px;height:40px;border-radius:var(--agtc-semantic-radius-control);background:${value};border:1px solid var(--agtc-semantic-color-border-swatch);flex-shrink:0" aria-hidden="true"></span><code>--agtc-primitive-color-${scale}-${step}</code></div></td><td class="mono-sm">${value}</td><td>${desc}</td></tr>`
+      `<tr class="token-row"><td><div style="display:flex;align-items:center;gap:var(--agtc-semantic-space-control-gap)"><span style="width:40px;height:40px;border-radius:var(--agtc-semantic-radius-control);background:${value};border:1px solid var(--agtc-semantic-color-border-swatch);flex-shrink:0" aria-hidden="true"></span><code>--agtc-primitive-color-${scale}-${step}</code></div></td><td class="mono-sm">${value}</td><td>${desc}</td></tr>`
     )
   ).join('');
 
@@ -6771,13 +6807,13 @@ function buildTokens() {
     const swatch = isColor ? `<span style="width:40px;height:40px;border-radius:var(--agtc-semantic-radius-control);background:${v};border:1px solid var(--agtc-semantic-color-border-swatch);flex-shrink:0;display:inline-block" aria-hidden="true"></span>` : '';
     const aliasNode = getSemanticAlias(k);
     const aliasCell = aliasNode ? `<td style="font-family:var(--agtc-font-mono);font-size:var(--agtc-semantic-typography-detail-size);color:var(--agtc-semantic-color-text-secondary)">${aliasNode}</td>` : '<td>—</td>';
-    return `<tr class="token-row"><td><div style="display:flex;align-items:center;gap:10px">${swatch}<code>--agtc-semantic-${k}</code></div></td>${aliasCell}<td class="mono-sm">${v}</td></tr>`;
+    return `<tr class="token-row"><td><div style="display:flex;align-items:center;gap:var(--agtc-semantic-space-control-gap)">${swatch}<code>--agtc-semantic-${k}</code></div></td>${aliasCell}<td class="mono-sm">${v}</td></tr>`;
   }).join('');
 
   const compRows = Object.entries(COMP).map(([k, v]) => {
     const resolved = resolveCompValue(v);
     const isColor = k.includes('background') || k.includes('text') || k.includes('border');
-    const swatch = isColor && resolved.startsWith('#') ? `<span style="width:20px;height:20px;border-radius:3px;background:${resolved};border:1px solid var(--agtc-semantic-color-border-swatch);flex-shrink:0;display:inline-block;margin-right:6px" aria-hidden="true"></span>` : '';
+    const swatch = isColor && resolved.startsWith('#') ? `<span style="width:20px;height:20px;border-radius:var(--agtc-semantic-radius-control-tight);background:${resolved};border:1px solid var(--agtc-semantic-color-border-swatch);flex-shrink:0;display:inline-block;margin-right:6px" aria-hidden="true"></span>` : '';
     return `<tr class="token-row"><td><code>--agtc-component-${k}</code></td><td style="font-family:var(--agtc-font-mono);font-size:var(--agtc-semantic-typography-detail-size);color:var(--agtc-semantic-color-text-secondary)">${v}</td><td><div style="display:flex;align-items:center">${swatch}<span class="mono-sm">${resolved}</span></div></td></tr>`;
   }).join('');
 
@@ -7202,10 +7238,10 @@ ${agentTypes.map(([name, type, desc], i) => `
 color: var(--agtc-component-button-primary-background);
 
 /* ❌ Interdit — valeur brute, aucune intention / raw value, no intent */
-color: #0d74ce;
+color: #0d74ce; /* audit-ignore: anti-pattern example, shown on purpose */
 
 /* ❌ Interdit — token primitif utilisé directement / primitive token used directly */
-color: var(--agtc-primitive-color-blue-11);</code></pre>
+color: var(--agtc-primitive-color-blue-11); /* audit-ignore: anti-pattern example, shown on purpose */</code></pre>
 
 <h2 id="skills"><span class="lang-fr">Compétences (Skills)</span><span class="lang-en">Skills</span></h2>
 <table>
@@ -7823,6 +7859,47 @@ function buildChangelog() {
   // Chaque version : [id, version, date, badge?, sections:[{titleFr,titleEn,items:[{fr,en}]}]]
   const versions = [
     {
+      id: 'v0-3-0', ver: 'v0.3.0', date: '2026-07-22', badge: {fr:'Non lancée',en:'Unreleased'},
+      sections: [
+        { fr:'Gouvernance', en:'Governance', items:[
+          {fr:'Protection de branche configurée sur <code>main</code> et <code>develop</code> : PR obligatoire, check <code>lang-audit</code> requis, force-push et suppression bloqués — 0 approbation exigée tant que le dépôt a un seul mainteneur (auto-approbation impossible sur GitHub), avec bascule prévue vers 1/2 approbations dès l\'arrivée d\'un second contributeur (ADR-076)',en:'Branch protection configured on <code>main</code> and <code>develop</code>: PR required, <code>lang-audit</code> check required, force-push and deletion blocked — 0 required approvals while the repository has a single maintainer (GitHub cannot self-approve a PR), with a planned move to 1/2 approvals once a second contributor joins (ADR-076)'},
+          {fr:'Issue #9 (révision visuelle automatique, ouverte depuis le 2026-07-14) fermée : les snapshots des composants concernés avaient déjà été resynchronisés dans <code>70b44fa</code>, CI Playwright verte depuis',en:'Issue #9 (automatic visual review, open since 2026-07-14) closed: the affected components\' snapshots had already been re-synced in <code>70b44fa</code>, Playwright CI green since'},
+          {fr:'<code>enforce_admins</code> activé sur <code>main</code> et <code>develop</code> suite à un incident : un push direct a silencieusement contourné la protection fraîchement configurée. Plus aucun bypass admin possible, même en urgence (ADR-077, amende ADR-076)',en:'<code>enforce_admins</code> enabled on <code>main</code> and <code>develop</code> after an incident: a direct push silently bypassed the just-configured protection. No admin bypass remains possible, even in an emergency (ADR-077, amends ADR-076)'},
+          {fr:'<code>lang-audit.yml</code> : déclencheur <code>push</code> étendu de <code>main</code> seul à <code>main</code> + <code>develop</code> — un push fusionné sur <code>develop</code> n\'échappait à toute validation CI (corrigé via PR #35)',en:'<code>lang-audit.yml</code>: <code>push</code> trigger extended from <code>main</code> only to <code>main</code> + <code>develop</code> — a merged push to <code>develop</code> previously escaped all CI validation (fixed via PR #35)'},
+        ]},
+        { fr:'Gouvernance Figma', en:'Figma governance', items:[
+          {fr:'Sécurité d\'écriture Tokens Studio → GitHub mise en place (ADR-078) : branche <code>agentica/proposals</code> créée (depuis <code>main</code>) comme seule destination d\'écriture autorisée ; compte de service dédié <code>agentica-tokens-bot</code> (Write, pas Admin) ; sync Tokens Studio pointée sur <code>main</code>, lecture vérifiée (82 requêtes, 0 erreur, aucune écriture tentée — conforme à la sync en lecture seule d\'ADR-011)',en:'Tokens Studio → GitHub write-access safety in place (ADR-078): <code>agentica/proposals</code> branch created (off <code>main</code>) as the sole allowed write destination; dedicated <code>agentica-tokens-bot</code> service account (Write, not Admin); Tokens Studio sync pointed at <code>main</code>, read verified (82 requests, 0 errors, no write attempted — consistent with ADR-011\'s read-only sync)'},
+          {fr:'Audit §22 automatisé sur toute la librairie (ADR-079) : agent cloud planifié hebdomadaire (lundis 6h) qui vérifie les 9 catégories §22 sur l\'ensemble du fichier Figma — plus seulement les pages récemment modifiées. Rapport silencieux si propre, issue GitHub (<code>figma-audit</code>) si violation ou échec du run. Comble l\'angle mort de l\'incident du 2026-07-09 (10 Text Styles sur 11 sans variable bindée, détecté seulement par comparaison humaine manuelle)',en:'Automated §22 audit across the whole library (ADR-079): weekly scheduled cloud agent (Mondays 6am) checking all 9 §22 categories against the entire Figma file — not just recently modified pages. Silent report when clean, GitHub issue (<code>figma-audit</code>) on any violation or run failure. Closes the blind spot from the 2026-07-09 incident (10 of 11 Text Styles with no bound variable, caught only by manual human comparison)'},
+          {fr:'Règle de tri de contenu pour la future Community File (ADR-080) : les pages d\'identité de marque (<code>COVER</code>, <code>FOUNDATIONS &gt; logos</code>) restent privées par principe — règle par catégorie, pas une liste figée, pour s\'appliquer automatiquement aux futures pages génériques. Volet audit pré-publication ajouté pour couvrir le cas d\'un logo imbriqué dans un futur composant (ex. top-nav, bandeau)',en:'Content triage rule for the future Community File (ADR-080): brand-identity pages (<code>COVER</code>, <code>FOUNDATIONS &gt; logos</code>) stay private by principle — a category rule, not a fixed list, so it automatically applies to future generic pages. Pre-publication audit clause added to cover a logo nested inside a future component (e.g. top-nav, banner)'},
+          {fr:'Licence de la future Community File tranchée : CC BY 4.0, cohérente avec le MIT du code (ADR-081)',en:'Future Community File licence decided: CC BY 4.0, consistent with the code\'s MIT licence (ADR-081)'},
+          {fr:'Composants Brand/logo séparés dans un fichier Figma dédié, publié comme librairie et consommé par instances cross-file — la page logo n\'a plus besoin d\'être exclue manuellement du futur Community File (ADR-082)',en:'Brand/logo components separated into a dedicated Figma file, published as a library and consumed via cross-file instances — the logo page no longer needs manual exclusion from the future Community File (ADR-082)'},
+          {fr:'Script d\'audit consolidé <code>scripts/figma/audit-figma-file.js</code> (7 checks : bindings orphelins, propriétés non liées, lineHeight cassé, clipping en cascade, débordements, références obsolètes après renommage, liens internes cassés) — exécution devenue obligatoire avant la fin de toute session Figma mutative, pas seulement aux déclencheurs existants du §22 (ADR-090)',en:'Consolidated audit script <code>scripts/figma/audit-figma-file.js</code> (7 checks: orphaned bindings, unbound properties, broken lineHeight, cascading clipping, overflows, stale references after a rename, broken internal links) — now mandatory before ending any mutating Figma session, not just the existing §22 triggers (ADR-090)'},
+        ]},
+        { fr:'Composants', en:'Components', items:[
+          {fr:'<code>agtc-image</code> — nouveau Web Component : <code>width</code>/<code>height</code> obligatoires (anti-CLS), <code>loading="lazy"</code> par défaut avec option <code>priority</code>, support WebP via <code>&lt;picture&gt;</code>, skeleton de chargement optionnel, repli si l\'image échoue (ADR-083)',en:'<code>agtc-image</code> — new Web Component: required <code>width</code>/<code>height</code> (anti-CLS), <code>loading="lazy"</code> by default with a <code>priority</code> opt-in, WebP support via <code>&lt;picture&gt;</code>, optional loading skeleton, fallback on failed load (ADR-083)'},
+          {fr:'Les 9 illustrations de la home page migrées vers <code>agtc-image</code> ; composant <code>agtc-illustration</code> distinct abandonné (aurait fait doublon une fois le wrapper allégé) — ratio anti-CLS corrigé au passage (768×512, vrai ratio 3:2 des PNG sources) (ADR-084)',en:'All 9 home page illustrations migrated to <code>agtc-image</code>; a separate <code>agtc-illustration</code> component was dropped (would have duplicated it once the wrapper was scoped down) — anti-CLS ratio corrected along the way (768×512, the source PNGs\' true 3:2 ratio) (ADR-084)'},
+          {fr:'<code>agtc-top-nav</code> confirmé comme architecture "mix" (comme <code>agtc-table</code>/<code>banner</code>/<code>code-block</code>) : le site utilise du HTML <code>.site-nav</code> écrit à la main plutôt que le composant réel, intentionnellement — un bloc de code mort pour un menu mobile qui ne s\'exécutait jamais supprimé au passage (ADR-087)',en:'<code>agtc-top-nav</code> confirmed as "mix" architecture (like <code>agtc-table</code>/<code>banner</code>/<code>code-block</code>): the site intentionally uses hand-written <code>.site-nav</code> HTML rather than the real component — a dead mobile-menu code block that never ran removed along the way (ADR-087)'},
+        ]},
+        { fr:'Gouvernance & outillage', en:'Governance & tooling', items:[
+          {fr:'Registre <code>relationships</code> (<code>npm run relationships</code>) : parcourt les <code>$extensions</code> des tokens et les en-têtes <code>Relations:</code> des guidelines/règles pour générer un index typé des liens entre décisions, tokens et composants — concepts empruntés à DSDS (Design System Documentation Schema) sans migration de format (ADR-086)',en:'<code>relationships</code> registry (<code>npm run relationships</code>): walks token <code>$extensions</code> and guideline/rule <code>Relations:</code> headers to generate a typed index of links between decisions, tokens and components — concepts borrowed from DSDS (Design System Documentation Schema) without migrating to its format (ADR-086)'},
+          {fr:'Validation programmatique des contrats (<code>npm run validate:contracts</code>, désormais dans <code>npm test</code>) : forme DTCG, intégrité des références ADR, chemins de contrat, synchronisation tokens/guidelines, présence de la section UX Patterns Reference',en:'Programmatic contract validation (<code>npm run validate:contracts</code>, now part of <code>npm test</code>): DTCG shape, ADR reference integrity, contract paths, tokens/guidelines sync, UX Patterns Reference section presence'},
+          {fr:'Nouvelle règle "discipline de statut" : toujours passer un ticket GitHub Projects à "En cours" au démarrage du travail, jamais directement à "Terminé"',en:'New "status discipline" rule: always move a GitHub Projects ticket to "In progress" when work starts, never jump straight to "Done"'},
+          {fr:'Décision de couleurs du logo (<code>logo-black</code>/<code>logo-gray</code>) formalisée rétroactivement dans un ADR — la contrainte existait déjà dans le code mais n\'était jamais couverte par une décision documentée (ADR-088)',en:'Logo colour decision (<code>logo-black</code>/<code>logo-gray</code>) formalized retroactively in an ADR — the constraint already existed in code but was never covered by a documented decision (ADR-088)'},
+        ]},
+        { fr:'Dette de tokens résorbée', en:'Token debt resolved', items:[
+          {fr:'<code>audit-tokens.js</code> : ~5 800 → 0 violation critique. Exclusions de chemin ajoutées (build généré, ADR historiques, scripts Figma, docs narratifs) + mécanisme <code>audit-ignore</code> (miroir de <code>lang-audit-ignore</code>) (ADR-085, ADR-089)',en:'<code>audit-tokens.js</code>: ~5,800 → 0 critical violations. Path exclusions added (generated build output, historical ADRs, Figma scripts, narrative docs) + an <code>audit-ignore</code> escape hatch (mirroring <code>lang-audit-ignore</code>) (ADR-085, ADR-089)'},
+          {fr:'7 tokens fantômes promus (<code>fontWeight.bold</code>/<code>display</code>, <code>radius.pill</code>, <code>radius.control-tight</code>, <code>color.border.strong</code>, <code>color.brand.tertiary</code>) — corrige au passage un vrai bug (<code>radius-pill</code> valait <code>999px</code> au lieu de <code>9999px</code>)',en:'7 phantom tokens promoted (<code>fontWeight.bold</code>/<code>display</code>, <code>radius.pill</code>, <code>radius.control-tight</code>, <code>color.border.strong</code>, <code>color.brand.tertiary</code>) — fixes a real bug along the way (<code>radius-pill</code> was <code>999px</code>, not <code>9999px</code>)'},
+          {fr:'Le mode sombre du site consommait une copie dupliquée à la main au lieu de <code>tokens/semantic.dark.json</code> (qui existait déjà, jamais raccordé) — corrigé, plus un second bloc <code>[data-theme="dark"]</code> entièrement mort supprimé',en:'The site\'s dark mode consumed a hand-duplicated copy instead of <code>tokens/semantic.dark.json</code> (which already existed, never wired up) — fixed, plus a second, entirely dead <code>[data-theme="dark"]</code> block removed'},
+          {fr:'Vraie palette Radix dark ajoutée (<code>tokens/primitives.dark.json</code>, 9 échelles, <code>@radix-ui/colors</code> v3.0.0) — référence pour de futurs tokens, pas encore raccordée à un build',en:'Real Radix dark palette added (<code>tokens/primitives.dark.json</code>, 9 scales, <code>@radix-ui/colors</code> v3.0.0) — a reference for future tokens, not yet wired into a build target'},
+        ]},
+        { fr:'Accessibilité', en:'Accessibility', items:[
+          {fr:'Contraste corrigé sur <code>pipelines/index.html</code> : mauvais token de couleur (teal calibré pour fond clair) utilisé sur un fond sombre — remplacé par le token prévu pour ce cas',en:'Contrast fixed on <code>pipelines/index.html</code>: wrong colour token (a teal calibrated for light backgrounds) used against a dark background — replaced with the token meant for exactly this case'},
+          {fr:'3 findings <code>axe-core</code> réels corrigés sur <code>ai-brief.html</code> : 2 contrastes (code inline, étiquette de langage) + 1 accès clavier (zone défilable sans <code>tabindex</code>)',en:'3 real <code>axe-core</code> findings fixed on <code>ai-brief.html</code>: 2 contrast issues (inline code, language label) + 1 keyboard-access issue (scrollable region with no <code>tabindex</code>)'},
+          {fr:'<code>scripts/axe-audit.js</code> rendu résilient : un timeout sur une seule page faisait crasher tout le run et perdre les résultats des autres pages — désormais isolé par page (comme <code>smoke-test.js</code>), une page en échec est enregistrée comme ignorée plutôt que de tout arrêter',en:'<code>scripts/axe-audit.js</code> made resilient: a single page\'s timeout used to crash the entire run and lose every other page\'s results — now isolated per page (like <code>smoke-test.js</code>), a failing page is recorded as skipped instead of aborting the whole run'},
+        ]},
+      ],
+    },
+    {
       id: 'v0-2-0', ver: 'v0.2.0', date: '2026-07-20', badge: {fr:'Bêta',en:'Beta'},
       sections: [
         { fr:'Tokens — Dark mode dual-mode', en:'Tokens — Dark mode dual-mode', items:[
@@ -7836,7 +7913,7 @@ function buildChangelog() {
         ]},
         { fr:'Storybook & Chromatic', en:'Storybook & Chromatic', items:[
           {fr:'<code>@storybook/addon-themes</code> — toggle dark/light dans la toolbar Storybook (<code>withThemeByDataAttribute</code>, <code>data-theme</code> sur <code>&lt;html&gt;</code>)',en:'<code>@storybook/addon-themes</code> — dark/light toggle in Storybook toolbar (<code>withThemeByDataAttribute</code>, <code>data-theme</code> on <code>&lt;html&gt;</code>)'},
-          {fr:'Chromatic Story Modes — 2 snapshots par story (light #fcfcfc / dark #0a0c11), baselines séparées. Résout les régressions visuelles dark/light non détectées',en:'Chromatic Story Modes — 2 snapshots per story (light #fcfcfc / dark #0a0c11), separate baselines. Resolves undetected dark/light visual regressions'},
+          {fr:'Chromatic Story Modes — 2 snapshots par story (light #fcfcfc / dark #0a0c11), baselines séparées. Résout les régressions visuelles dark/light non détectées',en:'Chromatic Story Modes — 2 snapshots per story (light #fcfcfc / dark #0a0c11), separate baselines. Resolves undetected dark/light visual regressions'}, // audit-ignore: resolved values cited in a changelog entry
         ]},
         { fr:'Performance', en:'Performance', items:[
           {fr:'Home page 1 453 KB → 65 KB (−95 %) : illustrations SVG chargées en lazy-load via <code>IntersectionObserver</code>, jamais inlinées dans le HTML',en:'Home page 1,453 KB → 65 KB (−95%): SVG illustrations lazy-loaded via <code>IntersectionObserver</code>, never inlined in HTML'},
@@ -8479,7 +8556,7 @@ function buildAiBrief() {
         <p class="ai-question"><span class="lang-fr">Quel token CSS utiliser pour la couleur d'un bouton primaire ?</span><span class="lang-en">Which CSS token should I use for a primary button color?</span></p>
         <div class="ai-answer">
           <p><code>--agtc-component-button-primary-background</code></p>
-          <p><span class="lang-fr">Ce token résout vers <code>--agtc-semantic-color-action-primary</code>, qui vaut <code>#007a68</code> en mode clair et <code>#34d3bb</code> en mode sombre. Ratio de contraste vérifié ≥ 4.5:1. Source : <code>tokens/component.json</code> + ADR-050.</span><span class="lang-en">This token resolves to <code>--agtc-semantic-color-action-primary</code>, which equals <code>#007a68</code> in light mode and <code>#34d3bb</code> in dark mode. Contrast ratio verified ≥ 4.5:1. Source: <code>tokens/component.json</code> + ADR-050.</span></p>
+          <p><span class="lang-fr">Ce token résout vers <code>--agtc-semantic-color-action-primary</code>, qui vaut <code>#007a68</code> en mode clair et <code>#34d3bb</code> en mode sombre. Ratio de contraste vérifié ≥ 4.5:1. Source : <code>tokens/component.json</code> + ADR-050.</span><span class="lang-en">This token resolves to <code>--agtc-semantic-color-action-primary</code>, which equals <code>#007a68</code> in light mode and <code>#34d3bb</code> in dark mode. Contrast ratio verified ≥ 4.5:1. Source: <code>tokens/component.json</code> + ADR-050.</span></p> <!-- audit-ignore: resolved values cited in Q&A prose -->
         </div>
       </div>
 
@@ -8493,7 +8570,7 @@ function buildAiBrief() {
       <div class="ai-qa">
         <p class="ai-question"><span class="lang-fr">Comment nommer un nouveau token pour l'état d'erreur d'un champ de saisie ?</span><span class="lang-en">How should I name a new token for the error state of an input field?</span></p>
         <div class="ai-answer">
-          <p><span class="lang-fr">Format : <code>color.feedback.danger</code> (catégorie.rôle.variante) → CSS : <code>--agtc-semantic-color-feedback-danger</code>. Interdit : <code>red</code>, <code>errorColor</code>, <code>#ef4444</code>. Les tokens encodent l'intention, pas la valeur. Source : règle code-style.md + tokens-system.md.</span><span class="lang-en">Format: <code>color.feedback.danger</code> (category.role.variant) → CSS: <code>--agtc-semantic-color-feedback-danger</code>. Forbidden: <code>red</code>, <code>errorColor</code>, <code>#ef4444</code>. Tokens encode intent, not values. Source: code-style.md + tokens-system.md.</span></p>
+          <p><span class="lang-fr">Format : <code>color.feedback.danger</code> (catégorie.rôle.variante) → CSS : <code>--agtc-semantic-color-feedback-danger</code>. Interdit : <code>red</code>, <code>errorColor</code>, <code>#ef4444</code>. Les tokens encodent l'intention, pas la valeur. Source : règle code-style.md + tokens-system.md.</span><span class="lang-en">Format: <code>color.feedback.danger</code> (category.role.variant) → CSS: <code>--agtc-semantic-color-feedback-danger</code>. Forbidden: <code>red</code>, <code>errorColor</code>, <code>#ef4444</code>. Tokens encode intent, not values. Source: code-style.md + tokens-system.md.</span></p> <!-- audit-ignore: forbidden-value example cited in Q&A prose -->
         </div>
       </div>
 
@@ -8530,7 +8607,7 @@ function buildAiBrief() {
           <span class="lang-fr">Copier</span><span class="lang-en">Copy</span>
         </button>
       </div>
-      <pre id="brief-pre" class="brief-pre"></pre>
+      <pre id="brief-pre" class="brief-pre" tabindex="0"></pre>
     </div>
     <script>
       (function(){
@@ -8667,6 +8744,7 @@ function build() {
   buildIcon();
   buildInput();
   buildBadge();
+  buildImage();
   buildCard();
   buildCheckbox();
   buildRadio();

@@ -1,7 +1,7 @@
 ---
 paths:
   - "scripts/figma/**"
-  - "tokens/figma.json"
+  - "tokens/figma-text-styles.json"
 ---
 
 # Rule: figma-components

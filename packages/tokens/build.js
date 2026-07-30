@@ -32,7 +32,7 @@ copyDir(path.join(DIST_TOKENS, 'js'), path.join(OUT, 'js'));
 copyDir(path.join(DIST_TOKENS, 'tailwind'), path.join(OUT, 'tailwind'));
 
 // Raw three-layer DTCG source, retained for internal tooling consumers.
-// figma.json / $metadata.json stay root-only (Tokens Studio internal bookkeeping).
+// figma-text-styles.json / $metadata.json stay root-only (Tokens Studio internal bookkeeping).
 ensureDir(path.join(OUT, 'tokens'));
 ['primitives.json', 'semantic.json', 'semantic.dark.json', 'component.json'].forEach((f) => {
   const src = path.join(SRC_TOKENS, f);

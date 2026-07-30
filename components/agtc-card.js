@@ -54,7 +54,7 @@ class AgtcCard extends LitElement {
          In Marketing context (data-context="marketing" on <body>), the site overrides
          these tokens via --agtc-component-card-typography-marketing-* in siteCSS(). */
       --card-title-size:       var(--agtc-component-card-typography-title-size,        var(--agtc-semantic-typography-label-size));
-      --card-title-weight:     var(--agtc-component-card-typography-title-weight,      var(--agtc-primitive-fontWeight-bold));
+      --card-title-weight:     var(--agtc-component-card-typography-title-weight,      var(--agtc-semantic-fontWeight-bold));
       --card-title-line-height:var(--agtc-component-card-typography-title-line-height, var(--agtc-semantic-typography-label-bold-line-height));
       --card-body-size:        var(--agtc-component-card-typography-body-size,         var(--agtc-semantic-typography-label-size));
       --card-body-weight:      var(--agtc-component-card-typography-body-weight,       var(--agtc-semantic-typography-label-weight));

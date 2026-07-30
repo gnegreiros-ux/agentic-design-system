@@ -92,7 +92,7 @@ Allow choosing **exactly one** option in a mutually exclusive set.
 | Selected dot hover | `component.radio.default.fill-hover` |
 | Label | `component.radio.default.label` |
 
-> Size: `--agtc-semantic-icon-size-control` (20px). Round shape: `border-radius: 9999px`.
+> Size: `--agtc-semantic-icon-size-control` (20px). Round shape: `border-radius: var(--agtc-semantic-radius-pill)`.
 
 ---
 
@@ -128,7 +128,7 @@ Allow choosing **exactly one** option in a mutually exclusive set.
 
 | Pattern | Source | Applied | Justification |
 |---------|--------|----------|---------------|
-| **Round shape** (square = checkbox) | [NN/g — checkboxes vs radio](https://www.nngroup.com/articles/checkboxes-vs-radio-buttons/) | ✅ | `border-radius: 9999px` |
+| **Round shape** (square = checkbox) | [NN/g — checkboxes vs radio](https://www.nngroup.com/articles/checkboxes-vs-radio-buttons/) | ✅ | `border-radius: var(--agtc-semantic-radius-pill)` |
 | Mutually exclusive selection (exactly 1) | [NN/g](https://www.nngroup.com/articles/checkboxes-vs-radio-buttons/) | ✅ | Group manages exclusivity |
 | Pre-select a sensible default (except exceptions) | [NN/g — radio default selection](https://www.nngroup.com/articles/radio-buttons-default-selection/) | ✅ | Group `value` — usage guidance |
 | Vertical stacking, one option per row | [NN/g](https://www.nngroup.com/articles/checkboxes-vs-radio-buttons/) | ✅ | Layout recommendation |

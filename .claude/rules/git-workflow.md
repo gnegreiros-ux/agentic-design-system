@@ -81,8 +81,28 @@ Same format as commits: `[type]([scope]): [description]`
 
 ## Protection rules
 
+**Current state (configured 2026-07-20, ADR-076 + ADR-077):** `main` and `develop`
+both require a PR — **no direct push, not even by the admin** (`enforce_admins: true`,
+ADR-077) — the `lang-audit` status check green (runs on `pull_request` and on `push`
+to either `main` or `develop`), and block force-push/branch deletion. **0 approving
+reviews required** on both, since `gnegreiros-ux` is currently the repository's sole
+collaborator and GitHub cannot self-approve a PR.
+
+**Target state once a second collaborator exists** (the rule this section originally
+described, restore verbatim per ADR-076's trigger clause):
 - `main`: merge only via PR + 2 approvals + green CI
 - `develop`: merge only via PR + 1 approval + green CI
+
+Other CI checks (`Playwright`, `build-and-deploy`) are not yet required checks — they
+only trigger on `push` to `main` today, not on `pull_request` (see ADR-076). Making them
+blocking pre-merge gates requires first adding a `pull_request` trigger to
+`playwright.yml`, a separate decision not yet made.
+
+There is no bypass for an emergency: if branch protection ever blocks a genuinely
+urgent fix (e.g. CI itself is broken), the fix is to temporarily disable the rule in
+repository settings, explicitly and visibly — not a per-push shortcut (ADR-077, after
+an accidental silent bypass during this same session).
+
 - Any PR modifying `tokens/component.json` requires Principal Designer approval
 
 ---

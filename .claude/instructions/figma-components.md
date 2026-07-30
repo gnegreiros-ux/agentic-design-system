@@ -39,6 +39,38 @@ Primitives (`color/teal/500`) expose the implementation, not the intent — see 
 
 ---
 
+## 0bis. Mandatory audit — run `scripts/figma/audit-figma-file.js` before ending ANY session that touched this file
+
+> **Rule adopted 2026-07-23 (ADR-090)**, after a single verification request uncovered five
+> regression classes (§26) that had been shipping silently for weeks — including ~1600 color
+> bindings pointed at an orphaned variable collection, and hardcoded padding/radius drifted from
+> the real code on `Button`'s 20 variants. `findOverflows()` alone (§21.A/§25) does not catch any
+> of these — they need their own dedicated checks, and prose checklists get skipped under time
+> pressure. A script does not get skipped the same way.
+
+```
+✅ Any session that calls use_figma with a mutation (fills, strokes, padding, radius, text,
+   layout, new/moved/deleted nodes — anything that isn't a pure read) MUST run
+   scripts/figma/audit-figma-file.js against every page it touched before the session ends —
+   not just before declaring the whole file "done"
+✅ Fan out one use_figma call per touched page in a single message (skill's multi-page rule),
+   paste the script's function bodies + a call to auditPage(page) in each
+✅ If the audit returns anything in orphanedVariables, unboundComponentProps,
+   brokenLineHeights, staleNameReferences, or brokenLinks, treat it as a blocking regression —
+   fix it in the same session, don't defer
+✅ clippedEffects and overflows entries are candidates to verify visually (§26.10 caveat), not
+   automatic failures — check with a screenshot before deciding
+❌ Never end a Figma session on "it looks right in the screenshot" alone — the orphaned-variable
+   and hardcoded-padding bugs from 2026-07-23 both rendered PERFECTLY normally; only the audit
+   script (or a human reading the properties panel) caught them
+```
+
+See §26 for the full incident writeups behind each check and §26.10 for what a clean result
+looks like. See §26.9 specifically for renames/deletions — maintain `KNOWN_RENAMES` in
+`scripts/figma/audit-figma-file.js` the moment anything canonically named changes.
+
+---
+
 ## 1. Component properties — when to use what
 
 | Property | Figma type | When to use it |
@@ -1428,7 +1460,7 @@ text from the system. Does adding the style lack legitimacy? No: a distinct
 emphasis weight (e.g. Bold for a CTA vs Regular for a form label) is a real
 typography decision, not a cosmetic detail — it deserves its own token,
 propagated everywhere: `tokens/semantic.json` (`typography.*` composite) →
-`tokens/figma.json` (generates the Text Style via Tokens Studio) →
+`tokens/figma-text-styles.json` (generates the Text Style via Tokens Studio) →
 `tokens/component.json` (component token referencing it) → compiled CSS
 (`npm run tokens`) → code component (`components/agtc-*.js`) → Figma (Text
 Style created/applied) → documentation (`guidelines/components/*.md`). Never
@@ -1671,7 +1703,12 @@ ring.color = { r:0, g:0.478, b:0.408, a:1 }; // force-sync if the render still s
 
 > Referenced by `.claude/rules/figma-library-governance.md`. Run on any newly
 > created/modified page, before declaring it done, and on every explicit
-> request ("audit", "check the whole file", "full screenshot").
+> request ("audit", "check the whole file", "full screenshot"). Also run
+> automatically, weekly, against the ENTIRE library (not just recently touched
+> pages) by a scheduled cloud agent — see ADR-079. That routine's prompt reads
+> this exact section as its source of truth, so keep this checklist accurate:
+> a change here changes what the weekly routine checks, with no separate copy
+> to update.
 
 ### 1. Accessibility
 - [ ] Focus ring visible on every focusable state — technique C40 (§20), never
@@ -2058,6 +2095,326 @@ const overflows = findOverflows(pageWrapper);
 
 ---
 
+## 26. Post-audit checklist — line-height units, container nesting, alignment, stale reads
+
+> **Rule adopted 2026-07-23.** Trigger: a routine "verify the mono pilot rendering" request
+> uncovered five distinct, previously-undetected defects across the whole file — a broken
+> `lineHeight` unit on all 15 Text Styles, cropped focus rings on 2 pages, invisible tag text on
+> 3 pages, a hardcoded color failing WCAG contrast, and (later, from a user report) a decorative
+> background that didn't scale with its content. None of these were caught by `findOverflows()`
+> or the existing clipping checks — they need their own verification steps, documented here so
+> they become a standing checklist, not a one-off fix.
+
+### 26.1 `lineHeight` must be `{unit:"PERCENT"}`, never `{unit:"PIXELS"}` with a bare multiplier
+
+A Text Style's `lineHeight` binding can silently carry the *token's numeric value* (e.g. `1.6`,
+meant as a unitless CSS multiplier) under the **wrong unit** — `{unit:"PIXELS", value:1.6}`
+instead of `{unit:"PERCENT", value:160}`. On a single line of text this is invisible (nothing to
+space out). The moment that text wraps to 2+ lines, the lines render on top of each other.
+
+```javascript
+// Audit every Text Style before trusting it
+const styles = await figma.getLocalTextStylesAsync();
+const broken = styles.filter(s => s.lineHeight.unit === 'PIXELS' && s.lineHeight.value < 10);
+// value < 10 is the tell — a real pixel line-height is never that small
+```
+
+```
+✅ Convert primitive.lineHeight.* (a unitless number, e.g. "1.6") to Figma's lineHeight as
+   {unit:"PERCENT", value: primitiveValue * 100} — never as {unit:"PIXELS", value: primitiveValue}
+✅ Re-check ALL styles sharing a category (reading/heading/display), not just the one you're
+   touching — this bug is copy-pasted across every style built the same way
+❌ Never assume a style is fine because it "looks right" on short, single-line text
+```
+
+**Amendment (2026-07-27, building `doc/page-frame`):** the same bug hits a raw `TEXT` node's
+`lineHeight` bound directly to a Variable via `setBoundVariable('lineHeight', var)` — not just
+published Text Styles. Figma always resolves a Variable-bound `lineHeight` as `PIXELS`, even
+when the variable stores a unitless multiplier (`primitive/lineHeight/display` = `1`, a correct
+primitive value) — there is no way to bind a percent-semantics lineHeight to a Variable. Hit on
+`semantic/marketing/typography/display/line-height`, never exercised before (no prior text node
+had used it), so invisible to every earlier audit. Fix: never bind `lineHeight` to a Variable on
+an ad-hoc text node for a unitless-multiplier token — set a plain, unbound
+`{unit:"PERCENT", value:100}` instead, same as the Text Style fix above.
+`scripts/figma/audit-figma-file.js`'s `findBrokenLineHeights()` now scans both Text Styles and
+any `TEXT` node with a Variable-bound `lineHeight`, not just Text Styles.
+
+### 26.2 A decorative background must be a HUG parent of its content, never an independent sibling
+
+Pattern to avoid: `section-content-bg` (a fixed- or manually-resized decorative frame) sitting
+**next to** a content frame (`typo-content`, `spacing-content`, …) at the same page level,
+relying on both frames' authored sizes staying in sync by hand. The moment the content frame
+grows (new row added, translated text is longer, a token is added), the background doesn't
+follow — content spills onto the plain white page background, breaking the visual container.
+
+```
+✅ appendChild the content frame INTO the background frame (real nesting, not visual coincidence)
+✅ Background frame: layoutMode="VERTICAL", primaryAxisSizingMode="AUTO" (hug), padding set once
+✅ Content frame: layoutSizingHorizontal="FIXED" at its authored width, height stays HUG
+✅ Any time content is added/removed/re-translated, the background auto-follows — nothing to sync
+❌ Never position a "container-looking" background as a sibling frame at a coincidentally-matching
+   size — it WILL drift the next time the content changes (2026-07-23 incident: adding 4 rows to
+   `typography`'s type ramp left the last 3 rows rendering outside `section-content-bg`)
+```
+
+### 26.3 A `FILL`/`layoutGrow=1` spacer defeats left-alignment in table-like rows
+
+If a row's last element (a sample bar, a status pill) is meant to **start at the same X across
+every row** for easy visual comparison, the text/spacer column immediately before it must be
+`layoutSizingHorizontal="FIXED"` at a width wide enough for the longest row's content — never
+`FILL`/`layoutGrow=1`. A `FILL` spacer eats all remaining row width, which pushes the following
+element flush against the row's right edge instead of anchoring it to a shared left position —
+the classic "space-between" trick, wrong for anything meant to read as a comparable bar chart.
+
+```
+✅ Table/list rows where a trailing element (bar, badge) should align across rows:
+   give the preceding text column a FIXED width sized to the longest content in that column
+❌ FILL/layoutGrow on a column whose only job is "push the next thing to the far edge" —
+   that's a right-alignment tool, not a left-alignment one
+```
+
+### 26.4 `.height` / `.absoluteBoundingBox` can lie right after a script mutation — use `.absoluteRenderBounds`
+
+Reading `node.height` or `node.absoluteBoundingBox` on an auto-layout child immediately after a
+style/font change in the **same session** (even a fresh `use_figma` call) can return a stale or
+nonsensical value (`height: 1` on a 32px-bold heading has been observed). This corrupts anything
+computed from it — including auto-layout's own positioning of the next sibling, which is how a
+title/subtitle pair ended up rendering on top of each other even though geometry read as
+"non-overlapping" at the time.
+
+```
+✅ For ground-truth rendered geometry, always read node.absoluteRenderBounds — it reflects the
+   actual paint, not a cached layout value
+✅ After adding/mutating nodes inside an auto-layout HUG frame, re-fetch the frame fresh
+   (getNodeByIdAsync in a NEW use_figma call) and check absoluteRenderBounds before trusting it
+❌ Never conclude "no overlap" from .height/.absoluteBoundingBox alone right after a mutation —
+   cross-check with a screenshot at a real resolution (scale ≥ 2) when anything looks tight
+```
+
+### 26.5 Every fill must resolve `boundVariables` — a raw color is both a token violation and an a11y risk
+
+`node.fills[0].boundVariables` being empty (`{}`) on a text/shape fill means the color is
+hand-painted, not tokenized — a direct violation of `tokens-system.md`, AND a sign nobody
+contrast-checked it (the 2026-07-23 `PATTERNS` tag: hardcoded gray text at ~12% opacity of the
+same gray for its own background → 2.86:1 contrast, below the 4.5:1 AA minimum for small text).
+
+```javascript
+// Audit sweep — run on any page before calling it done
+const unbound = page.findAll(n => 'fills' in n && Array.isArray(n.fills))
+  .filter(n => n.fills.some(f => f.type === 'SOLID' && f.visible !== false && !f.boundVariables?.color));
+```
+
+```
+✅ Every SOLID fill on text/shapes resolves through boundVariables.color to a semantic token
+✅ When fixing a hardcoded color, bind to an EXISTING semantic token matching the same resolved
+   value/role (e.g. semantic/color/text/secondary) rather than inventing a new one
+✅ Compute contrast (WCAG relative luminance) for any text-on-fill pair discovered this way —
+   don't assume the existing pairing was ever checked
+❌ Never leave `boundVariables: {}` on a fill "because the color looks right" — it will drift
+   silently the next time a token value changes, since nothing links it back
+```
+
+### 26.7 A variable can resolve by ID while its collection is orphaned — check `getLocalVariableCollectionsAsync()`, not just `getVariableByIdAsync()`
+
+**2026-07-23 incident.** `page-wrapper`'s background fill showed a "?" in the Figma UI (broken
+variable), yet `figma.variables.getVariableByIdAsync(id)` returned a perfectly valid-looking
+object — name, type, resolved color, all present. The tell was one level up:
+`variable.variableCollectionId` pointed at a collection (`"Agentica — Tokens"`, an early,
+pre-ADR-059 token collection) that **`getLocalVariableCollectionsAsync()` no longer lists** —
+i.e. Figma's own UI can't resolve it as live/editable even though the raw ID lookup still
+succeeds. Scope when audited: **~1600 fill/stroke bindings across all 18 pages**, essentially
+the entire file's chrome color layer, silently pointing at a collection that isn't part of the
+current `primitives` / `semantic` / `component` / `semantic.dark` hierarchy.
+
+```javascript
+// A variable "resolving" is not proof it's healthy — cross-check its collection
+const collections = await figma.variables.getLocalVariableCollectionsAsync();
+const knownGoodIds = new Set(collections.map(c => c.id));
+const v = await figma.variables.getVariableByIdAsync(someBoundVarId);
+const isOrphaned = v && !knownGoodIds.has(v.variableCollectionId); // true = broken, even though v itself is non-null
+```
+
+```
+✅ Cross-check every bound variable's variableCollectionId against getLocalVariableCollectionsAsync()
+   — a non-null getVariableByIdAsync() result is NOT sufficient proof of health
+✅ To fix: find the matching name in the current semantic/component collection
+   (orphan "color/text/secondary" → current "semantic/color/text/secondary") and rebind via
+   figma.variables.setBoundVariableForPaint(paint, 'color', newVariable)
+❌ Never trust a "?" badge in the Figma UI as the only signal — the Plugin API can mask it
+❌ Never assume a single fixed "?" instance is isolated — this class of bug is copy-pasted
+   across every node built from the same original template, audit the WHOLE file
+```
+
+### 26.8 Auto-layout padding/gap/radius must be bound too — not just fills
+
+The token-binding requirement (§26.5) applies identically to **layout** properties, not only
+paint. `node.paddingLeft/Right/Top/Bottom`, `itemSpacing`, and the four corner-radius properties
+can silently hold a hardcoded number with zero entry in `node.boundVariables` — the Figma
+properties panel shows a plain number with no visual distinction from a bound one unless you
+look for the small variable-link icon.
+
+**2026-07-23 incident.** The `Button` ComponentSet's own variants had `paddingLeft/Right: 20`,
+`paddingTop/Bottom: 10`, `cornerRadius: 8` — hardcoded, unbound, and **not matching the
+documented `TOKENS USED` table** (16px / 8px / 6px) NOR the real CSS
+(`components/agtc-button.js`, confirmed by grep before touching anything). A nested `pill` child
+inside each Focus-state variant repeated the same hardcoded values one level deeper — the
+top-level fix alone would have missed it. A file-wide sweep afterward found the same pattern on
+`Input` (135 instances), `Segmented` (480), `Checkbox` (53), `Toggle`/`Radio` (14 each).
+
+```
+✅ Before binding, resolve the REAL value from code (tokens/component.json → tokens/semantic.json
+   → tokens/primitives.json → the literal CSS custom property in components/agtc-*.js) — the
+   Figma instance's current hardcoded number is not evidence of the correct value, it may have
+   drifted (as it had here: 20/10/8 in Figma vs 16/8/6 in code)
+✅ Check EVERY variant of a ComponentSet, and recurse into named wrapper children (e.g. "pill",
+   "track", "field") — a fix on the outer variant frame does not propagate to nested frames
+✅ Exclude the ComponentSet's own root layout from the audit — that governs the editor canvas
+   arrangement of variants, never the rendered/instanced design
+❌ Never assume a Figma instance's current padding/radius is correct just because it renders
+   "fine" visually — compare against the code before binding, every time
+```
+
+### 26.9 Renames and deletions leave stale references — check text mentions AND internal links
+
+> **Rule added 2026-07-24**, prompted by the redesign plan (§1.6.1,
+> `Temp/plan-redesign-figma-2026-07-23.md`) renaming `INTRO`→`GETTING STARTED` and moving
+> `COVER` under a new `UTILITY` page. Every check added to this file so far (§26.1–26.9)
+> catches a node whose OWN property drifted — none of them catch a node whose text or link
+> still references something else that changed. A rename or a page restructure is exactly the
+> kind of change that leaves this behind, silently, because the stale text still renders fine.
+
+Two distinct failure modes, both covered by `scripts/figma/audit-figma-file.js`:
+
+1. **Stale plain-text mentions** — a breadcrumb, eyebrow tag, or prose sentence that spells out
+   an old name (`"See the INTRO page for..."`) after the referenced thing was renamed. Nothing
+   in Figma flags this on its own — the text is perfectly valid, just wrong.
+2. **Broken internal hyperlinks** — a text hyperlink of type `NODE` (Figma's "link to a frame"
+   feature) whose target node was deleted or had its ID change. Figma doesn't surface this
+   either; the link text still looks clickable.
+
+```
+✅ Maintain KNOWN_RENAMES at the top of audit-figma-file.js — every time a page, component, or
+   pattern gets canonically renamed, add an { oldName: newName } entry immediately, in the same
+   session as the rename
+✅ Run findStaleNameReferences() (and the full auditPage()) on EVERY page, not just the one that
+   was renamed — a page-A eyebrow tag can reference page B's old name
+✅ Prefer a manual fix over applyKnownRenames() whenever the flagged text has mixed styling
+   (bold substring, a hyperlink) or needs rewording beyond a straight swap — the helper does a
+   literal find/replace only, it does not re-flow surrounding prose
+✅ Once every reference is confirmed fixed (staleNameReferences returns empty for that
+   oldName), remove the entry from KNOWN_RENAMES — it's a working list, not a permanent log
+   (the permanent log lives in the plan document / commit history)
+❌ Never treat "the renamed page itself looks right" as sufficient — the whole point of this
+   check is catching references living on OTHER pages
+```
+
+### 26.10 Consolidated pre-"done" checklist for any Figma page work
+
+Run `scripts/figma/audit-figma-file.js` (paste into `use_figma`, one page per call, fan out in
+parallel per the figma-use skill's multi-page rule) — it codifies checks 26.1–26.11 into one
+script instead of scattered hand-copied snippets. A clean page returns every result array empty:
+
+```
+✅ orphanedVariables — §26.7 — empty
+✅ unboundComponentProps — §26.8 — empty
+✅ brokenLineHeights — §26.1 — empty
+✅ staleNameReferences — §26.9 — empty (blocking: any text still spelling out an old name
+   after a rename is a regression, fix in the same session, don't defer)
+✅ brokenLinks — §26.9 — empty (blocking: an internal NODE-type hyperlink whose target no
+   longer resolves)
+✅ clippedEffects — § "Known errors" DROP_SHADOW row — empty (treat as candidates to verify
+   visually, not automatic bugs — the check flags any clipsContent ancestor even when the effect
+   has enough room and never actually gets cut)
+✅ overflows — §21.A / §25 — empty (or only the known decorative _deco/Ellipse header bleed)
+✅ missingWrapper — §26.11 — empty (blocking: exactly ONE top-level `page-wrapper` must hold
+   every live content section; anything else flagged here is a bare top-level sibling that
+   escaped containment — the actual structural bug, not just a visual symptom)
+✅ widthMismatches — §26.11 — empty (secondary signal only: a top-level child whose width
+   doesn't match the page's dominant width — can catch drift even when missingWrapper is
+   clean, e.g. one child inside the wrapper never resized, but never a substitute for it)
+✅ Decorative background nesting (§26.2) — appendChild, don't co-position — not yet automated,
+   check by hand: does a "…-content" frame sit as a CHILD of its "…-content-bg", or merely
+   beside it at a coincidentally-matching size?
+✅ Alignment columns (§26.3) — FIXED width for anything meant to align across rows, not FILL —
+   not yet automated, check by hand on any new token-sample table
+✅ Screenshot at scale ≥ 2 (small crop) AND the REST `get_screenshot` tool if in doubt about a
+   `node.screenshot()` result — cheap cross-check against a second rendering pipeline
+```
+
+### 26.11 A page must have exactly ONE `page-wrapper` — every content section is its CHILD, never a top-level sibling
+
+> **Rule adopted 2026-07-30, corrected same day.** Trigger: consolidating two Icon pages into
+> one, every section (`↳ Icons` header, `section-showcase`, `section-tokens`,
+> `section-dos-donts`, `section-links`, a new `section-library`, `note`) was appended directly
+> to the PAGE via `page.appendChild(node)` — seven separate top-level siblings, with no
+> enclosing `page-wrapper` at all. The first fix attempt only resized the narrowest sibling
+> (`note`, left at its old 1280px instead of 1440px) to match the others' width — that hid the
+> visible symptom (`#535353` canvas gray, §13, showing through the gap) but missed the actual
+> defect: **every other page in this file has exactly ONE top-level `page-wrapper` frame
+> containing ALL its content sections as children** (confirmed on `button`, `checkbox`, `input`,
+> `top-nav` — each has `page-wrapper` + at most one clearly-separate off-canvas reference frame
+> like `Composant principal`, never multiple live content sections loose at the page root).
+> Width-matching alone is necessary but not sufficient — the structural containment is the real
+> rule; a width check can still pass by coincidence while the page has no single wrapper at all.
+
+```
+✅ Exactly ONE top-level frame named `page-wrapper` (1440px, per §25) holds EVERY live content
+   section as a CHILD — header, showcase, tokens, dos-donts, links, and any new section
+✅ The only other top-level page children allowed are explicitly off-canvas, non-live material:
+   a reference frame (e.g. `Composant principal`, `Exemple ...`, conventionally at x≥1600) or
+   the `_trash` quarantine frame (§ "Never delete" in figma-library-governance.md) — never a
+   second LIVE content section sitting beside `page-wrapper`
+✅ When reparenting/moving a section onto a page (e.g. consolidating two pages into one),
+   ALWAYS appendChild it into the page's `page-wrapper` — never `page.appendChild(node)`
+   directly. If the page doesn't have a `page-wrapper` yet, create ONE first, move every
+   existing top-level content section into it, THEN append the new section
+✅ After any reparenting operation, run findMissingWrapper() and findWidthMismatches() (below)
+   BEFORE screenshotting
+❌ Never call `page.appendChild(node)` for a live content section — that is precisely how this
+   incident happened; reserve bare `page.appendChild()` for the wrapper itself, `_trash`, or an
+   explicitly off-canvas reference frame
+❌ Never treat "all sections happen to be the same width" as proof the page is correctly built —
+   width consistency is a symptom check, not the structural one
+```
+
+```javascript
+// Audit sweep — run on every page: is there exactly one live page-wrapper?
+// A "live" top-level child is anything not named `_trash`/starting with `_`, and not an
+// off-canvas reference frame (x >= 1600, matching the site's `Composant principal` convention).
+function findMissingWrapper(page) {
+  const liveChildren = page.children.filter(c => c.visible !== false && !c.name.startsWith('_') && c.x < 1600);
+  const wrappers = liveChildren.filter(c => /wrapper/i.test(c.name));
+  if (wrappers.length === 1 && liveChildren.length === 1) return []; // exactly one wrapper, nothing else live
+  return liveChildren
+    .filter(c => !/wrapper/i.test(c.name))
+    .map(c => ({ nodeId: c.id, nodeName: c.name, reason: wrappers.length === 0 ? 'no page-wrapper found — this node is a bare top-level sibling' : 'live content sitting beside page-wrapper instead of inside it' }));
+}
+
+// Secondary/symptom check — kept as a fallback signal, NOT a substitute for findMissingWrapper()
+function findWidthMismatches(page) {
+  const candidates = page.children.filter(c => c.visible !== false && !c.name.startsWith('_') && c.x < 1600 && 'width' in c);
+  if (candidates.length < 2) return [];
+  const counts = new Map();
+  for (const c of candidates) counts.set(c.width, (counts.get(c.width) || 0) + 1);
+  const mainWidth = [...counts.entries()].sort((a, b) => b[1] - a[1])[0][0];
+  return candidates.filter(c => Math.abs(c.width - mainWidth) > 0.5)
+    .map(c => ({ nodeId: c.id, nodeName: c.name, width: c.width, expectedWidth: mainWidth }));
+}
+```
+
+> **`x < 1600` exclusion added 2026-07-30 (same-day fix):** without it, this check
+> false-positives on every page's off-canvas master ComponentSet/`Composant principal`
+> reference frame (per §16) — those are legitimately narrower than the page-wrapper and sit
+> off-canvas by convention, not a containment bug. Match `findMissingWrapper()`'s exclusion.
+
+Both are part of `scripts/figma/audit-figma-file.js` (`findMissingWrapper` + `findWidthMismatches`,
+wired into `auditPage()` as `missingWrapper` + `widthMismatches`). `findMissingWrapper` is the
+primary check — it catches the actual structural bug (no single container). `findWidthMismatches`
+is a secondary signal that can catch a drift even when a wrapper exists (e.g. one child inside it
+was never resized) but must never be relied on alone.
+
+---
+
 ## Known errors — Figma Plugin API
 
 | Error | Cause | Fix |
@@ -2075,3 +2432,9 @@ const overflows = findOverflows(pageWrapper);
 | Fill/stroke bound to `semantic/...` when a component token exists | Habit of binding the semantic token without checking `component/<comp>/...` first | Always look for the matching `component/` token before binding — see §18 |
 | `textStyleId` reverts to `""` after appearing to apply | `fontName`/`setRangeFontName` set after `textStyleId` — the API clears the link, unlike the Figma editor | Never mutate the font after `textStyleId`; if the weight doesn't match, create/use the right Text Style — see §19 |
 | Icon overflows its slot (18×18) when resized or swapped via instance-swap | The icon's internal `Frame` wrapper is at `constraints: MIN/MIN` (the `createNodeFromSvg` default) — doesn't follow the parent instance's resize | `frame.constraints = { horizontal:'SCALE', vertical:'SCALE' }` at EVERY intermediate level, not just the final `Vector` nodes — see §20 |
+| Wrapped text renders lines stacked on top of each other (self-overlap or overlapping the row above) | Text Style `lineHeight` bound as `{unit:"PIXELS", value:1.6}` instead of `{unit:"PERCENT", value:160}` | Audit every Text Style's `lineHeight.unit` — see §26.1 |
+| Content spills onto the plain page background instead of staying on its "card"/section background | Background is a sibling frame at a manually-matched size, not a real parent — drifts the moment content grows | `appendChild` content into the background, set the background to auto-layout HUG — see §26.2 |
+| A row of sample bars/badges doesn't align to a common starting X across rows | The preceding text/description column is `FILL`/`layoutGrow=1`, pushing the bar to the row's right edge | Give that column a `FIXED` width sized to the longest row's content — see §26.3 |
+| `node.height` / `.absoluteBoundingBox` reads a nonsensical tiny value (e.g. `1`) right after a mutation | Stale auto-layout geometry cache in the Plugin API, not a real layout state | Read `.absoluteRenderBounds` instead, or re-fetch the node in a fresh `use_figma` call — see §26.4 |
+| A page has multiple live content sections loose at the top level (canvas gray, §13, visible between/around them) | Sections were `page.appendChild()`-ed directly to the page instead of into a single `page-wrapper` — no enclosing container at all, not just a width mismatch | Create ONE `page-wrapper` (1440px), move every live section into it as a child; run `findMissingWrapper()` — see §26.11 |
+| Text is technically visible but fails contrast / was clearly hand-picked | `fills[0].boundVariables` is empty — a hardcoded color, not a token | Bind to the matching semantic token and compute WCAG contrast — see §26.5 |

@@ -17,10 +17,12 @@
   --agtc-semantic-color-brand-primary: #34d3bb;
   --agtc-semantic-color-brand-primary-subtle: #0d2924;
   --agtc-semantic-color-brand-primary-text: #34d3bb;
+  --agtc-semantic-color-brand-accent: #ff8aa1;
   --agtc-semantic-color-brand-accent-subtle: #2a1520;
   --agtc-semantic-color-brand-accent-text: #ed6b86;
   --agtc-semantic-color-brand-secondary: #6b4b56;
   --agtc-semantic-color-brand-secondary-text: #edd9df;
+  --agtc-semantic-color-brand-tertiary: #6b7280;
   --agtc-semantic-color-background-page: #0a0c11;
   --agtc-semantic-color-background-surface: #13161d;
   --agtc-semantic-color-background-subtle: #1b1f27;
@@ -34,6 +36,7 @@
   --agtc-semantic-color-text-on-dark-muted: rgba(255,255,255,0.62);
   --agtc-semantic-color-text-on-danger: #3d0f0f;
   --agtc-semantic-color-border-default: #272c36;
+  --agtc-semantic-color-border-strong: #363c48;
   --agtc-semantic-color-border-focus: #34d3bb;
   --agtc-semantic-color-border-danger: #ff9592;
   --agtc-semantic-color-illustration-ink: #14121a;

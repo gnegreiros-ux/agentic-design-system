@@ -51,7 +51,7 @@ export const Default = {
 
 export const Marketing = {
   render: (args) => `
-    <div style="background:#0c0f19;padding:2rem;">
+    <div style="background:var(--agtc-semantic-color-background-inverse);padding:2rem;">
       <agtc-feature-card heading="${args.heading}" heading-level="${args.headingLevel}" variant="${args.variant}">
         ${iconSvg}
         Semantic tokens, component contracts and documented decisions — readable by humans and AI agents.
@@ -63,7 +63,7 @@ export const Marketing = {
 
 export const Grid = {
   render: () => `
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#1e2433;max-width:900px;">
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--agtc-semantic-color-background-inverse-raised);max-width:900px;"> <!-- audit-ignore: 1px hairline grid-divider technique, not a spacing decision -->
       ${['Organization', 'Managers', 'Designers', 'Developers', 'AI'].map(name => `
         <agtc-feature-card heading="${name}" heading-level="3" variant="marketing">
           ${iconSvg}
@@ -77,7 +77,7 @@ export const Grid = {
 
 export const ReducedMotion = {
   render: () => `
-    <p style="font-size:.85rem;margin-bottom:1rem;color:#94a3b8;">
+    <p style="font-size:.85rem;margin-bottom:1rem;color:var(--agtc-semantic-color-text-secondary);">
       Simulate with: OS → Accessibility → Reduce motion.
       The border-bottom is visible at full width from the start.
     </p>

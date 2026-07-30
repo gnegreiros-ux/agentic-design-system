@@ -37,7 +37,7 @@ export default {
   render: (args) => html`
     <div style="max-width:360px;">
       <agtc-card variant="${args.variant}" padding="${args.padding}">
-        <p style="margin:0;color:#444;">Card content.</p>
+        <p style="margin:0;color:var(--agtc-semantic-color-text-secondary);">Card content.</p>
       </agtc-card>
     </div>
   `,
@@ -50,7 +50,7 @@ export const Default = {
   render: () => html`
     <div style="max-width:360px;">
       <agtc-card variant="default">
-        <p style="margin:0;color:#444;font-size:0.875rem;">Standard card with a gray border.</p>
+        <p style="margin:0;color:var(--agtc-semantic-color-text-secondary);font-size:0.875rem;">Standard card with a gray border.</p>
       </agtc-card>
     </div>
   `,
@@ -61,7 +61,7 @@ export const Elevated = {
   render: () => html`
     <div style="max-width:360px;">
       <agtc-card variant="elevated">
-        <p style="margin:0;color:#444;font-size:0.875rem;">Card with a shadow — emphasis, visual hierarchy.</p>
+        <p style="margin:0;color:var(--agtc-semantic-color-text-secondary);font-size:0.875rem;">Card with a shadow — emphasis, visual hierarchy.</p>
       </agtc-card>
     </div>
   `,
@@ -72,7 +72,7 @@ export const Flat = {
   render: () => html`
     <div style="max-width:360px;">
       <agtc-card variant="flat">
-        <p style="margin:0;color:#444;font-size:0.875rem;">Embedded card — grouped background, no border.</p>
+        <p style="margin:0;color:var(--agtc-semantic-color-text-secondary);font-size:0.875rem;">Embedded card — grouped background, no border.</p>
       </agtc-card>
     </div>
   `,
@@ -89,7 +89,7 @@ export const WithHeader = {
           <strong style="font-size:0.875rem;">Card title</strong>
           <agtc-badge variant="success">Active</agtc-badge>
         </div>
-        <p style="margin:0;color:#444;font-size:0.875rem;">Card body with the main content.</p>
+        <p style="margin:0;color:var(--agtc-semantic-color-text-secondary);font-size:0.875rem;">Card body with the main content.</p>
       </agtc-card>
     </div>
   `,
@@ -106,7 +106,7 @@ export const WithHeaderAndFooter = {
         </div>
 
         <div style="display:flex;flex-direction:column;gap:var(--agtc-semantic-space-control-gap);">
-          <p style="margin:0;color:#444;">Guilherme Negreiros</p>
+          <p style="margin:0;color:var(--agtc-semantic-color-text-secondary);">Guilherme Negreiros</p>
           <small style="color:var(--agtc-semantic-color-text-secondary);">Design System Lead</small>
         </div>
 
@@ -124,7 +124,7 @@ export const WithFooterOnly = {
   render: () => html`
     <div style="max-width:360px;">
       <agtc-card>
-        <p style="margin:0;font-size:0.875rem;color:#444;">
+        <p style="margin:0;font-size:0.875rem;color:var(--agtc-semantic-color-text-secondary);">
           Confirm deleting this item? This action is irreversible.
         </p>
         <div slot="footer" style="display:flex;justify-content:flex-end;gap:var(--agtc-semantic-space-control-gap);">
@@ -143,16 +143,16 @@ export const PaddingVariants = {
   render: () => html`
     <div style="display:flex;flex-direction:column;gap:var(--agtc-semantic-space-component-padding-lg);max-width:360px;">
       <agtc-card padding="none">
-        <div style="background:var(--agtc-semantic-color-brand-primary-subtle);padding:var(--agtc-semantic-space-component-padding-md);font-size:0.75rem;color:#008573;">padding="none" — full-width image</div>
+        <div style="background:var(--agtc-semantic-color-brand-primary-subtle);padding:var(--agtc-semantic-space-component-padding-md);font-size:0.75rem;color:var(--agtc-semantic-color-brand-primary-text);">padding="none" — full-width image</div>
       </agtc-card>
       <agtc-card padding="sm">
-        <p style="margin:0;font-size:0.875rem;color:#444;">padding="sm" — compact</p>
+        <p style="margin:0;font-size:0.875rem;color:var(--agtc-semantic-color-text-secondary);">padding="sm" — compact</p>
       </agtc-card>
       <agtc-card padding="md">
-        <p style="margin:0;font-size:0.875rem;color:#444;">padding="md" — default</p>
+        <p style="margin:0;font-size:0.875rem;color:var(--agtc-semantic-color-text-secondary);">padding="md" — default</p>
       </agtc-card>
       <agtc-card padding="lg">
-        <p style="margin:0;font-size:0.875rem;color:#444;">padding="lg" — spacious</p>
+        <p style="margin:0;font-size:0.875rem;color:var(--agtc-semantic-color-text-secondary);">padding="lg" — spacious</p>
       </agtc-card>
     </div>
   `,
@@ -201,19 +201,19 @@ export const AllVariants = {
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:var(--agtc-semantic-space-component-padding-lg);max-width:800px;">
       <agtc-card variant="default">
         <div slot="header"><strong style="font-size:0.875rem;">Default</strong></div>
-        <p style="margin:0;font-size:0.8125rem;color:#666;">Standard gray border.</p>
+        <p style="margin:0;font-size:0.8125rem;color:var(--agtc-semantic-color-text-secondary);">Standard gray border.</p>
         <div slot="footer"><agtc-badge variant="neutral">Draft</agtc-badge></div>
       </agtc-card>
 
       <agtc-card variant="elevated">
         <div slot="header"><strong style="font-size:0.875rem;">Elevated</strong></div>
-        <p style="margin:0;font-size:0.8125rem;color:#666;">Soft drop shadow.</p>
+        <p style="margin:0;font-size:0.8125rem;color:var(--agtc-semantic-color-text-secondary);">Soft drop shadow.</p>
         <div slot="footer"><agtc-badge variant="brand">Agentica</agtc-badge></div>
       </agtc-card>
 
       <agtc-card variant="flat">
         <div slot="header"><strong style="font-size:0.875rem;">Flat</strong></div>
-        <p style="margin:0;font-size:0.8125rem;color:#666;">Subtle gray background.</p>
+        <p style="margin:0;font-size:0.8125rem;color:var(--agtc-semantic-color-text-secondary);">Subtle gray background.</p>
         <div slot="footer"><agtc-badge variant="success">Active</agtc-badge></div>
       </agtc-card>
     </div>

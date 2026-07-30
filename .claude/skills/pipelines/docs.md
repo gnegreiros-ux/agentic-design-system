@@ -2,7 +2,7 @@
 
 > Exhaustive checklist of documentation updates required after a change.
 > This is the canonical, single-source-of-truth list of every documentation
-> surface in this repository — referenced by `.claude/skills/document.md`
+> surface in this repository — referenced by `.claude/skills/document/SKILL.md`
 > (the `/document` command) as well as by the full quality gate.
 > **Status:** ✅ Active
 > **Trigger:** every change (no exception)

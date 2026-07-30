@@ -149,7 +149,7 @@ See `guidelines/foundations/testing.md` — starter kit for testing your product
 
 ### After finishing a chunk of work: `/document`
 
-Once a change is functionally done, run `/document` (`.claude/skills/document.md`)
+Once a change is functionally done, run `/document` (`.claude/skills/document/SKILL.md`)
 to catch up the documentation surfaces that live outside the files you just
 touched — GitHub Projects and the site changelog above all. It checks every row
 of `pipelines/docs.md`, writes the relevant ones, re-runs the build/tests, and

@@ -100,7 +100,7 @@ class AgtcTabs extends LitElement {
     .tab {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: var(--agtc-semantic-space-component-padding-xs);
       padding:
         var(--agtc-component-tabs-default-padding-y)
         var(--agtc-component-tabs-default-padding-x);
@@ -126,14 +126,14 @@ class AgtcTabs extends LitElement {
 
     .tab[aria-selected="true"] {
       color: var(--agtc-component-tabs-default-tab-text-active);
-      font-weight: 700;
+      font-weight: var(--agtc-semantic-fontWeight-bold);
       border-bottom-color: var(--agtc-component-tabs-default-indicator);
     }
 
     .tab:focus-visible {
       outline: 2px solid var(--agtc-component-tabs-default-border-focus);
       outline-offset: 2px;
-      border-radius: 2px;
+      border-radius: var(--agtc-semantic-radius-control-tight);
     }
 
     [role="tabpanel"] { padding-top: 16px; }

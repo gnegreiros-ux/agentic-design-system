@@ -1,3 +1,8 @@
+---
+name: document
+description: Post-work documentation orchestrator for this repository. Given what was just done in the session, checks every documentation surface (guidelines, ADRs, git-workflow rules, site changelog, GitHub Projects, npm/starter-kit READMEs, component stories), writes the relevant ones, verifies the build/tests, and proposes — never executes — a commit and push. Invoke as `/document`, optionally followed by a short description of what to document.
+---
+
 # Skill: document
 
 > Post-work documentation orchestrator, invoked as `/document`. Given what was just
@@ -5,7 +10,7 @@
 > writes the relevant ones, verifies nothing broke, and proposes (never executes)
 > a commit and push.
 > **Type:** skill
-> **Logical path:** .claude/skills/document.md
+> **Logical path:** .claude/skills/document/SKILL.md
 > **Read before:** AGENTS.md, .claude/rules/post-change-pipeline.md
 > **Relations:** .claude/skills/pipelines/docs.md, .claude/skills/quality-gate.md, .claude/rules/git-workflow.md
 
@@ -72,6 +77,12 @@ files entirely — always check them explicitly, even for small changes:
 - **Site changelog** (`buildChangelog()` in `site/build.js`) — was anything user-visible
   shipped (feature, fix, decision)?
 
+Also check `.claude/skills/pipelines/adr-triggers.md` explicitly — governance changes
+(new CI/CD pipeline, new governance rule) require a new ADR even when no token,
+component, or site file changed. An ADR that reverses or amends a still-`Active` ADR
+is a **new** ADR referencing the one it amends — ADRs are immutable once active, never
+edited in place (see `decisions/README.md`'s registry rules).
+
 ### Step 3 — Document
 
 For each relevant surface identified in Step 2:
@@ -109,6 +120,11 @@ Run whatever subset of these actually applies to what was touched in Step 3:
 
 Present a report in the format below, then stop and wait for explicit approval
 before staging, committing, or pushing anything — exactly like `quality-gate.md`.
+
+If branch protection currently forbids direct pushes to the target branch
+(`enforce_admins: true`, see ADR-077), the proposed action is a `feature/`/`docs/`
+branch + PR + merge, not a direct push — say so explicitly in the proposal rather
+than defaulting to `git push`.
 
 ---
 

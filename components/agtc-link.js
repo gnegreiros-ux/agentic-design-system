@@ -60,7 +60,7 @@ class AgtcLink extends LitElement {
       color: var(--agtc-component-link-default-text);
       text-decoration: underline;
       text-underline-offset: 2px;
-      border-radius: 2px;
+      border-radius: var(--agtc-semantic-radius-control-tight);
       cursor: pointer;
     }
     :host([underline="hover"]) a,

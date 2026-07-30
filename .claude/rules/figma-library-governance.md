@@ -1,7 +1,7 @@
 ---
 paths:
   - "scripts/figma/**"
-  - "tokens/figma.json"
+  - "tokens/figma-text-styles.json"
 ---
 
 # Rule: figma-library-governance
@@ -67,7 +67,23 @@ paths:
 > Before any `.remove()`, check `node.findAll()`/`node.children`: a "decorative" node
 > can contain a master component as a direct child (the exact cause of the Button incident).
 
-### B. Staging page "🟡 Proposal — pending approval"
+> **2026-07-30 recurrence, page-consolidation variant.** While merging two Icon pages,
+> a "leftover content" sweep moved a `Composant principal` reference frame into `_trash`
+> without checking what it contained — it held the ACTUAL master `Icon` ComponentSet
+> (§16 convention: this frame IS where the master lives, off-canvas, on every page). The
+> `_trash` frame sat on the now-redundant old page, which the human then deleted per the
+> normal "flag for manual deletion" flow — taking the master ComponentSet down with it.
+> Recovered only because Figma kept a `removed: false`, `parent: null` zombie reference
+> reachable in the same session (`page.appendChild()` on it worked); this would NOT have
+> been recoverable in a later session. **When "cleaning up" or consolidating a page, always
+> check every node being moved to `_trash` for a nested `Composant principal` (or any
+> ComponentSet/COMPONENT) FIRST — move the real master to its new home BEFORE trashing the
+> rest, never lump it in with disposable content.**
+
+### B. Staging page "Proposal — pending approval"
+
+> Page name carries no emoji (`.claude/rules/no-emoji-icons.md`) — if a visual marker is wanted
+> next to it in the page list, use a real Lucide icon instance, never an emoji character.
 
 ```
 ✅ Every significant creation or redesign is written FIRST on the staging page
@@ -183,6 +199,34 @@ This list must be re-verified (WebSearch) at the start of any large-scale Figma 
 
 ---
 
+## Tokens Studio write-access restriction — `agentica/proposals` (ADR-078)
+
+> Prerequisite before any Tokens Studio write path into this repo is enabled (not
+> before ordinary read-only agent work covered by the rest of this file).
+
+Tokens Studio's API credentials are account-scoped, not branch/project-scoped — a key
+has full access to every org/project the account belongs to. If Tokens Studio's
+push-to-GitHub feature is ever turned on, it must write only to the `agentica/proposals`
+branch, never `main` directly.
+
+```
+Status (2026-07-21, ADR-078 Active):
+✅ agentica/proposals branch created (off main)
+✅ main already refuses direct pushes, PR + green CI required (ADR-076/077) —
+   satisfies this ticket's branch-protection requirement, no extra config needed
+✅ Dedicated GitHub service account (agentica-tokens-bot, Write, not Admin) + PAT
+   — classic PAT (repo scope) for now, fine-grained migration pending account aging
+✅ Tokens Studio's GitHub-sync settings pointed at main, reads verified via HAR
+   trace (82 requests, all 200/204, zero writes attempted)
+```
+
+There is still no active Tokens Studio write path into this repo — only the read
+direction (ADR-011) has ever been exercised. This section documents the safety rail
+that now exists should a push capability ever be turned on, not a currently-used
+push feature.
+
+---
+
 ## Mandatory audit — see §22 of `figma-components.md`
 
 The full audit (accessibility, display, variables, styles, states, variants,
@@ -193,7 +237,80 @@ in-page documentation, links) is scripted and documented in
 ✅ On any newly created page, before declaring it complete
 ✅ On any page whose shared component (Icon, Text Style, Variable) has been modified
 ✅ At explicit user request ("audit", "check everything", "global screenshot")
+✅ Automatically, weekly, against the WHOLE library — scheduled cloud agent
+   (routine `trig_015wTFo2gJNztALS2bvFZ54d`, Mondays 06:00 America/Toronto),
+   ADR-079. Closes the gap the three triggers above leave open: none of them
+   ever re-checks a page nobody has recently touched.
 ```
+
+Weekly-run outcome: silent if clean; a GitHub issue (label `figma-audit`) if
+any violation is found, or if the run itself fails — a failure is never left
+indistinguishable from a clean result.
+
+**Confirmed risk (flagged 2026-07-21 during ADR-082 verification, confirmed
+2026-07-28 on the separate `Agentica — Lucide Icons` file, `TRMVFT2TenOibMniLYu00S`):**
+`get_metadata` called without a `nodeId` returned only a single page
+(`❖ GETTING STARTED`) for a file that in fact already had at least three more
+top-level pages (`COVER`, `❖ CATEGORIES`, a `---` separator) sitting at lower
+node IDs than the one page it reported — meaning page enumeration is silently
+scoped to less than the whole file, not a one-off glitch. No data was lost in
+that incident (the missing pages were pre-existing and untouched, discovered
+only during an unrelated audit), but any workflow relying on this call to
+"enumerate every page" — including the weekly scheduled audit routine above —
+must not trust its page list as complete. Prefer a targeted `nodeId` call per
+already-known page, or cross-check the returned list's plausibility (e.g.
+against an expected page count) before trusting it. First real run's
+scheduled meta-check (`trig_01UViQKgDMyb4ATCBeMduYsS`) should verify whether
+this also affects the main design system file, not just newly created ones.
+
+---
+
+## Community File content triage — brand identity stays private (ADR-080)
+
+> Applies only when the still-Backlog "publish a Community File" chantier is
+> actually executed — not a constraint on ordinary work today.
+
+```
+✅ Any page whose content IS the Agentica brand identity (the logo mark
+   itself, not documentation about a generic concept) → excluded from
+   any future Community File publish
+✅ Any page documenting a generic, reusable design-system concept
+   (Foundations, Components, Patterns) → included, even pages that don't
+   exist yet — this is a category rule, not a fixed list
+✅ Before publication is ever executed: also audit every component/pattern
+   for a NESTED instance of the logo (e.g. a future top-nav or banner
+   pattern) — publishing a component that embeds the logo leaks it even
+   if the dedicated logos page itself is excluded
+❌ Do not require a placeholder/generic logo in ordinary design work today —
+   the pre-publication audit above catches embedding risk at the point it
+   actually matters, no need to route around the brand system now for a
+   publication with no scheduled date
+```
+
+`COVER` remains in the main file (`uXgPVB6cMLwAPqSwoa0dGq`) and stays excluded
+from any future Community File publish. `FOUNDATIONS > logos` no longer
+applies as a page-level exclusion (ADR-082) — that content was moved
+permanently, no back-reference, to a dedicated published library, **`Agentica
+| Brand`** (file key `F8jhyCeRJaJhF7W1inlFuc`), consumed by the main file via
+cross-file instances. The Rule 2 nested-instance audit above is unaffected and
+now concretely in scope: any component/pattern that places a logo instance
+from that library still needs auditing before a Community File publish — the
+structural split only removes the page-level exclusion, not the
+instance-embedding risk.
+
+---
+
+## Community File license — CC BY 4.0 (ADR-081)
+
+> Applies only when the still-Backlog "publish a Community File" chantier is
+> actually executed — not a constraint on ordinary work today.
+
+The repo's `LICENSE` (MIT) covers the code only, not the Figma file itself.
+When the Community File is published, its Figma Community license must be set
+to **CC BY 4.0** — chosen for consistency with the code's permissive MIT
+license (attribution required, no restriction on reuse/modification/commercial
+use). Declare it in Figma's publish flow and state it in the file's Community
+description.
 
 ---
 

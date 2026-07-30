@@ -134,7 +134,7 @@ export const CriticalConfirmFlow = {
   name: 'Critical — confirmation flow (2 clicks)',
   render: () => html`
     <div style="display:flex;flex-direction:column;gap:var(--agtc-semantic-space-component-padding-lg);max-width:400px;">
-      <p style="font-size:0.875rem;color:#666;margin:0;">
+      <p style="font-size:0.875rem;color:var(--agtc-semantic-color-text-secondary);margin:0;">
         1st click → "Confirm?" · 2nd click → action · Escape or blur → reset
       </p>
       <agtc-button variant="critical">Permanently delete the folder</agtc-button>
@@ -184,7 +184,7 @@ export const AllVariants = {
   render: () => html`
     <div style="display:flex;flex-direction:column;gap:var(--agtc-semantic-space-component-padding-2xl);">
       <div>
-        <p style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:#888;margin:0 0 10px;">Default</p>
+        <p style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--agtc-semantic-color-text-secondary);margin:0 0 10px;">Default</p>
         <div style="display:flex;gap:var(--agtc-semantic-space-component-padding-md);flex-wrap:wrap;align-items:center;">
           <agtc-button variant="primary">Primary</agtc-button>
           <agtc-button variant="secondary">Secondary</agtc-button>
@@ -193,7 +193,7 @@ export const AllVariants = {
         </div>
       </div>
       <div>
-        <p style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:#888;margin:0 0 10px;">Disabled</p>
+        <p style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--agtc-semantic-color-text-secondary);margin:0 0 10px;">Disabled</p>
         <div style="display:flex;gap:var(--agtc-semantic-space-component-padding-md);flex-wrap:wrap;align-items:center;">
           <agtc-button variant="primary" disabled>Primary</agtc-button>
           <agtc-button variant="secondary" disabled>Secondary</agtc-button>
@@ -202,7 +202,7 @@ export const AllVariants = {
         </div>
       </div>
       <div>
-        <p style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:#888;margin:0 0 10px;">Loading</p>
+        <p style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--agtc-semantic-color-text-secondary);margin:0 0 10px;">Loading</p>
         <div style="display:flex;gap:var(--agtc-semantic-space-component-padding-md);flex-wrap:wrap;align-items:center;">
           <agtc-button variant="primary" loading>Primary</agtc-button>
           <agtc-button variant="secondary" loading>Secondary</agtc-button>

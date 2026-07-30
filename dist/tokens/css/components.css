@@ -1,6 +1,6 @@
 /**
  * Do not edit directly
- * Generated on Sat, 18 Jul 2026 17:56:25 GMT
+ * Generated on Wed, 22 Jul 2026 18:31:09 GMT
  */
 
 :root {
@@ -21,6 +21,11 @@
   --agtc-component-button-ghost-background: transparent;
   --agtc-component-button-secondary-background: transparent;
   --agtc-component-card-elevated-shadow: var(--agtc-semantic-shadow-card);
+  --agtc-component-image-fallback-text: var(--agtc-semantic-color-text-secondary);
+  --agtc-component-image-fallback-icon: var(--agtc-semantic-color-text-secondary);
+  --agtc-component-image-fallback-background: var(--agtc-semantic-color-background-subtle);
+  --agtc-component-image-skeleton-background-pulse: var(--agtc-semantic-color-background-hover);
+  --agtc-component-image-skeleton-background: var(--agtc-semantic-color-background-subtle);
   --agtc-component-top-nav-cta-radius: var(--agtc-semantic-radius-control);
   --agtc-component-top-nav-cta-padding-y: var(--agtc-semantic-space-control-padding-y);
   --agtc-component-top-nav-cta-padding-x: var(--agtc-semantic-space-control-padding-x);

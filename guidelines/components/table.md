@@ -138,8 +138,8 @@ Two forms consuming **the same tokens** `component.table.*`:
     { label: 'Value',    align: 'end' },
   ];
   t.rows = [
-    ['--agtc-badge-neutral-background', 'semantic.color.background.subtle', '#f0f0f0'],
-    ['--agtc-badge-neutral-text',       'semantic.color.text.secondary',    '#646464'],
+    ['--agtc-badge-neutral-background', 'semantic.color.background.subtle', '#f0f0f0'], // audit-ignore: resolved value shown as reference data
+    ['--agtc-badge-neutral-text',       'semantic.color.text.secondary',    '#646464'], // audit-ignore: resolved value shown as reference data
   ];
 </script>
 ```
@@ -152,7 +152,7 @@ Two forms consuming **the same tokens** `component.table.*`:
     <tr><th scope="col">CSS token</th><th scope="col">Reference</th><th scope="col" class="num">Value</th></tr>
   </thead>
   <tbody>
-    <tr><td><code>--agtc-badge-neutral-background</code></td><td>semantic.color.background.subtle</td><td class="num">#f0f0f0</td></tr>
+    <tr><td><code>--agtc-badge-neutral-background</code></td><td>semantic.color.background.subtle</td><td class="num">#f0f0f0</td></tr> <!-- audit-ignore: resolved value shown as reference data -->
   </tbody>
 </table>
 ```

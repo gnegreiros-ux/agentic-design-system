@@ -69,12 +69,17 @@ const CONTRACTS = [
     property: 'background-color',
     check: v => v !== '' && v !== 'rgba(0, 0, 0, 0)',
   },
-  // ── agtc-top-nav ─────────────────────────────────────────────────────────
+  // ── top nav ──────────────────────────────────────────────────────────────
+  // The site does not mount the real <agtc-top-nav> custom element on
+  // index.html — its navigation is a "mix" of hand-written markup styled via
+  // the component's tokens (`.site-nav`), the same pattern already used for
+  // table/banner/code-block (ADR-040/041/042). See ADR-087. This checks the
+  // light-DOM class directly instead of a shadow DOM that doesn't exist here.
   {
-    label: 'agtc-top-nav — nav display flex (desktop)',
+    label: 'site nav (.site-nav) — display flex (desktop)',
     page: 'index.html',
-    host: 'agtc-top-nav',
-    shadowSelector: 'nav',
+    host: '.site-nav',
+    shadowSelector: null,
     property: 'display',
     check: v => v === 'flex',
   },
@@ -93,12 +98,16 @@ for (const contract of CONTRACTS) {
   const url  = pathToFileURL(join(DIST, contract.page)).href;
   await page.goto(url, { waitUntil: 'load' });
 
-  // Wait for the custom element to be defined and upgraded
-  await page.waitForFunction(
-    host => customElements.get(host.split('[')[0]) !== undefined,
-    contract.host,
-    { timeout: 5000 }
-  ).catch(() => {});
+  // Wait for the custom element to be defined and upgraded — only applies when
+  // checking inside a shadow DOM; a plain light-DOM selector (shadowSelector:
+  // null) isn't a custom element and has nothing to wait for.
+  if (contract.shadowSelector) {
+    await page.waitForFunction(
+      host => customElements.get(host.split('[')[0]) !== undefined,
+      contract.host,
+      { timeout: 5000 }
+    ).catch(() => {});
+  }
 
   let value = '';
   let error = '';
@@ -107,6 +116,7 @@ for (const contract of CONTRACTS) {
     value = await page.evaluate(({ host, shadow, prop }) => {
       const el = document.querySelector(host);
       if (!el) return '__HOST_NOT_FOUND__';
+      if (!shadow) return window.getComputedStyle(el).getPropertyValue(prop).trim();
       const shadowEl = el.shadowRoot?.querySelector(shadow);
       if (!shadowEl) return '__SHADOW_NOT_FOUND__';
       return window.getComputedStyle(shadowEl).getPropertyValue(prop).trim();

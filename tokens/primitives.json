@@ -2383,6 +2383,11 @@
         "$value": "700",
         "$type": "fontWeight",
         "$description": "Bold — titres, emphase"
+      },
+      "extrabold": {
+        "$value": "800",
+        "$type": "fontWeight",
+        "$description": "Extrabold — display/hero scale headings, heaviest weight used in the type system"
       }
     },
     "lineHeight": {
@@ -2460,6 +2465,11 @@
       }
     },
     "radius": {
+      "xs": {
+        "$value": "2px",
+        "$type": "dimension",
+        "$description": "Extra-small radius — focus-ring corner softening on inline/small elements (text links, icon-only buttons)"
+      },
       "sm": {
         "$value": "6px",
         "$type": "dimension",

@@ -96,6 +96,11 @@
           "$type": "color",
           "$intent": "Primary brand text dark — on subtle background"
         },
+        "accent": {
+          "$value": "#ff8aa1",
+          "$type": "color",
+          "$intent": "Accent brand color, dark — lighter/more saturated pink than the light-mode value for dark-background contrast (ADR-085)"
+        },
         "accent-subtle": {
           "$value": "#2a1520",
           "$type": "color",
@@ -115,6 +120,11 @@
           "$value": "#edd9df",
           "$type": "color",
           "$intent": "Secondary brand text, dark"
+        },
+        "tertiary": {
+          "$value": "#6b7280",
+          "$type": "color",
+          "$intent": "Tertiary brand color, dark (ADR-085 — completes the accent/secondary/tertiary trio added in ADR-085)"
         }
       },
       "background": {
@@ -186,6 +196,11 @@
           "$value": "#272c36",
           "$type": "color",
           "$intent": "Standard border, dark — separators, field outlines"
+        },
+        "strong": {
+          "$value": "#363c48",
+          "$type": "color",
+          "$intent": "Emphasized non-text border, dark (ADR-085 — matches semantic.json's border.strong)"
         },
         "focus": {
           "$value": "#34d3bb",

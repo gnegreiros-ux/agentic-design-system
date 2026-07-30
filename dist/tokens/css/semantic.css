@@ -1,9 +1,10 @@
 /**
  * Do not edit directly
- * Generated on Sat, 18 Jul 2026 17:56:25 GMT
+ * Generated on Wed, 22 Jul 2026 18:31:09 GMT
  */
 
 :root {
+  --agtc-semantic-radius-pill: 9999px;
   --agtc-semantic-shadow-card: 0 1px 3px rgba(0,0,0,0.10), 0 1px 2px rgba(0,0,0,0.06);
   --agtc-semantic-shadow-card-hover: 0 4px 16px rgba(13,116,206,0.10);
   --agtc-semantic-shadow-raised: 0 4px 16px rgba(0,0,0,0.10);
@@ -71,8 +72,11 @@
   --agtc-semantic-typography-detail-size: var(--agtc-primitive-fontSize-xs);
   --agtc-semantic-typography-mono-family: var(--agtc-primitive-fontFamily-mono);
   --agtc-semantic-typography-fontFamily: var(--agtc-primitive-fontFamily-base);
+  --agtc-semantic-fontWeight-display: var(--agtc-primitive-fontWeight-extrabold);
+  --agtc-semantic-fontWeight-bold: var(--agtc-primitive-fontWeight-bold);
   --agtc-semantic-radius-card: var(--agtc-primitive-radius-md);
   --agtc-semantic-radius-control: var(--agtc-primitive-radius-sm);
+  --agtc-semantic-radius-control-tight: var(--agtc-primitive-radius-xs);
   --agtc-semantic-space-comfortable-layout-component: ceil(var(--agtc-primitive-space-5) * var(--agtc-semantic-space-density-factor-comfortable) / var(--agtc-primitive-density-grid-unit)) * var(--agtc-primitive-density-grid-unit);
   --agtc-semantic-space-comfortable-layout-section: ceil(var(--agtc-primitive-space-8) * var(--agtc-semantic-space-density-factor-comfortable) / var(--agtc-primitive-density-grid-unit)) * var(--agtc-primitive-density-grid-unit);
   --agtc-semantic-space-comfortable-control-gap: ceil(var(--agtc-primitive-space-2) * var(--agtc-semantic-space-density-factor-comfortable) / var(--agtc-primitive-density-grid-unit)) * var(--agtc-primitive-density-grid-unit);
@@ -101,6 +105,7 @@
   --agtc-semantic-space-density-factor-compact: var(--agtc-primitive-density-factor-compact);
   --agtc-semantic-color-brand-logo-gray: var(--agtc-primitive-color-brand-gray);
   --agtc-semantic-color-brand-logo-black: var(--agtc-primitive-color-brand-black);
+  --agtc-semantic-color-brand-tertiary: var(--agtc-primitive-color-slate-9);
   --agtc-semantic-color-brand-secondary-text: var(--agtc-primitive-color-secondary-12);
   --agtc-semantic-color-brand-secondary-hover: var(--agtc-primitive-color-secondary-10);
   --agtc-semantic-color-brand-secondary: var(--agtc-primitive-color-secondary-9);
@@ -120,6 +125,7 @@
   --agtc-semantic-color-control-track-off-hover: var(--agtc-primitive-color-gray-10);
   --agtc-semantic-color-control-track-off: var(--agtc-primitive-color-gray-9);
   --agtc-semantic-color-viz-scale-bar: var(--agtc-primitive-color-red-6);
+  --agtc-semantic-color-border-strong: var(--agtc-primitive-color-gray-6);
   --agtc-semantic-color-border-swatch: var(--agtc-primitive-color-black-2);
   --agtc-semantic-color-border-on-dark: var(--agtc-primitive-color-white-12);
   --agtc-semantic-color-border-danger: var(--agtc-primitive-color-red-11);

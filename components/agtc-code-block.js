@@ -43,7 +43,7 @@ class AgtcCodeBlock extends LitElement {
   static styles = css`
     :host {
       display: block;
-      margin: 18px 0;
+      margin: var(--agtc-semantic-space-layout-component) 0;
     }
 
     .block {
@@ -64,7 +64,7 @@ class AgtcCodeBlock extends LitElement {
     .meta {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
+      gap: var(--agtc-semantic-space-control-gap);
       color: var(--agtc-component-code-block-default-meta-text);
       font-size: var(--agtc-semantic-typography-detail-size);
       min-width: 0;
@@ -86,11 +86,11 @@ class AgtcCodeBlock extends LitElement {
       flex-shrink: 0;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: var(--agtc-semantic-space-component-padding-xs);
       background: var(--agtc-component-code-block-default-copy-background);
       color: var(--agtc-component-code-block-default-copy-text);
       border: none;
-      border-radius: 4px;
+      border-radius: var(--agtc-semantic-radius-control);
       padding: var(--agtc-semantic-space-component-padding-xs) 10px;
       font-family: inherit;
       font-size: var(--agtc-semantic-typography-detail-size);

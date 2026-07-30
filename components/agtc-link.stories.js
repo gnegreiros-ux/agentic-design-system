@@ -65,7 +65,7 @@ export const External = {
 export const UnderlineHover = {
   name: 'Underline on hover (nav)',
   render: () => html`
-    <div style="display:flex;gap:18px;">
+    <div style="display:flex;gap:var(--agtc-semantic-space-layout-component);">
       <agtc-link href="#a" underline="hover">Home</agtc-link>
       <agtc-link href="#b" underline="hover">Components</agtc-link>
       <agtc-link href="#c" underline="hover">Tokens</agtc-link>

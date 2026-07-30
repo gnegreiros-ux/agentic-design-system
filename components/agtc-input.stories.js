@@ -222,7 +222,7 @@ export const WithCustomSlot = {
         <svg slot="prefix" width="16" height="16" viewBox="0 0 24 24" fill="none"
           stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
           stroke-linejoin="round" aria-hidden="true"
-          style="margin-inline-start:12px;color:#888;flex-shrink:0;">
+          style="margin-inline-start:12px;color:var(--agtc-semantic-color-text-secondary);flex-shrink:0;">
           <circle cx="12" cy="12" r="10"/>
           <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
         </svg>

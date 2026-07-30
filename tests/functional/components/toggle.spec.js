@@ -11,7 +11,7 @@ test.describe('agtc-toggle — functional', () => {
     await page.evaluate(() => {
       const fixture = document.createElement('div');
       fixture.id = 'toggle-fixture';
-      fixture.style.cssText = 'padding:24px;display:flex;flex-direction:column;gap:16px;';
+      fixture.style.cssText = 'padding:var(--agtc-semantic-space-component-padding-2xl);display:flex;flex-direction:column;gap:var(--agtc-semantic-space-component-padding-lg);';
       document.body.appendChild(fixture);
 
       const t1 = document.createElement('agtc-toggle');

@@ -87,7 +87,7 @@ outside the repo) to the closest primitive step, teal already being common to th
 | `illustrations/human-last-word.svg` | Human governance — Agent → Human → System approval flow | ✅ v1 approved (2026-06-06) — replaced by PNG |
 | `illustrations/multi-platform.svg`  | Multi-platform Style Dictionary (6 outputs: CSS, Swift, JS, Android, Angular, Tailwind) | ✅ v1 approved (2026-06-06) — replaced by PNG |
 
-Style: **functional diagram** on an `ink` background (#211f26), teal accents, real code snippets.
+Style: **functional diagram** on an `ink` background (#211f26), teal accents, real code snippets. <!-- audit-ignore: resolved value cited for reference in a historical style description -->
 This SVG diagram style is no longer the chosen direction — see `Brand/illustrations/` for the
 PNG illustrations currently in production on the site.
 

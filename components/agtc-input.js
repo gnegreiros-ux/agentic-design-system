@@ -123,7 +123,7 @@ class AgtcInput extends LitElement {
     .label {
       display: flex;
       align-items: baseline;
-      gap: 3px;
+      gap: var(--agtc-semantic-space-component-padding-2xs);
       font-size: var(--agtc-semantic-typography-label-size);
       font-weight: var(--agtc-semantic-typography-label-weight);
       line-height: var(--agtc-semantic-typography-label-line-height);
@@ -238,7 +238,7 @@ class AgtcInput extends LitElement {
     .toggle-password:focus-visible {
       outline: 2px solid var(--agtc-semantic-color-border-focus);
       outline-offset: 1px;
-      border-radius: 2px;
+      border-radius: var(--agtc-semantic-radius-control-tight);
     }
 
     /* ── Help and error texts ──────────────────────────────────────────────── */

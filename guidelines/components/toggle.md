@@ -68,7 +68,7 @@ instantly, with no "Save" button.
 | Focus border | `component.toggle.default.border-focus` |
 | Label | `component.toggle.default.label` |
 
-> `track-off` is a proxy to `primitive.color.gray.9` (#8d8d8d): no medium-neutral gray
+> `track-off` is a proxy to `primitive.color.gray.9` (#8d8d8d): no medium-neutral gray <!-- audit-ignore: resolved primitive value cited for reference -->
 > semantic token exists yet. Chosen for a ≥ 3:1 contrast of the white knob against the
 > track (WCAG 1.4.11). See ADR-039.
 

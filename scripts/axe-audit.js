@@ -72,6 +72,7 @@ const browser = await chromium.launch();
 const report  = { generatedAt: new Date().toISOString(), contexts: [], summary: {} };
 let blockingTotal = 0;
 let moderateTotal = 0;
+let skippedTotal  = 0;
 
 for (const ctx of CONTEXTS) {
   console.log(`\n── ${ctx.label} ${'─'.repeat(Math.max(0, 44 - ctx.label.length))}`);
@@ -92,12 +93,25 @@ for (const ctx of CONTEXTS) {
   for (const file of pages) {
     const rel  = file.slice(DIST.length + 1);
     const page = await bContext.newPage();
-    await page.goto(pathToFileURL(file).href, { waitUntil: 'load' });
 
-    // .logo and .hero-name excluded: brand name / logotype (WCAG 1.4.3 exempt).
-    let _builder = new AxeBuilder({ page }).exclude('.logo').exclude('.hero-name');
-    for (const sel of EXTRA_EXCLUDES) _builder = _builder.exclude(sel);
-    const results = await _builder.withTags(WCAG_TAGS).analyze();
+    // A single slow/broken page (e.g. a page.goto timeout) must not crash the
+    // entire run — every other page's results, and the final report/exit code,
+    // would be lost with it. Caught here and recorded as a skipped page instead,
+    // mirroring the per-check try/catch already used in scripts/smoke-test.js.
+    let results;
+    try {
+      await page.goto(pathToFileURL(file).href, { waitUntil: 'load' });
+      // .logo and .hero-name excluded: brand name / logotype (WCAG 1.4.3 exempt).
+      let _builder = new AxeBuilder({ page }).exclude('.logo').exclude('.hero-name');
+      for (const sel of EXTRA_EXCLUDES) _builder = _builder.exclude(sel);
+      results = await _builder.withTags(WCAG_TAGS).analyze();
+    } catch (e) {
+      await page.close();
+      skippedTotal++;
+      ctxReport.pages.push({ page: rel, skipped: true, error: e.message });
+      console.log(`  ⚠ ${rel}  —  SKIPPED (${e.message.split('\n')[0]})`);
+      continue;
+    }
     await page.close();
 
     const blocking = results.violations.filter(v => BLOCKING.has(v.impact));
@@ -128,8 +142,9 @@ for (const ctx of CONTEXTS) {
     }
   }
 
-  console.log(`  — ${ctxBlocking} blocking · ${ctxModerate} moderate`);
-  ctxReport.summary = { pages: pages.length, blocking: ctxBlocking, moderate: ctxModerate };
+  const ctxSkipped = ctxReport.pages.filter(p => p.skipped).length;
+  console.log(`  — ${ctxBlocking} blocking · ${ctxModerate} moderate${ctxSkipped ? ` · ${ctxSkipped} skipped` : ''}`);
+  ctxReport.summary = { pages: pages.length, blocking: ctxBlocking, moderate: ctxModerate, skipped: ctxSkipped };
   report.contexts.push(ctxReport);
   await bContext.close();
 }
@@ -141,15 +156,24 @@ report.summary = {
   pages: pages.length,
   blocking: blockingTotal,
   moderate: moderateTotal,
+  skipped: skippedTotal,
 };
 writeFileSync(join(process.cwd(), 'axe-report.json'), JSON.stringify(report, null, 2));
 
-console.log(`\n══ TOTAL — ${CONTEXTS.length} context(s) · ${pages.length} pages · ${blockingTotal} blocking · ${moderateTotal} moderate`);
+console.log(`\n══ TOTAL — ${CONTEXTS.length} context(s) · ${pages.length} pages · ${blockingTotal} blocking · ${moderateTotal} moderate${skippedTotal ? ` · ${skippedTotal} skipped` : ''}`);
 console.log('Report: axe-report.json');
 
 const isBlocking = process.argv.includes('--report-only')
   ? false
   : process.argv.includes('--ci') || process.env.AXE_BLOCKING !== 'false';
+
+// A skipped page was never actually audited — in CI, that's unknown coverage,
+// not a clean pass, so it fails loudly instead of silently reporting "0
+// violations" for a page that was never checked.
+if (skippedTotal > 0 && isBlocking) {
+  console.error(`\n✗ FAILED — ${skippedTotal} page(s) skipped (goto/analyze error) — coverage incomplete, investigate before retrying.`);
+  process.exit(1);
+}
 
 if (blockingTotal > 0) {
   if (isBlocking) {
@@ -157,6 +181,10 @@ if (blockingTotal > 0) {
     process.exit(1);
   }
   console.warn(`\n⚠ REPORT MODE — ${blockingTotal} violation(s) to resolve.`);
+  process.exit(0);
+}
+if (skippedTotal > 0) {
+  console.warn(`\n⚠ ${skippedTotal} page(s) skipped (goto/analyze error) — coverage incomplete.`);
   process.exit(0);
 }
 console.log('\n✓ 0 critical/serious violations — WCAG AA respected across every context.');

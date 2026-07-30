@@ -80,7 +80,7 @@ export const States = {
 export const SettingsList = {
   name: 'Composition — settings list',
   render: () => html`
-    <div style="display:flex;flex-direction:column;gap:14px;max-width:320px;">
+    <div style="display:flex;flex-direction:column;gap:var(--agtc-semantic-space-component-padding-lg);max-width:320px;">
       <agtc-toggle label="Email notifications" checked></agtc-toggle>
       <agtc-toggle label="Push notifications"></agtc-toggle>
       <agtc-toggle label="Weekly digest" checked></agtc-toggle>

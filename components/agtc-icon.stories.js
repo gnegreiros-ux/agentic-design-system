@@ -63,7 +63,7 @@ export default {
 export const Inline = {
   name: 'Inline — 16px (within text)',
   render: () => html`
-    <p style="display:flex;align-items:center;gap:6px;font-size:var(--agtc-semantic-space-component-padding-lg);">
+    <p style="display:flex;align-items:center;gap:var(--agtc-semantic-space-component-padding-xs);font-size:var(--agtc-semantic-space-component-padding-lg);">
       <agtc-icon name="info" size="inline" decorative></agtc-icon>
       Text with an inline icon.
     </p>
@@ -108,10 +108,10 @@ export const Decorative = {
   name: 'Decorative — aria-hidden (adjacent text)',
   render: () => html`
     <div style="display:flex;flex-direction:column;gap:var(--agtc-semantic-space-control-gap);">
-      <span style="display:flex;align-items:center;gap:6px;">
+      <span style="display:flex;align-items:center;gap:var(--agtc-semantic-space-component-padding-xs);">
         <agtc-icon name="check" size="control" decorative></agtc-icon> Saved
       </span>
-      <span style="display:flex;align-items:center;gap:6px;">
+      <span style="display:flex;align-items:center;gap:var(--agtc-semantic-space-component-padding-xs);">
         <agtc-icon name="alert-triangle" size="control" decorative></agtc-icon> Attention required
       </span>
     </div>
@@ -134,7 +134,7 @@ export const AllVariants = {
       </div>
       <div>
         <p style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--agtc-semantic-color-text-secondary);margin:0 0 8px;">Common icons (control)</p>
-        <div style="display:flex;gap:var(--agtc-semantic-space-component-padding-lg);flex-wrap:wrap;align-items:center;color:#1a1a1a;">
+        <div style="display:flex;gap:var(--agtc-semantic-space-component-padding-lg);flex-wrap:wrap;align-items:center;color:var(--agtc-semantic-color-text-primary);">
           <agtc-icon name="home" size="control" decorative></agtc-icon>
           <agtc-icon name="search" size="control" decorative></agtc-icon>
           <agtc-icon name="settings" size="control" decorative></agtc-icon>

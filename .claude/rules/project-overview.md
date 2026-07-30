@@ -70,3 +70,13 @@ which replaces [ADR-016](../../decisions/ADR-016-journal-construction.md)).
 The public changelog (documentation of shipped versions, `site/dist/changelog.html`)
 stays in the repository and is separate from project management — it is not covered by
 this rule.
+
+### Status discipline
+
+> **Always move a ticket to `En cours` the moment work actually starts on it — never
+> jump straight from `Backlog` to `Terminé`.** <!-- lang-audit-ignore: verbatim GitHub Projects Status option values -->
+
+Skipping `En cours` was an observed pattern (0/144 items ever used that status as of
+2026-07-22) that hides real-time progress from anyone else looking at the board. Any
+agent picking up a GitHub Projects ticket must set its `Status` field to `En cours`
+before starting the work, and only move it to `Terminé` once the work is actually done. <!-- lang-audit-ignore: verbatim GitHub Projects Status option values -->
