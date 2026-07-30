@@ -67,6 +67,19 @@ paths:
 > Before any `.remove()`, check `node.findAll()`/`node.children`: a "decorative" node
 > can contain a master component as a direct child (the exact cause of the Button incident).
 
+> **2026-07-30 recurrence, page-consolidation variant.** While merging two Icon pages,
+> a "leftover content" sweep moved a `Composant principal` reference frame into `_trash`
+> without checking what it contained — it held the ACTUAL master `Icon` ComponentSet
+> (§16 convention: this frame IS where the master lives, off-canvas, on every page). The
+> `_trash` frame sat on the now-redundant old page, which the human then deleted per the
+> normal "flag for manual deletion" flow — taking the master ComponentSet down with it.
+> Recovered only because Figma kept a `removed: false`, `parent: null` zombie reference
+> reachable in the same session (`page.appendChild()` on it worked); this would NOT have
+> been recoverable in a later session. **When "cleaning up" or consolidating a page, always
+> check every node being moved to `_trash` for a nested `Composant principal` (or any
+> ComponentSet/COMPONENT) FIRST — move the real master to its new home BEFORE trashing the
+> rest, never lump it in with disposable content.**
+
 ### B. Staging page "Proposal — pending approval"
 
 > Page name carries no emoji (`.claude/rules/no-emoji-icons.md`) — if a visual marker is wanted
