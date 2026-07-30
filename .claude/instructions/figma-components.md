@@ -2326,9 +2326,12 @@ script instead of scattered hand-copied snippets. A clean page returns every res
    visually, not automatic bugs — the check flags any clipsContent ancestor even when the effect
    has enough room and never actually gets cut)
 ✅ overflows — §21.A / §25 — empty (or only the known decorative _deco/Ellipse header bleed)
-✅ widthMismatches — §26.11 — empty (blocking: a top-level page child whose width doesn't
-   match the page's dominant top-level width — a node left at an old, narrower width after
-   being reparented, exposing the canvas gray on the sides)
+✅ missingWrapper — §26.11 — empty (blocking: exactly ONE top-level `page-wrapper` must hold
+   every live content section; anything else flagged here is a bare top-level sibling that
+   escaped containment — the actual structural bug, not just a visual symptom)
+✅ widthMismatches — §26.11 — empty (secondary signal only: a top-level child whose width
+   doesn't match the page's dominant width — can catch drift even when missingWrapper is
+   clean, e.g. one child inside the wrapper never resized, but never a substitute for it)
 ✅ Decorative background nesting (§26.2) — appendChild, don't co-position — not yet automated,
    check by hand: does a "…-content" frame sit as a CHILD of its "…-content-bg", or merely
    beside it at a coincidentally-matching size?
@@ -2338,37 +2341,56 @@ script instead of scattered hand-copied snippets. A clean page returns every res
    `node.screenshot()` result — cheap cross-check against a second rendering pipeline
 ```
 
-### 26.11 A reparented/moved node must ALWAYS match the main container's width — never a bare, mismatched-width top-level sibling
+### 26.11 A page must have exactly ONE `page-wrapper` — every content section is its CHILD, never a top-level sibling
 
-> **Rule adopted 2026-07-30.** Trigger: consolidating two Icon pages into one, a `note`
-> caption frame was reparented from a nested 1280px content wrapper (itself inset inside a
-> 1440px `section-content-bg`) straight to the page's top level via `page.appendChild(node)`.
-> The frame kept its OLD 1280px width and `x=0` instead of being resized to the page's
-> established 1440px main-container width. Every other top-level section on the page is
-> 1440px wide — the orphaned 1280px frame left an 80px gap of the `#535353` canvas gray
-> (§13) visible on both sides, exactly where the missing 160px should have been covered by
-> its old (now-discarded) parent wrapper. `findOverflows()` cannot catch this class of bug:
-> it only flags a child EXCEEDING its parent's bounds, never a child narrower than its
-> siblings' established width.
+> **Rule adopted 2026-07-30, corrected same day.** Trigger: consolidating two Icon pages into
+> one, every section (`↳ Icons` header, `section-showcase`, `section-tokens`,
+> `section-dos-donts`, `section-links`, a new `section-library`, `note`) was appended directly
+> to the PAGE via `page.appendChild(node)` — seven separate top-level siblings, with no
+> enclosing `page-wrapper` at all. The first fix attempt only resized the narrowest sibling
+> (`note`, left at its old 1280px instead of 1440px) to match the others' width — that hid the
+> visible symptom (`#535353` canvas gray, §13, showing through the gap) but missed the actual
+> defect: **every other page in this file has exactly ONE top-level `page-wrapper` frame
+> containing ALL its content sections as children** (confirmed on `button`, `checkbox`, `input`,
+> `top-nav` — each has `page-wrapper` + at most one clearly-separate off-canvas reference frame
+> like `Composant principal`, never multiple live content sections loose at the page root).
+> Width-matching alone is necessary but not sufficient — the structural containment is the real
+> rule; a width check can still pass by coincidence while the page has no single wrapper at all.
 
 ```
-✅ ALWAYS resize a reparented/newly-created top-level page node to match the width of the
-   page's OTHER top-level sections (1440px on this site, per §25) — never assume the node's
-   previous width (inherited from whatever nested wrapper it used to live in) is still correct
-✅ When removing a wrapper that used to provide a full-bleed background (§26.2), either move
-   its child's own frame to full width itself, or wrap it in a fresh full-width frame with the
-   same background fill — the background must never simply disappear
-✅ After any reparenting operation, run findWidthMismatches() (below) BEFORE screenshotting —
-   it flags any top-level child whose width doesn't match the page's dominant (most common)
-   top-level width
-❌ Never call page.appendChild(node) and only reposition x/y — width must be checked and
-   corrected every time, not just position
-❌ Never trust findOverflows() alone to catch a "content escaped its container" bug — it only
-   catches OVERFLOW (too wide), not UNDERFLOW (too narrow), and this incident was underflow
+✅ Exactly ONE top-level frame named `page-wrapper` (1440px, per §25) holds EVERY live content
+   section as a CHILD — header, showcase, tokens, dos-donts, links, and any new section
+✅ The only other top-level page children allowed are explicitly off-canvas, non-live material:
+   a reference frame (e.g. `Composant principal`, `Exemple ...`, conventionally at x≥1600) or
+   the `_trash` quarantine frame (§ "Never delete" in figma-library-governance.md) — never a
+   second LIVE content section sitting beside `page-wrapper`
+✅ When reparenting/moving a section onto a page (e.g. consolidating two pages into one),
+   ALWAYS appendChild it into the page's `page-wrapper` — never `page.appendChild(node)`
+   directly. If the page doesn't have a `page-wrapper` yet, create ONE first, move every
+   existing top-level content section into it, THEN append the new section
+✅ After any reparenting operation, run findMissingWrapper() and findWidthMismatches() (below)
+   BEFORE screenshotting
+❌ Never call `page.appendChild(node)` for a live content section — that is precisely how this
+   incident happened; reserve bare `page.appendChild()` for the wrapper itself, `_trash`, or an
+   explicitly off-canvas reference frame
+❌ Never treat "all sections happen to be the same width" as proof the page is correctly built —
+   width consistency is a symptom check, not the structural one
 ```
 
 ```javascript
-// Audit sweep — run on every page after any reparenting/restructuring work
+// Audit sweep — run on every page: is there exactly one live page-wrapper?
+// A "live" top-level child is anything not named `_trash`/starting with `_`, and not an
+// off-canvas reference frame (x >= 1600, matching the site's `Composant principal` convention).
+function findMissingWrapper(page) {
+  const liveChildren = page.children.filter(c => c.visible !== false && !c.name.startsWith('_') && c.x < 1600);
+  const wrappers = liveChildren.filter(c => /wrapper/i.test(c.name));
+  if (wrappers.length === 1 && liveChildren.length === 1) return []; // exactly one wrapper, nothing else live
+  return liveChildren
+    .filter(c => !/wrapper/i.test(c.name))
+    .map(c => ({ nodeId: c.id, nodeName: c.name, reason: wrappers.length === 0 ? 'no page-wrapper found — this node is a bare top-level sibling' : 'live content sitting beside page-wrapper instead of inside it' }));
+}
+
+// Secondary/symptom check — kept as a fallback signal, NOT a substitute for findMissingWrapper()
 function findWidthMismatches(page) {
   const candidates = page.children.filter(c => c.visible !== false && !c.name.startsWith('_') && 'width' in c);
   if (candidates.length < 2) return [];
@@ -2380,8 +2402,11 @@ function findWidthMismatches(page) {
 }
 ```
 
-Now part of `scripts/figma/audit-figma-file.js` (`findWidthMismatches`, wired into `auditPage()`
-as `widthMismatches`).
+Both are part of `scripts/figma/audit-figma-file.js` (`findMissingWrapper` + `findWidthMismatches`,
+wired into `auditPage()` as `missingWrapper` + `widthMismatches`). `findMissingWrapper` is the
+primary check — it catches the actual structural bug (no single container). `findWidthMismatches`
+is a secondary signal that can catch a drift even when a wrapper exists (e.g. one child inside it
+was never resized) but must never be relied on alone.
 
 ---
 
@@ -2406,5 +2431,5 @@ as `widthMismatches`).
 | Content spills onto the plain page background instead of staying on its "card"/section background | Background is a sibling frame at a manually-matched size, not a real parent — drifts the moment content grows | `appendChild` content into the background, set the background to auto-layout HUG — see §26.2 |
 | A row of sample bars/badges doesn't align to a common starting X across rows | The preceding text/description column is `FILL`/`layoutGrow=1`, pushing the bar to the row's right edge | Give that column a `FIXED` width sized to the longest row's content — see §26.3 |
 | `node.height` / `.absoluteBoundingBox` reads a nonsensical tiny value (e.g. `1`) right after a mutation | Stale auto-layout geometry cache in the Plugin API, not a real layout state | Read `.absoluteRenderBounds` instead, or re-fetch the node in a fresh `use_figma` call — see §26.4 |
-| A reparented top-level node is narrower than every other section, canvas gray (§13) visible on its sides | Node kept its old width from a nested wrapper instead of being resized to the page's main-container width (1440px) after `page.appendChild()` | Always resize a reparented node to match sibling width; run `findWidthMismatches()` — see §26.11 |
+| A page has multiple live content sections loose at the top level (canvas gray, §13, visible between/around them) | Sections were `page.appendChild()`-ed directly to the page instead of into a single `page-wrapper` — no enclosing container at all, not just a width mismatch | Create ONE `page-wrapper` (1440px), move every live section into it as a child; run `findMissingWrapper()` — see §26.11 |
 | Text is technically visible but fails contrast / was clearly hand-picked | `fills[0].boundVariables` is empty — a hardcoded color, not a token | Bind to the matching semantic token and compute WCAG contrast — see §26.5 |

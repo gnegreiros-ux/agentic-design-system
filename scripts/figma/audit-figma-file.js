@@ -36,16 +36,22 @@
  *      pattern) gets renamed as part of the 2026-07 redesign.
  *   7. Broken internal hyperlinks (§26.9) — any text hyperlink of type NODE
  *      whose target node no longer exists (deleted or the ID changed).
- *   8. findWidthMismatches (§26.11) — any top-level page child whose width
- *      doesn't match the page's established main-container width (the mode
- *      across all top-level siblings). Catches a node left at its OLD,
- *      narrower width after being reparented/moved to the page's top level —
- *      the inverse of findOverflows (too NARROW, not too wide), which
- *      findOverflows cannot detect since a narrower child never "exceeds"
- *      its parent's bounds. 2026-07-30 incident: a `note` frame moved from a
- *      nested 1280px content wrapper to the bare page top level kept its old
- *      1280px width instead of the page's 1440px container width, exposing
- *      the #535353 canvas gray on both sides (§13).
+ *   8. findMissingWrapper (§26.11) — PRIMARY structural check: a page must
+ *      have exactly ONE top-level `page-wrapper` frame holding every live
+ *      content section as a child (confirmed convention on button, checkbox,
+ *      input, top-nav). Flags any live section sitting loose at the page's
+ *      top level instead of nested inside page-wrapper. 2026-07-30 incident:
+ *      consolidating two Icon pages, every section (header, showcase, tokens,
+ *      dos-donts, links, note) was `page.appendChild()`-ed directly to the
+ *      page — seven top-level siblings, no wrapper at all.
+ *   9. findWidthMismatches (§26.11) — SECONDARY signal only, do not rely on
+ *      it alone: any top-level page child whose width doesn't match the
+ *      page's established main-container width (the mode across all
+ *      top-level siblings). Can catch drift even when a wrapper exists (a
+ *      child inside it never resized), but a first fix attempt at the same
+ *      2026-07-30 incident used width-matching alone and it masked the real
+ *      defect (no wrapper) — findMissingWrapper() is the check that actually
+ *      catches that class of bug.
  *
  * How to run:
  *   - One page per `use_figma` call (page-switch-once rule). Call
@@ -55,9 +61,9 @@
  *     loop pages inside a single script.
  *   - A clean page returns { orphanedVariables: [], unboundComponentProps: [],
  *     brokenLineHeights: [], clippedEffects: [], overflows: [],
- *     staleNameReferences: [], brokenLinks: [], widthMismatches: [] } — every
- *     array empty. Anything else is a regression to fix before calling the
- *     page "done".
+ *     staleNameReferences: [], brokenLinks: [], missingWrapper: [],
+ *     widthMismatches: [] } — every array empty. Anything else is a
+ *     regression to fix before calling the page "done".
  *
  * Example invocation (inside a use_figma script):
  *   const page = await figma.getNodeByIdAsync('35:8');
@@ -293,14 +299,45 @@ async function findBrokenLinks(page) {
   return found;
 }
 
-// ── 8. Top-level width mismatches — content orphaned from the main container ─
+// ── 8. Missing/duplicated page-wrapper — PRIMARY structural containment check ─
+// Every page must have exactly ONE top-level `page-wrapper` frame holding ALL
+// live content sections as children (confirmed convention across button,
+// checkbox, input, top-nav). A "live" top-level child is anything not named
+// `_trash`/starting with `_`, and not an off-canvas reference frame (x >= 1600,
+// matching the site's `Composant principal` convention — never live content).
+// Flags any live section sitting loose at the page's top level instead of
+// nested inside page-wrapper — the actual bug behind the 2026-07-30 incident,
+// which a width-only check (findWidthMismatches, below) failed to catch since
+// it can pass by coincidence even with no wrapper at all.
+function findMissingWrapper(page) {
+  const liveChildren = page.children.filter(
+    (c) => c.visible !== false && !c.name.startsWith('_') && c.x < 1600
+  );
+  const wrappers = liveChildren.filter((c) => /wrapper/i.test(c.name));
+  if (wrappers.length === 1 && liveChildren.length === 1) return [];
+  return liveChildren
+    .filter((c) => !/wrapper/i.test(c.name))
+    .map((c) => ({
+      nodeId: c.id,
+      nodeName: c.name,
+      reason:
+        wrappers.length === 0
+          ? 'no page-wrapper found — this node is a bare top-level sibling'
+          : 'live content sitting beside page-wrapper instead of inside it',
+    }));
+}
+
+// ── 9. Top-level width mismatches — SECONDARY signal only, not a substitute for #8 ─
 // Never let a top-level page child sit at a width narrower (or wider) than the
 // page's established main-container width. This is the under-width counterpart
 // to findOverflows(): a child that is TOO NARROW never "exceeds" its parent's
 // bounds, so findOverflows can't see it — but it still leaves the #535353
 // canvas gray (§13) visible on the sides, exactly like an overflow does.
 // Excludes `_trash`/`_`-prefixed decor (never live content) — every real
-// section on this site is a full-width band per §25.
+// section on this site is a full-width band per §25. Can catch drift even
+// when findMissingWrapper() is clean (e.g. one child inside the wrapper was
+// never resized) — but relying on this alone is exactly how the 2026-07-30
+// incident's first fix attempt missed the real "no wrapper at all" defect.
 function findWidthMismatches(page) {
   const candidates = page.children.filter(
     (c) => c.visible !== false && !c.name.startsWith('_') && 'width' in c
@@ -332,6 +369,7 @@ async function auditPage(page) {
     overflows: findOverflows(rootWrapper),
     staleNameReferences: findStaleNameReferences(page),
     brokenLinks: await findBrokenLinks(page),
+    missingWrapper: findMissingWrapper(page),
     widthMismatches: findWidthMismatches(page),
   };
 }
