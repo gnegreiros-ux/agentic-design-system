@@ -35,14 +35,17 @@ The design system referenced `<agtc-icon>` in component examples (notably `guide
 
 ### Library: Lucide Icons
 
-**Lucide** (a fork of Feather Icons, MIT) is adopted as the system's official icon library.
+**Lucide** (a fork of Feather Icons) is adopted as the system's official icon library.
 
 **Technical characteristics:**
 - 1,500+ icons, full UI coverage
 - Strict geometric consistency: a constant `strokeWidth: 1.5px` across all icons
 - Pure SVG format — no font, no mandatory sprite
 - Tree-shakeable — only the icons actually used are bundled
-- MIT license — no commercial constraint
+- ISC license (© Lucide Icons and Contributors) — no commercial constraint. Icons still
+  derived from the original Feather project additionally carry Feather's MIT credit
+  (© Cole Bemis) — see `node_modules/lucide/LICENSE`. Corrected 2026-07-31: this ADR
+  originally said "MIT" for the whole library, which was inaccurate.
 
 **Industry adoption:** Linear, Vercel, shadcn/ui, Raycast — a signal of quality and longevity.
 
@@ -164,14 +167,17 @@ Le design system référençait `<agtc-icon>` dans les exemples de composants (n
 
 ### Bibliothèque : Lucide Icons
 
-**Lucide** (fork de Feather Icons, MIT) est adopté comme bibliothèque d'icônes officielle du système.
+**Lucide** (fork de Feather Icons) est adopté comme bibliothèque d'icônes officielle du système.
 
 **Caractéristiques techniques :**
 - 1 500+ icônes, couverture UI complète
 - Cohérence géométrique stricte : `strokeWidth: 1.5px` constant sur toutes les icônes
 - Format SVG pur — pas de font, pas de sprite obligatoire
 - Tree-shakeable — seules les icônes utilisées sont bundlées
-- Licence MIT — aucune contrainte commerciale
+- Licence ISC (© Lucide Icons and Contributors) — aucune contrainte commerciale. Les icônes
+  toujours dérivées du projet Feather portent en plus le crédit MIT d'origine de Feather
+  (© Cole Bemis) — voir `node_modules/lucide/LICENSE`. Corrigé le 2026-07-31 : cet ADR disait
+  à l'origine « MIT » pour toute la bibliothèque, ce qui était inexact.
 
 **Adoption sectorielle :** Linear, Vercel, shadcn/ui, Raycast — signal de qualité et de pérennité.
 

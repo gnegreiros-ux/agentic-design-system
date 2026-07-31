@@ -11,7 +11,7 @@
 
 ## Library — Lucide Icons
 
-Lucide (MIT) is the system's official icon library. 1,500+ icons, strict 24×24 viewBox. Stroke width varies per size step (see Sizes and tokens below, ADR-091). Canonical reference: **lucide.dev**
+Lucide (ISC license; icons still derived from Feather Icons retain Feather's original MIT credit — see ADR-022) is the system's official icon library. 1,500+ icons, strict 24×24 viewBox. Stroke width varies per size step (see Sizes and tokens below, ADR-091). Canonical reference: **lucide.dev**
 
 ---
 

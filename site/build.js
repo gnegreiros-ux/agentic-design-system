@@ -4826,8 +4826,8 @@ function buildIconsFoundation() {
   const body = `
 <h1><span class="lang-fr">Icônes</span><span class="lang-en">Icons</span></h1>
 <p class="page-lead">
-  <span class="lang-fr">Bibliothèque officielle : <strong>Lucide Icons</strong> (MIT) — 1 500+ icônes, viewBox 24×24 strict, accessibilité WCAG 1.1.1 intégrée. L'épaisseur de trait varie par variante (voir tableau ci-dessous, ADR-091) pour compenser optiquement la mise à l'échelle. Référence canonique : <a href="https://lucide.dev" target="_blank" rel="noopener">lucide.dev</a>.</span>
-  <span class="lang-en">Official library: <strong>Lucide Icons</strong> (MIT) — 1,500+ icons, strict 24×24 viewBox, built-in WCAG 1.1.1 accessibility. Stroke width varies per variant (see table below, ADR-091) to optically compensate for scaling. Canonical reference: <a href="https://lucide.dev" target="_blank" rel="noopener">lucide.dev</a>.</span>
+  <span class="lang-fr">Bibliothèque officielle : <strong>Lucide Icons</strong> (licence ISC) — 1 500+ icônes, viewBox 24×24 strict, accessibilité WCAG 1.1.1 intégrée. L'épaisseur de trait varie par variante (voir tableau ci-dessous, ADR-091) pour compenser optiquement la mise à l'échelle. Référence canonique : <a href="https://lucide.dev" target="_blank" rel="noopener">lucide.dev</a>.</span>
+  <span class="lang-en">Official library: <strong>Lucide Icons</strong> (ISC license) — 1,500+ icons, strict 24×24 viewBox, built-in WCAG 1.1.1 accessibility. Stroke width varies per variant (see table below, ADR-091) to optically compensate for scaling. Canonical reference: <a href="https://lucide.dev" target="_blank" rel="noopener">lucide.dev</a>.</span>
 </p>
 
 <h2 class="first"><span class="lang-fr">Tailles — 3 échelons sémantiques</span><span class="lang-en">Sizes — 3 semantic steps</span></h2>
@@ -5277,8 +5277,8 @@ function buildIcon() {
   const body = `
 <h1>Icon</h1>
 <p class="page-lead">
-  <span class="lang-fr">Composant d'icône universel basé sur Lucide Icons (MIT). 1 500+ icônes, viewBox 24×24 strict, accessibilité WCAG 1.1.1 intégrée. L'épaisseur de trait varie par taille (ADR-091) pour compenser optiquement la mise à l'échelle.</span>
-  <span class="lang-en">Universal icon component based on Lucide Icons (MIT). 1,500+ icons, strict 24×24 viewBox, built-in WCAG 1.1.1 accessibility. Stroke width varies per size (ADR-091) to optically compensate for scaling.</span>
+  <span class="lang-fr">Composant d'icône universel basé sur Lucide Icons (licence ISC). 1 500+ icônes, viewBox 24×24 strict, accessibilité WCAG 1.1.1 intégrée. L'épaisseur de trait varie par taille (ADR-091) pour compenser optiquement la mise à l'échelle.</span>
+  <span class="lang-en">Universal icon component based on Lucide Icons (ISC license). 1,500+ icons, strict 24×24 viewBox, built-in WCAG 1.1.1 accessibility. Stroke width varies per size (ADR-091) to optically compensate for scaling.</span>
 </p>
 
 <h2 class="first">Tokens</h2>
@@ -5313,8 +5313,8 @@ function buildIcon() {
 
 <h3><span class="lang-fr">Bibliothèque — Lucide Icons</span><span class="lang-en">Library — Lucide Icons</span></h3>
 <p>
-  <span class="lang-fr">Lucide (MIT) est la bibliothèque d'icônes officielle du système. 1 500+ icônes, viewBox 24×24 strict, épaisseur de trait tokenisée par taille (voir Tokens ci-dessus). Référence canonique : <strong>lucide.dev</strong></span>
-  <span class="lang-en">Lucide (MIT) is the official icon library of the system. 1,500+ icons, strict 24×24 viewBox, stroke width tokenized per size (see Tokens above). Canonical reference: <strong>lucide.dev</strong></span>
+  <span class="lang-fr">Lucide (licence ISC ; les icônes toujours dérivées de Feather Icons portent en plus le crédit MIT d'origine de Feather) est la bibliothèque d'icônes officielle du système. 1 500+ icônes, viewBox 24×24 strict, épaisseur de trait tokenisée par taille (voir Tokens ci-dessus). Référence canonique : <strong>lucide.dev</strong></span>
+  <span class="lang-en">Lucide (ISC license; icons still derived from Feather Icons retain Feather's original MIT credit) is the official icon library of the system. 1,500+ icons, strict 24×24 viewBox, stroke width tokenized per size (see Tokens above). Canonical reference: <strong>lucide.dev</strong></span>
 </p>
 
 <h3><span class="lang-fr">API du composant</span><span class="lang-en">Component API</span></h3>
