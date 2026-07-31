@@ -39,11 +39,24 @@ Lucide (MIT) is the system's official icon library. 1,500+ icons, strict geometr
 
 ## Sizes and tokens
 
-| `size` | Semantic token | Value | Context |
-|--------|-----------------|--------|---------|
-| `inline` | `semantic.icon.size.inline` | 16px | Within running text, a label |
-| `control` | `semantic.icon.size.control` | 20px | Within a button, input, badge |
-| `nav` | `semantic.icon.size.nav` | 24px | Navigation, header, emphasis |
+| `size` | Size token | Value | Stroke-width token | Value | Default color token | Context |
+|--------|-----------------|--------|---------------------|--------|----------------------|---------|
+| `inline` | `semantic.icon.size.inline` | 16px | `semantic.icon.strokeWidth.inline` | 2 | `semantic.color.icon.inline` (= `text.primary`) | Within running text, a label |
+| `control` | `semantic.icon.size.control` | 20px | `semantic.icon.strokeWidth.control` | 1.75 | `semantic.color.icon.control` (= `text.secondary`) | Within a button, input, badge |
+| `nav` | `semantic.icon.size.nav` | 24px | `semantic.icon.strokeWidth.nav` | 1.5 (native Lucide weight) | `semantic.color.icon.nav` (= `text.secondary`) | Navigation, header, emphasis |
+
+**Stroke-width is no longer hardcoded** (ADR-091). Lucide vectors share a fixed 24×24 viewBox,
+so scaling `width`/`height` down also visually thins the stroke; `inline` and `control` use a
+higher stroke-width in viewBox units to compensate and stay legible at small render sizes — a
+documented icon-legibility pattern (see [NN/g — icons & indicators](https://www.nngroup.com/articles/design-pattern-guidelines/)).
+`size="nav"` needs no correction since it renders at the source viewBox's native 24px.
+
+**Color tokens are documentation-only, not a runtime override.** `agtc-icon` still uses
+`stroke: currentColor` in code — it inherits whatever text color surrounds it (error text,
+dark mode, hover state, etc. all work automatically with zero extra CSS). `semantic.color.icon.*`
+exists to give the Figma Lucide Icons library (which has no `currentColor` equivalent) a
+token-driven default per variant, and to document the color each variant typically resolves to
+in its default context.
 
 ---
 
@@ -119,6 +132,7 @@ Lucide (MIT) is the system's official icon library. 1,500+ icons, strict geometr
 | Accessible label required when the icon carries the information | [NN/g](https://www.nngroup.com/articles/design-pattern-guidelines/) | ✅ | Absolute rule — `label` → `aria-label` |
 | Decorative icons hidden from AT (`aria-hidden`) | [NN/g](https://www.nngroup.com/articles/design-pattern-guidelines/) | ✅ | `decorative` → `aria-hidden="true"` |
 | Consistent, non-misleading meaning (same icon = same meaning everywhere) | [IF — transparency](https://catalogue.projectsbyif.com/) | ✅ | Semantic consistency enforced by the single Lucide library (ADR-022) |
+| Icon legibility at small render sizes (optical stroke correction) | [NN/g — icons & indicators](https://www.nngroup.com/articles/design-pattern-guidelines/) | ✅ | `strokeWidth.inline`/`.control` thicker than the native Lucide weight — ADR-091 |
 
 ---
 

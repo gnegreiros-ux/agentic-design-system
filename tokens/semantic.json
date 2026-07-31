@@ -436,6 +436,56 @@
           "$intent": "Strong text on code surface — copy button (maximum contrast)"
         }
       },
+      "icon": {
+        "inline": {
+          "$value": "{primitive.color.gray.12}",
+          "$type": "color",
+          "$intent": "Icon inline with body text — matches text.primary",
+          "$description": "Default color for an icon rendered inline with paragraph or label text (agtc-icon size=\"inline\"). Not consumed directly by the component — agtc-icon uses stroke:currentColor and inherits the surrounding text color at runtime, so it adapts automatically to any context (error text, dark mode, etc.). This token documents that default resolved color for the Figma Lucide Icons library (which has no currentColor equivalent) and for non-inheriting consumers (ADR-091).",
+          "$deprecated": false,
+          "$extensions": {
+            "com.agentica.usage": {
+              "role": "icon-color-inline",
+              "use": ["agtc-icon size=inline default/documentation color", "Figma Lucide Icons library"],
+              "doNotUse": "An icon inside an interactive control (use icon.control) or a navigation icon (use icon.nav). Never overrides currentColor in code.",
+              "components": ["agtc-icon"],
+              "decision": "ADR-091"
+            }
+          }
+        },
+        "control": {
+          "$value": "{primitive.color.gray.11}",
+          "$type": "color",
+          "$intent": "Icon inside an interactive control — matches text.secondary, reduced visual weight",
+          "$description": "Default color for a utility icon inside an interactive control (agtc-icon size=\"control\") — e.g. an input adornment or a dropdown chevron. Same currentColor caveat as icon.inline: documents the typical resolved color, not a hardcoded override (ADR-091).",
+          "$deprecated": false,
+          "$extensions": {
+            "com.agentica.usage": {
+              "role": "icon-color-control",
+              "use": ["agtc-icon size=control default/documentation color", "Figma Lucide Icons library"],
+              "doNotUse": "Inline or nav icons — use icon.inline / icon.nav. Never overrides currentColor in code.",
+              "components": ["agtc-icon"],
+              "decision": "ADR-091"
+            }
+          }
+        },
+        "nav": {
+          "$value": "{primitive.color.gray.11}",
+          "$type": "color",
+          "$intent": "Navigation icon — matches the sidebar/nav link's default rest-state text color",
+          "$description": "Default color for a navigation icon (agtc-icon size=\"nav\") — aligned with `.sidebar a`'s rest-state color (text.secondary), which turns text.primary/action.primary on hover/active via currentColor. Same currentColor caveat as icon.inline (ADR-091).",
+          "$deprecated": false,
+          "$extensions": {
+            "com.agentica.usage": {
+              "role": "icon-color-nav",
+              "use": ["agtc-icon size=nav default/documentation color", "Figma Lucide Icons library"],
+              "doNotUse": "Inline or control icons — use icon.inline / icon.control. Never overrides currentColor in code.",
+              "components": ["agtc-icon"],
+              "decision": "ADR-091"
+            }
+          }
+        }
+      },
       "border": {
         "default": {
           "$value": "{primitive.color.gray.4}",
@@ -1124,6 +1174,56 @@
           "$value": "{primitive.iconSize.xl}",
           "$type": "dimension",
           "$intent": "32px — Feature card icon, marketing section. Minimum required under data-context='marketing'. 4px grid: 8×4."
+        }
+      },
+      "strokeWidth": {
+        "inline": {
+          "$value": "{primitive.strokeWidth.sm}",
+          "$type": "number",
+          "$intent": "Optical correction for the smallest icon size — keeps stroke legible next to body text",
+          "$description": "Stroke weight for an icon inline with text (agtc-icon size=\"inline\", 16px). Thicker than the native Lucide weight to compensate for the visual thinning caused by viewBox scaling at small render sizes (ADR-091).",
+          "$deprecated": false,
+          "$extensions": {
+            "com.agentica.usage": {
+              "role": "icon-stroke-width-inline",
+              "use": ["agtc-icon size=inline"],
+              "doNotUse": "Control or nav icons — use strokeWidth.control / strokeWidth.nav.",
+              "components": ["agtc-icon"],
+              "decision": "ADR-091"
+            }
+          }
+        },
+        "control": {
+          "$value": "{primitive.strokeWidth.md}",
+          "$type": "number",
+          "$intent": "Standard stroke weight for an interactive-control icon",
+          "$description": "Stroke weight for an icon inside an interactive control (agtc-icon size=\"control\", 20px).",
+          "$deprecated": false,
+          "$extensions": {
+            "com.agentica.usage": {
+              "role": "icon-stroke-width-control",
+              "use": ["agtc-icon size=control"],
+              "doNotUse": "Inline or nav icons — use strokeWidth.inline / strokeWidth.nav.",
+              "components": ["agtc-icon"],
+              "decision": "ADR-091"
+            }
+          }
+        },
+        "nav": {
+          "$value": "{primitive.strokeWidth.lg}",
+          "$type": "number",
+          "$intent": "Native Lucide stroke weight — no optical correction needed at 24px",
+          "$description": "Stroke weight for a navigation or emphasis icon (agtc-icon size=\"nav\", 24px) — matches the Lucide source viewBox 1:1.",
+          "$deprecated": false,
+          "$extensions": {
+            "com.agentica.usage": {
+              "role": "icon-stroke-width-nav",
+              "use": ["agtc-icon size=nav"],
+              "doNotUse": "Inline or control icons — use strokeWidth.inline / strokeWidth.control.",
+              "components": ["agtc-icon"],
+              "decision": "ADR-091"
+            }
+          }
         }
       }
     },

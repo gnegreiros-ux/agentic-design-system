@@ -2515,6 +2515,23 @@
         "$description": "Feature icon — marketing cards, hook sections (4px grid: 8×4)"
       }
     },
+    "strokeWidth": {
+      "sm": {
+        "$value": "2",
+        "$type": "number",
+        "$description": "Thickest stroke — optical correction for the smallest rendered icon size (inline, 16px). Lucide vectors are drawn on a fixed 24×24 viewBox, so scaling width/height down also shrinks the visual stroke; a higher stroke-width in viewBox units compensates to keep legibility (ADR-091)."
+      },
+      "md": {
+        "$value": "1.75",
+        "$type": "number",
+        "$description": "Standard stroke — interactive control icons (20px)"
+      },
+      "lg": {
+        "$value": "1.5",
+        "$type": "number",
+        "$description": "Native Lucide stroke weight — matches the 24×24 source viewBox 1:1, no optical correction needed at this render size"
+      }
+    },
     "density": {
       "_readme": {
         "$value": "Density factors for spacing. See ADR-025. Used via math tokens in semantic.json with floor/ceil to guarantee 4px alignment (Sam's math equations technique, ADR-025).",

@@ -1,6 +1,6 @@
 /**
  * Do not edit directly
- * Generated on Wed, 22 Jul 2026 18:31:09 GMT
+ * Generated on Thu, 30 Jul 2026 20:16:53 GMT
  */
 
 :root {
@@ -35,6 +35,9 @@
   --agtc-primitive-density-factor-compact: 0.75;
   --agtc-primitive-density-factor-comfortable: 1.25;
   --agtc-primitive-density-factor-normal: 1;
+  --agtc-primitive-strokeWidth-lg: 1.5;
+  --agtc-primitive-strokeWidth-md: 1.75;
+  --agtc-primitive-strokeWidth-sm: 2;
   --agtc-primitive-iconSize-xl: 32px;
   --agtc-primitive-iconSize-lg: 24px;
   --agtc-primitive-iconSize-md: 20px;
@@ -522,6 +525,9 @@
   --agtc-semantic-marketing-typography-display-line-height: var(--agtc-primitive-lineHeight-display);
   --agtc-semantic-marketing-typography-display-weight: var(--agtc-primitive-fontWeight-bold);
   --agtc-semantic-marketing-typography-display-size: var(--agtc-primitive-fontSize-6xl);
+  --agtc-semantic-icon-strokeWidth-nav: var(--agtc-primitive-strokeWidth-lg);
+  --agtc-semantic-icon-strokeWidth-control: var(--agtc-primitive-strokeWidth-md);
+  --agtc-semantic-icon-strokeWidth-inline: var(--agtc-primitive-strokeWidth-sm);
   --agtc-semantic-icon-size-feature: var(--agtc-primitive-iconSize-xl);
   --agtc-semantic-icon-size-nav: var(--agtc-primitive-iconSize-lg);
   --agtc-semantic-icon-size-control: var(--agtc-primitive-iconSize-md);
@@ -630,6 +636,9 @@
   --agtc-semantic-color-border-danger: var(--agtc-primitive-color-red-11);
   --agtc-semantic-color-border-focus: var(--agtc-primitive-color-teal-11);
   --agtc-semantic-color-border-default: var(--agtc-primitive-color-gray-4);
+  --agtc-semantic-color-icon-nav: var(--agtc-primitive-color-gray-11);
+  --agtc-semantic-color-icon-control: var(--agtc-primitive-color-gray-11);
+  --agtc-semantic-color-icon-inline: var(--agtc-primitive-color-gray-12);
   --agtc-semantic-color-text-on-code-strong: var(--agtc-primitive-color-gray-1);
   --agtc-semantic-color-text-on-code-muted: var(--agtc-primitive-color-gray-8);
   --agtc-semantic-color-text-on-code: var(--agtc-primitive-color-gray-4);

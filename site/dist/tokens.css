@@ -487,6 +487,9 @@
   --agtc-semantic-color-text-on-code: #e8e8e8;
   --agtc-semantic-color-text-on-code-muted: #bbbbbb;
   --agtc-semantic-color-text-on-code-strong: #fcfcfc;
+  --agtc-semantic-color-icon-inline: #202020;
+  --agtc-semantic-color-icon-control: #646464;
+  --agtc-semantic-color-icon-nav: #646464;
   --agtc-semantic-color-border-default: #e8e8e8;
   --agtc-semantic-color-border-focus: #007a68;
   --agtc-semantic-color-border-danger: #ce2c31;
@@ -601,6 +604,9 @@
   --agtc-semantic-icon-size-control: 20px;
   --agtc-semantic-icon-size-nav: 24px;
   --agtc-semantic-icon-size-feature: 32px;
+  --agtc-semantic-icon-strokeWidth-inline: 2;
+  --agtc-semantic-icon-strokeWidth-control: 1.75;
+  --agtc-semantic-icon-strokeWidth-nav: 1.5;
   --agtc-semantic-marketing-typography-display-size: 3.75rem;
   --agtc-semantic-marketing-typography-display-weight: 700;
   --agtc-semantic-marketing-typography-display-line-height: 1.0;
