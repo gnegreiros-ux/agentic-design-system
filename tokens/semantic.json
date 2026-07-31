@@ -1180,14 +1180,14 @@
         "inline": {
           "$value": "{primitive.strokeWidth.sm}",
           "$type": "number",
-          "$intent": "Optical correction for the smallest icon size — keeps stroke legible next to body text",
-          "$description": "Stroke weight for an icon inline with text (agtc-icon size=\"inline\", 16px). Thicker than the native Lucide weight to compensate for the visual thinning caused by viewBox scaling at small render sizes (ADR-091).",
+          "$intent": "Lightest stroke — sits inline with body text, must not compete with the surrounding copy",
+          "$description": "Stroke weight for an icon inline with text (agtc-icon size=\"inline\", 16px). Thinnest step of the scale (ADR-091).",
           "$deprecated": false,
           "$extensions": {
             "com.agentica.usage": {
               "role": "icon-stroke-width-inline",
               "use": ["agtc-icon size=inline"],
-              "doNotUse": "Control or nav icons — use strokeWidth.control / strokeWidth.nav.",
+              "doNotUse": "Control, nav, or feature icons — use strokeWidth.control / strokeWidth.nav / strokeWidth.feature.",
               "components": ["agtc-icon"],
               "decision": "ADR-091"
             }
@@ -1203,7 +1203,7 @@
             "com.agentica.usage": {
               "role": "icon-stroke-width-control",
               "use": ["agtc-icon size=control"],
-              "doNotUse": "Inline or nav icons — use strokeWidth.inline / strokeWidth.nav.",
+              "doNotUse": "Inline, nav, or feature icons — use strokeWidth.inline / strokeWidth.nav / strokeWidth.feature.",
               "components": ["agtc-icon"],
               "decision": "ADR-091"
             }
@@ -1212,14 +1212,30 @@
         "nav": {
           "$value": "{primitive.strokeWidth.lg}",
           "$type": "number",
-          "$intent": "Native Lucide stroke weight — no optical correction needed at 24px",
-          "$description": "Stroke weight for a navigation or emphasis icon (agtc-icon size=\"nav\", 24px) — matches the Lucide source viewBox 1:1.",
+          "$intent": "Bolder stroke — navigation/emphasis icons carry more visual weight for hierarchy",
+          "$description": "Stroke weight for a navigation or emphasis icon (agtc-icon size=\"nav\", 24px).",
           "$deprecated": false,
           "$extensions": {
             "com.agentica.usage": {
               "role": "icon-stroke-width-nav",
               "use": ["agtc-icon size=nav"],
-              "doNotUse": "Inline or control icons — use strokeWidth.inline / strokeWidth.control.",
+              "doNotUse": "Inline, control, or feature icons — use strokeWidth.inline / strokeWidth.control / strokeWidth.feature.",
+              "components": ["agtc-icon"],
+              "decision": "ADR-091"
+            }
+          }
+        },
+        "feature": {
+          "$value": "{primitive.strokeWidth.xl}",
+          "$type": "number",
+          "$intent": "Boldest stroke — feature/marketing card icons, maximum visual presence",
+          "$description": "Stroke weight for a feature icon (semantic.icon.size.feature, 32px) — marketing cards, hook sections. Not an agtc-icon `size` attribute value; applied via CSS in data-context=\"marketing\" (site/build.js).",
+          "$deprecated": false,
+          "$extensions": {
+            "com.agentica.usage": {
+              "role": "icon-stroke-width-feature",
+              "use": ["marketing feature-card icons (data-context=\"marketing\")"],
+              "doNotUse": "Inline, control, or nav icons — use strokeWidth.inline / strokeWidth.control / strokeWidth.nav.",
               "components": ["agtc-icon"],
               "decision": "ADR-091"
             }

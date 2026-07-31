@@ -805,13 +805,14 @@ details[open] .changelog-chevron{transform:rotate(180deg)}
 [data-context="marketing"] .kpi-card{
   padding:var(--agtc-semantic-space-comfortable-layout-component);
 }
-/* Icônes de card — 32px en contexte Marketing (semantic.icon.size.feature) */
+/* Icônes de card — 32px en contexte Marketing (semantic.icon.size.feature / strokeWidth.feature, ADR-091) */
 /* tool-card-icon exclus : cartes compactes horizontales → icon-size-nav (24px) dans tous contextes */
 [data-context="marketing"] .audience-icon svg,
 [data-context="marketing"] .info-card-icon svg,
 [data-context="marketing"] .nav-card-icon svg{
   width:var(--agtc-semantic-icon-size-feature);
   height:var(--agtc-semantic-icon-size-feature);
+  stroke-width:var(--agtc-semantic-icon-strokeWidth-feature);
 }
 
 /* ── SECTION-SECONDARY en contexte Marketing — uniformisation des niveaux ── */

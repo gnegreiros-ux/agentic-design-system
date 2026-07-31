@@ -1,6 +1,6 @@
 /**
  * Do not edit directly
- * Generated on Thu, 30 Jul 2026 20:16:53 GMT
+ * Generated on Fri, 31 Jul 2026 15:52:08 GMT
  */
 
 export const PrimitiveColorGray1 = "#fcfcfc";
@@ -481,9 +481,10 @@ export const PrimitiveIconSizeSm = "16px";
 export const PrimitiveIconSizeMd = "20px";
 export const PrimitiveIconSizeLg = "24px";
 export const PrimitiveIconSizeXl = "32px";
-export const PrimitiveStrokeWidthSm = "2";
-export const PrimitiveStrokeWidthMd = "1.75";
-export const PrimitiveStrokeWidthLg = "1.5";
+export const PrimitiveStrokeWidthSm = "1";
+export const PrimitiveStrokeWidthMd = "1.5";
+export const PrimitiveStrokeWidthLg = "1.75";
+export const PrimitiveStrokeWidthXl = "2";
 export const PrimitiveDensityFactorNormal = "1";
 export const PrimitiveDensityFactorComfortable = "1.25";
 export const PrimitiveDensityFactorCompact = "0.75";
@@ -647,9 +648,10 @@ export const SemanticIconSizeInline = "16px";
 export const SemanticIconSizeControl = "20px";
 export const SemanticIconSizeNav = "24px";
 export const SemanticIconSizeFeature = "32px";
-export const SemanticIconStrokeWidthInline = "2";
-export const SemanticIconStrokeWidthControl = "1.75";
-export const SemanticIconStrokeWidthNav = "1.5";
+export const SemanticIconStrokeWidthInline = "1";
+export const SemanticIconStrokeWidthControl = "1.5";
+export const SemanticIconStrokeWidthNav = "1.75";
+export const SemanticIconStrokeWidthFeature = "2";
 export const SemanticMarketingTypographyDisplaySize = "3.75rem";
 export const SemanticMarketingTypographyDisplayWeight = "700";
 export const SemanticMarketingTypographyDisplayLineHeight = "1.0";

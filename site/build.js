@@ -1519,13 +1519,14 @@ details[open] .changelog-chevron{transform:rotate(180deg)}
 [data-context="marketing"] .kpi-card{
   padding:var(--agtc-semantic-space-comfortable-layout-component);
 }
-/* Icônes de card — 32px en contexte Marketing (semantic.icon.size.feature) */
+/* Icônes de card — 32px en contexte Marketing (semantic.icon.size.feature / strokeWidth.feature, ADR-091) */
 /* tool-card-icon exclus : cartes compactes horizontales → icon-size-nav (24px) dans tous contextes */
 [data-context="marketing"] .audience-icon svg,
 [data-context="marketing"] .info-card-icon svg,
 [data-context="marketing"] .nav-card-icon svg{
   width:var(--agtc-semantic-icon-size-feature);
   height:var(--agtc-semantic-icon-size-feature);
+  stroke-width:var(--agtc-semantic-icon-strokeWidth-feature);
 }
 
 /* ── SECTION-SECONDARY en contexte Marketing — uniformisation des niveaux ── */
@@ -5265,6 +5266,7 @@ function buildIcon() {
     ['icon-strokeWidth-inline',  'semantic.icon.strokeWidth.inline',  SEM['icon-strokeWidth-inline']],
     ['icon-strokeWidth-control', 'semantic.icon.strokeWidth.control', SEM['icon-strokeWidth-control']],
     ['icon-strokeWidth-nav',     'semantic.icon.strokeWidth.nav',     SEM['icon-strokeWidth-nav']],
+    ['icon-strokeWidth-feature', 'semantic.icon.strokeWidth.feature', SEM['icon-strokeWidth-feature']],
     ['color-icon-inline',  'semantic.color.icon.inline',  SEM['color-icon-inline']],
     ['color-icon-control', 'semantic.color.icon.control', SEM['color-icon-control']],
     ['color-icon-nav',     'semantic.color.icon.nav',     SEM['color-icon-nav']],

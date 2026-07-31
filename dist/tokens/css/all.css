@@ -1,6 +1,6 @@
 /**
  * Do not edit directly
- * Generated on Thu, 30 Jul 2026 20:16:53 GMT
+ * Generated on Fri, 31 Jul 2026 15:52:08 GMT
  */
 
 :root {
@@ -35,9 +35,10 @@
   --agtc-primitive-density-factor-compact: 0.75;
   --agtc-primitive-density-factor-comfortable: 1.25;
   --agtc-primitive-density-factor-normal: 1;
-  --agtc-primitive-strokeWidth-lg: 1.5;
-  --agtc-primitive-strokeWidth-md: 1.75;
-  --agtc-primitive-strokeWidth-sm: 2;
+  --agtc-primitive-strokeWidth-xl: 2;
+  --agtc-primitive-strokeWidth-lg: 1.75;
+  --agtc-primitive-strokeWidth-md: 1.5;
+  --agtc-primitive-strokeWidth-sm: 1;
   --agtc-primitive-iconSize-xl: 32px;
   --agtc-primitive-iconSize-lg: 24px;
   --agtc-primitive-iconSize-md: 20px;
@@ -525,6 +526,7 @@
   --agtc-semantic-marketing-typography-display-line-height: var(--agtc-primitive-lineHeight-display);
   --agtc-semantic-marketing-typography-display-weight: var(--agtc-primitive-fontWeight-bold);
   --agtc-semantic-marketing-typography-display-size: var(--agtc-primitive-fontSize-6xl);
+  --agtc-semantic-icon-strokeWidth-feature: var(--agtc-primitive-strokeWidth-xl);
   --agtc-semantic-icon-strokeWidth-nav: var(--agtc-primitive-strokeWidth-lg);
   --agtc-semantic-icon-strokeWidth-control: var(--agtc-primitive-strokeWidth-md);
   --agtc-semantic-icon-strokeWidth-inline: var(--agtc-primitive-strokeWidth-sm);

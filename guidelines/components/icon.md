@@ -11,7 +11,7 @@
 
 ## Library — Lucide Icons
 
-Lucide (MIT) is the system's official icon library. 1,500+ icons, strict geometric consistency (`strokeWidth: 1.5px`). Canonical reference: **lucide.dev**
+Lucide (MIT) is the system's official icon library. 1,500+ icons, strict 24×24 viewBox. Stroke width varies per size step (see Sizes and tokens below, ADR-091). Canonical reference: **lucide.dev**
 
 ---
 
@@ -41,15 +41,18 @@ Lucide (MIT) is the system's official icon library. 1,500+ icons, strict geometr
 
 | `size` | Size token | Value | Stroke-width token | Value | Default color token | Context |
 |--------|-----------------|--------|---------------------|--------|----------------------|---------|
-| `inline` | `semantic.icon.size.inline` | 16px | `semantic.icon.strokeWidth.inline` | 2 | `semantic.color.icon.inline` (= `text.primary`) | Within running text, a label |
-| `control` | `semantic.icon.size.control` | 20px | `semantic.icon.strokeWidth.control` | 1.75 | `semantic.color.icon.control` (= `text.secondary`) | Within a button, input, badge |
-| `nav` | `semantic.icon.size.nav` | 24px | `semantic.icon.strokeWidth.nav` | 1.5 (native Lucide weight) | `semantic.color.icon.nav` (= `text.secondary`) | Navigation, header, emphasis |
+| `inline` | `semantic.icon.size.inline` | 16px | `semantic.icon.strokeWidth.inline` | 1 | `semantic.color.icon.inline` (= `text.primary`) | Within running text, a label |
+| `control` | `semantic.icon.size.control` | 20px | `semantic.icon.strokeWidth.control` | 1.5 | `semantic.color.icon.control` (= `text.secondary`) | Within a button, input, badge |
+| `nav` | `semantic.icon.size.nav` | 24px | `semantic.icon.strokeWidth.nav` | 1.75 | `semantic.color.icon.nav` (= `text.secondary`) | Navigation, header, emphasis |
+| *(n/a — not an `agtc-icon` `size` value)* | `semantic.icon.size.feature` | 32px | `semantic.icon.strokeWidth.feature` | 2 | *(none — always `action.primary` on marketing cards)* | Marketing feature cards, hook sections (`data-context="marketing"`) |
 
-**Stroke-width is no longer hardcoded** (ADR-091). Lucide vectors share a fixed 24×24 viewBox,
-so scaling `width`/`height` down also visually thins the stroke; `inline` and `control` use a
-higher stroke-width in viewBox units to compensate and stay legible at small render sizes — a
-documented icon-legibility pattern (see [NN/g — icons & indicators](https://www.nngroup.com/articles/design-pattern-guidelines/)).
-`size="nav"` needs no correction since it renders at the source viewBox's native 24px.
+**Stroke-width scales up with size** (ADR-091): thinnest at `inline` (sits next to body text,
+must not compete with the copy) to boldest at `feature` (marketing card icons, maximum visual
+presence). `nav` and `feature` carry more visual weight for hierarchy in navigation/marketing
+contexts — a documented icon-legibility/hierarchy pattern (see
+[NN/g — icons & indicators](https://www.nngroup.com/articles/design-pattern-guidelines/)).
+`feature` isn't an `agtc-icon` `size` attribute — it's applied via CSS on
+`data-context="marketing"` card icons (`site/build.js`).
 
 **Color tokens are documentation-only, not a runtime override.** `agtc-icon` still uses
 `stroke: currentColor` in code — it inherits whatever text color surrounds it (error text,

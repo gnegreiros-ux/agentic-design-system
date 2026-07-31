@@ -1,6 +1,6 @@
 # ADR-091 — Per-variant stroke-width and default-color tokens for `agtc-icon`
 
-> **Date:** 2026-07-30
+> **Date:** 2026-07-30 (values revised 2026-07-31 — see Revision note)
 > **Status:** ✅ Active
 > **Decision-makers:** Guilherme Negreiros — Design System Lead
 > **Type:** token
@@ -20,7 +20,7 @@
 
 | Pattern | Source | Applied |
 |---------|--------|---------|
-| Icon legibility at small render sizes (optical stroke correction) | [NN/g — icons & indicators](https://www.nngroup.com/articles/design-pattern-guidelines/) | ✅ — `strokeWidth.inline`/`.control` thicker than the native Lucide weight |
+| Icon legibility and visual hierarchy across sizes | [NN/g — icons & indicators](https://www.nngroup.com/articles/design-pattern-guidelines/) | ✅ — stroke weight scales from lightest (`inline`) to boldest (`feature`) |
 
 ---
 
@@ -41,20 +41,22 @@ variant:
 
 Lucide vectors share a fixed 24×24 `viewBox`. `agtc-icon` scales the rendered icon by setting
 `width`/`height` in CSS, which scales the *entire* SVG coordinate system uniformly — including
-the stroke. A stroke-width defined in viewBox units that looks correct at `nav` (24px, i.e. 1:1
-with the source viewBox) becomes visually thinner at `control` (20px) and thinner still at
-`inline` (16px), where icons are smallest and most often paired with body text — exactly where
-legibility matters most.
+the stroke. With no per-size token, every render size shared the exact same stroke weight,
+regardless of how much visual weight/hierarchy that size is meant to carry.
 
 ## Decision
 
-1. **New primitive tokens** `primitive.strokeWidth.{sm,md,lg}` = `2 / 1.75 / 1.5` (unitless,
-   `$type: number`, matching the SVG `stroke-width` attribute's own unit-less viewBox space).
-2. **New semantic tokens** `semantic.icon.strokeWidth.{inline,control,nav}`, aliasing the
-   primitives above 1:1 with `semantic.icon.size.*` (same `inline`/`control`/`nav` vocabulary).
-   `nav` keeps the original `1.5` (no correction needed — it renders at native viewBox size);
-   `control` and `inline` step up to `1.75` and `2` to compensate optically for the smaller
-   render size.
+1. **New primitive tokens** `primitive.strokeWidth.{sm,md,lg,xl}` = `1 / 1.5 / 1.75 / 2`
+   (unitless, `$type: number`, matching the SVG `stroke-width` attribute's own unit-less
+   viewBox space). Ascending scale — thinnest at `sm` (smallest render size), boldest at `xl`
+   (largest).
+2. **New semantic tokens** `semantic.icon.strokeWidth.{inline,control,nav,feature}`, aliasing
+   the primitives above 1:1 with `semantic.icon.size.*` (same `inline`/`control`/`nav`/`feature`
+   vocabulary). Stroke weight increases with size: `inline` (16px) stays lightest so it doesn't
+   compete with adjacent body text; `control` (20px) and `nav` (24px) step up for stronger
+   presence in interactive controls and navigation; `feature` (32px, marketing cards) is
+   boldest for maximum visual presence. `feature` isn't an `agtc-icon` `size` attribute — it's
+   applied via CSS on `data-context="marketing"` card icons (`site/build.js`).
 3. **New semantic tokens** `semantic.color.icon.{inline,control,nav}`, aliasing the *primitive*
    grays that `text.primary`/`text.secondary` already use (`gray.12` for `inline`, `gray.11` for
    `control` and `nav`) — not aliasing `text.primary`/`text.secondary` themselves, to keep the
@@ -82,16 +84,32 @@ legibility matters most.
 | Wire `semantic.color.icon.*` into `agtc-icon.js`, replacing `currentColor` | Regression — breaks automatic color inheritance (error states, dark mode, button text color) for no benefit; `currentColor` already solves this correctly |
 | One shared stroke-width token for all sizes (status quo) | Leaves the optical-thinning problem at `inline`/`control` unaddressed — the actual bug reported |
 | Alias `semantic.color.icon.*` to `semantic.color.text.*` (semantic-to-semantic) | Inconsistent with `semantic.json`'s existing convention of aliasing primitives directly; semantic-to-semantic aliasing is a `component.json`-only pattern in this codebase |
-| Add a `feature` stroke-width/color variant alongside `inline`/`control`/`nav` | `feature` isn't an `agtc-icon` `size` attribute value — it's a raw CSS override used only for marketing card icons outside the component's declared variant surface (see `site/build.js`); out of scope here |
+| Add a `color.icon.feature` token alongside the stroke-width one | Not requested — marketing feature-card icons always render `action.primary` (teal), not a per-variant default like `inline`/`control`/`nav`; no ambiguity to resolve |
 
 ## Consequences
 
-- `tokens/primitives.json`: +1 group (`strokeWidth`, 3 tokens).
-- `tokens/semantic.json`: +2 groups (`icon.strokeWidth`, `color.icon`), 6 tokens total.
+- `tokens/primitives.json`: +1 group (`strokeWidth`, 4 tokens).
+- `tokens/semantic.json`: +2 groups (`icon.strokeWidth` — 4 tokens, `color.icon` — 3 tokens), 7 tokens total.
 - `components/agtc-icon.js`: `stroke-width` no longer hardcoded; varies by `size`.
 - `guidelines/components/icon.md`: sizes/tokens table extended, UX pattern row added.
-- Figma: matching variables to be created on the main design system file and bound on the
-  `agtc-icon` master ComponentSet's `Inline`/`Control`/`Nav` variants (tracked separately in this
-  session, not part of this ADR's code-side scope).
+- `site/build.js`: `data-context="marketing"` card-icon CSS rule now also sets
+  `stroke-width: var(--agtc-semantic-icon-strokeWidth-feature)` alongside the existing
+  width/height override.
+- Figma: matching variables created on the main design system file and bound on the
+  `agtc-icon` master ComponentSet's `Inline`/`Control`/`Nav` variants, and on all ~3,449 raw
+  Lucide icons in the separate library file (bound to `strokeWidth.control`, matching their
+  existing `size.control` frame binding) — see `project_figma_lucide_icons_file` session notes.
 - No component token (`tokens/component.json`) touched — no Principal Designer approval gate
   triggered.
+
+## Revision — 2026-07-31 (value fix, no new ADR per `adr-triggers.md`)
+
+Initial values shipped 2026-07-30 assumed *decreasing* stroke weight with size (optical
+correction for viewBox scaling: `inline=2, control=1.75, nav=1.5`). The Design System Lead
+corrected the direction the next day: stroke weight should *increase* with size instead
+(`inline=1, control=1.5, nav=1.75`), plus a new `feature=2` step (32px, marketing cards) that
+the original version explicitly scoped out. Same architecture (per-variant token family,
+`currentColor` unchanged in code, color tokens stay documentation/Figma-only) — only the
+numeric scale and its rationale changed, which `pipelines/adr-triggers.md` classifies as an
+"application of an existing ADR," not a new architectural decision. Edited in place rather
+than superseded since this ADR had not yet been merged to `develop` at the time of the fix.

@@ -4,7 +4,7 @@
 //
 
 // Do not edit directly
-// Generated on Thu, 30 Jul 2026 20:16:53 GMT
+// Generated on Fri, 31 Jul 2026 15:52:09 GMT
 
 
 import UIKit
@@ -622,9 +622,10 @@ public class AgenticaTokens {
     public static let primitiveSpace5 = 20px
     public static let primitiveSpace6 = 24px
     public static let primitiveSpace8 = 32px
-    public static let primitiveStrokeWidthLg = 1.5
-    public static let primitiveStrokeWidthMd = 1.75
-    public static let primitiveStrokeWidthSm = 2
+    public static let primitiveStrokeWidthLg = 1.75
+    public static let primitiveStrokeWidthMd = 1.5
+    public static let primitiveStrokeWidthSm = 1
+    public static let primitiveStrokeWidthXl = 2
     public static let radioDefaultBackground = #ffffff
     public static let radioDefaultBorder = #e8e8e8
     public static let radioDefaultBorderFocus = #007a68
@@ -719,9 +720,10 @@ public class AgenticaTokens {
     public static let semanticIconSizeFeature = 32px
     public static let semanticIconSizeInline = 16px
     public static let semanticIconSizeNav = 24px
-    public static let semanticIconStrokeWidthControl = 1.75
-    public static let semanticIconStrokeWidthInline = 2
-    public static let semanticIconStrokeWidthNav = 1.5
+    public static let semanticIconStrokeWidthControl = 1.5
+    public static let semanticIconStrokeWidthFeature = 2
+    public static let semanticIconStrokeWidthInline = 1
+    public static let semanticIconStrokeWidthNav = 1.75
     public static let semanticMarketingSpaceHeroGap = 120px
     public static let semanticMarketingSpaceSectionBreathing = 96px
     public static let semanticMarketingTypographyDisplayLineHeight = 1.0
