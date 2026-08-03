@@ -314,6 +314,25 @@ description.
 
 ---
 
+## Icon component naming — flat names only, no "/" grouping prefix (2026-07-31)
+
+> **Absolute rule:** master icon components in the "Agentica | Lucide Icons" library file
+> are named with the bare icon name only — e.g. `activity`, `settings`, `arrow-right`.
+> **Never** prefix with a category or type label containing `/` (e.g. `Icon / activity`,
+> `Icons/activity`).
+
+Figma automatically groups any component whose name contains `/` into a nested folder in
+every picker that lists it (the instance-swap picker, the assets panel, the insert picker).
+All ~3,449 icons across the 42 category pages were originally named `Icon / {name}` —
+every single swap required an extra click to expand the "Icon" folder before reaching the
+actual icon name. Fixed 2026-07-31 by stripping the prefix on all 42 pages (one component
+rename per icon, no visual/geometry change). If a future batch import reintroduces a
+grouping prefix (a common default from some Figma-to-component import scripts and Tokens
+Studio-adjacent tooling), strip it before publishing — never leave a "/" in a Lucide icon
+component's name.
+
+---
+
 ## Rules for agents
 
 ```

@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="Agentica — a design system built for humans who decide and AI agents who execute. Tokens, components, governance, and WCAG 2.1.">
 <meta name="author" content="Guilherme Negreiros">
-<title>Illustration style "Tactile Tech" + semantic palette `color.illustration` — Agentica</title>
+<title>Per-variant stroke-width and default-color tokens for `agtc-icon` — Agentica</title>
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Agentica">
-<meta property="og:title" content="Illustration style "Tactile Tech" + semantic palette `color.illustration` — Agentica">
+<meta property="og:title" content="Per-variant stroke-width and default-color tokens for `agtc-icon` — Agentica">
 <meta property="og:description" content="Agentica — a design system built for humans who decide and AI agents who execute. Tokens, components, governance, and WCAG 2.1.">
 <meta property="og:image" content="https://agentica.design/social.png">
 <meta property="og:image:width" content="1076">
@@ -17,7 +17,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta property="twitter:domain" content="agentica.design">
 <meta property="twitter:url" content="https://agentica.design/">
-<meta name="twitter:title" content="Illustration style "Tactile Tech" + semantic palette `color.illustration` — Agentica">
+<meta name="twitter:title" content="Per-variant stroke-width and default-color tokens for `agtc-icon` — Agentica">
 <meta name="twitter:description" content="Agentica — a design system built for humans who decide and AI agents who execute. Tokens, components, governance, and WCAG 2.1.">
 <meta name="twitter:image" content="https://agentica.design/social.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -114,82 +114,44 @@
   <main class="content" role="main"><button class="sidebar-toggle" aria-label="Secondary navigation / Navigation secondaire" aria-expanded="false" aria-controls="site-sidebar" hidden><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/></svg><span class="sidebar-toggle-label"><span class="lang-fr">Navigation</span><span class="lang-en">Navigation</span></span></button>
 <div class="adr-header">
   <div class="adr-header-eyebrow">
-    <code class="adr-number">ADR-051</code>
+    <code class="adr-number">ADR-091</code>
     <agtc-badge variant="success" size="sm"><span class="lang-fr">Actif</span><span class="lang-en">Active</span></agtc-badge>
-    <span class="adr-type">contract</span>
+    <span class="adr-type">token</span>
   </div>
-  <h1 class="adr-page-title">Illustration style "Tactile Tech" + semantic palette `color.illustration`</h1>
+  <h1 class="adr-page-title">Per-variant stroke-width and default-color tokens for `agtc-icon`</h1>
   <dl class="adr-meta">
     <div class="adr-meta-item">
       <dt><span class="lang-fr">Date</span><span class="lang-en">Date</span></dt>
-      <dd>2026-06-06</dd>
+      <dd>2026-07-30 (values revised 2026-07-31 — see Revision note)</dd>
     </div>
     <div class="adr-meta-item">
       <dt><span class="lang-fr">Décideurs</span><span class="lang-en">Decision makers</span></dt>
-      <dd>Human (style approval) · Design System Lead (semantic tokens)</dd>
+      <dd>Guilherme Negreiros — Design System Lead</dd>
     </div>
   </dl>
-</div><div class="lang-en"><h2>Context</h2>
-<p>The site redesign (2026-06-06 brief) calls for illustrations to visually explain the system's concepts (hero, "For every role" section, Pipelines & Workflows showcase). We needed <strong>a single coherent, tokenized visual language</strong>, rather than illustrations improvised case by case, and compliant with the "never a hardcoded color" rule.</p>
-<p>Two sources framed the decision:</p>
-<ul><li>The article *SaaS illustration styles that convert* — style #1 **"Tactile Tech: Humanizing</li></ul>
-<p>  Complexity"** (https://getillustrations.com/blog/saas-illustration-styles-that-convert/).</p>
-<ul><li>The prototype's <code>inspiration/</code> folder: <code>color-pattern.jpg</code> (flat-shape geometry) and</li></ul>
-<p>  <code>brand-colors.jpg</code> (palette).</p>
+</div><h2>Reference UX pattern applied</h2>
+<blockquote><p>Reviewed via the <code>ux-pattern-review</code> registry (<code>.claude/rules/ux-patterns-sources.md</code>) — iconography's priority source is NN/g.</p></blockquote>
+<div class="table-wrap" tabindex="0"><table><thead><tr><th>Pattern</th><th>Source</th><th>Applied</th></tr></thead><tbody><tr><td>Icon legibility and visual hierarchy across sizes</td><td><a href="https://www.nngroup.com/articles/design-pattern-guidelines/">NN/g — icons & indicators</a></td><td>✅ — stroke weight scales from lightest (<code>inline</code>) to boldest (<code>feature</code>)</td></tr></tbody></table></div>
 <hr>
+<h2>Context</h2>
+<p><code>agtc-icon</code> had exactly one token for size (<code>semantic.icon.size.{inline,control,nav}</code>, ADR pre-existing) but two things were still hardcoded, undocumented, and identical across every variant:</p>
+<p>1. <strong>Stroke width</strong> — <code>stroke-width: 1.5</code> was a fixed literal in <code>components/agtc-icon.js</code>,    applied uniformly regardless of the <code>size</code> attribute. 2. <strong>Color</strong> — the Figma "Agentica \| Lucide Icons" library file (the separate file holding the    ~3449 raw Lucide vectors consumed via <code>INSTANCE_SWAP</code>) had no per-variant color token to bind    against; a single ad hoc binding to <code>semantic.color.text.primary</code> was applied to every icon in    that file regardless of context, discovered this same session to be architecturally wrong    (that token's Figma scope is <code>TEXT_FILL</code> only, not <code>STROKE_COLOR</code> — see the scope-fix    immediately preceding this ADR in session history).</p>
+<p>Lucide vectors share a fixed 24×24 <code>viewBox</code>. <code>agtc-icon</code> scales the rendered icon by setting <code>width</code>/<code>height</code> in CSS, which scales the *entire* SVG coordinate system uniformly — including the stroke. With no per-size token, every render size shared the exact same stroke weight, regardless of how much visual weight/hierarchy that size is meant to carry.</p>
 <h2>Decision</h2>
-<p>1. <strong>Style chosen: "Tactile Tech."</strong> Precise geometric vector shapes (overlapping angular flat    fills) + grain/stipple/brush texture. Shows the <strong>business outcome</strong>, never UI screenshots.    Full spec: <code>guidelines/foundations/illustration.md</code> (approved by the human).    Product rationale: the tactile imperfection serves the narrative *"the last word is human."*</p>
-<p>2. <strong>Addition of the <code>color.illustration</code> semantic group</strong> (5 tokens, all backed by existing    primitives — no raw value, no primitive modified):</p>
-<p>   | Token | Primitive reference | Illustration role |    |-------|---------------------|-------------------|    | <code>color.illustration.ink</code>     | <code>{primitive.color.mauve.12}</code>   | dark masses, anchoring |    | <code>color.illustration.accent</code>  | <code>{primitive.color.crimson.9}</code>  | warm focal point, energy |    | <code>color.illustration.brand</code>   | <code>{primitive.color.teal.9}</code>     | brand throughline (= <code>brand.primary</code>) |    | <code>color.illustration.neutral</code> | <code>{primitive.color.slate.9}</code>    | secondary masses, depth |    | <code>color.illustration.surface</code> | <code>{primitive.color.slate.3}</code>    | breathing room, light negative space |</p>
-<p>   The inspiration palette (<code>brand-colors.jpg</code>) was mapped to the closest primitive step, teal    already being common to the brand.</p>
-<hr>
-<h2>Scope</h2>
-<div class="table-wrap" tabindex="0"><table><thead><tr><th>Included</th><th>Excluded</th></tr></thead><tbody><tr><td>Style decision + <code>guidelines/foundations/illustration.md</code></td><td>Production of the final illustrations (pipeline steps 3-4)</td></tr><tr><td>5 <code>semantic.color.illustration.*</code> tokens</td><td>Dark-mode remapping of the tokens (upcoming dual-theme project)</td></tr><tr><td>—</td><td>Raster texture tool (grain/brush) — decision still to be made</td></tr></tbody></table></div>
-<hr>
+<p>1. <strong>New primitive tokens</strong> <code>primitive.strokeWidth.{sm,md,lg,xl}</code> = <code>1 / 1.5 / 1.75 / 2</code>    (unitless, <code>$type: number</code>, matching the SVG <code>stroke-width</code> attribute's own unit-less    viewBox space). Ascending scale — thinnest at <code>sm</code> (smallest render size), boldest at <code>xl</code>    (largest). 2. <strong>New semantic tokens</strong> <code>semantic.icon.strokeWidth.{inline,control,nav,feature}</code>, aliasing    the primitives above 1:1 with <code>semantic.icon.size.*</code> (same <code>inline</code>/<code>control</code>/<code>nav</code>/<code>feature</code>    vocabulary). Stroke weight increases with size: <code>inline</code> (16px) stays lightest so it doesn't    compete with adjacent body text; <code>control</code> (20px) and <code>nav</code> (24px) step up for stronger    presence in interactive controls and navigation; <code>feature</code> (32px, marketing cards) is    boldest for maximum visual presence. <code>feature</code> isn't an <code>agtc-icon</code> <code>size</code> attribute — it's    applied via CSS on <code>data-context="marketing"</code> card icons (<code>site/build.js</code>). 3. <strong>New semantic tokens</strong> <code>semantic.color.icon.{inline,control,nav}</code>, aliasing the *primitive*    grays that <code>text.primary</code>/<code>text.secondary</code> already use (<code>gray.12</code> for <code>inline</code>, <code>gray.11</code> for    <code>control</code> and <code>nav</code>) — not aliasing <code>text.primary</code>/<code>text.secondary</code> themselves, to keep the    icon token family self-contained at the primitive layer, consistent with how the rest of    <code>semantic.json</code> aliases primitives directly rather than chaining semantic-to-semantic. 4. <strong><code>components/agtc-icon.js</code> now consumes the stroke-width tokens</strong> via a    <code>--agtc-icon-stroke-width</code> custom property, set per <code>:host([size=…])</code> exactly like the    existing <code>--agtc-icon-size</code> pattern. <strong><code>stroke: currentColor</code> is unchanged</strong> — the color    tokens are not wired into the component's CSS. 5. <strong>The color tokens are documentation/Figma-only, not a code override.</strong> <code>currentColor</code> is    strictly better for a real component: it inherits whatever text color surrounds the icon    (error message red, dark-mode inverse text, a button's <code>on-action</code> white, hover-state teal,    etc.) automatically, with no extra CSS anywhere. Replacing it with a fixed per-size color    token would be a regression — an icon inside a red error message would render gray instead of    inheriting the error color. <code>semantic.color.icon.*</code> exists purely to give the Figma "Lucide    Icons" library file — which has no <code>currentColor</code> equivalent — a token-driven default per    variant, and to document the color each variant typically resolves to in its default context    (<code>inline</code> next to body text → <code>text.primary</code>; <code>control</code>/<code>nav</code> as a muted utility/nav icon →    <code>text.secondary</code>, matching <code>.sidebar a</code>'s rest-state color).</p>
 <h2>Rejected alternatives</h2>
-<ul><li><strong>Introducing raw colors from the inspiration JPG</strong>: contrary to <code>tokens-system.md</code> (never a</li></ul>
-<p>  raw value). Mapping onto existing primitives preserves auditability — rejected.</p>
-<ul><li><strong>Reusing <code>viz</code> (data-viz)</strong>: <code>viz</code> targets information-bearing data visualization; illustration</li></ul>
-<p>  is narrative/decorative. Mixing the two would blur intent — rejected.</p>
-<ul><li><strong>Another style from the article</strong> (e.g. 3D, isometric): colder/more generic, less aligned with</li></ul>
-<p>  the system's "human" narrative — rejected.</p>
-<hr>
+<div class="table-wrap" tabindex="0"><table><thead><tr><th>Alternative</th><th>Reason for rejection</th></tr></thead><tbody><tr><td>Wire <code>semantic.color.icon.*</code> into <code>agtc-icon.js</code>, replacing <code>currentColor</code></td><td>Regression — breaks automatic color inheritance (error states, dark mode, button text color) for no benefit; <code>currentColor</code> already solves this correctly</td></tr><tr><td>One shared stroke-width token for all sizes (status quo)</td><td>Leaves the optical-thinning problem at <code>inline</code>/<code>control</code> unaddressed — the actual bug reported</td></tr><tr><td>Alias <code>semantic.color.icon.*</code> to <code>semantic.color.text.*</code> (semantic-to-semantic)</td><td>Inconsistent with <code>semantic.json</code>'s existing convention of aliasing primitives directly; semantic-to-semantic aliasing is a <code>component.json</code>-only pattern in this codebase</td></tr><tr><td>Add a <code>color.icon.feature</code> token alongside the stroke-width one</td><td>Not requested — marketing feature-card icons always render <code>action.primary</code> (teal), not a per-variant default like <code>inline</code>/<code>control</code>/<code>nav</code>; no ambiguity to resolve</td></tr></tbody></table></div>
 <h2>Consequences</h2>
-<ul><li>Every future illustration consumes <code>color.illustration.*</code> — consistency guaranteed across all</li></ul>
-<p>  surfaces (site + pipelines showcase, merged Phase E/F).</p>
-<ul><li>Governance: 5 semantic tokens added (Design System Lead). No primitive modified.</li><li><strong>To follow up:</strong> (1) remapping the tokens in dark mode during the dual-theme project; (2)</li></ul>
-<p>  decision on the raster texture tool; (3) every illustration produced goes through the axe-core   gate (meaning-bearing elements ≥ 3:1) and remains subject to human approval.</p></div><div class="lang-fr"><h2>Contexte</h2>
-<p>Le redesign du site (brief 2026-06-06) prévoit des illustrations pour expliquer visuellement les concepts du système (hero, section « Pour chaque rôle », vitrine Pipelines & Workflows). Il fallait <strong>un seul langage visuel</strong> cohérent et <strong>tokenisé</strong>, plutôt que des illustrations improvisées au coup par coup, et conforme à la règle « jamais de couleur en dur ».</p>
-<p>Deux sources cadrent la décision :</p>
-<ul><li>L'article *SaaS illustration styles that convert* — style #1 **« Tactile Tech : Humanizing</li></ul>
-<p>  Complexity »** (https://getillustrations.com/blog/saas-illustration-styles-that-convert/).</p>
-<ul><li>Le dossier <code>inspiration/</code> du prototype : <code>color-pattern.jpg</code> (géométrie d'aplats) et</li></ul>
-<p>  <code>brand-colors.jpg</code> (palette).</p>
-<hr>
-<h2>Décision</h2>
-<p>1. <strong>Style retenu : « Tactile Tech ».</strong> Formes vectorielles géométriques précises (aplats anguleux    superposés) + texture grain/stipple/brush. Montre le <strong>résultat métier</strong>, jamais des captures    d'UI. Spec complet : <code>guidelines/foundations/illustration.md</code> (approuvé par l'humain).    Justification produit : l'imperfection tactile sert le récit *« le dernier mot est humain »*.</p>
-<p>2. <strong>Ajout du groupe sémantique <code>color.illustration</code></strong> (5 jetons, tous adossés à des primitives    existantes — aucune valeur brute, aucun primitif modifié) :</p>
-<p>   | Jeton | Référence primitive | Rôle illustration |    |-------|---------------------|-------------------|    | <code>color.illustration.ink</code>     | <code>{primitive.color.mauve.12}</code>   | masses sombres, ancrage |    | <code>color.illustration.accent</code>  | <code>{primitive.color.crimson.9}</code>  | point focal chaud, énergie |    | <code>color.illustration.brand</code>   | <code>{primitive.color.teal.9}</code>     | fil conducteur marque (= <code>brand.primary</code>) |    | <code>color.illustration.neutral</code> | <code>{primitive.color.slate.9}</code>    | masses secondaires, profondeur |    | <code>color.illustration.surface</code> | <code>{primitive.color.slate.3}</code>    | respiration, négatif clair |</p>
-<p>   La palette d'inspiration (<code>brand-colors.jpg</code>) a été mappée sur le pas de primitive le plus proche,    le teal étant déjà commun à la marque.</p>
-<hr>
-<h2>Périmètre</h2>
-<div class="table-wrap" tabindex="0"><table><thead><tr><th>Inclus</th><th>Exclu</th></tr></thead><tbody><tr><td>Décision de style + <code>guidelines/foundations/illustration.md</code></td><td>Production des illustrations finales (étapes 3-4 du pipeline)</td></tr><tr><td>5 jetons <code>semantic.color.illustration.*</code></td><td>Remappage dark mode des jetons (chantier thème dual à venir)</td></tr><tr><td>—</td><td>Outil de texture raster (grain/brush) — décision à trancher</td></tr></tbody></table></div>
-<hr>
-<h2>Alternatives rejetées</h2>
-<ul><li><strong>Introduire des couleurs brutes depuis le JPG d'inspiration</strong> : contraire à <code>tokens-system.md</code></li></ul>
-<p>  (jamais de valeur brute). Le mapping sur primitives existantes préserve l'auditabilité — rejeté.</p>
-<ul><li><strong>Réutiliser <code>viz</code> (data-viz)</strong> : <code>viz</code> cible la visualisation de données porteuse d'information ;</li></ul>
-<p>  l'illustration est narrative/décorative. Mélanger fausserait l'intention — rejeté.</p>
-<ul><li><strong>Autre style de l'article</strong> (ex. 3D, isométrique) : plus froid/générique, moins aligné sur le</li></ul>
-<p>  récit « humain » du système — rejeté.</p>
-<hr>
-<h2>Conséquences</h2>
-<ul><li>Toute illustration future consomme <code>color.illustration.*</code> — cohérence garantie sur toutes les</li></ul>
-<p>  surfaces (site + vitrine pipelines, Phase E/F fusionnées).</p>
-<ul><li>Gouvernance : 5 jetons sémantiques ajoutés (Design System Lead). Aucun primitif modifié.</li><li><strong>À suivre :</strong> (1) remappage des jetons en dark mode lors du chantier thème dual ; (2) décision</li></ul>
-<p>  sur l'outil de texture raster ; (3) chaque illustration produite passe au gate axe-core   (éléments porteurs de sens ≥ 3:1) et reste soumise à approbation humaine.</p></div><div style="display:flex;justify-content:space-between;margin-top:48px;padding-top:24px;border-top:1px solid var(--agtc-semantic-color-border-default)">
-    <a href="adr-050.html" class="agtc-button secondary">← ADR-050</a>
-    <a href="adr-052.html" class="agtc-button secondary">ADR-052 →</a>
+<ul><li><code>tokens/primitives.json</code>: +1 group (<code>strokeWidth</code>, 4 tokens).</li><li><code>tokens/semantic.json</code>: +2 groups (<code>icon.strokeWidth</code> — 4 tokens, <code>color.icon</code> — 3 tokens), 7 tokens total.</li><li><code>components/agtc-icon.js</code>: <code>stroke-width</code> no longer hardcoded; varies by <code>size</code>.</li><li><code>guidelines/components/icon.md</code>: sizes/tokens table extended, UX pattern row added.</li><li><code>site/build.js</code>: <code>data-context="marketing"</code> card-icon CSS rule now also sets</li></ul>
+<p>  <code>stroke-width: var(--agtc-semantic-icon-strokeWidth-feature)</code> alongside the existing   width/height override.</p>
+<ul><li>Figma: matching variables created on the main design system file and bound on the</li></ul>
+<p>  <code>agtc-icon</code> master ComponentSet's <code>Inline</code>/<code>Control</code>/<code>Nav</code> variants, and on all ~3,449 raw   Lucide icons in the separate library file (bound to <code>strokeWidth.control</code>, matching their   existing <code>size.control</code> frame binding) — see <code>project_figma_lucide_icons_file</code> session notes.</p>
+<ul><li>No component token (<code>tokens/component.json</code>) touched — no Principal Designer approval gate</li></ul>
+<p>  triggered.</p>
+<h2>Revision — 2026-07-31 (value fix, no new ADR per <code>adr-triggers.md</code>)</h2>
+<p>Initial values shipped 2026-07-30 assumed *decreasing* stroke weight with size (optical correction for viewBox scaling: <code>inline=2, control=1.75, nav=1.5</code>). The Design System Lead corrected the direction the next day: stroke weight should *increase* with size instead (<code>inline=1, control=1.5, nav=1.75</code>), plus a new <code>feature=2</code> step (32px, marketing cards) that the original version explicitly scoped out. Same architecture (per-variant token family, <code>currentColor</code> unchanged in code, color tokens stay documentation/Figma-only) — only the numeric scale and its rationale changed, which <code>pipelines/adr-triggers.md</code> classifies as an "application of an existing ADR," not a new architectural decision. Edited in place rather than superseded since this ADR had not yet been merged to <code>develop</code> at the time of the fix.</p><div style="display:flex;justify-content:space-between;margin-top:48px;padding-top:24px;border-top:1px solid var(--agtc-semantic-color-border-default)">
+    <a href="adr-090.html" class="agtc-button secondary">← ADR-090</a>
+    <span></span>
   </div></main>
   <nav class="toc" id="page-toc" aria-label="Table of contents / Table des matières"></nav>
 </div>

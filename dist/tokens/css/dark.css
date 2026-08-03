@@ -35,6 +35,9 @@
   --agtc-semantic-color-text-on-dark: rgba(255,255,255,0.92);
   --agtc-semantic-color-text-on-dark-muted: rgba(255,255,255,0.62);
   --agtc-semantic-color-text-on-danger: #3d0f0f;
+  --agtc-semantic-color-icon-inline: #edeef0;
+  --agtc-semantic-color-icon-control: #a4abb8;
+  --agtc-semantic-color-icon-nav: #a4abb8;
   --agtc-semantic-color-border-default: #272c36;
   --agtc-semantic-color-border-strong: #363c48;
   --agtc-semantic-color-border-focus: #34d3bb;

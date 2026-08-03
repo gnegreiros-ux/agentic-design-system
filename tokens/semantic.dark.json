@@ -191,6 +191,23 @@
           "$intent": "Text on danger background, dark — the danger background is light pink (#ff9592), text must be dark"
         }
       },
+      "icon": {
+        "inline": {
+          "$value": "#edeef0",
+          "$type": "color",
+          "$intent": "Icon inline with body text, dark — matches text.primary dark (ADR-091)"
+        },
+        "control": {
+          "$value": "#a4abb8",
+          "$type": "color",
+          "$intent": "Icon inside an interactive control, dark — matches text.secondary dark (ADR-091)"
+        },
+        "nav": {
+          "$value": "#a4abb8",
+          "$type": "color",
+          "$intent": "Navigation icon, dark — matches text.secondary dark (ADR-091)"
+        }
+      },
       "border": {
         "default": {
           "$value": "#272c36",

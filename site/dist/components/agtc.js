@@ -7,15 +7,15 @@
       width: var(--agtc-icon-size, var(--agtc-semantic-icon-size-control));
       height: var(--agtc-icon-size, var(--agtc-semantic-icon-size-control));
       stroke: currentColor;
-      stroke-width: 1.5;
+      stroke-width: var(--agtc-icon-stroke-width, var(--agtc-semantic-icon-strokeWidth-control));
       stroke-linecap: round;
       stroke-linejoin: round;
       fill: none;
     }
 
-    :host([size='inline'])  { --agtc-icon-size: var(--agtc-semantic-icon-size-inline); }
-    :host([size='control']) { --agtc-icon-size: var(--agtc-semantic-icon-size-control); }
-    :host([size='nav'])     { --agtc-icon-size: var(--agtc-semantic-icon-size-nav); }
+    :host([size='inline'])  { --agtc-icon-size: var(--agtc-semantic-icon-size-inline); --agtc-icon-stroke-width: var(--agtc-semantic-icon-strokeWidth-inline); }
+    :host([size='control']) { --agtc-icon-size: var(--agtc-semantic-icon-size-control); --agtc-icon-stroke-width: var(--agtc-semantic-icon-strokeWidth-control); }
+    :host([size='nav'])     { --agtc-icon-size: var(--agtc-semantic-icon-size-nav); --agtc-icon-stroke-width: var(--agtc-semantic-icon-strokeWidth-nav); }
   `;render(){if(!this.name)return p``;let a=this.decorative?{"aria-hidden":"true",role:"none"}:{"aria-label":this.label||this.name,role:"img"};return p`
       <svg
         xmlns="http://www.w3.org/2000/svg"

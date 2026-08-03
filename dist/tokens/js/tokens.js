@@ -1,6 +1,6 @@
 /**
  * Do not edit directly
- * Generated on Wed, 22 Jul 2026 18:31:09 GMT
+ * Generated on Fri, 31 Jul 2026 15:52:08 GMT
  */
 
 export const PrimitiveColorGray1 = "#fcfcfc";
@@ -481,6 +481,10 @@ export const PrimitiveIconSizeSm = "16px";
 export const PrimitiveIconSizeMd = "20px";
 export const PrimitiveIconSizeLg = "24px";
 export const PrimitiveIconSizeXl = "32px";
+export const PrimitiveStrokeWidthSm = "1";
+export const PrimitiveStrokeWidthMd = "1.5";
+export const PrimitiveStrokeWidthLg = "1.75";
+export const PrimitiveStrokeWidthXl = "2";
 export const PrimitiveDensityFactorNormal = "1";
 export const PrimitiveDensityFactorComfortable = "1.25";
 export const PrimitiveDensityFactorCompact = "0.75";
@@ -527,6 +531,9 @@ export const SemanticColorTextOnDarkMuted = "rgba(255,255,255,0.52)";
 export const SemanticColorTextOnCode = "#e8e8e8";
 export const SemanticColorTextOnCodeMuted = "#bbbbbb";
 export const SemanticColorTextOnCodeStrong = "#fcfcfc";
+export const SemanticColorIconInline = "#202020";
+export const SemanticColorIconControl = "#646464";
+export const SemanticColorIconNav = "#646464";
 export const SemanticColorBorderDefault = "#e8e8e8";
 export const SemanticColorBorderFocus = "#007a68";
 export const SemanticColorBorderDanger = "#ce2c31";
@@ -641,6 +648,10 @@ export const SemanticIconSizeInline = "16px";
 export const SemanticIconSizeControl = "20px";
 export const SemanticIconSizeNav = "24px";
 export const SemanticIconSizeFeature = "32px";
+export const SemanticIconStrokeWidthInline = "1";
+export const SemanticIconStrokeWidthControl = "1.5";
+export const SemanticIconStrokeWidthNav = "1.75";
+export const SemanticIconStrokeWidthFeature = "2";
 export const SemanticMarketingTypographyDisplaySize = "3.75rem";
 export const SemanticMarketingTypographyDisplayWeight = "700";
 export const SemanticMarketingTypographyDisplayLineHeight = "1.0";

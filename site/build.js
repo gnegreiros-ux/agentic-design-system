@@ -93,7 +93,7 @@ function parseMd(text) {
 
 // ─── LUCIDE ICONS ─────────────────────────────────────────────────────────
 const lucideIcons = require('lucide');
-function icon(name, size = 24, color = 'currentColor') {
+function icon(name, size = 24, color = 'currentColor', strokeWidth = 1.5) {
   const key = name.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join('');
   const data = lucideIcons[key];
   if (!data) return '';
@@ -101,7 +101,7 @@ function icon(name, size = 24, color = 'currentColor') {
     const a = Object.entries(attrs || {}).map(([k, v]) => `${k}="${v}"`).join(' ');
     return `<${tag} ${a}/>`;
   }).join('');
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${children}</svg>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="${strokeWidth}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${children}</svg>`;
 }
 
 function storybookIcon(size = 18) {
@@ -1519,13 +1519,14 @@ details[open] .changelog-chevron{transform:rotate(180deg)}
 [data-context="marketing"] .kpi-card{
   padding:var(--agtc-semantic-space-comfortable-layout-component);
 }
-/* Icônes de card — 32px en contexte Marketing (semantic.icon.size.feature) */
+/* Icônes de card — 32px en contexte Marketing (semantic.icon.size.feature / strokeWidth.feature, ADR-091) */
 /* tool-card-icon exclus : cartes compactes horizontales → icon-size-nav (24px) dans tous contextes */
 [data-context="marketing"] .audience-icon svg,
 [data-context="marketing"] .info-card-icon svg,
 [data-context="marketing"] .nav-card-icon svg{
   width:var(--agtc-semantic-icon-size-feature);
   height:var(--agtc-semantic-icon-size-feature);
+  stroke-width:var(--agtc-semantic-icon-strokeWidth-feature);
 }
 
 /* ── SECTION-SECONDARY en contexte Marketing — uniformisation des niveaux ── */
@@ -4798,12 +4799,12 @@ function buildTypography() {
 // ─── PAGE: ICONS FOUNDATION ─────────────────────────────────────────────────
 function buildIconsFoundation() {
   const sizes = [
-    ['inline',  SEM['icon-size-inline']  || '16px', '<span class="lang-fr">Dans un texte courant, un label</span><span class="lang-en">In body text, a label</span>'],
-    ['control', SEM['icon-size-control'] || '20px', '<span class="lang-fr">Dans un bouton, un input, un badge</span><span class="lang-en">In a button, input, or badge</span>'],
-    ['nav',     SEM['icon-size-nav']     || '24px', '<span class="lang-fr">Navigation, en-tête, emphase</span><span class="lang-en">Navigation, header, emphasis</span>'],
+    ['inline',  SEM['icon-size-inline']  || '16px', SEM['icon-strokeWidth-inline']  || '2',    '<span class="lang-fr">Dans un texte courant, un label</span><span class="lang-en">In body text, a label</span>'],
+    ['control', SEM['icon-size-control'] || '20px', SEM['icon-strokeWidth-control'] || '1.75', '<span class="lang-fr">Dans un bouton, un input, un badge</span><span class="lang-en">In a button, input, or badge</span>'],
+    ['nav',     SEM['icon-size-nav']     || '24px', SEM['icon-strokeWidth-nav']     || '1.5',  '<span class="lang-fr">Navigation, en-tête, emphase</span><span class="lang-en">Navigation, header, emphasis</span>'],
   ];
-  const sizeRows = sizes.map(([name, val, intent]) =>
-    `<tr class="token-row"><td><code>--agtc-semantic-icon-size-${name}</code></td><td><code>semantic.icon.size.${name}</code></td><td style="font-family:var(--agtc-font-mono)">${val}</td><td>${intent}</td></tr>`
+  const sizeRows = sizes.map(([name, val, sw, intent]) =>
+    `<tr class="token-row"><td><code>--agtc-semantic-icon-size-${name}</code></td><td><code>semantic.icon.size.${name}</code></td><td style="font-family:var(--agtc-font-mono)">${val}</td><td style="font-family:var(--agtc-font-mono)">${sw}</td><td>${intent}</td></tr>`
   ).join('');
 
   const sampleIcons = ['home','search','settings','user','bell','heart','star','trash-2','check','x','arrow-right','plus','edit','download','upload','eye','lock','mail','calendar','file-text'];
@@ -4814,19 +4815,19 @@ function buildIconsFoundation() {
     </div>`
   ).join('');
 
-  const sizeDemo = sizes.map(([name, val]) =>
+  const sizeDemo = sizes.map(([name, val, sw]) =>
     `<div style="display:flex;align-items:center;gap:var(--agtc-space-4);padding:var(--agtc-space-3) 0;border-bottom:1px solid var(--agtc-semantic-color-border-default)">
       <div style="width:80px;color:var(--agtc-semantic-color-text-secondary);font-size:var(--agtc-semantic-typography-detail-size)"><code>${name}</code></div>
-      ${icon('star', parseInt(val), 'var(--agtc-semantic-color-action-primary)')}
-      <div style="font-size:var(--agtc-semantic-typography-detail-size);color:var(--agtc-semantic-color-text-secondary)">${val} — <code>--agtc-semantic-icon-size-${name}</code></div>
+      ${icon('star', parseInt(val), 'var(--agtc-semantic-color-action-primary)', parseFloat(sw))}
+      <div style="font-size:var(--agtc-semantic-typography-detail-size);color:var(--agtc-semantic-color-text-secondary)">${val} · <code>stroke-width:${sw}</code> — <code>--agtc-semantic-icon-size-${name}</code></div>
     </div>`
   ).join('');
 
   const body = `
 <h1><span class="lang-fr">Icônes</span><span class="lang-en">Icons</span></h1>
 <p class="page-lead">
-  <span class="lang-fr">Bibliothèque officielle : <strong>Lucide Icons</strong> (MIT) — 1 500+ icônes, cohérence géométrique stricte (<code>strokeWidth: 1.5px</code>), accessibilité WCAG 1.1.1 intégrée. Référence canonique : <a href="https://lucide.dev" target="_blank" rel="noopener">lucide.dev</a>.</span>
-  <span class="lang-en">Official library: <strong>Lucide Icons</strong> (MIT) — 1,500+ icons, strict geometric consistency (<code>strokeWidth: 1.5px</code>), built-in WCAG 1.1.1 accessibility. Canonical reference: <a href="https://lucide.dev" target="_blank" rel="noopener">lucide.dev</a>.</span>
+  <span class="lang-fr">Bibliothèque officielle : <strong>Lucide Icons</strong> (licence ISC) — 1 500+ icônes, viewBox 24×24 strict, accessibilité WCAG 1.1.1 intégrée. L'épaisseur de trait varie par variante (voir tableau ci-dessous, ADR-091) pour compenser optiquement la mise à l'échelle. Référence canonique : <a href="https://lucide.dev" target="_blank" rel="noopener">lucide.dev</a>.</span>
+  <span class="lang-en">Official library: <strong>Lucide Icons</strong> (ISC license) — 1,500+ icons, strict 24×24 viewBox, built-in WCAG 1.1.1 accessibility. Stroke width varies per variant (see table below, ADR-091) to optically compensate for scaling. Canonical reference: <a href="https://lucide.dev" target="_blank" rel="noopener">lucide.dev</a>.</span>
 </p>
 
 <h2 class="first"><span class="lang-fr">Tailles — 3 échelons sémantiques</span><span class="lang-en">Sizes — 3 semantic steps</span></h2>
@@ -4835,8 +4836,8 @@ function buildIconsFoundation() {
 </div>
 
 <h2><span class="lang-fr">Tokens sémantiques</span><span class="lang-en">Semantic tokens</span></h2>
-<table class="token-table"><colgroup><col style="width:44%"><col style="width:28%"><col style="width:14%"><col style="width:14%"></colgroup>
-  <thead><tr><th>Token CSS</th><th><span class="lang-fr">Référence</span><span class="lang-en">Reference</span></th><th><span class="lang-fr">Valeur</span><span class="lang-en">Value</span></th><th><span class="lang-fr">Intention</span><span class="lang-en">Intent</span></th></tr></thead>
+<table class="token-table"><colgroup><col style="width:36%"><col style="width:24%"><col style="width:12%"><col style="width:12%"><col style="width:16%"></colgroup>
+  <thead><tr><th>Token CSS</th><th><span class="lang-fr">Référence</span><span class="lang-en">Reference</span></th><th><span class="lang-fr">Valeur</span><span class="lang-en">Value</span></th><th><span class="lang-fr">Trait</span><span class="lang-en">Stroke</span></th><th><span class="lang-fr">Intention</span><span class="lang-en">Intent</span></th></tr></thead>
   <tbody>${sizeRows}</tbody>
 </table>
 
@@ -5262,6 +5263,13 @@ function buildIcon() {
     ['icon-size-inline',  'semantic.icon.size.inline',  SEM['icon-size-inline']],
     ['icon-size-control', 'semantic.icon.size.control', SEM['icon-size-control']],
     ['icon-size-nav',     'semantic.icon.size.nav',     SEM['icon-size-nav']],
+    ['icon-strokeWidth-inline',  'semantic.icon.strokeWidth.inline',  SEM['icon-strokeWidth-inline']],
+    ['icon-strokeWidth-control', 'semantic.icon.strokeWidth.control', SEM['icon-strokeWidth-control']],
+    ['icon-strokeWidth-nav',     'semantic.icon.strokeWidth.nav',     SEM['icon-strokeWidth-nav']],
+    ['icon-strokeWidth-feature', 'semantic.icon.strokeWidth.feature', SEM['icon-strokeWidth-feature']],
+    ['color-icon-inline',  'semantic.color.icon.inline',  SEM['color-icon-inline']],
+    ['color-icon-control', 'semantic.color.icon.control', SEM['color-icon-control']],
+    ['color-icon-nav',     'semantic.color.icon.nav',     SEM['color-icon-nav']],
   ].map(([comp, sem, val]) =>
     `<tr class="token-row"><td><code>--agtc-semantic-${comp}</code></td><td><code>${sem}</code></td><td style="font-family:var(--agtc-font-mono)">${val || '—'}</td></tr>`
   ).join('');
@@ -5269,8 +5277,8 @@ function buildIcon() {
   const body = `
 <h1>Icon</h1>
 <p class="page-lead">
-  <span class="lang-fr">Composant d'icône universel basé sur Lucide Icons (MIT). 1 500+ icônes, cohérence géométrique stricte (<code>strokeWidth: 1.5px</code>), accessibilité WCAG 1.1.1 intégrée.</span>
-  <span class="lang-en">Universal icon component based on Lucide Icons (MIT). 1,500+ icons, strict geometric consistency (<code>strokeWidth: 1.5px</code>), built-in WCAG 1.1.1 accessibility.</span>
+  <span class="lang-fr">Composant d'icône universel basé sur Lucide Icons (licence ISC). 1 500+ icônes, viewBox 24×24 strict, accessibilité WCAG 1.1.1 intégrée. L'épaisseur de trait varie par taille (ADR-091) pour compenser optiquement la mise à l'échelle.</span>
+  <span class="lang-en">Universal icon component based on Lucide Icons (ISC license). 1,500+ icons, strict 24×24 viewBox, built-in WCAG 1.1.1 accessibility. Stroke width varies per size (ADR-091) to optically compensate for scaling.</span>
 </p>
 
 <h2 class="first">Tokens</h2>
@@ -5305,8 +5313,8 @@ function buildIcon() {
 
 <h3><span class="lang-fr">Bibliothèque — Lucide Icons</span><span class="lang-en">Library — Lucide Icons</span></h3>
 <p>
-  <span class="lang-fr">Lucide (MIT) est la bibliothèque d'icônes officielle du système. 1 500+ icônes, cohérence géométrique stricte (<code>strokeWidth: 1.5px</code>). Référence canonique : <strong>lucide.dev</strong></span>
-  <span class="lang-en">Lucide (MIT) is the official icon library of the system. 1,500+ icons, strict geometric consistency (<code>strokeWidth: 1.5px</code>). Canonical reference: <strong>lucide.dev</strong></span>
+  <span class="lang-fr">Lucide (licence ISC ; les icônes toujours dérivées de Feather Icons portent en plus le crédit MIT d'origine de Feather) est la bibliothèque d'icônes officielle du système. 1 500+ icônes, viewBox 24×24 strict, épaisseur de trait tokenisée par taille (voir Tokens ci-dessus). Référence canonique : <strong>lucide.dev</strong></span>
+  <span class="lang-en">Lucide (ISC license; icons still derived from Feather Icons retain Feather's original MIT credit) is the official icon library of the system. 1,500+ icons, strict 24×24 viewBox, stroke width tokenized per size (see Tokens above). Canonical reference: <strong>lucide.dev</strong></span>
 </p>
 
 <h3><span class="lang-fr">API du composant</span><span class="lang-en">Component API</span></h3>

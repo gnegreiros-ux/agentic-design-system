@@ -1,6 +1,6 @@
 /**
  * Do not edit directly
- * Generated on Wed, 22 Jul 2026 18:31:09 GMT
+ * Generated on Fri, 31 Jul 2026 15:52:08 GMT
  */
 
 :root {
@@ -23,6 +23,10 @@
   --agtc-semantic-marketing-typography-display-line-height: var(--agtc-primitive-lineHeight-display);
   --agtc-semantic-marketing-typography-display-weight: var(--agtc-primitive-fontWeight-bold);
   --agtc-semantic-marketing-typography-display-size: var(--agtc-primitive-fontSize-6xl);
+  --agtc-semantic-icon-strokeWidth-feature: var(--agtc-primitive-strokeWidth-xl);
+  --agtc-semantic-icon-strokeWidth-nav: var(--agtc-primitive-strokeWidth-lg);
+  --agtc-semantic-icon-strokeWidth-control: var(--agtc-primitive-strokeWidth-md);
+  --agtc-semantic-icon-strokeWidth-inline: var(--agtc-primitive-strokeWidth-sm);
   --agtc-semantic-icon-size-feature: var(--agtc-primitive-iconSize-xl);
   --agtc-semantic-icon-size-nav: var(--agtc-primitive-iconSize-lg);
   --agtc-semantic-icon-size-control: var(--agtc-primitive-iconSize-md);
@@ -131,6 +135,9 @@
   --agtc-semantic-color-border-danger: var(--agtc-primitive-color-red-11);
   --agtc-semantic-color-border-focus: var(--agtc-primitive-color-teal-11);
   --agtc-semantic-color-border-default: var(--agtc-primitive-color-gray-4);
+  --agtc-semantic-color-icon-nav: var(--agtc-primitive-color-gray-11);
+  --agtc-semantic-color-icon-control: var(--agtc-primitive-color-gray-11);
+  --agtc-semantic-color-icon-inline: var(--agtc-primitive-color-gray-12);
   --agtc-semantic-color-text-on-code-strong: var(--agtc-primitive-color-gray-1);
   --agtc-semantic-color-text-on-code-muted: var(--agtc-primitive-color-gray-8);
   --agtc-semantic-color-text-on-code: var(--agtc-primitive-color-gray-4);
