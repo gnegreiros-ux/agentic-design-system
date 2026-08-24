@@ -19,7 +19,10 @@ The site's main navigation (`site/build.js`) was implemented as static HTML gene
 by JavaScript, with CSS styles defined directly in terms of semantic tokens (with no
 component-level layer). Several problems had accumulated across sessions:
 
-- `:visited` kept the browser's default color (flagged 3 times — ADR-047, 2026-06-06, 2026-06-15)
+- `:visited` kept the browser's default color under Safari/WebKit: introduced 2026-05-30
+  (`b5850cf`, `var()` with no hex fallback), first fixed 2026-06-06 (`fb7b5a5`), then reintroduced
+  by mistake during a tokens audit on 2026-06-15 (`6b42f21`) before being fixed for good the same
+  day (`ce994bf` — see ADR-047 and ADR-059)
 - `:active` wasn't defined → browser default color
 - `.active` used a persistent filled background → looked like a toggled button
 - `:focus-visible` absent → keyboard navigation non-compliant with WCAG 2.4.7
@@ -134,7 +137,10 @@ La navigation principale du site (`site/build.js`) était implémentée en HTML 
 par JavaScript, avec des styles CSS définis directement en termes de tokens sémantiques (sans
 passer par un niveau composant). Plusieurs problèmes accumulés au fil des sessions :
 
-- `:visited` persistait dans la couleur navigateur par défaut (signalé 3 fois — ADR-047, 2026-06-06, 2026-06-15)
+- `:visited` gardait la couleur navigateur par défaut sous Safari/WebKit : introduit le 2026-05-30
+  (`b5850cf`, `var()` sans fallback hex), corrigé une première fois le 2026-06-06 (`fb7b5a5`), puis
+  réintroduit par erreur lors d'un audit tokens le 2026-06-15 (`6b42f21`) avant d'être corrigé
+  définitivement le même jour (`ce994bf` — voir ADR-047 et ADR-059)
 - `:active` n'était pas défini → couleur navigateur par défaut
 - `.active` utilisait un fond rempli persistant → ressemblait à un bouton togglé
 - `:focus-visible` absent → navigation clavier non conforme WCAG 2.4.7
