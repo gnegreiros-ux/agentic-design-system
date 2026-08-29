@@ -2415,6 +2415,390 @@ was never resized) but must never be relied on alone.
 
 ---
 
+## 27. Component spec panel — "Specs 2" format standard (token-name-first)
+
+> **Rule adopted 2026-08-04**, direct user request. Trigger: the reference screenshot pasted
+> into the file on the `button` page (`Exemple du plugin Specs 2`, node `539:1265`,
+> 1094×19164 px — a full export from the Figma Community plugin **Specs 2**,
+> [specsplugin.com](https://specsplugin.com)) had only ever been used loosely, as inspiration
+> for the small `doc/spec-panel` (§2.1 of `Temp/plan-redesign-figma-2026-07-23.md`, §1.6.7).
+> This section formalizes the **entire** page structure the plugin produces as the target
+> format for a component's full spec documentation — not just the diagram-plus-a-few-rows
+> subset `doc/spec-panel` currently implements — with one deliberate change: **every raw
+> value that comes from a design token is shown as `token.path` followed by the resolved raw
+> value in parentheses, never the raw value alone.** This is the same principle already stated
+> in `tokens-system.md` ("agents understand function, not just value") and in §1.6.7 of the
+> plan, now applied to the *whole* Specs 2 layout instead of only the diagram section.
+>
+> **2026-08-29 correction, direct user request**: the first pass distinguished `token.path`
+> from `rawValue` by color alone (teal token-name text node next to plain-color value text).
+> Color alone is not a sufficient distinction — WCAG 1.4.1, don't convey information through
+> color only, applies here exactly as it does to any other UI. Minimum fix: wrap the raw value
+> in parentheses, so the two are told apart by punctuation even in grayscale/color-blind
+> viewing, not only by hue.
+
+### 27.0 The component set — built 2026-08-04, all on `↳ design annotations`
+
+`doc/spec-panel` (Phase 1, id `618:23`) implements the diagram-plus-flat-token-list slice of
+this format only (used on `button`/`checkbox`'s TOKENS USED section, 2026-08-03/04) — kept
+as-is, still the right choice for a page's flat token summary table. For the fuller
+Anatomy/Variant/State/Additional-variants/Props reproduction, five new reusable components now
+exist, all on `↳ design annotations` (`584:4`), semantic-tokens-only, never published (§27.6):
+
+| Component | Role | Reused/built from |
+|---|---|---|
+| `doc/annotation-badge` | Numbered circular marker, `Accent` variant (`Annotation`=`semantic.color.feedback.warning`, `Measurement`=`semantic.color.feedback.success`), `Number` text property | New — pill radius via `semantic.radius.pill` |
+| `doc/property-row` | `layer-name` / `token-name` / `resolved-value` 3-line unit, `Label`/`Token`/`Value` text properties | Extracted from `doc/spec-panel`'s internal `layer-list` pattern |
+| `doc/spec-group` | Swappable layer-type icon (`square`=container, `type`=text — real Lucide instances, imported by key, restroked to `semantic.color.text.secondary`) + bold `Name` + indented stack slot of `doc/property-row` | New — the "one layer, its overridden properties" unit shared by Anatomy/Variant/State/Additional-variants |
+| `doc/variant-exhibit` | Gray `semantic.color.background.subtle` isolation box + real-instance slot + `Heading` + stack slot of `doc/spec-group` | New — the repeatable "one exhibit" row for Variant/State/Additional-variants sections |
+| `doc/props-row` | `doc/eyebrow-tag` instance (Name chip) + Type/Default/Options text columns | New, reuses `doc/eyebrow-tag` for the Name chip |
+
+**Data section dropped from scope (2026-08-04, explicit user decision)** — Agentica does not
+reproduce Specs 2's Data/JSON export. `tokens/*.json` (primitive → semantic → component) is
+already the canonical, script-readable export of every token; a second hand-maintained JSON
+blob per Figma page would duplicate it and drift. §27.2's structure and §27.3/§27.4's Data
+subsection are kept below **only** as a faithful record of what the reference plugin produces
+— skip that step when building a page's spec section, it is not part of Agentica's target
+format.
+
+**Also not yet built**: a dedicated `doc/layout-diagram` for the Layout-and-spacing section —
+`doc/spec-group` already covers its property-list half; the alignment-glyph/padding-arrow
+diagram half is still ad-hoc per page, same as an Anatomy diagram's badge positions always are
+(§27.3, "bespoke per component, not a rigid reusable wrapper").
+
+**A real bug found and fixed while building these**: `figma.createComponent()` returns a
+plain frame with `layoutMode: NONE`. Wrapping an inner auto-layout frame inside it and
+resizing the outer once at creation time works visually until the instance's content grows
+(more property rows, longer text) — the outer `COMPONENT` never re-hugs because it has no
+layout mode of its own, silently clipping content. Fix: never double-wrap — either make the
+`COMPONENT` node itself the auto-layout container (set `layoutMode` directly on it, no inner
+frame), or if an inner frame already exists, flatten it (copy the inner frame's layout
+properties onto the outer `COMPONENT`, move its children up, remove the now-empty inner
+frame) before calling the component "done". All 5 components above were fixed this way after
+`doc/variant-exhibit`'s first test render clipped its property text.
+
+### 27.1 Source of truth
+
+Do not go back to a local screenshot path outside the repo — the exact same image already
+lives in the Figma file itself, as node `539:1265` ("Exemple du plugin Specs 2") on the
+`↳ button` page, off-canvas at `x=1600`. Re-inspect that node directly for any detail this
+section doesn't cover.
+
+### 27.2 Full page structure (top → bottom, fixed order)
+
+```
+1. Title                    — component name, large bold heading
+2. Anatomy                  — annotated diagram(s) + numbered layer-property list
+3. Props                    — summary table of every variant/property axis
+4. Variant                  — one exhibit per variant option (root/default state)
+5. State                    — one exhibit per state option (root/default variant)
+6. Additional variants      — combined Variant×State exhibits that render differently
+                               from the single-axis exhibits above
+7. Layout and spacing       — auto-layout diagrams, one per state whose layout differs
+```
+
+> The reference plugin has an 8th section, Data (a generated JSON export) — **not part of
+> Agentica's target format** (2026-08-04 decision, see §27.0): `tokens/*.json` already IS that
+> export, canonically. Do not build it.
+
+### 27.3 Section-by-section spec
+
+#### Title
+Component name only (e.g. "Button"), largest heading weight on the page — reuse
+`doc/page-frame`'s `title` styling, not a new style.
+
+#### Anatomy
+One exhibit per **meaningful layer group** — not just leaf layers: the reference shows 4
+(`root`, the `Button` text, the `pill` sub-container revealed only in the Focus state, and the
+`Loading…` text swap), each its own gray canvas box (`#F2F2F2` background, hugging the real
+component instance at natural size).
+
+Per exhibit:
+- The **real component instance**, never a redrawn mockup.
+- A numbered circular badge (see §27.5 for the exact color) pinned to the callout target,
+  connected by a thin straight line of the same color to a small leader dot at the anchor
+  point on the instance.
+- To the right, an ordered list matching each badge number:
+  - Row header: a small type-glyph icon (frame glyph for a container/instance layer, `T`
+    glyph for a text layer) + **layer name** in bold.
+  - Indented property lines below, one per **explicitly overridden** property only — Figma's
+    inherited defaults are never listed (this is why the reference's `Button` text entry shows
+    6 lines while `Loading…` shows 15: only `Loading…` has letter-spacing/text-case/etc.
+    explicitly set different from the layer's default). Applying this to Agentica: list only
+    properties that are either variable-bound or explicitly set away from the component's own
+    baseline — do not dump the full Plugin API surface for every layer.
+  - Compound values (an `Effect`, a multi-stop gradient) get one line per sub-property,
+    prefixed with a small "└" tree-connector glyph (see the Focus state's `DROP SHADOW`
+    breakdown: `type` / `visible` / `offset x` / `offset y` / `blur` / `spread` / `color`).
+
+#### Props
+A 4-column summary table: `Name` (rendered as a small pill/chip, Figma's native "Variant"
+property color) · `Type` · `Default` · `Options` (comma-separated enum values). One row per
+variant/property axis — for Button: `Variant` and `State`.
+
+#### Variant
+H2 "Variant", then one H3 exhibit per variant option, each showing the variant at its default
+state (`Primary`, `Secondary`, `Critical`, `Ghost`): gray canvas box with the real instance,
+paired with the same layer-name + property-diff-from-baseline pattern as Anatomy — but scoped
+to only the properties this variant changes relative to the root/`Primary` baseline (e.g.
+`Ghost` only diffs `root.Background color` and `Button.Text color`; it never repeats
+`Corner radius` since that never changes across variants).
+
+#### State
+Same treatment, mirrored on the `State` axis (`Default`, `Hover`, `Focus`, `Disabled`,
+`Loading`), always shown on the baseline variant (`Primary`). `Focus` is the one state that
+introduces a genuinely new layer (`pill`, the outer ring) — its exhibit adds a second
+layer-property block for that new layer, not just a diff on `root`.
+
+#### Additional variants
+H2 + an explanatory line, reused near-verbatim from the plugin's own caption (keep this
+caveat — it documents a real constraint, not filler copy): *"Variants below combine two or
+more property configurations whose elements introduce additional styling or bindings beyond
+the single-prop exhibits above. The order in which configurations are layered matters."*
+
+Content: every `Variant × State` combination **except** `Primary` (already the baseline) and
+`Default` (already the baseline state) — but only the combinations that actually render
+differently from what's already shown. The reference itself already applies this filter: it
+skips `Critical × Loading` (no visible delta over the single-axis exhibits) while including
+every other non-baseline combination. **This is the exact same principle Agentica already
+adopted for `doc/mode-frame` in §1.6.4 of the plan** ("un mode/variante n'est dupliqué <!-- lang-audit-ignore: verbatim quote from the plan doc -->
+visuellement que s'il produit un rendu réellement différent") — apply it identically here, it <!-- lang-audit-ignore: verbatim quote from the plan doc -->
+is not a new rule, just the same one reappearing in a new context.
+
+#### Layout and spacing
+H2, then one labeled auto-layout diagram per state whose **layout itself** (not just color)
+differs — the reference shows `Default` and `State = Focus` (Focus changes the effective
+bounding box via the outside-aligned focus stroke, everything else shares the default's
+layout). Each diagram:
+- A small alignment glyph + directional arrows indicating hug direction (horizontal/vertical).
+- Green circular badges with a leader dimension-line, one per padding side that has a value
+  (top/bottom/start/end) — omit a badge for a side whose padding is 0.
+- A blue Figma-native "selection" outline instead of green badges when the diagram is only
+  illustrating an **alignment** change with no padding to annotate (the `State = Focus`
+  exhibit shows only `Alignment: Top center`, no padding badges, because Focus doesn't change
+  padding — only what a screen reader/keyboard user's focus outline visually sits against).
+- To the right: the same token-first property list — `Alignment`, `Direction`,
+  `Vertical/Horizontal resizing`, `Padding top/bottom/start/end`, `Item spacing`.
+
+#### Data — NOT built (2026-08-04 decision)
+The reference plugin closes with a generated JSON export (`title`, `anatomy`, `props`,
+`default`/`variants` layout+style diffs). **Agentica does not reproduce this section** —
+`tokens/*.json` (primitive → semantic → component) is already the canonical, script-readable
+export of every token in the system; a second hand-maintained-or-generated JSON blob per Figma
+page would duplicate that source of truth and drift from it. Skip this step entirely when
+building a page's spec section.
+
+### 27.4 The universal token-first formatting rule
+
+Applies to every property line in Anatomy, Variant, State, Additional variants, and Layout and
+spacing:
+
+```
+Label: token.path.dotted (rawValue)
+```
+
+- `token.path.dotted` in the same teal/green accent `doc/spec-panel`'s `token-name` text node
+  already uses (component-level token if one exists — §18 — else semantic).
+- `rawValue` stays exactly as Specs 2 renders it (hex, `px`, `%`, keyword) — never omitted,
+  the point is BOTH, not a replacement — **wrapped in parentheses**, not just set in a
+  different color from the token (2026-08-29 correction, see the rule's intro note above:
+  color alone isn't a sufficient distinction, WCAG 1.4.1). Parentheses are the minimum; a
+  visually distinct style (e.g. lighter weight, monospace vs. the token's sans) on top of them
+  is fine, but never a substitute for them.
+
+**Properties with no token to attach stay exactly as Specs 2 shows them, unchanged** — this
+covers content strings (`Text: Button`), enum/structural metadata with no token equivalent
+(`Direction: Horizontal`, `Alignment: Middle left`, `layoutMode: HORIZONTAL`, `nullable`,
+`detectedIn`), and font family names (the family string itself is the value, not a token
+path — the *token* is what points AT `Atkinson Hyperlegible`, not a re-statement of it).
+
+```
+✅ Every color/dimension/radius/spacing/typography value that is Variable-bound in Figma
+   (or has a corresponding component/semantic token in code) → token.path (rawValue)
+✅ Structural/content/enum properties with no token equivalent → unchanged, raw only
+❌ Never show a raw value alone when a token exists for it (defeats the whole point of §27)
+❌ Never rely on color alone to distinguish the token from the raw value — parentheses are the
+   minimum required distinction (2026-08-29, WCAG 1.4.1)
+❌ Never invent a token path that doesn't exist in tokens/*.json — always look for an
+   existing semantic token first (§27.5); only fall back to a primitive if genuinely none fits
+❌ Never build a Data/JSON export section — tokens/*.json is already that export (2026-08-04)
+```
+
+**Real incident, 2026-08-05** — the Default exhibit on `button` documented `Alignment: Middle
+center`. The real value, read directly off the node, is `Middle left`
+(`primaryAxisAlignItems: 'MIN'`, `counterAxisAlignItems: 'CENTER'` on the HORIZONTAL root) —
+caught by the user from the actual Figma properties panel, not by any agent-side check. Root
+cause: enum/structural properties (`Alignment`, `Direction`, `Horizontal/Vertical resizing`)
+have **no bound variable** to cross-check against, unlike color/spacing/typography — there is
+nothing that throws an error or shows up in an `orphanedVariables` audit if the text is wrong.
+It's easy to unconsciously default to a "looks right" value (a hugged component renders
+identically whether its unused axis alignment is `MIN` or `CENTER`, so the bug is invisible in
+every screenshot) instead of actually querying the property. **Rule: before writing any
+`Direction`/`Alignment`/`*-resizing` line, read it directly off the real node**:
+
+```js
+node.layoutMode              // → Direction
+node.primaryAxisAlignItems   // → Alignment (primary axis component)
+node.counterAxisAlignItems   // → Alignment (counter axis component)
+node.primaryAxisSizingMode   // → Horizontal/Vertical resizing (whichever is the primary axis)
+node.counterAxisSizingMode   // → the other axis
+```
+
+Map primary/counter to horizontal/vertical based on `layoutMode` (`HORIZONTAL`: primary=X,
+counter=Y; `VERTICAL`: primary=Y, counter=X) — don't reuse the reference screenshot's example
+value for a different component, and don't infer alignment from how the component *looks*
+when hugged, since MIN/CENTER/MAX are visually indistinguishable at hug size.
+
+**Second half of the same incident, same day** — reading the real Figma node value is
+necessary but **not sufficient**. The agent's first fix (`Middle center` → `Middle left`)
+correctly matched what the Figma node said, but the Figma node itself was wrong: the real
+Button master had `primaryAxisAlignItems: 'MIN'` on 16 of its 20 variants (every state except
+`Focus`), while the shipped CSS (`components/agtc-button.js` line 121-123, the `button`
+selector — the exact element `root` refers to in the Anatomy diagram, its children being
+`icon-prefix`/`Button` text/`icon-suffix`) sets `align-items: center; justify-content: center`
+on both axes. Per the standing code-is-source-of-truth governance
+(`figma-library-governance.md`), this was a real product-component bug, not a documentation
+bug — confirmed with the user (who asked one clarifying question first: is `Alignment` here
+about the button's own internal content, or about the button as a child of some outer
+container? — worth checking before assuming, since a Figma auto-layout alignment property can
+describe either depending on which node you're reading it from) and fixed on the master
+(all 16 variants set to `CENTER`), which is what made `Middle center` the correct final answer.
+
+```
+✅ Read the real Figma node property first (previous entry)
+✅ THEN cross-check that value against the actual CSS/JS source before writing it into a spec
+✅ If Figma and code disagree, that's a real component bug (governance: code wins) — surface
+   it and get human confirmation before touching a shipped product master, same as any other
+   Figma↔code divergence (§ the 6 divergences found 2026-08-04)
+✅ Before comparing, confirm which node/selector "root" (or any labeled part) actually maps to
+   in the code — an alignment/padding/gap property can describe content-within-element or
+   element-within-parent depending on which frame you're reading
+❌ Never treat "I read it off the real Figma node" as the end of verification — Figma can
+   itself be the thing that's wrong
+```
+
+### 27.5 Visual chrome for reproducing this format — a dedicated annotation palette, never an Agentica product token
+
+> **Superseded 2026-08-05** — the original version of this table reused Agentica's *product*
+> semantic tokens (`semantic.color.feedback.warning`, `semantic.color.feedback.success`) for
+> measurement/annotation chrome. Direct user instruction after reviewing a rendered Layout and
+> spacing diagram: the green padding badges were visually indistinguishable from the button's
+> own teal fill ("impossible à comprendre") — reusing a *product* hue for *documentation* <!-- lang-audit-ignore: verbatim user quote -->
+> chrome is a category error, not just a contrast problem. New standing rule:
+>
+> ```
+> ✅ Design-note/annotation chrome uses ONLY the dedicated design-annotations palette (below)
+> ❌ Never bind doc/* measurement, selection, or reference chrome to an Agentica product
+>    semantic token (action/*, feedback/*, brand/*, etc.) — even if the hex value happens to
+>    look distinct today, it's borrowed meaning from the product palette and can drift into
+>    a collision the moment either palette changes
+> ```
+
+**The `design-annotations` Figma variable collection** (single mode, Figma-only — deliberately
+**not** mirrored into `tokens/*.json`, since it must never compile into shipped CSS; nothing in
+this collection is a product token):
+
+| Variable | Value | Role |
+|---|---|---|
+| `color/accent` | `#7C3AED` (vivid violet) | Fill for badges, ticks, selection outlines, connector lines — the one hue that carries zero meaning anywhere in Agentica's product palette (which already spans teal/action, red/danger, orange/warning, blue/info, pink/brand-accent — violet was the only unclaimed hue family) |
+| `color/surface` | `#7C3AED` at 22% alpha (baked into the variable itself, not a separate paint-level opacity) | Translucent padding-zone / highlight overlays |
+| `color/ink` | `#FFFFFF` | Text on filled badges |
+
+> **Gotcha hit while building this**: setting `opacity` on a paint literal passed to
+> `setBoundVariableForPaint()` gets silently dropped — the returned paint's opacity resets to
+> 1. Fix: bake the alpha into the **variable's own color** (`{r,g,b,a}` on the variable value)
+> instead of relying on a separate paint-level `opacity` field.
+
+**Reusable components** (all on `↳ design annotations`, all bound to the palette above):
+
+| Component | Purpose |
+|---|---|
+| `doc/measurement-badge` | Pill badge with a `Value` text property — the pixel-value label (e.g. "16", "8") for a padding/gap measurement |
+| `doc/measurement-tick` | A resizable 1px line — bracket/boundary marks around a measured zone (rotate via instance resize, not a variant) |
+| `doc/measurement-overlay` | Translucent rectangle (`color/surface`) — highlights the padding zone itself, resized/positioned per instance |
+| `doc/selection-outline` | Stroke-only rectangle (`color/accent`) — the "this is the effective bounding box" indicator, resized per instance to match whatever is being measured |
+| `doc/annotation-badge` | *(Phase 3 original)* numbered circular reference badge (Anatomy legend) — both variants (`Accent=Annotation`, `Accent=Measurement`) rebound from `feedback.warning`/`feedback.success` to `color/accent`, unifying every note type under one hue |
+
+Gray canvas/isolation box background stays on the *product* semantic token
+(`semantic.color.background.subtle`) — that's a neutral backdrop, not annotation content, so
+the "never mix palettes" rule doesn't apply to it.
+
+**2026-08-05 — user tuning + 2 more symbol components.** The user directly edited the
+`design-annotations` variables in Figma (not via agent script): `color/accent` moved from the
+agent's original violet (`#7C3AED`) to a magenta/pink (`#EE3AA6`); `color/surface` matches at
+40% opacity (set as plain paint opacity this time, not baked into the variable — both work,
+opacity-on-variable was only needed to work around the `setBoundVariableForPaint` gotcha above
+when the agent needed opacity AND a variable-bound color in one call); font on
+`doc/measurement-badge` changed to `Atkinson Hyperlegible Mono` (Medium) — consistent with the
+Mono-scale precedent (§24) for other documentation-only text; a new `dimesions/radius` variable
+(note: user's own naming, radius = 4) was added and bound to the badge's corner radius. None of
+this needed reverting — components are bound to variables, so the agent's later work picked up
+the new values automatically without any script changes.
+
+Two more components added the same day, for the small meta-icons the reference plugin uses
+(direction + hug-resizing indicators), on user request ("ajouter ces symboles pour aider la <!-- lang-audit-ignore: verbatim user quote -->
+compréhension") after being shown the reference's annotated screenshot a second time: <!-- lang-audit-ignore: verbatim user quote -->
+
+| Component | Purpose |
+|---|---|
+| `doc/auto-layout-icon` | Small grid glyph (3×3 subdivided square) + optional direction arrow, controlled by a boolean `Arrow` property — grid alone for a diagram that only shows alignment (e.g. State=Focus), grid+arrow when direction is relevant (e.g. Default) |
+| `doc/hug-indicator` | Converging double-arrow (`Direction=Horizontal` / `Direction=Vertical` variants) — shows which axis is hugging its content |
+
+Both bound to a new `color/meta` variable (neutral gray, `#6B6B6B`-ish) rather than
+`color/accent` — these are **meta/utility** icons (auto-layout direction, resize behavior),
+not measurement values, so they get their own neutral role in the palette rather than
+competing visually with the pink measurement badges. Built via vector-path triangles rather
+than rotated polygons — `figma.createPolygon()` rotation didn't behave predictably (position
+math is relative to the unrotated bounding box, not the rendered one) and got clipped by the
+parent frame; a hand-authored `vectorPaths` triangle avoids the rotation math entirely.
+
+**Standing rule, applies to every `instance-slot` frame (master and every live instance,
+current and future):** `clipsContent` must always be `false`. Direct user instruction
+2026-08-05 — an `instance-slot` exists to host whatever real component instance is dropped
+into it for a diagram, and clipping silently hides overflow (annotation lines/badges
+positioned just outside the slot, or a real instance slightly larger than expected) with no
+visual warning. Check this whenever building or auditing a `doc/variant-exhibit` (or similar)
+instance.
+
+---
+
+### 27.6 Where these components live — `↳ design annotations` only, never published
+
+> **Rule adopted 2026-08-04**, direct user instruction. Applies to every component whose sole
+> purpose is presenting/documenting a Figma file — page headers, eyebrow tags, section
+> titles, status badges, anatomy/spec-panel chrome, DO/DON'T card chrome, mode-comparison
+> frames — i.e. the entire `doc/*` family, current and future, no exceptions.
+
+```
+✅ Build and host EVERY doc/* presentation component on ↳ design annotations (page 584:4,
+   under ❖ UTILITY) — the single canonical location, not a separate page
+✅ Bind every doc/* component to semantic tokens (§27.5) — never a primitive directly, never
+   a hardcoded value (same baseline rule as any other component, tokens-system.md)
+✅ Never publish doc/* with the library — same discipline already established for the Mono
+   typography scale (§24) and Figma-only chrome in general
+❌ Never create a new page (e.g. a second "doc-components"-style page) to host presentation
+   components — consolidate, don't fragment
+❌ Never bind a doc/* component to a primitive when an existing semantic token already
+   matches (§27.5) — check tokens/semantic.json before reaching for tokens/primitives.json
+```
+
+**Migration executed 2026-08-04**: the 10 Phase-1 `doc/*` masters (`doc/eyebrow-tag`,
+`doc/section-header`, `doc/token-row`, `doc/type-ramp-row`, `doc/status-badge`,
+`doc/page-frame`, `doc/dos-donts-card`, `doc/mode-frame`, `doc/spec-panel`,
+`doc/color-swatch`) were built on a since-retired page, `↳ doc-components` — a Phase 1
+deviation from the original plan (`Temp/plan-redesign-figma-2026-07-23.md` §1.6.1), which had
+always designated `↳ design annotations` for exactly this purpose (originally scoped to the
+Mono typography scale only, §1.6.1/§3 Q2). All 10 masters were moved via `page.appendChild()`
+to `↳ design annotations` (`584:4`) — node IDs unchanged, so every live instance already
+placed on `button` and `checkbox` stayed correctly linked (moving a master's page never
+breaks an instance's `mainComponent` reference — verified by screenshot on both pages after
+the move). The now-empty source page was renamed
+`_deprecated — doc-components (empty, migrated to ↳ design annotations 2026-08-04)` rather
+than deleted (no-delete rule, `figma-library-governance.md` §A) — flagged for the human to
+delete manually once confirmed no longer needed.
+
+---
+
 ## Known errors — Figma Plugin API
 
 | Error | Cause | Fix |
