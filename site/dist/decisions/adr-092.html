@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="Agentica — a design system built for humans who decide and AI agents who execute. Tokens, components, governance, and WCAG 2.1.">
 <meta name="author" content="Guilherme Negreiros">
-<title>Choosing Playwright for E2E and accessibility testing — Agentica</title>
+<title>Safari `:visited` hex-fallback incident, consolidated record (amends ADR-047, ADR-059, ADR-060) — Agentica</title>
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Agentica">
-<meta property="og:title" content="Choosing Playwright for E2E and accessibility testing — Agentica">
+<meta property="og:title" content="Safari `:visited` hex-fallback incident, consolidated record (amends ADR-047, ADR-059, ADR-060) — Agentica">
 <meta property="og:description" content="Agentica — a design system built for humans who decide and AI agents who execute. Tokens, components, governance, and WCAG 2.1.">
 <meta property="og:image" content="https://agentica.design/social.png">
 <meta property="og:image:width" content="1076">
@@ -17,7 +17,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta property="twitter:domain" content="agentica.design">
 <meta property="twitter:url" content="https://agentica.design/">
-<meta name="twitter:title" content="Choosing Playwright for E2E and accessibility testing — Agentica">
+<meta name="twitter:title" content="Safari `:visited` hex-fallback incident, consolidated record (amends ADR-047, ADR-059, ADR-060) — Agentica">
 <meta name="twitter:description" content="Agentica — a design system built for humans who decide and AI agents who execute. Tokens, components, governance, and WCAG 2.1.">
 <meta name="twitter:image" content="https://agentica.design/social.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -114,116 +114,58 @@
   <main class="content" role="main"><button class="sidebar-toggle" aria-label="Secondary navigation / Navigation secondaire" aria-expanded="false" aria-controls="site-sidebar" hidden><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/></svg><span class="sidebar-toggle-label"><span class="lang-fr">Navigation</span><span class="lang-en">Navigation</span></span></button>
 <div class="adr-header">
   <div class="adr-header-eyebrow">
-    <code class="adr-number">ADR-010</code>
+    <code class="adr-number">ADR-092</code>
     <agtc-badge variant="success" size="sm"><span class="lang-fr">Actif</span><span class="lang-en">Active</span></agtc-badge>
-    <span class="adr-type">contract</span>
+    <span class="adr-type">governance</span>
   </div>
-  <h1 class="adr-page-title">Choosing Playwright for E2E and accessibility testing</h1>
+  <h1 class="adr-page-title">Safari `:visited` hex-fallback incident, consolidated record (amends ADR-047, ADR-059, ADR-060)</h1>
   <dl class="adr-meta">
     <div class="adr-meta-item">
       <dt><span class="lang-fr">Date</span><span class="lang-en">Date</span></dt>
-      <dd>2026-05-28</dd>
+      <dd>2026-08-28</dd>
     </div>
     <div class="adr-meta-item">
       <dt><span class="lang-fr">Décideurs</span><span class="lang-en">Decision makers</span></dt>
-      <dd>Tech Lead, Design System Lead</dd>
+      <dd>Guilherme Negreiros — Design System Lead</dd>
     </div>
   </dl>
-</div><div class="lang-en"><h2>Context</h2>
-<p>axe-core (ADR-007) audits components at the level of their semantic structure. Chromatic (ADR-006) audits their visual appearance in isolation. Neither tests a component's behavior in a real user journey: full keyboard navigation, focus-trap handling in a modal, or the correct triggering of a <code>critical</code> button's confirmation pattern.</p>
-<p>The question was:</p>
-<blockquote><p><strong>How do we test the interactions and full journeys that neither axe-core nor Chromatic can cover — in particular the keyboard behaviors and action sequences required by component contracts?</strong></p></blockquote>
-<hr>
+</div><h2>Context</h2>
+<p>ADR-047 (2026-06-05) established a system-wide rule: navigation elements never carry a distinct <code>:visited</code> color, realigned to the unvisited state via a semantic token.</p>
+<p>WebKit blocks <code>var()</code> resolution inside <code>:visited</code> rules for security reasons — a defense against history-sniffing attacks that infer a user's browsing history from computed styles. <code>var()</code> is accepted as syntax but silently ignored at apply time, so a <code>:visited</code> rule written as <code>color: var(--agtc-semantic-color-text-secondary)</code> alone never resolves in Safari: the link keeps the browser's default <code>:visited</code> color instead of the token value, defeating ADR-047's rule on that one browser.</p>
+<p>This ADR consolidates the incident record that was previously scattered across three separate documents — ADR-047's original text (which did not yet know about the Safari constraint), a post-incident note added to ADR-059, and a corrected timeline in ADR-060 (PR #64, 2026-08-24) — into a single dedicated record, and is the canonical reference going forward.</p>
+<h2>What happened</h2>
+<p>Four commits, spanning three weeks:</p>
+<div class="table-wrap" tabindex="0"><table><thead><tr><th>Date</th><th>Commit</th><th>Event</th></tr></thead><tbody><tr><td>2026-05-30</td><td><code>b5850cf</code></td><td><code>:visited</code> neutralization added as <code>var()</code> alone, no fallback — passes on Chrome/Firefox, silently fails on Safari</td></tr><tr><td>2026-06-06</td><td><code>fb7b5a5</code></td><td>First fix, bundled into a broader dark-section/visited-state/active-nav pass — adds the literal hex value before the <code>var()</code> declaration as a Safari fallback</td></tr><tr><td>2026-06-15</td><td><code>6b42f21</code></td><td>Regression: the semantic-tokens-hierarchy audit (ADR-059) scans <code>site/build.js</code> for hardcoded values, flags the <code>color:#hex;color:var(...)</code> pair in the <code>:visited</code> rules as an obsolete IE11-style fallback, and strips the hex line</td></tr><tr><td>2026-06-15</td><td><code>ce994bf</code></td><td>Same-day fix: hex fallback restored, and the exception documented durably in <code>.claude/rules/no-visited-nav.md</code> and ADR-059, so a future audit doesn't repeat the same misclassification</td></tr></tbody></table></div>
+<p>The regression and its fix landed the same day — the audit tooling had no way to distinguish "hardcoded value that should route through a token" from "browser-mandated literal that must stay paired with the token," because both look identical at the syntax level (<code>color:#hex;color:var(...)</code>).</p>
 <h2>Decision</h2>
-<p>Adopt <strong>Playwright</strong> (Microsoft) for E2E tests and accessibility interaction tests, as a complement to axe-core.</p>
-<p>Playwright covers two cases the other tools can't address:</p>
-<p><strong>1. Accessibility interaction tests</strong> axe-core audits the static ARIA structure. Playwright tests dynamic behavior: does the <code>Tab</code> key move in the correct order? Does <code>Escape</code> close the right element? Does the screen-reader announcement fire after the action?</p>
-<pre class="code-block"><code class="lang-javascript">// Example: testing the critical button
-test('critical button requires confirmation before action', async ({ page }) =&gt; {
-  await page.click('agtc-button[variant="critical"]');
-  await expect(page.locator('[role="dialog"]')).toBeVisible(); // confirmation dialog
-  await page.keyboard.press('Escape');
-  await expect(page.locator('[role="dialog"]')).not.toBeVisible();
-});</code></pre>
-<p><strong>2. axe-core integration into full journeys</strong> Via <code>@axe-core/playwright</code>, axe-core can be run on entire pages in a real context — not just on isolated components in Storybook. Violations that only appear in an integration context are thus detected.</p>
-<hr>
+<p>1. The hex-then-<code>var()</code> pairing in <code>:visited</code> rules is a permanent, required pattern —    not a stopgap and not IE11-era cruft — for as long as WebKit blocks <code>var()</code>    resolution inside <code>:visited</code>. It is documented as an explicit exception in    <code>.claude/rules/no-visited-nav.md</code> (§Safari exception), which any future automated    token audit must treat as allow-listed rather than flag as a violation. 2. The literal hex value must always be the resolved value of the paired semantic    token, kept in sync manually — this is not a hardcoded value in the sense of    <code>tokens-system.md</code>, since it carries no independent design decision; it is a    browser-compatibility mirror of the token. 3. ADR-047, ADR-059, and ADR-060 are not rewritten to remove the incident material they    already carry (their post-incident notes and corrected timeline stay as the    in-context record at each decision point) — this ADR is the single place a reader    goes for the full incident end-to-end, cross-linked from the other three.</p>
+<h3>Reference implementation</h3>
+<pre class="code-block"><code class="lang-css">/* Hex value resolved BEFORE the var() — Safari applies the hex, Chrome/Firefox apply
+   var(). Declare before :hover/.active rules per ADR-047 (later selector must win at
+   equal specificity). */
+.top-nav a:visited { color: #646464; color: var(--agtc-semantic-color-text-secondary); }
+
+/* Dark theme: same pattern with the resolved dark value */
+[data-theme="dark"] .top-nav a:visited { color: #a4abb8; color: var(--agtc-semantic-color-text-secondary); }</code></pre>
+<p>Applied identically across every navigation surface in scope for ADR-047 (<code>top-nav</code>, <code>sidebar</code>, <code>toc</code>, <code>footer-links</code>, <code>audit-footer-link</code>, icon buttons).</p>
+<h2>Accessibility (WCAG 2.2)</h2>
+<p>No regression versus ADR-047's original assessment: the hex fallback resolves to the exact same color the token already resolves to elsewhere, so contrast ratios validated under ADR-047 are unchanged. The fix restores parity across browsers rather than introducing a new visual state — before the fix, Safari users saw the browser's default purple <code>:visited</code> tint on navigation, an inconsistency the rest of ADR-047 was written to eliminate.</p>
 <h2>Rejected alternatives</h2>
-<div class="table-wrap" tabindex="0"><table><thead><tr><th>Alternative</th><th>Reason for rejection</th></tr></thead><tbody><tr><td><strong>Cypress</strong></td><td>An excellent E2E tool, but slower and heavier than Playwright for Web Component tests. Less mature Web Component support. Playwright's API is closer to the native browser, an advantage for testing Shadow DOM and Custom Elements.</td></tr><tr><td><strong>Jest + Testing Library</strong></td><td>Excellent for React/Vue component unit tests. But JSDOM tests don't simulate a real browser — Web Components' Shadow DOM isn't natively supported. Keyboard accessibility tests in JSDOM are unreliable.</td></tr><tr><td><strong>WebDriverIO</strong></td><td>A wrapper around WebDriver/DevTools. More verbose than Playwright, more complex configuration. Playwright offers the same capabilities with a more modern API and better multi-browser support.</td></tr><tr><td><strong>Puppeteer</strong></td><td>Developed by Google, Chrome-only. Playwright supports Chrome, Firefox, and Safari in parallel — a broader guarantee of components' cross-browser compatibility.</td></tr><tr><td><strong>Manual testing only</strong></td><td>Not automatable in CI. Fully checking keyboard navigation for every component in every variant is unrealistic to verify manually on every PR.</td></tr></tbody></table></div>
-<hr>
+<ul><li><strong>Drop the Safari fallback, accept the browser-default <code>:visited</code> tint on WebKit only.</strong></li></ul>
+<p>  Rejected: reintroduces exactly the cross-browser inconsistency ADR-047 exists to   remove, only silently and on one browser family.</p>
+<ul><li>**Teach the tokens-audit script to special-case <code>:visited</code> blocks structurally</li></ul>
+<p>  (parse selector context, not just the value pattern) instead of relying on a   documented allow-list.** Deferred, not rejected outright: a structural fix is more   robust but a larger change to <code>scripts/audit-tokens.js</code>'s matching logic; the   allow-list documented in <code>no-visited-nav.md</code> closes the immediate gap at near-zero   cost and is tracked as a candidate follow-up rather than blocking this record.</p>
+<ul><li><strong>Rewrite ADR-047 in place to add the Safari clause, instead of a new ADR.</strong></li></ul>
+<p>  Rejected: ADR-047 predates the discovery and its original text is part of the   historical record of what was decided and known at the time (2026-06-05, before the   regression); folding the incident into it retroactively would obscure that the   constraint was learned the hard way three weeks later, not designed in from the start.</p>
 <h2>Consequences</h2>
-<p><strong>For CI/CD:</strong></p>
-<ul><li>Playwright tests run after the Storybook build — they test components within</li></ul>
-<p>  their stories to ensure the isolated context</p>
-<ul><li>The <code>--grep a11y</code> tag allows running only the accessibility tests</li></ul>
-<p>  (referenced in <code>How-to-devs.md</code>)</p>
-<ul><li>In CI mode, axe-core violations via Playwright block the merge the same way</li></ul>
-<p>  violations detected in Storybook do</p>
-<p><strong>For AI agents:</strong></p>
-<ul><li>Playwright tests are the executable contract for components' <strong>behaviors</strong></li><li>An agent that generates a <code>critical</code> button implementation with no</li></ul>
-<p>  confirmation pattern will see the corresponding Playwright test fail —   automatic feedback with no human intervention</p>
-<ul><li>Agents can read Playwright tests to understand a component's expected</li></ul>
-<p>  behaviors (a complement to the <code>.md</code> contract)</p>
-<p><strong>For developers:</strong></p>
-<ul><li>Interaction tests partially replace behavioral documentation: the test states</li></ul>
-<p>  exactly what the component must do, not just what it must be</p>
-<ul><li>Playwright generates execution traces (screenshots + video) on failure —</li></ul>
-<p>  eases debugging without manual reproduction</p>
-<p><strong>Scope vs. axe-core (ADR-007):</strong></p>
-<div class="table-wrap" tabindex="0"><table><thead><tr><th>axe-core (Storybook)</th><th>Playwright + axe-core</th></tr></thead><tbody><tr><td><strong>Context</strong></td><td>Isolated component</td><td>Full page / journey</td></tr><tr><td><strong>Interactions</strong></td><td>Static</td><td>Dynamic (click, keyboard, focus)</td></tr><tr><td><strong>Speed</strong></td><td>Fast</td><td>Slower (real browser)</td></tr><tr><td><strong>Trigger</strong></td><td>Development + PR</td><td>PR + pre-deploy</td></tr></tbody></table></div>
-<p><strong>Accepted cost:</strong></p>
-<ul><li>Playwright tests are the slowest in the CI pipeline (full browser rendering)</li><li>Every critical component behavior must be explicitly tested — no automatic</li></ul>
-<p>  coverage the way axe-core provides</p>
-<hr>
-<h2>Incidents or triggers</h2>
-<p>Foundational decision. The <code>critical</code> button's confirmation pattern (ADR-005) is the flagship use case: axe-core validates that the confirmation dialog has a correct ARIA role, but only Playwright can verify it actually appears when the button is clicked.</p></div><div class="lang-fr"><h2>Contexte</h2>
-<p>axe-core (ADR-007) audite les composants au niveau de leur structure sémantique. Chromatic (ADR-006) audite leur apparence visuelle en isolation. Aucun des deux ne teste le comportement d'un composant dans un parcours utilisateur réel : la navigation clavier complète, la gestion du focus trap dans une modale, ou le déclenchement correct du pattern de confirmation d'un bouton <code>critical</code>.</p>
-<p>La question posée était :</p>
-<blockquote><p><strong>Comment tester les interactions et parcours complets que ni axe-core ni Chromatic ne peuvent couvrir — notamment les comportements clavier et les séquences d'actions requises par les contrats de composants ?</strong></p></blockquote>
-<hr>
-<h2>Décision</h2>
-<p>Adoption de <strong>Playwright</strong> (Microsoft) pour les tests E2E et les tests d'interaction accessibilité, en complément d'axe-core.</p>
-<p>Playwright couvre deux cas que les autres outils ne peuvent pas adresser :</p>
-<p><strong>1. Tests d'interaction accessibilité</strong> axe-core audite la structure ARIA statique. Playwright teste le comportement dynamique : la touche <code>Tab</code> passe-t-elle dans le bon ordre ? <code>Escape</code> ferme-t-il le bon élément ? L'annonce du lecteur d'écran se déclenche-t-elle après l'action ?</p>
-<pre class="code-block"><code class="lang-javascript">// Exemple : test du bouton critical
-test('critical button requires confirmation before action', async ({ page }) =&gt; {
-  await page.click('agtc-button[variant="critical"]');
-  await expect(page.locator('[role="dialog"]')).toBeVisible(); // confirmation dialog
-  await page.keyboard.press('Escape');
-  await expect(page.locator('[role="dialog"]')).not.toBeVisible();
-});</code></pre>
-<p><strong>2. Intégration axe-core dans les parcours complets</strong> Via <code>@axe-core/playwright</code>, axe-core peut être exécuté sur des pages entières en contexte réel — pas seulement sur des composants isolés dans Storybook. Les violations qui n'apparaissent que dans un contexte d'intégration sont ainsi détectées.</p>
-<hr>
-<h2>Alternatives rejetées</h2>
-<div class="table-wrap" tabindex="0"><table><thead><tr><th>Alternative</th><th>Raison du rejet</th></tr></thead><tbody><tr><td><strong>Cypress</strong></td><td>Excellent outil E2E, mais plus lent et plus lourd que Playwright pour les tests de composants Web. Support Web Components moins mature. L'API Playwright est plus proche du navigateur natif, ce qui est un avantage pour tester le Shadow DOM et les Custom Elements.</td></tr><tr><td><strong>Jest + Testing Library</strong></td><td>Excellents pour les tests unitaires de composants React/Vue. Mais les tests JSDOM ne simulent pas un vrai navigateur — le Shadow DOM des Web Components n'est pas supporté nativement. Les tests d'accessibilité clavier en JSDOM sont peu fiables.</td></tr><tr><td><strong>WebDriverIO</strong></td><td>Wrapper autour de WebDriver/DevTools. Plus verbeux que Playwright, configuration plus complexe. Playwright offre les mêmes capacités avec une API plus moderne et un meilleur support des navigateurs multiples.</td></tr><tr><td><strong>Puppeteer</strong></td><td>Développé par Google, basé sur Chrome uniquement. Playwright supporte Chrome, Firefox et Safari en parallèle — garantie plus large de la compatibilité cross-browser des composants.</td></tr><tr><td><strong>Tests manuels uniquement</strong></td><td>Non automatisables en CI. La navigation clavier complète de chaque composant dans chaque variante est irréaliste à vérifier manuellement à chaque PR.</td></tr></tbody></table></div>
-<hr>
-<h2>Conséquences</h2>
-<p><strong>Pour le CI/CD :</strong></p>
-<ul><li>Tests Playwright exécutés après le build Storybook — ils testent les composants</li></ul>
-<p>  dans leurs stories pour assurer le contexte isolé</p>
-<ul><li>Le tag <code>--grep a11y</code> permet d'exécuter uniquement les tests d'accessibilité</li></ul>
-<p>  (référencé dans <code>How-to-devs.md</code>)</p>
-<ul><li>En mode CI, les violations axe-core via Playwright bloquent le merge au même titre</li></ul>
-<p>  que les violations détectées dans Storybook</p>
-<p><strong>Pour les agents IA :</strong></p>
-<ul><li>Les tests Playwright sont le contrat exécutable des <strong>comportements</strong> des composants</li><li>Un agent qui génère une implémentation de bouton <code>critical</code> sans pattern de confirmation</li></ul>
-<p>  verra le test Playwright correspondant échouer — feedback automatique sans intervention humaine</p>
-<ul><li>Les agents peuvent lire les tests Playwright pour comprendre les comportements attendus</li></ul>
-<p>  d'un composant (complément du contrat <code>.md</code>)</p>
-<p><strong>Pour les développeurs :</strong></p>
-<ul><li>Les tests d'interaction remplacent partiellement la documentation comportementale :</li></ul>
-<p>  le test dit exactement ce que le composant doit faire, pas seulement ce qu'il doit être</p>
-<ul><li>Playwright génère des traces d'exécution (screenshots + vidéo) sur échec —</li></ul>
-<p>  facilite le debug sans reproduction manuelle</p>
-<p><strong>Périmètre vs axe-core (ADR-007) :</strong></p>
-<div class="table-wrap" tabindex="0"><table><thead><tr><th>axe-core (Storybook)</th><th>Playwright + axe-core</th></tr></thead><tbody><tr><td><strong>Contexte</strong></td><td>Composant isolé</td><td>Page / parcours complet</td></tr><tr><td><strong>Interactions</strong></td><td>Statique</td><td>Dynamique (clic, clavier, focus)</td></tr><tr><td><strong>Vitesse</strong></td><td>Rapide</td><td>Plus lent (vrai navigateur)</td></tr><tr><td><strong>Déclenchement</strong></td><td>Développement + PR</td><td>PR + pre-deploy</td></tr></tbody></table></div>
-<p><strong>Coût accepté :</strong></p>
-<ul><li>Les tests Playwright sont les plus lents du pipeline CI (rendu navigateur complet)</li><li>Chaque comportement critique d'un composant doit être explicitement testé —</li></ul>
-<p>  pas de couverture automatique comme avec axe-core</p>
-<hr>
-<h2>Incidents ou déclencheurs</h2>
-<p>Décision fondatrice. Le pattern de confirmation du bouton <code>critical</code> (ADR-005) est le cas d'usage emblématique : axe-core valide que le dialog de confirmation a un rôle ARIA correct, mais seul Playwright peut vérifier qu'il s'affiche effectivement quand le bouton est cliqué.</p></div><div style="display:flex;justify-content:space-between;margin-top:48px;padding-top:24px;border-top:1px solid var(--agtc-semantic-color-border-default)">
-    <a href="adr-009.html" class="agtc-button secondary">← ADR-009</a>
-    <a href="adr-011.html" class="agtc-button secondary">ADR-011 →</a>
+<ul><li><code>.claude/rules/no-visited-nav.md</code> remains the operational source of truth for the</li></ul>
+<p>  Safari exception pattern (§Safari exception) — this ADR does not change that file, it   documents why the pattern exists.</p>
+<ul><li>Any future token-consistency audit (manual or scripted) must check</li></ul>
+<p>  <code>no-visited-nav.md</code>'s exception list before flagging a <code>:visited</code> hex-then-<code>var()</code>   pair as a violation, to avoid repeating the 2026-06-15 regression.</p>
+<ul><li>No token added or modified — a governance and incident-record decision, consolidating</li></ul>
+<p>  material already present in ADR-047, ADR-059, and ADR-060.</p><div style="display:flex;justify-content:space-between;margin-top:48px;padding-top:24px;border-top:1px solid var(--agtc-semantic-color-border-default)">
+    <a href="adr-091.html" class="agtc-button secondary">← ADR-091</a>
+    <span></span>
   </div></main>
   <nav class="toc" id="page-toc" aria-label="Table of contents / Table des matières"></nav>
 </div>

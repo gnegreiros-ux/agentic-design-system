@@ -69,7 +69,8 @@ syntax but silently ignored at apply time — the color stays the browser defaul
 > **This is NOT a hardcoded value** in the sense of `tokens-system.md`: the literal
 > value is identical to the semantic token's resolved value. It's a browser security
 > constraint, documented here so agents don't remove it during audits.
-> Reference: ADR-047 (rule), ADR-059 (incorrect-removal incident, 2026-06-15).
+> Reference: ADR-047 (rule), ADR-092 (consolidated incident record — commits, timeline,
+> and rationale; supersedes the shorter note previously here and in ADR-059).
 
 - Always go through a **semantic token** (never a hardcoded value) — see `tokens-system.md`.
 - Exception above: the literal value is allowed only in `:visited` rules,
