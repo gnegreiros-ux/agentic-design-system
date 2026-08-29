@@ -24,7 +24,7 @@ Never a direct `hexRgb()`, never a primitive token inside a component.
 
 ## Full document
 
-`.claude/instructions/figma-components.md` contains 27 sections:
+`.claude/instructions/figma-components.md` contains 28 sections:
 §0 Fundamental rule · §0bis Mandatory audit before ending any session · §1 Component
 properties · §2 Auto-layout · §3 Architecture · §4 Naming · §5 Variables & Styles (tokens →
 hex mapping table) · §6 Performance · §7 Publication checklist · §8 Component page layout
@@ -41,7 +41,10 @@ variants × states × content (EightShapes method — focus rings in a HUG wrapp
 "Specs 2" format standard, token-name-first (Anatomy/Variant/State/Additional
 variants/Layout and spacing/Data — target format for a future richer `doc/*` spec set) ·
 §27.6 ALL presentation components (`doc/*`, current and future) live on `↳ design
-annotations` only, semantic tokens only, never published with the library
+annotations` only, semantic tokens only, never published with the library · §28 Page
+architecture — the 3-frame `doc/frame-header` pattern (Main frame/Main-component
+frame/Spec frame), `doc/section-header` section labels, and the completion contract: a
+component page is "done" only once Spec frame shows the full §27 content, not a placeholder
 
 **Read `.claude/instructions/figma-components.md` before any work on a Figma plugin script.**
 **Also read `.claude/rules/figma-library-governance.md`** — code-as-source-of-truth charter,

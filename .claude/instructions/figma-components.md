@@ -2799,6 +2799,150 @@ delete manually once confirmed no longer needed.
 
 ---
 
+## 28. Page architecture — the 3-frame `doc/frame-header` pattern (component page completion contract)
+
+> **Rule adopted 2026-08-29**, direct user request, after a documentation-gap incident found
+> while building the `badge` page. Distinct from §27: §27 defines the *content* format of the
+> "Specs 2" documentation block; this section defines the *outer container* architecture every
+> component page is built in, and the completion criterion that makes a page "done".
+
+### 28.0 Discovery incident — why this section exists
+
+`badge` (2026-08-29) was first built using the pre-Phase-3 flat `page-wrapper` pattern — the
+convention used by 8 of the file's then-10 component pages (checkbox, feature-card, icon,
+input, radio, segmented, tabs, toggle, top-nav). `button` — the lone Phase 3 pilot
+(2026-08-03) — was already using a completely different, undocumented 3-frame architecture.
+Confirmed missing at every level before writing this section: this file (§27 covers content
+only, never this outer structure), `Temp/plan-redesign-figma-2026-07-23.md` §1.6.3 (describes
+the *intent* for a distinctive header, never the pattern actually built), every session
+memory, and even the `doc/frame-header` component's own Figma `description` field (empty).
+Reverse-engineered directly from `button` live in the file, then confirmed with the user.
+
+### 28.1 The 3 top-level frames
+
+Every component page is exactly 3 top-level frames (plus, where relevant, an off-canvas
+reference screenshot and `_trash`/`_OLD_...` remnants — see §28.5). No other top-level content.
+
+| Frame | Purpose | `doc/frame-header` `Where` variant |
+|---|---|---|
+| `Main frame` | Marketing-style page header + variant showcase + best practices + references | `main-frame` |
+| `Main-component frame` | The live, editable master ComponentSet, displayed inline | `main-component-frame` |
+| `Spec frame` | The full Specs 2 documentation (§27) — Anatomy/Props/Variant/State/Additional variants/Layout and spacing | `specs-frame` |
+
+Each of the 3 frames is itself `layoutMode: VERTICAL` auto-layout, 1440px wide, stacking
+`doc/frame-header` (header) → `body` → `footer` as direct children — no extra wrapper.
+
+### 28.2 `doc/frame-header` — the component
+
+ComponentSet on `↳ design annotations` (id `1062:1207`), variant property `Where` (3 options:
+`main-frame` / `main-component-frame` / `specs-frame`, each a different height/visual
+treatment), plus 6 TEXT properties always present regardless of variant: `Eyebrow`, `Tech ID`,
+`Title`, `Subtitle`, `Heading`, `Description` — not every property is visually rendered by
+every `Where` variant, but all 6 must still be set explicitly on every instance (the component
+silently ignores the ones its variant doesn't render; leaving them at the default is how the
+`"SYS-XXX-00"`/`"Page title"` placeholder leaks into a real page).
+
+```
+✅ Eyebrow — page category, e.g. "COMPONENTS"
+✅ Tech ID — e.g. "· CMP-BDG-01" (3-letter component code, sequential number)
+✅ Title / Subtitle — used by the main-frame variant (page title + one-sentence purpose)
+✅ Heading / Description — used by main-component-frame and specs-frame variants
+   (component name + purpose, repeated because each frame is scrollable/shareable on its own)
+❌ Never leave a property at its default placeholder value ("Page title", "SYS-XXX-00")
+```
+
+Carries its own dark, teal-glow branded chrome (the Agentica identity treatment referenced in
+the plan's §1.6.3) — do not restyle it, it's a single reusable master.
+
+### 28.3 `doc/section-header` — section labels, everywhere
+
+Every section inside every frame (`section-presentation`, `section-dos-donts`,
+`section-links`, and each subsection label inside `Spec frame`'s body) uses a
+`doc/section-header` instance (id `604:4`, `↳ design annotations`) — a single `Title` TEXT
+property — instead of a raw `typography/mono/detail` text node. This **replaces** the
+pre-Phase-3 convention (plain mono-detail label text, still visible on the 8 not-yet-migrated
+pages): new pages use `doc/section-header` exclusively, never a raw label text node.
+
+```js
+const sectionHeaderComp = /* fetch id 604:4 from ↳ design annotations */;
+const inst = sectionHeaderComp.createInstance();
+parent.appendChild(inst);
+inst.setProperties({ 'Title#604:0': 'BEST PRACTICES' });
+// Do NOT set layoutSizingHorizontal/Vertical on this instance — the master itself is
+// layoutMode: NONE (a fixed 1280×40 frame), not auto-layout. Setting HUG throws
+// "HUG can only be set on auto-layout frames or text children of auto-layout frames".
+// Left at its native FIXED size, it already matches the 1280px content width.
+```
+
+### 28.4 Frame-by-frame body composition (from `button`, the only page built this way as of 2026-08-29)
+
+**`Main frame`** body/footer, in order:
+1. `section-presentation` — `doc/section-header` (e.g. "ALL VARIANTS") + the variant showcase
+   (real instances) +, on `button`, a `mode-comparison` Light/Dark diff block and an
+   `icon-variants` block — component-specific, build what's relevant to the component at hand
+2. `section-dos-donts` — `doc/section-header` ("BEST PRACTICES") + `dos-row` × N (same
+   `do-column`/`dont-column` structure as the pre-Phase-3 pattern, unchanged)
+3. `section-links` (footer) — `doc/section-header` ("REFERENCES") + `links-row` (unchanged
+   pill pattern)
+
+**`Main-component frame`** body/footer:
+1. `body` → a single frame named `"[component] (copy for display)"` containing: a heading
+   TEXT (component name), a description TEXT (`Variant=... · Size=...` etc.), and the **real,
+   live master ComponentSet** appended directly inside — "(copy for display)" is a naming
+   label, not a technical copy; there is only one master, and this is where it lives (§28.5)
+2. `footer` → `section-links` (same pattern)
+
+**`Spec frame`** body/footer:
+1. `body` → `doc/section-header` per §27 subsection, followed by that subsection's content —
+   the **full** §27 structure (Title/Anatomy/Props/Variant/State/Additional variants/Layout
+   and spacing), built with the 5 `doc/*` components from §27.0 (`doc/annotation-badge`,
+   `doc/property-row`, `doc/spec-group`, `doc/variant-exhibit`, `doc/props-row`) — see §28.6,
+   this is not optional
+2. `footer` → `section-links`
+
+### 28.5 Migrating a page from the old pattern — no-delete precedent
+
+`button`'s migration (2026-08-03) did not delete the pre-Phase-3 `page-wrapper`/off-canvas
+`Main component` — it renamed them `_OLD_Main component (copied into Main-component frame)`
+and moved the real ComponentSet OUT of it into the new `Main-component frame` → `body` →
+`"[name] (copy for display)"`, leaving the old wrapper as an emptied, clearly-labeled remnant
+per `figma-library-governance.md` §A (never delete). Apply the same when migrating any page:
+
+```
+✅ Rename the emptied old wrapper(s) "_OLD_[original name] (superseded by [new frame name])"
+✅ Move it far off-canvas (e.g. x=6000) so it doesn't interfere with the new reading flow
+✅ Move (not clone) the real master ComponentSet into the new structure — there is only one master
+❌ Never delete the old wrapper, even once its content has been moved out
+```
+
+### 28.6 Completion criterion — when is a component page "done"?
+
+> **A component page is only considered complete once its `Spec frame` correctly displays the
+> full Specs 2 content for that component (§27 — Anatomy, Props, Variant, State, Additional
+> variants, Layout and spacing) — not a placeholder, not a partial substitute like a bare
+> tokens table.** (2026-08-29, explicit user decision.)
+
+This means, as of 2026-08-29:
+- **`button` is the only page in the file that meets this bar.**
+- **`badge`, built earlier the same day, does not** — its `Spec frame` currently holds only
+  the 26-row `TOKENS USED` table (the pre-Phase-3 `section-tokens` content, moved as-is), not
+  the full 7-section Specs 2 breakdown. It stays "En attente" in GitHub Projects, not <!-- lang-audit-ignore: literal GitHub Projects Status field value -->
+  "Terminé", until the full `Spec frame` content is built. <!-- lang-audit-ignore: literal GitHub Projects Status field value -->
+- **The 8 other existing pages** (checkbox, feature-card, icon, input, radio, segmented, tabs,
+  toggle, top-nav) still use the pre-Phase-3 flat `page-wrapper` pattern entirely — none of
+  them meet this bar either. This was already tracked as Backlog (`Redesign Figma — Phase 3 : <!-- lang-audit-ignore: verbatim GitHub Projects ticket title, predates the English-only policy -->
+  les 10 pages composants + Light/Dark`); this section makes explicit that finishing that <!-- lang-audit-ignore: verbatim GitHub Projects ticket title, predates the English-only policy -->
+  ticket is what "done" means for every one of them, not an optional polish pass.
+
+```
+✅ A page ships with all 3 frames present, Spec frame's body built to the full §27 structure
+✅ "Done" in GitHub Projects requires this — not just a Main-component frame + a tokens table
+❌ Never close a component-page ticket with a partial Spec frame content as a placeholder
+❌ Never treat the 3-frame shell alone (headers + empty/shortened body) as sufficient
+```
+
+---
+
 ## Known errors — Figma Plugin API
 
 | Error | Cause | Fix |
