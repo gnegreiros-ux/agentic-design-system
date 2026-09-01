@@ -2413,6 +2413,51 @@ primary check — it catches the actual structural bug (no single container). `f
 is a secondary signal that can catch a drift even when a wrapper exists (e.g. one child inside it
 was never resized) but must never be relied on alone.
 
+### 26.12 A `FIXED`-width `TEXT` child of an auto-layout instance silently ignores `.resize()` — use `layoutSizingHorizontal = 'FILL'` instead
+
+> **2026-09-01 incident.** Found fixing the overflow this session's `figma-component-page-checklist.md`
+> test run surfaced: `button`'s `Spec frame` had 5 `section-*` frames resized from a stale `FIXED
+> 1440` down to `FILL` (§25/§26.11-class fix, the section itself now correctly tracking its
+> `1280`-wide parent). That shrink then exposed a second, nested defect — each section's
+> `doc/section-header` instance was itself still `FIXED` at the old `1280` width, now overflowing
+> its freshly-shrunk `1120`-wide parent. Setting the **instance**'s own
+> `layoutSizingHorizontal = 'FILL'` fixed that outer layer cleanly — but its single `TEXT` child
+> (`SECTION TITLE`, `textAutoResize: 'NONE'`, `layoutSizingHorizontal: 'FIXED'`, width `1280`)
+> kept reporting `width: 1280` afterward, still overflowing the now-`1120`-wide instance.
+
+Two resize attempts on that `TEXT` child both failed **silently** — no thrown error, and the
+width read back unchanged even in a **fresh, separate** `use_figma` call afterward (ruling out
+the §26.4 stale-read-after-mutation caveat — this wasn't a caching artifact, the value genuinely
+never changed):
+
+```js
+// ❌ Both of these no-op on a FIXED-width TEXT child of an auto-layout instance —
+// no error thrown, node.width reads back unchanged even in a later, separate use_figma call
+textNode.resize(1120, textNode.height);
+textNode.resizeWithoutConstraints(1120, textNode.height);
+
+// ✅ What actually works — treat it exactly like any other stale-FIXED-child overflow
+// in this file (§28.4's scenario-title/caption FILL fix, §17's WRAP+FILL rows): switch
+// the sizing MODE instead of trying to force a literal width onto a FIXED node
+textNode.layoutSizingHorizontal = 'FILL'; // width updates immediately, tracks the parent
+```
+
+```
+✅ When a TEXT child of an auto-layout frame/instance is FIXED-width and overflows after its
+   parent was resized, try layoutSizingHorizontal = 'FILL' FIRST — it is both the fix that
+   actually works and the one consistent with every other FIXED→correct-width fix already
+   documented in this file
+❌ Never assume .resize()/.resizeWithoutConstraints() on a FIXED-width TEXT child will succeed
+   just because no error is thrown — a silent no-op is possible, verify the new width with a
+   fresh read (ideally a separate use_figma call, per §26.4) before trusting either call
+❌ Don't mistake this for the §26.4 stale-geometry-read gotcha — that one is about trusting a
+   read too early after a real mutation; this one is about the mutation itself never applying
+```
+
+Root cause not fully isolated (Figma's Plugin API gives no error to introspect), but the
+practical rule holds regardless: for this class of "stale-FIXED-child-after-a-parent-resize"
+overflow, reach for `layoutSizingHorizontal = 'FILL'` before spending another call on `.resize()`.
+
 ---
 
 ## 27. Component spec panel — "Specs 2" format standard (token-name-first)
@@ -2452,6 +2497,21 @@ exist, all on `↳ design annotations` (`584:4`), semantic-tokens-only, never pu
 | `doc/spec-group` | Swappable layer-type icon (`square`=container, `type`=text — real Lucide instances, imported by key, restroked to `semantic.color.text.secondary`) + bold `Name` + indented stack slot of `doc/property-row` | New — the "one layer, its overridden properties" unit shared by Anatomy/Variant/State/Additional-variants |
 | `doc/variant-exhibit` | Gray `semantic.color.background.subtle` isolation box + real-instance slot + `Heading` + stack slot of `doc/spec-group` | New — the repeatable "one exhibit" row for Variant/State/Additional-variants sections |
 | `doc/props-row` | `doc/eyebrow-tag` instance (Name chip) + Type/Default/Options text columns | New, reuses `doc/eyebrow-tag` for the Name chip |
+
+**Found on `button`, 2026-08-31 — not previously documented, `badge`'s first Spec-frame build
+missed all six.** Anatomy's pin diagram and Layout and spacing's measurement diagram are built
+from a second family of `doc/*` components, also on `↳ design annotations`, not covered by the
+5 above:
+
+| Component | Role | Properties |
+|---|---|---|
+| `doc/annotation-badge` (reused here too) | The numbered pin itself, `Accent=Annotation` variant | `Number` (text) |
+| `doc/measurement-badge` (id `956:3578`) | Small pill showing a dimension value next to a tick, `Accent=Measurement` styling | `Value` (text, e.g. `"16"`) |
+| `doc/measurement-tick` (id `956:3580`) | A single thin dimension-line tick mark | none — resize the instance itself to the needed length/orientation |
+| `doc/measurement-overlay` (id `956:3581`) | A translucent highlight bar marking the measured span (a padding region, a gap) | none — resize to the span being measured |
+| `doc/selection-outline` (id `956:3582`) | Figma-native-looking blue selection rectangle around the whole instance or a sub-region | none — resize to the outlined bounds |
+| `doc/hug-indicator` (ComponentSet, id `965:1153`) | Directional arrow(s) showing hug/fill sizing behavior | `Direction` variant: `top`/`down`/`top-down`/`left`/`right`/`left-right`/`horiz-to-center`/`vert-to-center` |
+| `doc/auto-layout-icon` (ComponentSet, id `965:1221`) | The small alignment glyph (matches Figma's own auto-layout alignment icon) | `Property 2` variant: the 9 `top/middle/bottom`-`left/center/right` combinations, or `null` |
 
 **Data section dropped from scope (2026-08-04, explicit user decision)** — Agentica does not
 reproduce Specs 2's Data/JSON export. `tokens/*.json` (primitive → semantic → component) is
@@ -2531,6 +2591,30 @@ Per exhibit:
     prefixed with a small "└" tree-connector glyph (see the Focus state's `DROP SHADOW`
     breakdown: `type` / `visible` / `offset x` / `offset y` / `blur` / `spread` / `color`).
 
+> **Real build recipe, verified against `button`'s live `anatomy-illustration` +
+> `anatomy-legend` (2026-08-31 — `badge`'s first Anatomy build skipped the pin diagram and the
+> numbered legend entirely, using plain `doc/variant-exhibit` boxes with no pins):**
+>
+> `anatomy-illustration` (a plain `FRAME`, not a `doc/*` component) holds, per numbered layer:
+> - One `doc/annotation-badge` instance (`Accent=Annotation`, `Number` = the layer's index,
+>   `1`-based) positioned at the anchor point on the real instance that badge is calling out
+> - One `_connector` — a plain `RECTANGLE`, `1.5px` wide, stretched (`resize`) into a thin
+>   line from the badge's edge to that anchor point; name it `_connector` (leading underscore,
+>   matches this file's existing decorative-node convention)
+> - The **real component instance** itself, once, shared by every pin (they all point at parts
+>   of the same instance — do not duplicate the instance per pin)
+>
+> `anatomy-legend` is a `VERTICAL` stack of `doc/spec-group` instances — but with one addition
+> not in `doc/spec-group`'s own component properties (`Icon`/`Name` only, §27.0): **prepend a
+> `doc/annotation-badge` instance to the `header` frame**, same `Number` as the matching pin,
+> immediately before the existing `layer-icon` + `layer-name`. This badge is not a
+> `doc/spec-group` property — append it into `header` directly, first child, after creating the
+> `doc/spec-group` instance and detaching it (§27's established `detachInstance()` pattern for
+> every `doc/*` slot component).
+>
+> For a component with only 1–2 real layers (e.g. `badge`: `root`, optionally `icon`, `Label`),
+> build 1–2 pins — this is proportional to the component's real anatomy, not a fixed count of 4.
+
 #### Props
 A 4-column summary table: `Name` (rendered as a small pill/chip, Figma's native "Variant"
 property color) · `Type` · `Default` · `Options` (comma-separated enum values). One row per
@@ -2579,6 +2663,31 @@ layout). Each diagram:
   padding — only what a screen reader/keyboard user's focus outline visually sits against).
 - To the right: the same token-first property list — `Alignment`, `Direction`,
   `Vertical/Horizontal resizing`, `Padding top/bottom/start/end`, `Item spacing`.
+
+> **Real build recipe, verified against `button`'s live `section-layout-spacing` exhibit
+> (2026-08-31 — `badge`'s first build had no diagram at all, only the property list on the
+> right; the whole visual-measurement half of this section was missing).** Inside the
+> exhibit's `canvas-box`, alongside the real instance in `instance-slot`, add (all siblings of
+> `instance-slot`, positioned with explicit `x`/`y`, `layoutPositioning: 'ABSOLUTE'` since
+> `canvas-box` itself is auto-layout):
+> - `doc/measurement-overlay` — one per padding side that has a non-zero value, resized to
+>   exactly span that padding region (e.g. a `76×8` overlay along the top edge for `8px` top
+>   padding), plus a `doc/measurement-tick` (a `1px`-wide or `1px`-tall line, resized to the
+>   overlay's length) at each end of the span, plus a `doc/measurement-badge` (`Value` = the
+>   padding in px, e.g. `"16"`) centered on the overlay
+> - `doc/selection-outline`, resized to the instance's own bounding box, when the diagram is
+>   illustrating an alignment-only change with nothing to dimension (mirrors the reference
+>   plugin's blue-outline convention, §27.3 above)
+> - `doc/auto-layout-icon` (`Property 2` = the real `primaryAxisAlignItems`/
+>   `counterAxisAlignItems` combination, e.g. `middle-left`) as the small alignment glyph
+> - `doc/hug-indicator` (`Direction` = `left-right` for horizontal hug, `top-down` for
+>   vertical, `horiz-to-center`/`vert-to-center` for a centered fill) — one per axis that hugs
+>
+> None of these 6 components expose more than a `Value`/`Direction`/`Property 2` property
+> (§27.0's table) — every other adjustment (position, size, rotation for a vertical tick) is a
+> direct node mutation (`resize()`, `x`/`y`, `layoutPositioning: 'ABSOLUTE'`), not a component
+> property. This is more construction per exhibit than any other §27 subsection — budget for it
+> accordingly rather than assuming it is comparable in effort to a Variant or Size exhibit.
 
 #### Data — NOT built (2026-08-04 decision)
 The reference plugin closes with a generated JSON export (`title`, `anatomy`, `props`,
@@ -2760,6 +2869,19 @@ positioned just outside the slot, or a real instance slightly larger than expect
 visual warning. Check this whenever building or auditing a `doc/variant-exhibit` (or similar)
 instance.
 
+> **Append target — into `instance-slot`, never as a sibling of it.** (2026-08-29 correction —
+> the first `badge` build did `canvasBox.appendChild(instance)`, landing the real instance as
+> a second, separate child of `canvas-box` alongside the still-empty, still-100×100
+> `instance-slot` placeholder. Both rendered — the empty slot on top, the real instance below
+> it, overlapping — because `canvas-box` is itself `VERTICAL` auto-layout with
+> `CENTER`/`CENTER` alignment and no error is thrown either way; this is a silent layout
+> defect, not a script failure.) `canvas-box`'s pristine `instance-slot` child ships empty and
+> `HUG`-sized (`primaryAxisSizingMode`/`counterAxisSizingMode: AUTO`) — find it explicitly
+> (`canvasBox.children.find(c => c.name === 'instance-slot')`) and `appendChild` the real
+> instance **into it**, not into `canvas-box` directly. `instance-slot` then auto-hugs to the
+> instance's real size (verified on `button`: a 76×38 `Button` instance → a 76×38
+> `instance-slot`, not the empty 100×100 default), and `canvas-box` auto-hugs around that.
+
 ---
 
 ### 27.6 Where these components live — `↳ design annotations` only, never published
@@ -2832,6 +2954,41 @@ reference screenshot and `_trash`/`_OLD_...` remnants — see §28.5). No other 
 Each of the 3 frames is itself `layoutMode: VERTICAL` auto-layout, 1440px wide, stacking
 `doc/frame-header` (header) → `body` → `footer` as direct children — no extra wrapper.
 
+> **Positioning — horizontal, not stacked. Read this before placing the 3 frames, every
+> single time.** (2026-08-29, recurring mistake — flagged by the user after it happened
+> again on `badge`, having already been corrected once before without it being written
+> down anywhere, which is exactly why it recurred.)
+>
+> The 3 frames sit **side by side on one row**, not stacked one above another. Verified
+> against `button`'s real, live coordinates:
+>
+> | Frame | `x` | `y` | `width` |
+> |---|---|---|---|
+> | `Main frame` | `0` | `0` | `1440` |
+> | `Main-component frame` | `1800` | `0` | `1440` |
+> | `Spec frame` | `3600` | `0` | `1440` |
+>
+> **`y` is `0` for all 3 — never increment it.** The horizontal gap between each frame's
+> right edge and the next one's left edge is **exactly 360px** (`x` of the next frame =
+> previous frame's `x` + `width` + `360`; with every frame 1440px wide that's a fixed
+> `1800` stride: `0`, `1800`, `3600`, …). This is a general layout convention for any set
+> of full-page frames placed side by side in this file, not a one-off constant invented
+> for these 3 frames specifically — the user confirmed the same 360px figure via a
+> reference screenshot titled (translated) "Page/template layout within each Figma page";
+> its source location inside the file has not been independently located/confirmed.
+>
+> ```
+> ✅ mainFrame.x = 0;         mainFrame.y = 0;
+> ✅ mainCompFrame.x = mainFrame.x + mainFrame.width + 360;   mainCompFrame.y = 0;
+> ✅ specFrame.x = mainCompFrame.x + mainCompFrame.width + 360;   specFrame.y = 0;
+> ❌ Never stack them vertically (mainCompFrame.y = mainFrame.height, etc.) — that was
+>    the exact mistake made building badge, caught only by visual review, not by any
+>    audit script (a vertically-stacked page still passes every binding/token check —
+>    this is a pure layout-convention error, invisible to `audit-figma-file.js`)
+> ❌ Never leave a frame at Figma's default (0,0) drop position without setting both x
+>    AND y explicitly — silently inheriting (0,0) is how two frames end up overlapping
+> ```
+
 ### 28.2 `doc/frame-header` — the component
 
 ComponentSet on `↳ design annotations` (id `1062:1207`), variant property `Where` (3 options:
@@ -2857,22 +3014,49 @@ the plan's §1.6.3) — do not restyle it, it's a single reusable master.
 ### 28.3 `doc/section-header` — section labels, everywhere
 
 Every section inside every frame (`section-presentation`, `section-dos-donts`,
-`section-links`, and each subsection label inside `Spec frame`'s body) uses a
-`doc/section-header` instance (id `604:4`, `↳ design annotations`) — a single `Title` TEXT
-property — instead of a raw `typography/mono/detail` text node. This **replaces** the
-pre-Phase-3 convention (plain mono-detail label text, still visible on the 8 not-yet-migrated
-pages): new pages use `doc/section-header` exclusively, never a raw label text node.
+`section-links`/`doc/footer`, and each subsection label inside `Spec frame`'s body) uses a
+`doc/section-header` instance (id `604:4`, `↳ design annotations`) instead of a raw
+`typography/mono/detail` text node. This **replaces** the pre-Phase-3 convention (plain
+mono-detail label text, still visible on the 8 not-yet-migrated pages): new pages use
+`doc/section-header` exclusively, never a raw label text node, and never a manually-detached
+copy of it (see the gotcha below).
+
+> **Corrected by the user 2026-08-31 — verified live, both structure and style changed from
+> the description previously written here.** The master has **no exposed component
+> properties** (`componentPropertyDefinitions` is `{}`) — set the title by finding the child
+> `TEXT` node directly and writing `.characters`, there is no `Title#...` property to call
+> `setProperties()` with. Structurally, the old hand-built underline (a separate `Rectangle`
+> child, sized/positioned by hand under the text) is gone: the master itself now carries a
+> real **bottom-only stroke** (`strokeBottomWeight: 1`, `strokeTopWeight`/`Left`/`Right: 0`,
+> `strokeAlign: INSIDE`, color `semantic/color/border/focus`) — a single child (`SECTION
+> TITLE`, the `TEXT` node) is all a correct instance ever has. Style-wise, the old
+> "small on Main frame, Bold 40px override on Spec frame" split described here previously is
+> **gone** — the master's own default is now uniformly `Atkinson Hyperlegible Bold 40px`,
+> color `semantic/color/text/secondary`, and every real instance checked across both pages
+> (`Main frame`, `Main-component frame`, `Spec frame`, `doc/footer`'s `REFERENCES`) renders at
+> that one size with **no per-instance override needed at all**. Do not reintroduce a
+> font-size override — if a title looks small, the instance is stale (see below), not
+> under-styled.
 
 ```js
 const sectionHeaderComp = /* fetch id 604:4 from ↳ design annotations */;
 const inst = sectionHeaderComp.createInstance();
 parent.appendChild(inst);
-inst.setProperties({ 'Title#604:0': 'BEST PRACTICES' });
-// Do NOT set layoutSizingHorizontal/Vertical on this instance — the master itself is
-// layoutMode: NONE (a fixed 1280×40 frame), not auto-layout. Setting HUG throws
-// "HUG can only be set on auto-layout frames or text children of auto-layout frames".
-// Left at its native FIXED size, it already matches the 1280px content width.
+const titleText = inst.children.find(c => c.type === 'TEXT');
+titleText.characters = 'BEST PRACTICES';
+// No setProperties() call, no font/size/color override — the master default is correct as-is.
 ```
+
+> **Gotcha found rebuilding `button`'s 6 stale `Spec frame` headers (2026-08-31)**: every
+> section-header instance built *before* the user's master correction above stayed on the
+> **old** structure (`SECTION TITLE` + `Rectangle` child) even after the master changed,
+> because each one had been `detachInstance()`-d at build time (the pre-Phase-3/early-Phase-3
+> convention, before `doc/footer` exposed the same problem — see §28.4bis). A detached copy
+> can never inherit a later master edit; only a real, undetached `INSTANCE` does. Verify with
+> `page.findAll(n => n.name === 'doc/section-header')` and check `n.type === 'INSTANCE'` (never
+> `FRAME`) and `!n.children.find(c => c.name === 'Rectangle')` — any hit failing either check
+> is stale and must be rebuilt (`master.createInstance()`, set `.characters`, never detach),
+> not patched in place.
 
 ### 28.4 Frame-by-frame body composition (from `button`, the only page built this way as of 2026-08-29)
 
@@ -2880,25 +3064,299 @@ inst.setProperties({ 'Title#604:0': 'BEST PRACTICES' });
 1. `section-presentation` — `doc/section-header` (e.g. "ALL VARIANTS") + the variant showcase
    (real instances) +, on `button`, a `mode-comparison` Light/Dark diff block and an
    `icon-variants` block — component-specific, build what's relevant to the component at hand
-2. `section-dos-donts` — `doc/section-header` ("BEST PRACTICES") + `dos-row` × N (same
-   `do-column`/`dont-column` structure as the pre-Phase-3 pattern, unchanged)
-3. `section-links` (footer) — `doc/section-header` ("REFERENCES") + `links-row` (unchanged
-   pill pattern)
+2. `section-dos-donts` — `doc/section-header` ("BEST PRACTICES") + `dos-row` × N, each row 2
+   real `doc/dos-donts-card` instances (ComponentSet id `616:254`, `↳ design annotations`,
+   variant `State`: `DO`/`DON'T`, icons `thumbs-up`/`thumbs-down`) — **not** the pre-Phase-3
+   `do-column`/`dont-column` hand-built frames. (2026-08-29 correction: the first `badge`
+   build reused the old hand-built pattern instead of this real component — see §28.7.)
+   The card's `header` [icon + `DO`/`DON'T` label] is fixed; only `wrapper`'s `scenario-title`
+   TEXT, `caption` TEXT, and `example-slot` (append a real component instance, wrapped in your
+   own `example-visual` auto-layout frame — the pristine master's `example-slot` starts empty,
+   it is not a component-property slot) are populated per instance. `scenario-title`/`caption`
+   default to a narrow `FIXED` width inherited from the master — set both to
+   `layoutSizingHorizontal = 'FILL'` after populating, or text wraps after 1–2 words.
+3. `footer` → a `doc/footer` instance (§28.4bis) with its `links-row` populated for this frame
 
 **`Main-component frame`** body/footer:
-1. `body` → a single frame named `"[component] (copy for display)"` containing: a heading
-   TEXT (component name), a description TEXT (`Variant=... · Size=...` etc.), and the **real,
-   live master ComponentSet** appended directly inside — "(copy for display)" is a naming
-   label, not a technical copy; there is only one master, and this is where it lives (§28.5)
-2. `footer` → `section-links` (same pattern)
+1. `body` → a single frame named `"[component] (copy for display)"` containing: a heading TEXT
+   (component name) and **a real, well-structured, borderless table of every variant** — never
+   a raw `ComponentSet` dropped in as-is with a `Variant=.../State=...` legend line instead of
+   real headers (that was `button`'s state until 2026-08-31, corrected below). Despite the
+   frame's name, `"(copy for display)"` **is** a literal duplicate `ComponentSet` in practice —
+   `button` has two separate `ComponentSet`s both named `"Button"` in the file (`1055:778`,
+   this display copy; `380:2`, the real master the rest of the page's instances point to) — the
+   name is not a guarantee of there being only one; check with `page.findAll(n => n.type ===
+   'COMPONENT_SET' && n.name === '[Component]')` before assuming which one a given table's
+   cells derive from.
+   - **The real table pattern** (verified on `badge`'s `Main-component frame`, and rebuilt onto
+     `button`'s on 2026-08-31): reuse the exact same real, already-correct table structure the
+     page's own `section-presentation` uses for its variant/state matrix — a `variant-grid` (or
+     equivalent) frame of `header-row` (column labels, e.g. `Default`/`Hover`/`Focus`/
+     `Disabled`/`Loading`) + one `row-*` per row (a `row-label` TEXT + one `cell-*` frame per
+     column, each wrapping a real component **instance**, `fills: []`/`strokes: []` throughout
+     the row/cell/header wrapper frames — the only visible strokes left are the component's own
+     intentional state styling, e.g. a focus ring, never a table border). Cloning the page's
+     existing correct grid (`sourceGrid.clone()`) and dropping the clone into `body` is the
+     fastest reliable way to get this exactly right — it reuses proven alignment instead of
+     re-deriving spacing/positioning by hand.
+   - `button`'s old raw `ComponentSet` copy (`1055:778`) was parked per §28.5's no-delete
+     precedent: renamed `_OLD_Button (copy for display, superseded by real header-row/row-label
+     table, 2026-08-31)`, moved to the page root (not left nested inside the still-live
+     auto-layout `body` frame — an auto-layout parent ignores a hidden child's `x`/`y` and keeps
+     rendering it inline, so `appendChild` onto the **page**, then set `x`/`y` far off-canvas)
+   - ❌ Do not use `ComponentSet.layoutMode = 'GRID'` (Figma's native variant-grid auto-layout,
+     seen on `badge`'s table) for a component whose per-state cell widths vary a lot (e.g.
+     `button`'s `Loading…` cells are visibly wider than `Button`) — the paired column/row label
+     frames only align by eye-tuned fixed spacing, which can silently drift out of sync with
+     the grid's real (auto-sized) column widths. The `header-row`/`row-label`/fixed-width-`cell`
+     pattern above is unaffected by this since every cell wrapper has an explicit width.
+   - **Row/column label style — corrected 2026-08-31, verify on every table.** Every axis
+     label (row labels — `Primary`/`Secondary`/… — and column headers — `Default`/`Hover`/…, or
+     `badge`'s `Neutral`/`Brand`/… and `Sm`/`Md`) is `weight: Regular`, color
+     `semantic/color/text/secondary`. `button`'s `variant-grid` (both the `section-presentation`
+     source and the `Main-component frame` clone, Light **and** Dark) originally had row-labels
+     in `Bold` + `semantic/color/action/primary` (the brand teal) — an accent color has no
+     semantic reason to be on a plain axis label, and it doesn't match `badge`'s row/column
+     labels (which were already the correct gray, just still `Bold`, also corrected here). Fix
+     both properties on every row/column label text node found — `fontName.style` and, if bound
+     to anything other than `text/secondary`, `fills` (rebind via
+     `figma.variables.setBoundVariableForPaint(paint, 'color', secondaryVar)`, never a literal
+     hex). A `variant-grid` cloned from a still-wrong source inherits the wrong style — fix the
+     source first, or fix every clone independently, never assume one fix propagates to the other
+     (clones are plain duplicated frames, not instances of a shared master).
+   - **Dark mode has its own copy too — check it separately.** `section-presentation`'s
+     `mode-comparison` holds two independent `variant-table`/`variant-grid` frames (`Light` and
+     `Dark`, each its own `doc/mode-frame`), not one table re-skinned by a mode toggle. Fixing
+     the `Light` copy's row/column labels does not touch the `Dark` copy — verified 2026-08-31:
+     `badge`'s `Dark` table headers were still `Bold` after the `Light` one was fixed. Resolved
+     colors were checked numerically too, not just eyeballed: `semantic/color/text/secondary`
+     in Dark mode against the `doc/mode-frame` Dark wrapper's real fill
+     (`semantic/color/background/page` in dark mode, confirmed the same bound variable on both
+     `badge` and `button`) is 8.47:1 — comfortably past WCAG AA (4.5:1) for normal text.
+2. `footer` → a `doc/footer` instance (same pattern)
 
-**`Spec frame`** body/footer:
-1. `body` → `doc/section-header` per §27 subsection, followed by that subsection's content —
-   the **full** §27 structure (Title/Anatomy/Props/Variant/State/Additional variants/Layout
-   and spacing), built with the 5 `doc/*` components from §27.0 (`doc/annotation-badge`,
-   `doc/property-row`, `doc/spec-group`, `doc/variant-exhibit`, `doc/props-row`) — see §28.6,
-   this is not optional
-2. `footer` → `section-links`
+**`Spec frame`** body/footer, verified against `button`'s real live structure (2026-08-29 —
+the first `badge` build got this wrong: everything was dumped as flat siblings directly into
+`body`, no per-subsection wrapper, exhibits laid out `WRAP`/side-by-side instead of stacked):
+
+1. `body` → **one `section-[name]` frame per §27 subsection** — `section-anatomy`,
+   `section-props`, `section-variant`, `section-state` (rename to the component's real second
+   axis when it has no interactive states — e.g. `section-size` for a component whose only
+   other property is a size scale, as on `badge`; add a short explanatory TEXT note right
+   after that section's `doc/section-header` so a reader knows it's a deliberate adaptation,
+   not a mistake), `section-additional-variants`, `section-layout-spacing`.
+   Each `section-*` frame: `layoutMode: VERTICAL`, `itemSpacing: 32`, padding
+   `top:60 bottom:60 left:80 right:80`, width `FILL` (1440 in practice), **no fill of its own**
+   (2026-08-31, final simplification — see §28.4ter: the fill lives once, on the top-level
+   frame itself; every section inside is transparent and lets it show through). `doc/frame-header`
+   is the one exception — it keeps its own branded `semantic/color/background/inverse` chrome.
+   Each `section-*` frame's direct children: `doc/section-header` (the subsection title) →
+   optional explanatory TEXT (e.g. the "Additional variants" caveat copy, or an adaptation
+   note) → `exhibit-stack`.
+2. `exhibit-stack` — `layoutMode: VERTICAL` (**not** `HORIZONTAL`/`WRAP` — exhibits stack one
+   below another, full-width, never side by side), `itemSpacing: 48`, built with the 5 `doc/*`
+   components from §27.0 (`doc/annotation-badge`, `doc/property-row`, `doc/spec-group`,
+   `doc/variant-exhibit`, `doc/props-row`) — see §28.6, this is not optional.
+3. `footer` → a `doc/footer` instance (§28.4bis)
+
+### 28.4bis `doc/footer` — the component
+
+> Created by the user 2026-08-31 (node `1221:3907`, `↳ design annotations`, plain `COMPONENT`)
+> after an earlier agent-built version (superseded, renamed `_OLD_doc/footer`, left in place
+> per the no-delete rule — never instantiate it going forward). Applied to all 3 footers on
+> both `badge` and `button`. Started with **no exposed properties** (content set by reaching
+> into named children); given real Component Properties the same day, after the fixes below —
+> see "Component Properties" further down, that is now the correct way to set link content.
+
+Structure: `doc/footer` (root, `fills: none`) → `wrapper` (the only real fill in the whole
+component — bound to `semantic/color/background/subtle`, a deliberate exception to §28.4ter's
+"sections carry no fill" rule, since a footer is a distinct closing band, not a content
+section) → `doc/section-header` instance (`Title` = "REFERENCES") → `links-row` (`layoutMode:
+HORIZONTAL`, 5 link-pill slots — `link-guidelines`, `link-nn-g-icons-indicators`,
+`link-wcag-1-1-1`, `link-slot-5`, `link-tokens` — pill `fills: semantic/color/background/surface`,
+`strokes: semantic/color/border/focus` 1px, `cornerRadius: 100`, link text same color as the
+stroke). `link-slot-5` is a generic, always-`visible: true` on the master extra slot added
+2026-08-31 so a page needing a 5th reference link (button: Guidelines/NN·g/WCAG 1.4.3/
+WCAG 2.5.8/Tokens) can use it — see the gotcha below for why it defaults to visible rather than
+hidden.
+
+> **First attempt on this page was wrong and got corrected the same day**: the 3 badge + 3
+> button footers were first built by creating a `doc/footer` instance and immediately
+> `detachInstance()`-ing it to swap in each frame's real links — this produced 6 plain
+> `FRAME` nodes with no live link back to the component at all, which is what the user flagged
+> ("les frames n'utilisent pas une variante du composant doc/footer"). <!-- lang-audit-ignore: verbatim user quote --> All 6 were rebuilt as
+> real, undetached `INSTANCE`s of `1221:3907` (verified via `getMainComponentAsync()` returning
+> `1221:3907` on each) — content differences are pure per-instance overrides (`.characters` on
+> the link `TEXT` nodes, `.visible` on `link-slot-5`), never a detach.
+
+```
+✅ Create a plain instance — never detach it — even when a frame's link content differs
+✅ Set link content via setProperties() (see "Component Properties" below) — the current,
+   correct way, as of the same day these properties were added
+✅ Leave "REFERENCES" as the section title unless a frame genuinely needs a different one
+✅ After building, verify with getMainComponentAsync() that every footer instance's main
+   component id is `1221:3907` — a detached copy silently passes a visual review
+❌ Never detach a doc/footer instance to edit its content — that is exactly the mistake made
+   and corrected on 2026-08-31; use setProperties() instead
+❌ Never instantiate `_OLD_doc/footer` — it is superseded, kept only per the no-delete rule
+❌ Never strip wrapper's `background/subtle` fill to match §28.4ter — footer is the deliberate
+   exception, not an oversight
+```
+
+#### Component Properties — set link content at instance creation, not by reaching into children
+
+> Added 2026-08-31, same day, right after the fix above — the user asked whether link content
+> could be set "at each component's creation" rather than by finding named children by hand.
+> Verified working, both on a fresh test instance and retroactively on all 6 already-existing
+> real footer instances (component-property references defined on the master apply to
+> instances that existed before the properties were added — no rebuild needed).
+
+`doc/footer` (`1221:3907`) exposes 6 component properties:
+
+| Property key | Type | Bound to |
+|---|---|---|
+| `Link 1 label#1296:0` | TEXT | `link-guidelines`'s TEXT `.characters` |
+| `Link 2 label#1296:1` | TEXT | `link-nn-g-icons-indicators`'s TEXT `.characters` |
+| `Link 3 label#1296:2` | TEXT | `link-wcag-1-1-1`'s TEXT `.characters` |
+| `Show link 4#1296:3` | BOOLEAN | `link-slot-5`'s `.visible` |
+| `Link 4 label#1296:4` | TEXT | `link-slot-5`'s TEXT `.characters` |
+| `Link 5 label#1296:5` | TEXT | `link-tokens`'s TEXT `.characters` |
+
+```js
+const inst = master.createInstance(); // master = the doc/footer component (1221:3907)
+parent.insertChild(idx, inst);
+inst.setProperties({
+  'Link 1 label#1296:0': '↗ Guidelines',
+  'Link 2 label#1296:1': '↗ NN/g — Buttons',
+  'Link 3 label#1296:2': '↗ WCAG 1.4.3',
+  'Show link 4#1296:3': true, // false hides the 5th pill entirely for a 4-link page
+  'Link 4 label#1296:4': '↗ WCAG 2.5.8',
+  'Link 5 label#1296:5': '↗ Tokens',
+});
+```
+
+```
+✅ Set every link via setProperties() in one call, right after createInstance() — no need to
+   walk into wrapper/links-row/link-* children by name anymore
+✅ Set 'Show link 4' explicitly even when leaving it at the default — makes the 4-vs-5-link
+   choice visible in the script instead of relying on the master's current default
+✅ This is also now editable directly in the Figma UI Properties panel, not script-only
+❌ Don't mix the old and new pattern — since the properties exist, never reach into
+   linksRow.children.find(...) and set .characters/.visible directly again; use setProperties()
+❌ Property keys are file-specific generated ids (`#1296:N`) — re-verify with
+   `master.componentPropertyDefinitions` before reusing this snippet in a script, don't assume
+   the numbers stay `1296:0`…`1296:5` forever if the master is ever rebuilt
+```
+
+#### The link pills need a real Figma hyperlink too — the label text alone isn't a link
+
+> Found 2026-09-01: `setProperties()` (above) sets the visible **label** text, but a Figma
+> `TEXT` node's actual clickable hyperlink is a **separate** property (`.hyperlink`) that
+> `setProperties()`/`componentPropertyReferences` does not touch. A pill can render perfectly —
+> icon, correct label, correct color — and still not be an actual link. In Figma, a hyperlink
+> can only be attached to text (a whole `TEXT` node's `.hyperlink`, or a sub-range via
+> `.setRangeHyperlink()`), never to a frame/pill wrapper — set it on the `TEXT` child inside
+> each `link-*` cell, not on the cell frame.
+
+```js
+const textNode = cell.children.find(c => c.type === 'TEXT');
+textNode.hyperlink = { type: 'URL', value: 'https://example.com' };
+// { type: 'NODE', value: nodeId } also works, for a link to another node/page in the same file
+// (see ↳ lucide icons' "Icon component" link, id 798:9, for a real example of that form).
+```
+
+Real URLs used on every footer instance (never invented — each one either already existed as a
+precedent elsewhere in this file, or is the exact citation already committed in this
+component's own `guidelines/components/*.md`, the actual source of truth for these claims):
+
+| Link label | URL | Source |
+|---|---|---|
+| `Guidelines` | `github.com/…/agentica-design-system/blob/main/guidelines/components/badge.md` (or `button.md`) | the component's own guideline **file**, not the shared folder |
+| `Tokens` | `github.com/…/agentica-design-system/blob/main/tokens/component.json#L178` (badge) / `#L10` (button) | the component's own top-level key **inside** the one shared `component.json`, via a GitHub line anchor — there is no per-component tokens file |
+| `NN/g — Icons & Indicators` (badge) | `nngroup.com/articles/indicators-validations-notifications/` | the citation already used in `guidelines/components/banner.md`, which states its own indicator guidance is "Aligned with `agtc-badge`" — topic-specific, not the generic hub page |
+| `NN/g — Buttons` (button) | `nngroup.com/articles/command-links/` | already this file's own `§10 Mandatory links` "Typical call (Button example)" — that pre-existing illustrative snippet had the right idea, this instance just wasn't wired to match it yet |
+| `WCAG 1.1.1` (badge) | `w3.org/WAI/WCAG21/Understanding/non-text-content.html` | same URL already cited in `guidelines/components/image.md` |
+| `WCAG 1.4.3` / `WCAG 2.5.8` (button) | `w3.org/WAI/WCAG21/Understanding/contrast-minimum.html` / `…/target-size-minimum.html` | the official W3C "Understanding" page for that success criterion, same domain/path pattern as the 1.1.1 precedent above |
+
+> **Corrected 2026-09-01** — first pass used the generic **folder** (`tree/main/guidelines`) for
+> `Guidelines` and the generic NN/g hub page (`design-pattern-guidelines/`, reused verbatim
+> across unrelated components in several `guidelines/components/*.md` files) for `NN/g`. The
+> user asked for links to the **specific, relevant** content: `Guidelines` now points to the
+> exact `.md` file (`blob/`, not `tree/`), `Tokens` to the exact line inside `component.json`
+> (no per-component tokens file exists, so a line anchor is as specific as it gets), and `NN/g`
+> to a real, already-cited, topic-specific article per component rather than one generic URL
+> reused everywhere. When adding this to a future component's footer, prefer the same
+> specificity: a `blob/…#L<n>` link over a `tree/…` folder link, a named article over a hub page.
+
+```
+✅ Set .hyperlink on the TEXT node inside the cell, never on the cell/pill frame
+✅ Reuse a URL that already exists somewhere real in the file or the repo's own guidelines/*.md
+   citations — search for precedent (figma.root findAll TEXT nodes with a non-mixed .hyperlink,
+   or grep the whole repo, not just guidelines/components/, for nngroup.com/w3.org — the more
+   specific precedent for `NN/g — Buttons` above was sitting in this very file's §10, and the
+   more specific `NN/g` precedent for badge was in banner.md, not badge.md itself)
+✅ Prefer the most specific real target over a generic one: a component's own guideline file
+   over the shared guidelines folder, a line anchor into component.json over the bare file,
+   a named topic-specific article over a generic hub page — always still a real, existing URL
+❌ Never invent a URL, even a plausible-looking one (a guessed NN/g article slug, a made-up
+   WCAG page) — the W3C "Understanding" URLs are safe to use directly (one stable, well-known
+   path pattern per success criterion), but an NN/g article slug is not guessable reliably
+❌ Don't assume setProperties() covers hyperlinks — it only reaches whatever the master's
+   componentPropertyReferences actually map (here: text characters and one slot's visibility),
+   hyperlink is always a separate, per-instance step
+```
+
+#### Gotcha: `createInstance()` can silently drop a child that was *just* made visible
+
+`figma.createInstance()` on a component whose child was set to `visible: true` in an *earlier,
+separate* `use_figma` call can still produce a fresh instance missing that child entirely — the
+component-definition sync that `createInstance()` reads from appears to lag by one call
+boundary. Symptom: no error, but the new instance's `linksRow.children.length` (or equivalent)
+is short one node, and there is no way to reveal it after the fact (it was never created)
+— the same failure shape as the pre-existing `feedback_figma_createinstance_drops_invisible_children`
+memory, but triggered here by a *very recently* toggled child, not only a permanently-hidden
+one. Also: setting `.visible = false` on a newly created instance's own auto-layout child can
+prune that child out of `.children` entirely rather than leaving it present-but-hidden — treat
+this as equivalent to "not needed on this instance," not as a bug to fight; it produces the
+correct visual/structural result (4 clean pills, no dead hidden node) and the node still reads
+back as a genuine `INSTANCE` of the master.
+
+```
+✅ Toggle a master child's default visibility, THEN create every instance that needs the new
+   default in the SAME script call (not a later, separate use_figma call) — verify inline with
+   a throw-on-missing check (`if (!slot) throw new Error(...)`) before trusting the result
+✅ Treat a hidden-then-pruned auto-layout child on a fresh instance as expected, not broken —
+   confirm visually/structurally instead of asserting on children.length alone
+❌ Never assume a component edit from a previous use_figma call is already visible to
+   createInstance() in the next call — re-verify in the same call that creates the instances
+❌ Never conclude an instance is "broken" just because children.length is lower than the
+   master's — check whether the difference is an intentional hide-and-prune override first
+```
+
+### 28.4ter Frame backgrounds — one fill, on the top-level frame only
+
+> **2026-08-31, direct user instruction, applied to both `badge` and `button`.** Earlier in
+> the same day, section backgrounds were first made to alternate (`surface`/`subtle`,
+> §28.4's original text), then corrected to a uniform `background/page` **on every section**
+> — both superseded by this final, simpler rule.
+
+**Only the 3 top-level frames (`Main frame`, `Main-component frame`, `Spec frame`) carry a
+fill — `semantic/color/background/page` (`#FCFCFC`), each. Every section, `body`, `Spec
+content (copy for display)` wrapper, and any other descendant frame inside carries `fills: []`
+(empty) and lets the top-level frame's fill show through.** `doc/frame-header` keeps its own
+`semantic/color/background/inverse` chrome — untouched, it's a distinct branded component, not
+a plain content section. `doc/footer`'s `wrapper` also keeps its own `background/subtle` fill
+(§28.4bis) — the one other deliberate exception.
+
+```
+✅ mainFrame.fills = [bound to background/page]; every child section: child.fills = []
+✅ Same for Main-component frame and Spec frame, including sections nested 2 levels deep
+   (button's "Spec content (copy for display)" wrapper AND its 6 section-* children — both
+   need clearing, not just the direct child of body)
+❌ Never bind background/page (or any color) on a section/body/wrapper frame — only the 3
+   top-level frames carry a fill
+❌ Never clear doc/frame-header's or doc/footer's own fills — both are the documented exceptions
+```
 
 ### 28.5 Migrating a page from the old pattern — no-delete precedent
 
@@ -2941,6 +3399,64 @@ This means, as of 2026-08-29:
 ❌ Never treat the 3-frame shell alone (headers + empty/shortened body) as sufficient
 ```
 
+### 28.7 Mandatory pre-build verification — inspect the live reference, every piece, every time
+
+> **Rule adopted 2026-08-29**, direct user request, after `badge`'s first `Spec frame` build
+> shipped two real defects the user caught by eye that no audit script flagged: (1)
+> `section-dos-donts` was hand-built from the pre-Phase-3 `do-column`/`dont-column` pattern
+> instead of using the real `doc/dos-donts-card` component, and (2) `Spec frame`'s body was a
+> flat list of siblings with exhibits laid out `WRAP` side-by-side, instead of the
+> `section-[name]` → `exhibit-stack` (`VERTICAL`) structure `button` actually uses. Both
+> defects trace to the same root cause, and it is the same root cause as §28.1's frame-
+> positioning incident: **content was built from this document's prose description, or from
+> memory of an older page's pattern, instead of from a live inspection of `button`'s actual
+> current structure for that specific piece.** §27/§28's prose is a *summary* written after
+> the fact — useful for orientation, never a substitute for the live file, which can (and, in
+> this exact case, did) diverge from what got written down.
+
+**The rule**: before building any named piece of a component page — a section, a card
+pattern, a reusable visual element — do **both** of the following, every time, even for a
+piece this document already describes in prose:
+
+```
+1. SEARCH ↳ design annotations for an existing doc/* component that matches the pattern
+   you're about to build (a card, a badge, a divider, a table row — anything with a
+   recognizable shape). Use findAllWithCriteria({types:['COMPONENT','COMPONENT_SET']})
+   filtered by name, the same way §28.2/§28.3's doc/frame-header and doc/section-header
+   were found. Hand-building a frame that visually resembles an existing doc/* component
+   is not a shortcut — it produces something that looks similar and is wrong in the ways
+   that matter (wrong icon, wrong border/color source, wrong text-wrapping behavior — see
+   §28.4's doc/dos-donts-card gotchas, found only by using the real component).
+2. INSPECT the equivalent piece live on `button` (or the current canonical reference page)
+   — not this document's description of it — immediately before writing the script that
+   builds your version. Pull real node IDs, real layoutMode/itemSpacing/padding values, real
+   child names, the same way §28.4's section-* / exhibit-stack structure was reverse-
+   engineered. Treat every number and name in §27/§28 as a claim to verify against the live
+   file, not a value to copy from this document without checking — this document can go
+   stale exactly the way `badge`'s first build went stale against it within the same day.
+```
+
+```
+✅ Before hand-building any UI pattern: search design-annotations for an existing doc/*
+   match first
+✅ Before writing the build script for any section: pull that exact section's live structure
+   from button first, in the same session, right before writing the code
+✅ Treat this document (§27/§28) as an index of what to go verify, not as the source of truth
+   itself — the live file is the source of truth, always
+❌ Never build a section from memory of an older page's pattern (e.g. the pre-Phase-3
+   page-wrapper convention) just because it "looks similar enough" to what's being asked for
+❌ Never treat "I read the relevant §27/§28 subsection" as sufficient verification — reading
+   the prose is orientation, not the check itself
+❌ Never skip this because the piece "seems simple" — the do-column/dont-column mistake was
+   exactly this: a simple-looking pattern, confidently rebuilt from memory, silently wrong
+```
+
+**Why this isn't caught by `audit-figma-file.js` (§0bis)**: both defects were internally
+consistent — every fill was token-bound, every text used a real style, nothing overflowed or
+clipped. The audit script checks binding/structural *health*, not *conformance to the
+canonical pattern*. A beautifully-built wrong pattern passes every automated check and still
+needs a human's eye (or, going forward, the verification step above) to catch.
+
 ---
 
 ## Known errors — Figma Plugin API
@@ -2965,4 +3481,5 @@ This means, as of 2026-08-29:
 | A row of sample bars/badges doesn't align to a common starting X across rows | The preceding text/description column is `FILL`/`layoutGrow=1`, pushing the bar to the row's right edge | Give that column a `FIXED` width sized to the longest row's content — see §26.3 |
 | `node.height` / `.absoluteBoundingBox` reads a nonsensical tiny value (e.g. `1`) right after a mutation | Stale auto-layout geometry cache in the Plugin API, not a real layout state | Read `.absoluteRenderBounds` instead, or re-fetch the node in a fresh `use_figma` call — see §26.4 |
 | A page has multiple live content sections loose at the top level (canvas gray, §13, visible between/around them) | Sections were `page.appendChild()`-ed directly to the page instead of into a single `page-wrapper` — no enclosing container at all, not just a width mismatch | Create ONE `page-wrapper` (1440px), move every live section into it as a child; run `findMissingWrapper()` — see §26.11 |
+| A `FIXED`-width `TEXT` child overflows its parent after the parent was resized, and `.resize()`/`.resizeWithoutConstraints()` on that child silently do nothing (no error, width unchanged even on a fresh re-read) | The child is `layoutSizingHorizontal: 'FIXED'` inside an auto-layout instance — the Plugin API doesn't apply a literal-width resize to it | Set `textNode.layoutSizingHorizontal = 'FILL'` instead of resizing — see §26.12 |
 | Text is technically visible but fails contrast / was clearly hand-picked | `fills[0].boundVariables` is empty — a hardcoded color, not a token | Bind to the matching semantic token and compute WCAG contrast — see §26.5 |
