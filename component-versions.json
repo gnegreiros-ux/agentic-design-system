@@ -1,0 +1,25 @@
+{
+  "$description": "Per-component semantic version registry for Agentica. Independent from the library-wide release version (package.json) — each component ships its own version, shown on its Figma documentation header (doc/section-header-main-component) and usable on the site. Not a design token: lives outside tokens/ deliberately, since it tracks release history, not design decisions.",
+  "librarySince": "0.3.0",
+  "rule": "Bump a component's version on any change to its tokens, markup contract, or behavior (see .claude/rules/git-workflow.md commit types: feat/fix/token/a11y). Purely editorial doc changes do not require a bump.",
+  "components": {
+    "badge": { "version": "1.0.0", "since": "0.3.0" },
+    "banner": { "version": "1.0.0", "since": "0.3.0" },
+    "button": { "version": "1.0.0", "since": "0.3.0" },
+    "card": { "version": "1.0.0", "since": "0.3.0" },
+    "checkbox": { "version": "1.0.0", "since": "0.3.0" },
+    "code-block": { "version": "1.0.0", "since": "0.3.0" },
+    "feature-card": { "version": "1.0.0", "since": "0.3.0" },
+    "icon": { "version": "1.0.0", "since": "0.3.0" },
+    "image": { "version": "1.0.0", "since": "0.3.0" },
+    "input": { "version": "1.0.0", "since": "0.3.0" },
+    "link": { "version": "1.0.0", "since": "0.3.0" },
+    "radio": { "version": "1.0.0", "since": "0.3.0" },
+    "radio-group": { "version": "1.0.0", "since": "0.3.0" },
+    "segmented": { "version": "1.0.0", "since": "0.3.0" },
+    "table": { "version": "1.0.0", "since": "0.3.0" },
+    "tabs": { "version": "1.0.0", "since": "0.3.0" },
+    "toggle": { "version": "1.0.0", "since": "0.3.0" },
+    "top-nav": { "version": "1.0.0", "since": "0.3.0" }
+  }
+}
