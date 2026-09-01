@@ -326,7 +326,7 @@ content.
 A page is complete only once `Spec frame` shows the **full** §27 content (Anatomy, Props,
 Variant, State, Additional variants, Layout and spacing) — not a placeholder, not a tokens
 table standing in for it. GitHub Projects status follows this bar exactly: don't mark a ticket
-"Terminé" for a partial Spec frame or a 3-frame shell with an empty/shortened body.
+"Terminé" for a partial Spec frame or a 3-frame shell with an empty/shortened body. <!-- lang-audit-ignore: literal GitHub Projects Status field value -->
 
 ---
 

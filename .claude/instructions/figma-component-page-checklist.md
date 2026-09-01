@@ -1,6 +1,6 @@
 # Checklist — Component page validation audit
 
-> Run against any Figma component page before marking it "Terminé" in GitHub Projects, and
+> Run against any Figma component page before marking it "Terminé" in GitHub Projects, and <!-- lang-audit-ignore: literal GitHub Projects Status field value -->
 > periodically against `↳ badge`/`↳ button` (the two reference pages) to catch drift between
 > them. Pair with `.claude/instructions/figma-component-page-method.md` (how to build/fix) —
 > this file is what to verify, that one is how to get there. Section numbers refer to
@@ -247,7 +247,7 @@ must be empty, or contain only a documented, verified-benign exception:
 - [ ] All of sections A–P above pass (or every exception is explicitly documented and benign)
 - [ ] `Spec frame` shows the full 6-section Specs 2 content — this is the hard gate; nothing
       else on this checklist substitutes for it
-- [ ] GitHub Projects ticket status matches reality: only move to "Terminé" once this entire
+- [ ] GitHub Projects ticket status matches reality: only move to "Terminé" once this entire <!-- lang-audit-ignore: literal GitHub Projects Status field value -->
       checklist passes, not on a partial build
 
 ---
