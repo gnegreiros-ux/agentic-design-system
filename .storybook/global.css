@@ -1,3 +1,5 @@
 body {
   font-family: var(--agtc-semantic-typography-font-family, 'Atkinson Hyperlegible', system-ui, sans-serif);
+  background-color: var(--agtc-semantic-color-background-page);
+  color: var(--agtc-semantic-color-text-primary);
 }
