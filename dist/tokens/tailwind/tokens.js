@@ -53,6 +53,7 @@ export default {
     "agtc-color-icon-control": "var(--agtc-semantic-color-icon-control)",
     "agtc-color-icon-nav": "var(--agtc-semantic-color-icon-nav)",
     "agtc-color-border-default": "var(--agtc-semantic-color-border-default)",
+    "agtc-color-border-control": "var(--agtc-semantic-color-border-control)",
     "agtc-color-border-focus": "var(--agtc-semantic-color-border-focus)",
     "agtc-color-border-danger": "var(--agtc-semantic-color-border-danger)",
     "agtc-color-border-on-dark": "var(--agtc-semantic-color-border-on-dark)",

@@ -1,6 +1,6 @@
 /**
  * Do not edit directly
- * Generated on Fri, 31 Jul 2026 15:52:08 GMT
+ * Generated on Wed, 02 Sep 2026 13:47:01 GMT
  */
 
 :root {
@@ -114,7 +114,7 @@
   --agtc-component-radio-default-fill: var(--agtc-semantic-color-action-primary);
   --agtc-component-radio-default-border-focus: var(--agtc-semantic-color-border-focus);
   --agtc-component-radio-default-border-hover: var(--agtc-semantic-color-action-primary);
-  --agtc-component-radio-default-border: var(--agtc-semantic-color-border-default);
+  --agtc-component-radio-default-border: var(--agtc-semantic-color-border-control);
   --agtc-component-radio-default-background: var(--agtc-semantic-color-background-surface);
   --agtc-component-checkbox-default-radius: var(--agtc-semantic-radius-control);
   --agtc-component-checkbox-default-label: var(--agtc-semantic-color-text-primary);
@@ -123,7 +123,7 @@
   --agtc-component-checkbox-default-fill: var(--agtc-semantic-color-action-primary);
   --agtc-component-checkbox-default-border-focus: var(--agtc-semantic-color-border-focus);
   --agtc-component-checkbox-default-border-hover: var(--agtc-semantic-color-action-primary);
-  --agtc-component-checkbox-default-border: var(--agtc-semantic-color-border-default);
+  --agtc-component-checkbox-default-border: var(--agtc-semantic-color-border-control);
   --agtc-component-checkbox-default-background: var(--agtc-semantic-color-background-surface);
   --agtc-component-card-typography-marketing-meta-size: var(--agtc-semantic-typography-label-size);
   --agtc-component-card-typography-marketing-body-size: var(--agtc-semantic-typography-body-size);
@@ -173,7 +173,7 @@
   --agtc-component-input-default-text: var(--agtc-semantic-color-text-primary);
   --agtc-component-input-default-border-error: var(--agtc-semantic-color-border-danger);
   --agtc-component-input-default-border-focus: var(--agtc-semantic-color-border-focus);
-  --agtc-component-input-default-border: var(--agtc-semantic-color-border-default);
+  --agtc-component-input-default-border: var(--agtc-semantic-color-border-control);
   --agtc-component-input-default-background: var(--agtc-semantic-color-background-surface);
   --agtc-component-button-ghost-text: var(--agtc-semantic-color-action-primary);
   --agtc-component-button-ghost-background-hover: var(--agtc-semantic-color-background-subtle);

@@ -490,7 +490,31 @@
         "default": {
           "$value": "{primitive.color.gray.4}",
           "$type": "color",
-          "$intent": "Bordure standard"
+          "$intent": "Bordure standard — separator, card outline, non-essential structural boundary. Not for a resting interactive-control boundary (1.22:1 on white/gray.1 — fails WCAG 1.4.11's 3:1 non-text minimum) — use border.control instead."
+        },
+        "control": {
+          "$value": "{primitive.color.gray.9}",
+          "$type": "color",
+          "$intent": "Resting (unchecked/unfocused) boundary of an interactive control whose shape is the primary signifier of its presence — checkbox, radio, input. Accessible: 3.32:1 on gray.1/white (≥3:1 required, WCAG 1.4.11).",
+          "$description": "border.default (gray.4, 1.22:1) does not meet the WCAG 1.4.11 non-text contrast minimum for a control boundary that is the sole visual cue of the control's shape at rest — confirmed via axe-core on agtc-checkbox (2026-09-02). border.control exists for exactly that case; border.default remains correct for decorative/structural boundaries (card, table, tabs, badge) where the border is not the sole means of identifying the element.",
+          "$deprecated": false,
+          "$extensions": {
+            "com.agentica.usage": {
+              "role": "control-border-rest",
+              "use": [
+                "Checkbox[state=default] box border",
+                "Radio[state=default] outline",
+                "Input[state=default] field border"
+              ],
+              "doNotUse": "Decorative separator, card or table outline, tab divider — use border.default. Any state already carrying its own accessible border (hover/focus/danger) — those keep their own token.",
+              "components": [
+                "agtc-checkbox",
+                "agtc-radio",
+                "agtc-input"
+              ],
+              "decision": "2026-09-02 contrast-audit finding, agent-proposed pending Design System Lead review"
+            }
+          }
         },
         "focus": {
           "$value": "{primitive.color.teal.11}",

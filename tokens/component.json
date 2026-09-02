@@ -142,7 +142,7 @@
         "$type": "color"
       },
       "border": {
-        "$value": "{semantic.color.border.default}",
+        "$value": "{semantic.color.border.control}",
         "$type": "color"
       },
       "border-focus": {
@@ -461,7 +461,7 @@
         "$type": "color"
       },
       "border": {
-        "$value": "{semantic.color.border.default}",
+        "$value": "{semantic.color.border.control}",
         "$type": "color"
       },
       "border-hover": {
@@ -505,7 +505,7 @@
         "$type": "color"
       },
       "border": {
-        "$value": "{semantic.color.border.default}",
+        "$value": "{semantic.color.border.control}",
         "$type": "color"
       },
       "border-hover": {
