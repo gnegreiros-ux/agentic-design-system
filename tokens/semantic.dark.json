@@ -152,6 +152,11 @@
           "$value": "#120c0f",
           "$type": "color",
           "$intent": "Inverse surface, dark — footer, accent sections"
+        },
+        "overlay-dark": {
+          "$value": "rgba(83, 94, 115, 0.92)",
+          "$type": "color",
+          "$intent": "Dark glassmorphism background, dark theme — the light-mode value (rgba(12,15,25,.78)) composites to ~1.02:1 against background.page (#0a0c11), effectively invisible. This value composites to ~3:1, restoring the card's visual separation, while staying dark enough for text.on-dark to keep ≥4.5:1 on top. Confirmed via contrast audit of agtc-feature-card, 2026-09-02."
         }
       },
       "text": {

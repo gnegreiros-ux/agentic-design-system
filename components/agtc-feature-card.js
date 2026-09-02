@@ -96,7 +96,7 @@ class AgtcFeatureCard extends LitElement {
       width: 2.25rem;
       height: 2.25rem;
       color: var(--agtc-semantic-color-action-primary, #12a594);
-      margin-bottom: .875rem;
+      margin-bottom: var(--agtc-semantic-space-component-padding-lg, 16px);
       flex-shrink: 0;
     }
 
