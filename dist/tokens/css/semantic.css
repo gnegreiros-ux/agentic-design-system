@@ -1,6 +1,6 @@
 /**
  * Do not edit directly
- * Generated on Fri, 31 Jul 2026 15:52:08 GMT
+ * Generated on Wed, 02 Sep 2026 13:47:01 GMT
  */
 
 :root {
@@ -134,6 +134,7 @@
   --agtc-semantic-color-border-on-dark: var(--agtc-primitive-color-white-12);
   --agtc-semantic-color-border-danger: var(--agtc-primitive-color-red-11);
   --agtc-semantic-color-border-focus: var(--agtc-primitive-color-teal-11);
+  --agtc-semantic-color-border-control: var(--agtc-primitive-color-gray-9);
   --agtc-semantic-color-border-default: var(--agtc-primitive-color-gray-4);
   --agtc-semantic-color-icon-nav: var(--agtc-primitive-color-gray-11);
   --agtc-semantic-color-icon-control: var(--agtc-primitive-color-gray-11);

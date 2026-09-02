@@ -4,7 +4,7 @@
 //
 
 // Do not edit directly
-// Generated on Fri, 31 Jul 2026 15:52:09 GMT
+// Generated on Wed, 02 Sep 2026 13:47:01 GMT
 
 
 import UIKit
@@ -104,7 +104,7 @@ public class AgenticaTokens {
     public static let cardTypographyTitleSize = 0.875rem
     public static let cardTypographyTitleWeight = 700
     public static let checkboxDefaultBackground = #ffffff
-    public static let checkboxDefaultBorder = #e8e8e8
+    public static let checkboxDefaultBorder = #8d8d8d
     public static let checkboxDefaultBorderFocus = #007a68
     public static let checkboxDefaultBorderHover = #007a68
     public static let checkboxDefaultCheck = #ffffff
@@ -129,7 +129,7 @@ public class AgenticaTokens {
     public static let imageSkeletonBackground = #f0f0f0
     public static let imageSkeletonBackgroundPulse = #fafafa
     public static let inputDefaultBackground = #ffffff
-    public static let inputDefaultBorder = #e8e8e8
+    public static let inputDefaultBorder = #8d8d8d
     public static let inputDefaultBorderError = #ce2c31
     public static let inputDefaultBorderFocus = #007a68
     public static let inputDefaultPaddingX = 16px
@@ -627,7 +627,7 @@ public class AgenticaTokens {
     public static let primitiveStrokeWidthSm = 1
     public static let primitiveStrokeWidthXl = 2
     public static let radioDefaultBackground = #ffffff
-    public static let radioDefaultBorder = #e8e8e8
+    public static let radioDefaultBorder = #8d8d8d
     public static let radioDefaultBorderFocus = #007a68
     public static let radioDefaultBorderHover = #007a68
     public static let radioDefaultFill = #007a68
@@ -653,6 +653,7 @@ public class AgenticaTokens {
     public static let semanticColorBackgroundPage = #fcfcfc
     public static let semanticColorBackgroundSubtle = #f0f0f0
     public static let semanticColorBackgroundSurface = #ffffff
+    public static let semanticColorBorderControl = #8d8d8d
     public static let semanticColorBorderDanger = #ce2c31
     public static let semanticColorBorderDefault = #e8e8e8
     public static let semanticColorBorderFocus = #007a68

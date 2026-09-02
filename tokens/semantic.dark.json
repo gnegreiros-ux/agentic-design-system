@@ -214,6 +214,11 @@
           "$type": "color",
           "$intent": "Standard border, dark — separators, field outlines"
         },
+        "control": {
+          "$value": "#6b7280",
+          "$type": "color",
+          "$intent": "Resting control boundary, dark (checkbox/radio/input) — 4.04:1 on background.page #0a0c11, 3.75:1 on background.surface #13161d (≥3:1 required, WCAG 1.4.11). Matches semantic.json's border.control."
+        },
         "strong": {
           "$value": "#363c48",
           "$type": "color",
