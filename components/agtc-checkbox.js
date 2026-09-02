@@ -133,19 +133,14 @@ class AgtcCheckbox extends LitElement {
       border-color: var(--agtc-component-checkbox-default-fill-hover);
     }
 
-    /* Glyphs — check mark and dash (indeterminate) */
+    /* Glyphs — check mark and dash (indeterminate), via the shared agtc-icon/Lucide set */
     .check,
     .dash {
       position: absolute;
       inset: 0;
       margin: auto;
-      width: 78%;
-      height: 78%;
-      stroke: var(--agtc-component-checkbox-default-check);
-      stroke-width: 3;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      fill: none;
+      --agtc-icon-size: calc(var(--agtc-semantic-icon-size-control) * 0.78);
+      color: var(--agtc-component-checkbox-default-check);
       opacity: 0;
       pointer-events: none;
     }
@@ -194,8 +189,8 @@ class AgtcCheckbox extends LitElement {
           @change="${this._handleChange}"
         />
         <span class="box" aria-hidden="true">
-          <svg class="check" viewBox="0 0 24 24"><path d="M5 12.5l4 4L19 7" /></svg>
-          <svg class="dash" viewBox="0 0 24 24"><path d="M6 12h12" /></svg>
+          <agtc-icon class="check" name="check" decorative></agtc-icon>
+          <agtc-icon class="dash" name="minus" decorative></agtc-icon>
         </span>
         <span class="label-text"><slot>${this.label ?? ''}</slot></span>
       </label>
