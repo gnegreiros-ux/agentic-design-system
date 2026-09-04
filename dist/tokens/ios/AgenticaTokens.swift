@@ -4,7 +4,7 @@
 //
 
 // Do not edit directly
-// Generated on Fri, 31 Jul 2026 15:52:09 GMT
+// Generated on Fri, 04 Sep 2026 17:44:00 GMT
 
 
 import UIKit
@@ -734,6 +734,7 @@ public class AgenticaTokens {
     public static let semanticMarketingTypographyEyebrowWeight = 700
     public static let semanticRadiusCard = 10px
     public static let semanticRadiusControl = 6px
+    public static let semanticRadiusControlInner = 4px
     public static let semanticRadiusControlTight = 2px
     public static let semanticRadiusPill = 9999px
     public static let semanticShadowCard = 0 1px 3px rgba(0,0,0,0.10), 0 1px 2px rgba(0,0,0,0.06)

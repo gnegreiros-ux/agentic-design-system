@@ -904,6 +904,11 @@
         "$value": "9999px",
         "$type": "dimension",
         "$intent": "Fully rounded radius — pill/circle shapes (badges, toggles, avatars). Raw value, no primitive alias: no primitive.radius step exists at this value, same precedent as component.badge.md.radius."
+      },
+      "control-inner": {
+        "$value": "4px",
+        "$type": "dimension",
+        "$intent": "Radius for a control nested inside a radius.control container, tight enough to read as concentric with it (agtc-segmented's individual segment, 6px track minus a 2px visual margin). Raw value, no primitive alias: no primitive.radius step exists at this value, same precedent as radius.pill."
       }
     },
     "fontWeight": {

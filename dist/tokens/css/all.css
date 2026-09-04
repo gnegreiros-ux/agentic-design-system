@@ -1,6 +1,6 @@
 /**
  * Do not edit directly
- * Generated on Fri, 31 Jul 2026 15:52:08 GMT
+ * Generated on Fri, 04 Sep 2026 17:44:00 GMT
  */
 
 :root {
@@ -20,6 +20,7 @@
   --agtc-component-button-ghost-border: transparent;
   --agtc-component-button-ghost-background: transparent;
   --agtc-component-button-secondary-background: transparent;
+  --agtc-semantic-radius-control-inner: 4px;
   --agtc-semantic-radius-pill: 9999px;
   --agtc-semantic-shadow-card: 0 1px 3px rgba(0,0,0,0.10), 0 1px 2px rgba(0,0,0,0.06);
   --agtc-semantic-shadow-card-hover: 0 4px 16px rgba(13,116,206,0.10);
