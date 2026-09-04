@@ -66,6 +66,11 @@
       `do-column`/`dont-column` frames
 - [ ] Each DO/DON'T card's `scenario-title`/`caption` set to `layoutSizingHorizontal = 'FILL'`
       after populating (not left at the master's narrow `FIXED` inherited width)
+- [ ] Each DO/DON'T card itself is `layoutSizingHorizontal = 'FIXED'` (480px) when its `dos-row`
+      parent is HUG (`primaryAxisSizingMode: 'AUTO'`) — never `FILL` on the card in that case;
+      this specific mismatch does not throw and does not show in a `get_screenshot` render, only
+      in the human's own Figma tab as a persistent blue dashed border on that node — if a human
+      reports one after you've already confirmed a clean server screenshot, check this first
 - [ ] `footer` present (see section G below)
 
 ## E. `Main-component frame` body (§28.4)
@@ -93,6 +98,28 @@
 - [ ] Anatomy: numbered pin diagram (`doc/annotation-badge` + `_connector` lines) + legend
       (`doc/spec-group` stack, badge prepended to each `header`) — proportional to the
       component's real layer count, not a fixed count of 4
+- [ ] Every anatomy badge renders as a full, uncropped circle — screenshot the illustration
+      alone at 2–3× zoom (not just the whole section at low zoom) and check every pin,
+      especially the first one (badge centers with `cy < radius` clip against an ancestor's
+      `clipsContent`, even when the illustration frame itself has clipping disabled)
+- [ ] Every `_connector` actually touches both its badge and its target — no visible gap, no
+      zero-length segment (recompute from real edge coordinates; a `0.0001`-width rectangle is
+      an invisible connector, not a short one)
+- [ ] Every `_connector` fill is `color/accent` (`design-annotations` collection, `#ED3AA5`) —
+      never any `semantic.color.*` token (not `action.primary`, not `text.secondary`, not
+      `feedback.warning` — all three were tried and rejected before this was settled)
+- [ ] A pin annotating a layer genuinely inside another opaque element (not the outer boundary
+      itself) has a connector that visibly crosses the boundary, extending into the shape near
+      the real content — a line hidden behind the instance is NOT enough (reads as touching the
+      same edge as the boundary-layer pin next to it), and it must NOT end in a dot/circle
+      marker (explicitly rejected by human feedback — the crossing line alone is the fix)
+- [ ] Every interior pin's endpoint is read from the real target layer's actual position in the
+      example instance (not a depth shared/copy-pasted across multiple pins) — when no real
+      layer exists for that property (a Figma/code gap), the connector stops noticeably shorter
+      than a verified one, not at matching false-precision depth
+- [ ] Every "root"/boundary pin is a single straight line, never a multi-segment shape — and its
+      badge doesn't overlap or crowd any other pin's badge on the same illustration (check real
+      distance against every badge, not just the one just moved)
 - [ ] Props: 4-column table (Name/Type/Default/Options), one row per variant/property axis
 - [ ] Variant / State / Additional variants: only properties that actually diff from the
       baseline are listed — no repeated unchanged properties; Additional variants skips any
@@ -102,6 +129,13 @@
       just the property list with no visual diagram
 - [ ] Every property line with a token equivalent reads `Label: token.path (rawValue)` — raw
       value always in parentheses, never distinguished by color alone
+- [ ] The token path and the `(rawValue)` are two separate `TEXT` nodes (`token-name` teal
+      mono / `resolved-value` gray non-mono on `doc/property-row`), never one concatenated
+      string in `token-name` with `resolved-value` hidden — screenshot every property-row
+      instance at readable zoom and confirm the raw value visibly renders in gray, not teal
+- [ ] Any anatomy `_connector` rectangle's position/size was computed from the real live
+      `x`/`y`/`width`/`height` of the badge and the element it points to — not a guessed fixed
+      height reused from another page (verify visually: the line must touch both ends, no gap)
 - [ ] No invented token path — every one traced to `tokens/semantic.json` or
       `tokens/component.json`
 - [ ] `Direction`/`Alignment`/`*-resizing` values read directly off the live node
