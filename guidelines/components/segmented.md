@@ -61,7 +61,8 @@ Emits **`change`** (`detail: { value }`) on every selection.
 | Selected segment background | `component.segmented.default.selected-background` |
 | Selected segment text | `component.segmented.default.selected-text` |
 | Focus ring | `component.segmented.default.border-focus` |
-| Radius | `component.segmented.default.radius` |
+| Radius (track) | `component.segmented.default.radius` |
+| Radius (segment) | `semantic.radius.control-inner` |
 
 ---
 

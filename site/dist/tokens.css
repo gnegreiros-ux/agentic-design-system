@@ -553,6 +553,7 @@
   --agtc-semantic-radius-control: 6px;
   --agtc-semantic-radius-card: 10px;
   --agtc-semantic-radius-pill: 9999px;
+  --agtc-semantic-radius-control-inner: 4px;
   --agtc-semantic-fontWeight-bold: 700;
   --agtc-semantic-fontWeight-display: 800;
   --agtc-semantic-typography-fontFamily: 'Atkinson Hyperlegible', system-ui, sans-serif;

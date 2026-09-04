@@ -113,6 +113,7 @@ export default {
     "agtc-radius-control-tight": "var(--agtc-semantic-radius-control-tight)",
     "agtc-radius-control": "var(--agtc-semantic-radius-control)",
     "agtc-radius-card": "var(--agtc-semantic-radius-card)",
-    "agtc-radius-pill": "var(--agtc-semantic-radius-pill)"
+    "agtc-radius-pill": "var(--agtc-semantic-radius-pill)",
+    "agtc-radius-control-inner": "var(--agtc-semantic-radius-control-inner)"
   }
 };
