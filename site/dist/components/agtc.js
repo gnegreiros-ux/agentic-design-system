@@ -565,7 +565,7 @@
       gap: var(--agtc-semantic-space-component-padding-xs);
       padding: var(--agtc-semantic-space-component-padding-xs) var(--agtc-semantic-space-component-padding-md);
       border: none;
-      border-radius: calc(var(--agtc-component-segmented-default-radius) - 2px);
+      border-radius: var(--agtc-semantic-radius-control-inner);
       background: none;
       color: var(--agtc-component-segmented-default-text);
       font-family: inherit;
