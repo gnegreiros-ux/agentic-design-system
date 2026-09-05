@@ -69,6 +69,17 @@ are included depending on the component's state.
 The error message carries `role="alert"` to announce the error to screen
 readers as soon as it appears, with no need to navigate to the element.
 
+**Figma parity (2026-09-05):** a file-wide audit found `helper-text` genuinely broken on the
+`Input` ComponentSet — `componentPropertyDefinitions` listed the property, but no variant
+actually rendered it (predicted by an earlier session note, now confirmed). Fixed by adding a
+new `helper-text` TEXT layer on all 15 variants, positioned in the auto-layout stack between
+`field` and `error-message` (mirroring the code's DOM order: control → helper → error), bound
+to the existing `Helper Text` property for its characters, plus a new `Show Helper Text`
+Boolean property (default `false`) for visibility — same pattern as `Show Label` (Decision 7
+below). Verified standalone and combined with an error state (correct stacking, correct
+colors). `error-message` was audited in the same pass and found already correctly wired on
+the 2 `State=Error` variants — no bug, no change needed there.
+
 ---
 
 ### Decision 4 — Native show/hide toggle for `type="password"`
@@ -249,6 +260,18 @@ sont inclus selon l'état du composant.
 
 Le message d'erreur porte `role="alert"` pour annoncer l'erreur aux lecteurs
 d'écran dès qu'elle apparaît, sans nécessiter de navigation vers l'élément.
+
+**Parité Figma (2026-09-05) :** un audit fichier-complet a révélé que `helper-text` était
+réellement cassé sur le ComponentSet `Input` — `componentPropertyDefinitions` listait la
+propriété, mais aucune variante ne la rendait réellement (prédit par une note de session
+antérieure, maintenant confirmé). Corrigé en ajoutant un nouveau calque TEXT `helper-text` sur
+les 15 variantes, positionné dans la pile auto-layout entre `field` et `error-message`
+(reflétant l'ordre DOM du code : contrôle → aide → erreur), lié à la propriété existante
+`Helper Text` pour son texte, plus une nouvelle propriété Boolean `Show Helper Text` (défaut
+`false`) pour la visibilité — même pattern que `Show Label` (Décision 7 ci-dessous). Vérifié
+seul et combiné avec un état d'erreur (empilement et couleurs corrects). `error-message` a été
+audité dans la même passe et confirmé déjà correctement câblé sur les 2 variantes
+`State=Error` — aucun bug, aucun changement nécessaire là.
 
 ---
 
