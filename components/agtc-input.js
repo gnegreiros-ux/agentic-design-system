@@ -19,6 +19,13 @@ import { live } from 'lit/directives/live.js';
 //
 // Password type: built-in show/hide button (WCAG 1.4.1).
 //
+// Search fields — visually-hidden label exception (ADR-036, UX pattern review):
+//   hide-label     → keeps the real <label> in the DOM (WCAG 1.3.1 still satisfied,
+//                    never a placeholder-only label), visually hides it via
+//                    .visually-hidden. Requires `icon` — the icon + placeholder must
+//                    make the field's purpose unambiguous without the visible text
+//                    (W3C ARIA14 condition). Logs a warning otherwise.
+//
 // Events:
 //   agtc-input  → { value, name } on every keystroke
 //   agtc-change → { value, name } on blur
@@ -41,6 +48,7 @@ class AgtcInput extends LitElement {
     name:         { type: String },
     value:        { type: String },
     label:        { type: String },
+    hideLabel:    { type: Boolean, attribute: 'hide-label' },
     placeholder:  { type: String },
     helperText:   { type: String,  attribute: 'helper-text' },
     errorMessage: { type: String,  attribute: 'error-message' },
@@ -59,6 +67,7 @@ class AgtcInput extends LitElement {
     super();
     this.type         = 'text';
     this.value        = '';
+    this.hideLabel    = false;
     this.invalid      = false;
     this.disabled     = false;
     this.readonly     = false;
@@ -72,6 +81,9 @@ class AgtcInput extends LitElement {
   updated() {
     if (!this.label) {
       console.warn('[agtc-input] missing label — inaccessible (WCAG 1.3.1). Always provide label="Field description".');
+    }
+    if (this.hideLabel && !this.icon) {
+      console.warn('[agtc-input] hide-label without an icon — the field\'s purpose is no longer visually unambiguous (W3C ARIA14). Pair hide-label with icon="...".');
     }
   }
 
@@ -131,6 +143,13 @@ class AgtcInput extends LitElement {
     }
     .required-marker {
       color: var(--agtc-semantic-color-feedback-danger);
+    }
+    .label.visually-hidden {
+      position: absolute;
+      width: 1px; height: 1px;
+      padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0 0 0 0);
+      white-space: nowrap; border: 0;
     }
 
     /* ── Control (input wrapper) ───────────────────────────────────────────── */
@@ -270,7 +289,7 @@ class AgtcInput extends LitElement {
       <div class="field">
 
         ${this.label ? html`
-          <label class="label" for="${this._id}">
+          <label class="label ${this.hideLabel ? 'visually-hidden' : ''}" for="${this._id}">
             ${this.label}
             ${this.required ? html`<span class="required-marker" aria-hidden="true">*</span>` : ''}
           </label>

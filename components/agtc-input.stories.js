@@ -16,6 +16,7 @@ export default {
           '- **Required marker** `*` + `aria-required` — [NN/g — Forms](https://www.nngroup.com/articles/design-pattern-guidelines/)',
           '- **Forgiving format** (`tel`/`number`) — [IxDF](https://ixdf.org/literature/topics/ui-design-patterns)',
           '- **Anti hostile patterns** (no clearing of the field on error) — [NN/g](https://www.nngroup.com/articles/design-pattern-guidelines/)',
+          '- **Exception** — visually-hidden label for icon-clarified search fields (`hide-label`, requires `icon`) — [W3C WAI](https://www.w3.org/WAI/tutorials/forms/labels/) · [W3C ARIA14](https://www.w3.org/TR/WCAG20-TECHS/ARIA14.html) · [NN/g — The Magnifying-Glass Icon](https://www.nngroup.com/articles/magnifying-glass-icon/)',
           '',
           'Details: `guidelines/components/input.md` § UX Patterns Reference.',
         ].join('\n'),
@@ -29,6 +30,7 @@ export default {
       table: { defaultValue: { summary: 'text' } },
     },
     label:        { control: 'text' },
+    hideLabel:    { control: 'boolean', name: 'hide-label' },
     value:        { control: 'text' },
     placeholder:  { control: 'text' },
     helperText:   { control: 'text',    name: 'helper-text' },
@@ -44,6 +46,7 @@ export default {
     type: 'text',
     label: 'Email address',
     placeholder: 'name@example.com',
+    hideLabel: false,
     invalid: false,
     disabled: false,
     readonly: false,
@@ -54,6 +57,7 @@ export default {
       <agtc-input
         type="${args.type}"
         label="${args.label}"
+        ?hide-label="${args.hideLabel}"
         placeholder="${args.placeholder ?? ''}"
         helper-text="${args.helperText ?? ''}"
         error-message="${args.errorMessage ?? ''}"
@@ -171,6 +175,32 @@ export const Search = {
       <agtc-input
         type="search"
         label="Search"
+        placeholder="Components, tokens, guidelines…"
+        icon="search"
+      ></agtc-input>
+    </div>
+  `,
+};
+
+export const SearchHiddenLabel = {
+  name: 'Type — Search (visually-hidden label, exception)',
+  parameters: {
+    docs: {
+      description: {
+        story: [
+          'The `label` is still rendered in the DOM (`for`/`id` linked) and read by screen readers —',
+          'only visually hidden via `.visually-hidden`, never removed or `display:none`. Requires',
+          '`icon` so the field\'s purpose stays unambiguous without the visible text (W3C ARIA14).',
+        ].join(' '),
+      },
+    },
+  },
+  render: () => html`
+    <div style="max-width:360px;">
+      <agtc-input
+        type="search"
+        label="Search"
+        hide-label
         placeholder="Components, tokens, guidelines…"
         icon="search"
       ></agtc-input>

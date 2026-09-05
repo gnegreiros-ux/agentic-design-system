@@ -2,7 +2,7 @@
 
 > Version: 1.0.0
 > Owner: design-system-team
-> Last updated: 2026-05-31
+> Last updated: 2026-09-05
 > Any modification requires Principal Designer approval.
 > **Type:** contract
 > **Logical path:** guidelines/components/input.md
@@ -42,6 +42,7 @@ Allow the user to enter textual or structured data in a form.
 | Attribute | Type | Default | Description |
 |----------|------|--------|-------------|
 | `label` | String | — | **Required** — accessible label (WCAG 1.3.1) |
+| `hide-label` | Boolean | `false` | Visually hides the label (kept in the DOM, still accessible) — exception for icon-clarified search fields only, see UX Patterns Reference |
 | `type` | String | `text` | HTML input type |
 | `name` | String | — | Field name for forms |
 | `value` | String | `''` | Current value |
@@ -89,6 +90,7 @@ Allow the user to enter textual or structured data in a form.
 | Rule | Value |
 |-------|--------|
 | Label required | WCAG 1.3.1 — never placeholder alone |
+| Visually-hidden label | `hide-label` keeps a real `<label>` in the DOM (`.visually-hidden`, never `display:none`) — requires `icon` (W3C ARIA14 condition) |
 | Text contrast | 4.5:1 minimum (WCAG AA) |
 | Visible focus | `outline` on the `.control` wrapper |
 | Invalid state | `aria-invalid="true"` + `role="alert"` on the message |
@@ -120,6 +122,8 @@ Allow the user to enter textual or structured data in a form.
 | `invalid` value without an `error-message` | Error flagged without explanation |
 | Inline style on the field | Bypasses component tokens |
 | Unsupported type | Undefined behavior |
+| `hide-label` without `icon` | Purpose no longer visually unambiguous (fails ARIA14's condition) |
+| `hide-label` with `display:none` instead of `.visually-hidden` | Removes the accessible name entirely, not just the visual text |
 
 ---
 
@@ -139,6 +143,7 @@ Allow the user to enter textual or structured data in a form.
 | Required marker `*` + `aria-required` | [NN/g — Forms](https://www.nngroup.com/articles/design-pattern-guidelines/) | ✅ | Required field flagged visually and to AT |
 | Forgiving format (tolerate spaces/formats: `tel`, `number`) | [IxDF — forgiving formats](https://ixdf.org/literature/topics/ui-design-patterns) | ✅ | Reduces input errors |
 | Avoid hostile patterns (no aggressive blocking, no clearing an errored field) | [NN/g — Hostile Patterns in Error Messages](https://www.nngroup.com/articles/design-pattern-guidelines/) | ✅ | Anti-dark-pattern |
+| **Exception** — visually-hidden label for icon-clarified search fields (`hide-label`, requires `icon`) | [W3C WAI — Labelling Controls](https://www.w3.org/WAI/tutorials/forms/labels/) · [W3C ARIA14](https://www.w3.org/TR/WCAG20-TECHS/ARIA14.html) · [NN/g — The Magnifying-Glass Icon](https://www.nngroup.com/articles/magnifying-glass-icon/) | ✅ (2026-09-05) | Real `<label>` kept in the DOM (`.visually-hidden`), never `display:none` or placeholder-only — WCAG 1.3.1 still satisfied. Applies only when icon + placeholder make the field's purpose unambiguous (ARIA14's stated condition). NN/g still requires an open visible text-entry field (icon-only search discouraged outside small screens) — this exception hides only the floating label text, never the field itself. |
 
 **Validation contract (synthesis of patterns 2 + 3):** validate on `onBlur`, then re-validate on
 every keystroke while the field is in an error state. Never validate on the first keystroke.
@@ -178,6 +183,15 @@ every keystroke while the field is in an error state. Never validate on the firs
 <!-- With prefix icon -->
 <agtc-input
   label="Search"
+  type="search"
+  icon="search"
+  placeholder="Search for a component…"
+></agtc-input>
+
+<!-- Search with a visually-hidden label (exception — icon required) -->
+<agtc-input
+  label="Search"
+  hide-label
   type="search"
   icon="search"
   placeholder="Search for a component…"
