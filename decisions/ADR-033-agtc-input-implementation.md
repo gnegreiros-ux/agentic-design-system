@@ -131,6 +131,17 @@ satisfied identically to every other state of this component.
 `guidelines/components/input.md` § UX Patterns Reference for the full source discussion,
 including NN/g's caveat that the *field itself* (not just the label) must stay visible.
 
+**Figma parity (2026-09-05):** per `figma-library-governance.md` rule 3 ("same architecture,
+same options as in code"), `hide-label` is wired as a real Figma component property on the
+`Input` ComponentSet, not just a static documentation exhibit. Figma cannot bind a negated
+boolean to a layer's `visible` state, so the property is named **`Show Label`** (Boolean,
+default `true`) — the inverse of the code attribute — and bound via
+`componentPropertyReferences.visible` on the `Label` layer of all 15 variants. `Show Label =
+false` reproduces `hide-label` exactly (verified: label removed from render, field reflows to
+the top, height 70→40). The Props table on the Figma page documents this naming inversion
+inline so a designer reconciling Figma with the code prop isn't confused by the flipped
+polarity.
+
 ---
 
 ## Reference UX patterns applied
@@ -314,6 +325,17 @@ WCAG 1.3.1 est respecté à l'identique de tout autre état de ce composant.
 ci-dessous et `guidelines/components/input.md` § UX Patterns Reference pour la discussion
 complète des sources, y compris la réserve de NN/g selon laquelle le *champ lui-même* (pas
 seulement le label) doit rester visible.
+
+**Parité Figma (2026-09-05) :** selon la règle 3 de `figma-library-governance.md` ("même
+architecture, mêmes options que dans le code"), `hide-label` est câblé comme une vraie propriété
+de composant Figma sur le ComponentSet `Input`, pas juste un exemple statique. Figma ne peut pas
+lier un booléen nié à l'état `visible` d'un calque, donc la propriété est nommée **`Show Label`**
+(Boolean, défaut `true`) — l'inverse de l'attribut code — et liée via
+`componentPropertyReferences.visible` sur le calque `Label` des 15 variantes. `Show Label =
+false` reproduit exactement `hide-label` (vérifié : label retiré du rendu, champ remonté en
+haut, hauteur 70→40). Le tableau Props sur la page Figma documente cette inversion de nommage
+directement pour qu'un designer réconciliant Figma avec le prop du code ne soit pas surpris par
+la polarité inversée.
 
 ---
 
