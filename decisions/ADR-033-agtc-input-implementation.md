@@ -107,6 +107,32 @@ browsers and can't be styled with the system's tokens.
 
 ---
 
+### Decision 7 — `hide-label`: visually-hidden label exception for icon-clarified search fields
+
+**Problem:** Search fields are a recognized UX pattern where a visible floating label is often
+considered redundant next to an icon + placeholder (e.g. a header search box). Decision 1 above
+already rejected `aria-label`-only labelling — this exception does not revisit that rejection.
+
+**Decision:** `hide-label` keeps the exact same real `<label for="id">` from Decision 1, fully
+in the DOM and linked, and only hides it *visually* via a `.visually-hidden` class (absolute
+positioning + 1×1px clip — the same technique already used by `agtc-table`'s `captionHidden`),
+never `display:none`/`visibility:hidden`, which would remove the accessible name entirely.
+Requires `icon` to be set — without a visible icon, the field's purpose would no longer be
+unambiguous, per W3C ARIA14's own condition for using an invisible label ("the context and
+visual appearance of the control make its purpose clear"). `updated()` logs a console warning
+if `hide-label` is set without `icon`, mirroring the existing missing-`label` warning.
+
+**Why this doesn't contradict Decision 1:** Decision 1 rejected removing the persistent,
+programmatically-associated label in favor of `aria-label`. `hide-label` keeps that same label
+element — it changes only its visual rendering, not its presence or association. WCAG 1.3.1 is
+satisfied identically to every other state of this component.
+
+**Approved via `ux-pattern-review` (ADR-036) on 2026-09-05** — see the new pattern row below and
+`guidelines/components/input.md` § UX Patterns Reference for the full source discussion,
+including NN/g's caveat that the *field itself* (not just the label) must stay visible.
+
+---
+
 ## Reference UX patterns applied
 
 > Added on 2026-06-01 via the `ux-pattern-review` workflow (ADR-036). Design System Lead
@@ -123,6 +149,7 @@ browsers and can't be styled with the system's tokens.
 | Forgiving format (`tel`/`number`) | IxDF — forgiving formats |
 | Visible label always present | NN/g |
 | Anti hostile patterns (no clearing the field on error) | NN/g — Hostile Patterns in Error Messages |
+| **Exception** (2026-09-05) — visually-hidden label for icon-clarified search fields (`hide-label`) | W3C WAI — Labelling Controls · W3C ARIA14 · NN/g — The Magnifying-Glass Icon |
 
 ---
 
@@ -261,6 +288,35 @@ navigateurs et ne peuvent pas être stylés avec les tokens du système.
 
 ---
 
+### Décision 7 — `hide-label` : exception de label visuellement masqué pour les champs search clarifiés par une icône
+
+**Problème :** les champs de recherche sont un pattern UX reconnu où un label flottant visible
+est souvent jugé redondant à côté d'une icône + placeholder (ex. une barre de recherche
+d'en-tête). La Décision 1 ci-dessus a déjà rejeté un label uniquement en `aria-label` — cette
+exception ne revient pas sur ce rejet.
+
+**Décision :** `hide-label` conserve exactement le même vrai `<label for="id">` de la Décision 1,
+pleinement présent dans le DOM et lié, et le masque uniquement *visuellement* via une classe
+`.visually-hidden` (positionnement absolu + clip 1×1px — la même technique déjà utilisée par le
+`captionHidden` de `agtc-table`), jamais `display:none`/`visibility:hidden`, qui supprimerait
+entièrement le nom accessible. Nécessite `icon` — sans icône visible, le rôle du champ ne serait
+plus univoque, selon la condition même de la technique W3C ARIA14 ("le contexte et l'apparence
+visuelle du contrôle rendent son objectif clair"). `updated()` émet un avertissement console si
+`hide-label` est posé sans `icon`, à l'image de l'avertissement déjà existant pour `label`
+manquant.
+
+**Pourquoi ça ne contredit pas la Décision 1 :** la Décision 1 rejetait la suppression du label
+persistant et associé par programmation au profit d'un `aria-label` seul. `hide-label` conserve
+ce même élément label — seul son rendu visuel change, pas sa présence ni son association. Le
+WCAG 1.3.1 est respecté à l'identique de tout autre état de ce composant.
+
+**Approuvé via `ux-pattern-review` (ADR-036) le 2026-09-05** — voir la nouvelle ligne de pattern
+ci-dessous et `guidelines/components/input.md` § UX Patterns Reference pour la discussion
+complète des sources, y compris la réserve de NN/g selon laquelle le *champ lui-même* (pas
+seulement le label) doit rester visible.
+
+---
+
 ## Patterns UX de référence appliqués
 
 > Ajouté le 2026-06-01 via le workflow `ux-pattern-review` (ADR-036). Décision du
@@ -277,6 +333,7 @@ navigateurs et ne peuvent pas être stylés avec les tokens du système.
 | Forgiving format (`tel`/`number`) | IxDF — forgiving formats |
 | Label visible toujours présent | NN/g |
 | Anti hostile patterns (pas d'effacement du champ en erreur) | NN/g — Hostile Patterns in Error Messages |
+| **Exception** (2026-09-05) — label visuellement masqué pour les champs search clarifiés par une icône (`hide-label`) | W3C WAI — Labelling Controls · W3C ARIA14 · NN/g — The Magnifying-Glass Icon |
 
 ---
 
